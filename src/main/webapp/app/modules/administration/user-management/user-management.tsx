@@ -2,11 +2,11 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
-import { Translate } from 'react-jhipster';
+import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
 import { FaPlus, FaEye, FaPencil, FaTrash } from 'react-icons/lib/fa';
 
-import { ICrudGetAction } from '../../../shared/model/redux-action.type';
 import { getUsers } from '../../../reducers/user-management';
+import { APP_DATE_FORMAT } from '../../../config/constants';
 
 export interface IUserManagementProps {
   getUsers: ICrudGetAction;
@@ -85,9 +85,9 @@ export class UserManagement extends React.Component<IUserManagementProps, undefi
                       ))) : null
                     }
                   </td>
-                  <td>{user.createdDate}</td>
+                  <td><TextFormat value={user.createdDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid /></td>
                   <td>{user.lastModifiedBy}</td>
-                  <td>{user.lastModifiedDate}</td>
+                  <td><TextFormat value={user.lastModifiedDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid /></td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button

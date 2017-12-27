@@ -8,7 +8,7 @@
     "node_modules"
   ],
   "dependencies": {
-    "availity-reactstrap-validation": "1.4.3",
+    "availity-reactstrap-validation": "2.0.0-alpha.1",
     "axios": "0.17.0",
     "bootstrap": "4.0.0-beta.2",
     "loaders.css": "0.1.2",
@@ -20,7 +20,7 @@
     "react-dom": "16.0.0",
     "react-hot-loader": "3.1.1",
     "react-icons": "2.2.7",
-    "react-jhipster": "0.1.2",
+    "react-jhipster": "0.2.1",
     "react-redux": "5.0.6",
     "react-redux-loading-bar": "2.9.3",
     "react-router-dom": "4.2.2",
@@ -114,7 +114,7 @@
     "node": ">=6.9.0"
   },
   "scripts": {
-    "lint": "tslint --project './tsconfig.json' -e 'node_modules/**'",
+    "lint": "tslint --project tsconfig.json -e 'node_modules/**'",
     "lint:fix": "yarn run lint -- --fix",
     "cleanup": "rimraf target/www",
     "start": "yarn run webpack:dev",

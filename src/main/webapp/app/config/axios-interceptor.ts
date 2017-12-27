@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { getBasePath } from '../shared/util/url-util';
-import Storage from '../shared/util/storage-util';
+import { getBasePath, Storage } from 'react-jhipster';
 
 const TIMEOUT = 1000000; // 10000
-const setupAxiosInterceptors = (onUnauthenticated, clearAuthToken) => {
+const setupAxiosInterceptors = onUnauthenticated => {
   const onRequestSuccess = config => {
     const token = Storage.local.get('jhi-authenticationToken') || Storage.session.get('jhi-authenticationToken');
     if (token) {
@@ -17,7 +16,6 @@ const setupAxiosInterceptors = (onUnauthenticated, clearAuthToken) => {
   const onResponseError = err => {
     const status = err.status || err.response.status;
     if (status === 403 || status === 401) {
-      clearAuthToken();
       onUnauthenticated();
     }
     return Promise.reject(err);

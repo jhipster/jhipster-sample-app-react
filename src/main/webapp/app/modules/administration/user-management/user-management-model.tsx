@@ -2,10 +2,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
-import { Translate } from 'react-jhipster';
+import { Translate, ICrudGetAction, ICrudPutAction } from 'react-jhipster';
 import { FaBan, FaFloppyO } from 'react-icons/lib/fa';
 
-import { ICrudGetAction, ICrudPutAction } from '../../../shared/model/redux-action.type';
 import { getUser, getRoles, updateUser, createUser } from '../../../reducers/user-management';
 import { locales } from '../../../config/translation';
 
@@ -116,7 +115,6 @@ export class UserManagementModel extends React.Component<IUserManagementModelPro
             </AvGroup>
             <AvGroup>
               <Label for="authorities"><Translate contentKey="userManagement.profiles">Language Key</Translate></Label>
-              {/* TODO: fix issue in selecting the value */}
               <AvInput type="select" className="form-control" name="authorities" multiple>
                 {roles.map(role => <option value={role} key={role}>{role}</option>)}
               </AvInput>
