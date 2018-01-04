@@ -7,10 +7,10 @@ import {
   UncontrolledNavDropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
 import {
-    FaHome, FaThList, FaUserPlus, FaUser, FaFlag, FaHeart,
-    FaList, FaTasks, FaDashboard, FaBook, FaWrench, FaSignIn, FaSignOut,
-    FaClockO, FaHddO
-  } from 'react-icons/lib/fa';
+  FaHome, FaThList, FaUserPlus, FaUser, FaFlag, FaHeart,
+  FaList, FaTasks, FaDashboard, FaBook, FaWrench, FaSignIn, FaSignOut,
+  FaClockO, FaHddO, FaAsterisk
+} from 'react-icons/lib/fa';
 import { NavLink as Link } from 'react-router-dom';
 import LoadingBar from 'react-redux-loading-bar';
 
@@ -55,8 +55,10 @@ export class Header extends React.Component<IHeaderProps, { menuOpen: boolean }>
   render() {
     const { currentLocale, isAuthenticated } = this.props;
     const entityMenuItems = [
-      <DropdownItem divider key="divider"/>
+      /* jhipster-needle-add-entity-to-menu - - JHipster will add entities to the menu here */
+      <span key="dummy-placeholder"/> /* workaround to avoid error when there are no entities */
     ];
+    /* jhipster-needle-add-element-to-menu - JHipster will add entities to the menu here */
     const adminMenuItems = [
       <DropdownItem tag={Link} key="user-management" to="/admin/user-management"><FaUser /> User Management</DropdownItem>,
       <DropdownItem tag={Link} key="metrics" to="/admin/metrics"><FaDashboard /> Metrics</DropdownItem>,
