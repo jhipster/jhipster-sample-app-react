@@ -20,13 +20,13 @@
     "react-dom": "16.0.0",
     "react-hot-loader": "3.1.1",
     "react-icons": "2.2.7",
-    "react-jhipster": "0.2.1",
+    "react-jhipster": "0.3.0",
     "react-redux": "5.0.6",
     "react-redux-loading-bar": "2.9.3",
     "react-router-dom": "4.2.2",
     "react-router-modal": "1.2.0",
     "react-transition-group": "2.2.1",
-    "reactstrap": "5.0.0-alpha.3",
+    "reactstrap": "5.0.0-alpha.4",
     "redux": "3.7.2",
     "redux-devtools": "3.4.0",
     "redux-devtools-dock-monitor": "1.1.2",
@@ -86,6 +86,7 @@
     "redux-mock-store": "1.3.0",
     "rimraf": "2.6.2",
     "sinon": "4.1.1",
+    "source-map": "0.6.1",
     "source-map-loader": "0.2.3",
     "sourcemap-istanbul-instrumenter-loader": "0.2.0",
     "stripcomment-loader": "0.1.0",
@@ -102,13 +103,14 @@
     "webpack": "3.8.1",
     "webpack-dev-server": "2.9.4",
     "webpack-merge": "4.1.1",
-    "webpack-notifier": "1.5.0",
+    "webpack-notifier": "1.5.1",
     "workbox-webpack-plugin": "2.1.2",
     "write-file-webpack-plugin": "4.2.0",
     "xml2js": "0.4.19"
   },
   "resolutions": {
-    "@types/react": "16.0.19"
+    "@types/react": "16.0.19",
+    "source-map": "0.6.1"
   },
   "engines": {
     "node": ">=6.9.0"
@@ -121,7 +123,7 @@
     "webpack:dev": "yarn run webpack-dev-server -- --config webpack/webpack.dev.js --progress --inline --profile --port=9060",
     "webpack:build:main": "yarn run webpack -- --config webpack/webpack.dev.js --progress --profile",
     "webpack:build": "yarn run cleanup && yarn run webpack:build:main",
-    "webpack:prod:main": "yarn run webpack -- --config webpack/webpack.prod.js --progress --profile",
+    "webpack:prod:main": "yarn run webpack -- --config webpack/webpack.prod.js --profile",
     "webpack:prod": "yarn run cleanup && yarn run webpack:prod:main",
     "webpack:test": "yarn run test",
     "webpack-dev-server": "node --max_old_space_size=4096 node_modules/webpack-dev-server/bin/webpack-dev-server.js",
