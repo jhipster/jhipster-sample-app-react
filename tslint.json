@@ -2,7 +2,8 @@
   "extends": [
     "tslint:latest",
     "tslint-eslint-rules",
-    "tslint-react"
+    "tslint-react",
+    "tslint-config-prettier"
   ],
   "jsRules": {
     "class-name": true,
@@ -39,7 +40,6 @@
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": true,
     "no-unused-expression": [true, "allow-fast-null-checks"],
-    "no-use-before-declare": true,
     "no-var-keyword": true,
     "no-implicit-dependencies": [true, "dev"],
     "object-literal-sort-keys": false,
@@ -52,7 +52,7 @@
     ],
     "quotemark": [true, "single", "jsx-double"],
     "radix": true,
-    "semicolon": [true, "always"],
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
     "triple-equals": [true, "allow-null-check"],
     "variable-name": false,
     "whitespace": [
@@ -132,9 +132,8 @@
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": true,
     "no-unused-expression": [true, "allow-fast-null-checks"],
-    "no-use-before-declare": true,
     "no-var-keyword": true,
-    "no-implicit-dependencies": [true, "dev"],
+    "no-implicit-dependencies": [false, "dev"],
     "object-literal-sort-keys": false,
     "one-line": [
       true,
@@ -145,7 +144,7 @@
     ],
     "quotemark": [true, "single", "jsx-double"],
     "radix": true,
-    "semicolon": [true, "always"],
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
     "triple-equals": [true, "allow-null-check"],
     "typedef-whitespace": [
       true,
@@ -186,18 +185,15 @@
     "cyclomatic-complexity": [true, 40],
     "no-invalid-this": [true],
     "no-magic-numbers": false,
-    "no-unused-variable": {
-      "severity": "error"
-    },
     "ban-types": [true, ["Object", "Use {} instead."]],
-    "no-submodule-imports": [true, "uuid/v4", "react-icons/lib/fa"],
+    "no-submodule-imports": [true, "uuid/v4", "react-icons/lib/fa", "app"],
 
     "ter-arrow-body-style": [true],
     "ter-no-irregular-whitespace": [true],
     "ter-no-sparse-arrays": [true],
     "ter-func-call-spacing": [true, "never"],
     "no-multi-spaces": [true],
-    "array-bracket-spacing": [true, "always"],
+    "array-bracket-spacing": [false],
     "brace-style": [
       true,
       "1tbs",

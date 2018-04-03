@@ -1,3 +1,4 @@
+process.env.CHROMIUM_BIN = require('puppeteer').executablePath();
 /* eslint-disable */
 const webpackConfig = require('../../../webpack/webpack.test.js');
 /* eslint-enable */
@@ -7,7 +8,22 @@ const DEBUG = process.argv.indexOf('--debug') > -1;
 module.exports = config => {
   config.set({
     // Add any browsers here
-    // browsers: ['Chrome'],
+    browsers: ['ChromiumHeadlessNoSandbox'],
+
+    customLaunchers: {
+        ChromiumHeadlessNoSandbox: {
+            base: 'ChromiumHeadless',
+                // the chrome setup is voluntarily permissive to accomodate various environments (different OSes, running inside docker, etc)
+                // feel free to enable the sandbox if it doesn't cause problems for you
+                // see https://www.jhipster.tech/running-tests for informations on how to troubleshoot your karma chrome configuration
+                flags: [
+                    '--no-sandbox',
+                    '--disable-gpu',
+                    '--remote-debugging-port=9222'
+                ],
+                debug: true
+        }
+    },
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: './',
@@ -53,7 +69,7 @@ module.exports = config => {
     },
 
     junitReporter: {
-      outputFile: '../../../../build/test-results/karma/TESTS-results.xml'
+      outputFile: '../../../../target/test-results/karma/TESTS-results.xml'
     },
 
     notifyReporter: {
@@ -63,7 +79,7 @@ module.exports = config => {
 
     remapIstanbulReporter: {
       reports: {
-        html: 'build/test-results/coverage',
+        html: 'target/test-results/coverage',
         'text-summary': null
       }
     },

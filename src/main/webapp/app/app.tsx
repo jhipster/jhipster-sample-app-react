@@ -4,31 +4,27 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Card } from 'reactstrap';
 import { HashRouter as Router } from 'react-router-dom';
-import { ModalContainer } from 'react-router-modal';
+import { ToastContainer, toast } from 'react-toastify';
 
-import { getSession, logout } from './reducers/authentication';
-import { setLocale } from './reducers/locale';
-import Header from './shared/layout/header/header';
-import Footer from './shared/layout/footer/footer';
-import AppRoutes from './routes';
+import { getSession } from 'app/shared/reducers/authentication';
+import { setLocale } from 'app/shared/reducers/locale';
+import Header from 'app/shared/layout/header/header';
+import Footer from 'app/shared/layout/footer/footer';
+import { hasAnyAuthority } from 'app/shared/auth/private-route';
+import { AUTHORITIES } from 'app/config/constants';
+import AppRoutes from 'app/routes';
+
 export interface IAppProps {
-  location: any;
-  isAuthenticated?: boolean;
+  isAuthenticated: boolean;
+  isAdmin: boolean;
   currentLocale: string;
-  getSession: Function;
   setLocale: Function;
-  logout: Function;
-  getSystemProperties: Function;
-  routes: any;
+  getSession: Function;
 }
 
-export class App extends React.Component<IAppProps, {}> {
+export class App extends React.Component<IAppProps> {
   componentDidMount() {
     this.props.getSession();
-  }
-
-  handleLogout = () => {
-    this.props.logout();
   }
 
   render() {
@@ -36,30 +32,31 @@ export class App extends React.Component<IAppProps, {}> {
     return (
       <Router>
         <div className="app-container" style={{ paddingTop }}>
+          <ToastContainer position={toast.POSITION.BOTTOM_CENTER} />
           <Header
             isAuthenticated={this.props.isAuthenticated}
+            isAdmin={this.props.isAdmin}
             currentLocale={this.props.currentLocale}
             onLocaleChange={this.props.setLocale}
           />
           <div className="container-fluid view-container" id="app-view-container">
             <Card className="jh-card">
-              <AppRoutes/>
+              <AppRoutes />
             </Card>
-            <Footer/>
+            <Footer />
           </div>
-          <ModalContainer />
         </div>
       </Router>
     );
   }
 }
 
-const mapStateToProps = storeState => ({
-  isAuthenticated: storeState.authentication.isAuthenticated,
-  currentLocale: storeState.locale.currentLocale,
-  embedded: storeState.layout.embedded
+const mapStateToProps = ({ authentication, locale }) => ({
+  currentLocale: locale.currentLocale,
+  isAuthenticated: authentication.isAuthenticated,
+  isAdmin: hasAnyAuthority(authentication.account.authorities, [AUTHORITIES.ADMIN])
 });
 
-const mapDispatchToProps = { getSession, setLocale, logout };
+const mapDispatchToProps = { setLocale, getSession };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

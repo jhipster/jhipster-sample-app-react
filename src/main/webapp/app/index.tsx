@@ -8,7 +8,7 @@ import DevTools from './config/devtools';
 import initStore from './config/store';
 import { registerLocales } from './config/translation';
 import setupAxiosInterceptors from './config/axios-interceptor';
-import { clearAuthentication } from './reducers/authentication';
+import { clearAuthentication } from './shared/reducers/authentication';
 import AppComponent from './app';
 
 const devTools = process.env.NODE_ENV === 'development' ? <DevTools /> : null;
@@ -28,7 +28,7 @@ const render = Component =>
         <div>
           {/* If this slows down the app in dev disable it and enable when required  */}
           {devTools}
-          <Component/>
+          <Component />
         </div>
       </Provider>
     </AppContainer>,

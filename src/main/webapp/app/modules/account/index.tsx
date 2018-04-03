@@ -6,8 +6,8 @@ import Password from './password/password';
 
 const Routes = ({ match }) => (
   <div>
-    <Route path={`${match.url}/settings`} component={Settings}/>
-    <Route path={`${match.url}/password`} component={Password}/>
+    <Route path={`${match.url}/settings`} component={Settings} />
+    <Route path={`${match.url}/password`} component={Password} />
   </div>
 );
 

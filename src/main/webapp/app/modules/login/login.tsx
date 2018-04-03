@@ -2,8 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
+import { login } from 'app/shared/reducers/authentication';
 import LoginModal from './login-modal';
-import { login } from '../../reducers/authentication';
 
 export interface ILoginProps {
   isAuthenticated: boolean;
@@ -19,14 +19,10 @@ export interface ILoginState {
 }
 
 export class Login extends React.Component<ILoginProps, ILoginState> {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      showModal: props.showModal,
-      redirectToReferrer: props.isAuthenticated
-    };
-  }
+  state: ILoginState = {
+    showModal: this.props.showModal,
+    redirectToReferrer: this.props.isAuthenticated
+  };
 
   componentWillReceiveProps(nextProps: ILoginProps) {
     this.setState({
@@ -37,11 +33,11 @@ export class Login extends React.Component<ILoginProps, ILoginState> {
 
   handleLogin = (username, password, rememberMe = false) => {
     this.props.login(username, password, rememberMe);
-  }
+  };
 
   handleClose = () => {
     this.setState({ showModal: false });
-  }
+  };
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/', search: this.props.location.search } };
@@ -50,12 +46,7 @@ export class Login extends React.Component<ILoginProps, ILoginState> {
       return <Redirect to={from} />;
     }
     return (
-      <LoginModal
-        showModal={showModal}
-        handleLogin={this.handleLogin}
-        handleClose={this.handleClose}
-        loginError={this.props.loginError}
-      />
+      <LoginModal showModal={showModal} handleLogin={this.handleLogin} handleClose={this.handleClose} loginError={this.props.loginError} />
     );
   }
 }

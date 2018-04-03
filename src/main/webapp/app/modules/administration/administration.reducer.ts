@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { REQUEST, SUCCESS, FAILURE } from './action-type.util';
+import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 export const ACTION_TYPES = {
   FETCH_GATEWAY_ROUTE: 'administration/FETCH_GATEWAY_ROUTE',
@@ -30,7 +30,8 @@ const initialState = {
     configProps: {},
     env: {}
   },
-  audits: []
+  audits: [],
+  totalItems: 0
 };
 
 // Reducer
@@ -123,7 +124,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        audits: action.payload.data
+        audits: action.payload.data,
+        totalItems: action.payload.headers['x-total-count']
       };
     case SUCCESS(ACTION_TYPES.FETCH_HEALTH):
       return {
@@ -154,7 +156,7 @@ export const systemMetrics = () => ({
 
 export const systemThreadDump = () => ({
   type: ACTION_TYPES.FETCH_THREAD_DUMP,
-  payload: axios.get('/management/dump')
+  payload: axios.get('/management/threaddump')
 });
 
 export const getLoggers = () => ({
@@ -186,13 +188,13 @@ export const getEnv = () => ({
   payload: axios.get('/management/env')
 });
 
-export const getAudits = (fromDate, toDate, page = 0, size = 20) => {
-  let requestUrl = `/management/jhipster/audits?page=${page}&size=${size}`;
-  if (toDate) {
-    requestUrl += `&toDate=${toDate}`;
-  }
+export const getAudits = (page, size, sort, fromDate, toDate) => {
+  let requestUrl = `/management/audits${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
   if (fromDate) {
     requestUrl += `&fromDate=${fromDate}`;
+  }
+  if (toDate) {
+    requestUrl += `&toDate=${toDate}`;
   }
   return {
     type: ACTION_TYPES.FETCH_AUDITS,

@@ -2,16 +2,14 @@
 import { TranslatorContext, Storage } from 'react-jhipster';
 import { merge } from 'lodash';
 
-import { setLocale } from '../reducers/locale';
+import { setLocale } from 'app/shared/reducers/locale';
 
-const mergeTranslations = requireContext => requireContext.keys().reduce(
-  (merged, key) => merge({ ...merged }, { ...requireContext(key) }),
-  {}
-);
+const mergeTranslations = requireContext =>
+  requireContext.keys().reduce((merged, key) => merge({ ...merged }, { ...requireContext(key) }), {});
 
 // tslint:disable:object-literal-key-quotes
 const translations = {
-   'en': mergeTranslations(require.context('../../i18n/en', false, /.json$/))
+  en: mergeTranslations(require.context('../../i18n/en', false, /.json$/))
 };
 // tslint:enable
 

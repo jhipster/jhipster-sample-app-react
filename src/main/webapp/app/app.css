@@ -1,4 +1,3 @@
-
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
 /* ==============================================================
@@ -199,6 +198,13 @@ ui bootstrap tweaks
 .datetime-picker-dropdown > li.date-picker-menu div > table:focus,
 .uib-datepicker-popup  > li > div.uib-datepicker > table:focus {
    outline: none;
+}
+
+.thread-dump-modal-lock {
+   max-width: 450px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
 }
 
 /* jhipster-needle-css-add-main JHipster will add new css style */

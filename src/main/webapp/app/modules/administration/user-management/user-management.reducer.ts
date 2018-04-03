@@ -1,16 +1,17 @@
 import axios from 'axios';
-import { ICrudGetAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
 
-import { REQUEST, SUCCESS, FAILURE } from './action-type.util';
-import { messages } from '../config/constants';
+import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
+import { IUser } from 'app/shared/model/user.model';
 
 export const ACTION_TYPES = {
   FETCH_ROLES: 'userManagement/FETCH_ROLES',
   FETCH_USERS: 'userManagement/FETCH_USERS',
-  FETCH_USER:  'userManagement/FETCH_USER',
+  FETCH_USER: 'userManagement/FETCH_USER',
   CREATE_USER: 'userManagement/CREATE_USER',
   UPDATE_USER: 'userManagement/UPDATE_USER',
-  DELETE_USER: 'userManagement/DELETE_USER'
+  DELETE_USER: 'userManagement/DELETE_USER',
+  RESET: 'userManagement/RESET'
 };
 
 const initialState = {
@@ -95,6 +96,11 @@ export default (state = initialState, action) => {
         updateSuccess: true,
         user: {}
       };
+    case ACTION_TYPES.RESET:
+      return {
+        ...state,
+        user: {}
+      };
     default:
       return state;
   }
@@ -102,63 +108,55 @@ export default (state = initialState, action) => {
 
 const apiUrl = '/api/users';
 // Actions
-export const getUsers: ICrudGetAction = (page, size, sort) => {
+export const getUsers: ICrudGetAllAction<IUser> = (page, size, sort) => {
   const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
   return {
     type: ACTION_TYPES.FETCH_USERS,
-    payload: axios.get(requestUrl)
+    payload: axios.get(requestUrl) as Promise<IUser>
   };
 };
 
-export const getRoles: ICrudGetAction = () => ({
+export const getRoles: ICrudGetAction<any> = () => ({
   type: ACTION_TYPES.FETCH_ROLES,
-  payload: axios.get(`${apiUrl}/authorities`)
+  payload: axios.get(`${apiUrl}/authorities`) as Promise<any>
 });
 
-export const getUser: ICrudGetAction = id => {
+export const getUser: ICrudGetAction<IUser> = id => {
   const requestUrl = `${apiUrl}/${id}`;
   return {
     type: ACTION_TYPES.FETCH_USER,
-    payload: axios.get(requestUrl)
+    payload: axios.get(requestUrl) as Promise<IUser>
   };
 };
 
-export const createUser: ICrudPutAction = user => async dispatch => {
+export const createUser: ICrudPutAction<IUser> = user => async dispatch => {
   const result = await dispatch({
     type: ACTION_TYPES.CREATE_USER,
-    meta: {
-      successMessage: messages.DATA_CREATE_SUCCESS_ALERT,
-      errorMessage: messages.DATA_UPDATE_ERROR_ALERT
-    },
     payload: axios.post(apiUrl, user)
   });
   dispatch(getUsers());
   return result;
 };
 
-export const updateUser: ICrudPutAction = user => async dispatch => {
+export const updateUser: ICrudPutAction<IUser> = user => async dispatch => {
   const result = await dispatch({
     type: ACTION_TYPES.UPDATE_USER,
-    meta: {
-      successMessage: messages.DATA_CREATE_SUCCESS_ALERT,
-      errorMessage: messages.DATA_UPDATE_ERROR_ALERT
-    },
     payload: axios.put(apiUrl, user)
   });
   dispatch(getUsers());
   return result;
 };
 
-export const deleteUser: ICrudDeleteAction = id => async dispatch => {
+export const deleteUser: ICrudDeleteAction<IUser> = id => async dispatch => {
   const requestUrl = `${apiUrl}/${id}`;
   const result = await dispatch({
     type: ACTION_TYPES.DELETE_USER,
-    meta: {
-      successMessage: messages.DATA_DELETE_SUCCESS_ALERT,
-      errorMessage: messages.DATA_UPDATE_ERROR_ALERT
-    },
     payload: axios.delete(requestUrl)
   });
   dispatch(getUsers());
   return result;
 };
+
+export const reset = () => ({
+  type: ACTION_TYPES.RESET
+});

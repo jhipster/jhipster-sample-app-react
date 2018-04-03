@@ -1,23 +1,21 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
+
 import * as sinon from 'sinon';
 
-import {
-  Navbar,
-  Nav, NavItem, NavbarBrand
-} from 'reactstrap';
+import { Navbar, Nav, NavItem, NavbarBrand } from 'reactstrap';
 
-import Header from '../../../../../../main/webapp/app/shared/layout/header/header';
+import Header from 'app/shared/layout/header/header';
 
 describe('Header', () => {
   let mountedWrapper;
+
   const localeSpy = sinon.spy();
+
   const wrapper = () => {
     if (!mountedWrapper) {
-      mountedWrapper = shallow(
-        <Header isAuthenticated currentLocale="en" onLocaleChange={localeSpy}/>
-      );
+      mountedWrapper = shallow(<Header isAuthenticated isAdmin currentLocale="en" onLocaleChange={localeSpy} />);
     }
     return mountedWrapper;
   };

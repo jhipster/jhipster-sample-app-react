@@ -4,7 +4,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 // import * as toaster from 'react-toastify';
 // import * as sinon from 'sinon';
 
-import notificationMiddleware from '../../../../../main/webapp/app/config/notification-middleware';
+import notificationMiddleware from 'app/config/notification-middleware';
 
 describe('Notification Middleware', () => {
   let store;
@@ -38,10 +38,7 @@ describe('Notification Middleware', () => {
     payload: Promise.reject(new Error('foo'))
   };
 
-  const makeStore = () => applyMiddleware(
-    notificationMiddleware,
-    promiseMiddleware()
-  )(createStore)(() => null);
+  const makeStore = () => applyMiddleware(notificationMiddleware, promiseMiddleware())(createStore)(() => null);
 
   beforeEach(() => {
     store = makeStore();
@@ -55,7 +52,7 @@ describe('Notification Middleware', () => {
   context('When action is not a promise:', () => {
     it('should not trigger a toast message but should return action', () => {
       expect(store.dispatch(DEFAULT).payload).to.equal('foo');
-    //   expect(toaster.toast.called).to.equal(false);
+      //   expect(toaster.toast.called).to.equal(false);
     });
   });
 
@@ -64,7 +61,7 @@ describe('Notification Middleware', () => {
       await store.dispatch(DEFAULT_PROMISE).then(resp => {
         expect(resp.value).to.equal('foo');
       });
-    //   expect(toaster.toast.called).to.equal(false);
+      //   expect(toaster.toast.called).to.equal(false);
     });
   });
 
@@ -73,7 +70,7 @@ describe('Notification Middleware', () => {
       await store.dispatch(DEFAULT_SUCCESS).then(resp => {
         expect(resp.value).to.equal('foo');
       });
-    //   expect(toaster.toast.getCall(0).args[0]).to.equal(DEFAULT_SUCCESS_MESSAGE);
+      //   expect(toaster.toast.getCall(0).args[0]).to.equal(DEFAULT_SUCCESS_MESSAGE);
     });
   });
 
@@ -82,7 +79,7 @@ describe('Notification Middleware', () => {
       await store.dispatch(DEFAULT_ERROR).catch(err => {
         expect(err.message).to.equal('foo');
       });
-    //   expect(toaster.toast.getCall(0).args[0]).to.equal(DEFAULT_ERROR_MESSAGE);
+      //   expect(toaster.toast.getCall(0).args[0]).to.equal(DEFAULT_ERROR_MESSAGE);
     });
   });
 });

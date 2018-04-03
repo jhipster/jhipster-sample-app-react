@@ -1,15 +1,27 @@
-/* eslint-disable */ // TODO Fix when page is completed
 import * as React from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Col, Alert, Row } from 'reactstrap';
 import { connect } from 'react-redux';
-import { locales } from '../../../config/translation';
+import { Translate, translate } from 'react-jhipster';
+import { AvForm, AvField } from 'availity-reactstrap-validation';
 
-import { getSession } from '../../../reducers/authentication';
-import { saveAccountSettings } from '../../../reducers/account';
+import { locales } from 'app/config/translation';
+import { getSession } from 'app/shared/reducers/authentication';
+import { saveAccountSettings, reset } from './settings.reducer';
+
+const successAlert = (
+  <Alert color="success">
+    <strong>
+      <Translate contentKey="settings.messages.success">Settings saved!</Translate>
+    </strong>
+  </Alert>
+);
 
 export interface IUserSettingsProps {
   account: any;
   getSession: Function;
+  saveAccountSettings: Function;
+  reset: Function;
+  updateSuccess: boolean;
 }
 
 export interface IUserSettingsState {
@@ -17,16 +29,16 @@ export interface IUserSettingsState {
 }
 
 export class SettingsPage extends React.Component<IUserSettingsProps, IUserSettingsState> {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      account: props.account
-    };
-  }
+  state: IUserSettingsState = {
+    account: this.props.account
+  };
 
   componentDidMount() {
     this.props.getSession();
+  }
+
+  componentWillUnmount() {
+    this.props.reset();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,78 +47,117 @@ export class SettingsPage extends React.Component<IUserSettingsProps, IUserSetti
     });
   }
 
-  setFirstName = event => {
+  setLangKey = event => {
     this.setState({
       account: {
         ...this.state.account,
-        firstName: event.target.value
+        langKey: event.target.value
       }
     });
-  }
+  };
 
-  setLastName = event => {
-    this.setState({
-      account: {
-        ...this.state.account,
-        lastName: event.target.value
-      }
-    });
-  }
+  handleValidSubmit = (event, values) => {
+    const account = {
+      ...this.state.account,
+      ...values,
+      langKey: this.state.account.langKey
+    };
 
-  setEmail = event => {
-    this.setState({
-      account: {
-        ...this.state.account,
-        email: event.target.value
-      }
-    });
-  }
-
-  saveSettings = event => {
-    saveAccountSettings(this.state.account);
-    event.preventDefault();
-  }
+    this.props.saveAccountSettings(account);
+    event.persist();
+  };
 
   render() {
     const { account } = this.state;
+    const { updateSuccess } = this.props;
+
     return (
-        <div>
-          <h2>User settings for [{account.login}]</h2>
-          <Form>
-            {/* TODO: change to Availity form components */}
-            <FormGroup>
-              <Label for="firstName">First Name</Label>
-              <Input type="text" className="form-control" value={account.firstName} id="firstName" name="firstName" placeholder="First Name"
-              onChange={this.setFirstName}/>
-            </FormGroup>
-            <FormGroup>
-              <Label for="lastName">Last Name</Label>
-              <Input type="text" className="form-control" value={account.lastName} id="lastName" name="lastName" placeholder="Last Name"
-              onChange={this.setLastName}/>
-            </FormGroup>
-            <FormGroup>
-              <Label for="email">Email</Label>
-              <Input type="text" className="form-control" value={account.email} id="email" name="email" placeholder="Email"
-              onChange={this.setEmail}/>
-            </FormGroup>
-            <FormGroup>
-              <Label for="langKey">Language</Label>
-              <Input type="select" id="langKey" name="langKey" className="form-control">
-                {locales.map(lang => <option value={lang} key={lang}>{lang}</option>)}
-              </Input>
-            </FormGroup>
-            <Button type="submit" color="success" onClick={this.saveSettings}>Save</Button>
-          </Form>
+      <div>
+        <Row className="justify-content-center">
+          <Col md="8">
+            <h2>
+              <Translate contentKey="settings.title" interpolate={{ username: account.login }}>
+                User settings for {account.login}
+              </Translate>
+            </h2>
+            {updateSuccess ? successAlert : null}
+            <AvForm onValidSubmit={this.handleValidSubmit}>
+              {/* First name */}
+              <AvField
+                className="form-control"
+                name="firstName"
+                label={translate('settings.form.firstname')}
+                id="firstName"
+                placeholder={translate('settings.form.firstname.placeholder')}
+                validate={{
+                  required: { value: true, errorMessage: translate('settings.messages.validate.firstname.required') },
+                  minLength: { value: 1, errorMessage: translate('settings.messages.validate.firstname.minlength') },
+                  maxLength: { value: 50, errorMessage: translate('settings.messages.validate.firstname.maxlength') }
+                }}
+                value={account.firstName}
+              />
+              {/* Last name */}
+              <AvField
+                className="form-control"
+                name="lastName"
+                label={translate('settings.form.lastname')}
+                id="lastName"
+                placeholder={translate('settings.form.lastname.placeholder')}
+                validate={{
+                  required: { value: true, errorMessage: translate('settings.messages.validate.lastname.required') },
+                  minLength: { value: 1, errorMessage: translate('settings.messages.validate.lastname.minlength') },
+                  maxLength: { value: 50, errorMessage: translate('settings.messages.validate.lastname.maxlength') }
+                }}
+                value={account.lastName}
+              />
+              {/* Email */}
+              <AvField
+                name="email"
+                label={translate('global.form.email')}
+                placeholder={translate('global.form.email.placeholder')}
+                type="email"
+                validate={{
+                  required: { value: true, errorMessage: translate('global.messages.validate.email.required') },
+                  minLength: { value: 5, errorMessage: translate('global.messages.validate.email.minlength') },
+                  maxLength: { value: 254, errorMessage: translate('global.messages.validate.email.maxlength') }
+                }}
+                value={account.email}
+              />
+              {/* Language key */}
+              <AvField
+                type="select"
+                id="langKey"
+                name="langKey"
+                className="form-control"
+                label={translate('settings.form.language')}
+                onChange={this.setLangKey}
+                defaultValue={account.langKey}
+              >
+                {/* TODO: Add findLanguageFromKey translation to options */}
+                {locales.map(lang => (
+                  <option value={lang} key={lang}>
+                    {lang}
+                  </option>
+                ))}
+              </AvField>
+              <Button color="primary" type="submit">
+                <Translate contentKey="settings.form.button">Save</Translate>
+              </Button>
+            </AvForm>
+          </Col>
+        </Row>
       </div>
     );
   }
 }
 
-const mapStateToProps = storeState => ({
-  account: storeState.authentication.account,
-  isAuthenticated: storeState.authentication.isAuthenticated
+const mapStateToProps = ({ authentication, settings }) => ({
+  account: authentication.account,
+  isAuthenticated: authentication.isAuthenticated,
+  updateSuccess: settings.updateSuccess,
+  updateFailure: settings.updateFailure
 });
 
-const mapDispatchToProps = { getSession, saveAccountSettings };
+const mapDispatchToProps = { getSession, saveAccountSettings, reset };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
