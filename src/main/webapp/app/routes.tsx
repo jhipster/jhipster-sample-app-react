@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import Loadable from 'react-loadable';
 
 import Login from 'app/modules/login/login';
 import Logout from 'app/modules/login/logout';
-import Register from 'app/modules/account/register/register';
+// import Register from 'app/modules/account/register/register';
 import Home from 'app/modules/home/home';
 import Admin from 'app/modules/administration';
 import Account from 'app/modules/account';
@@ -13,6 +14,15 @@ import PasswordResetFinish from 'app/modules/account/password-reset/finish/passw
 import Entities from 'app/entities';
 import PrivateRoute from 'app/shared/auth/private-route';
 import { AUTHORITIES } from 'app/config/constants';
+
+/*
+*  simple code splitting demo, you can replace the loading function with your component to do loading animation.
+*  more docs in react-loadable: https://github.com/jamiebuilds/react-loadable
+* */
+const Register = Loadable({
+  loader: () => import('app/modules/account/register/register'),
+  loading: () => <div>loading ...</div>
+});
 
 const Routes = () => (
   <div className="view-routes">
