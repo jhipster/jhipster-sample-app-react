@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, Badge } from 'reactstrap';
+import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, Badge, Row } from 'reactstrap';
 
 import ThreadItem from './thread-item';
 
@@ -93,23 +93,23 @@ export class MetricsModal extends React.Component<IMetricsModalProps, IMetricsMo
         <ModalBody>
           <Badge color="primary" className="hand" onClick={this.updateBadgeFilter('')}>
             All&nbsp;
-            <span className="badge badge-pill badge-default">{counters.threadDumpAll || 0}</span>
+            <Badge pill>{counters.threadDumpAll || 0}</Badge>
           </Badge>&nbsp;
           <Badge color="success" className="hand" onClick={this.updateBadgeFilter('RUNNABLE')}>
             Runnable&nbsp;
-            <span className="badge badge-pill badge-default">{counters.threadDumpRunnable || 0}</span>
+            <Badge pill>{counters.threadDumpRunnable || 0}</Badge>
           </Badge>&nbsp;
           <Badge color="info" className="hand" onClick={this.updateBadgeFilter('WAITING')}>
             Waiting&nbsp;
-            <span className="badge badge-pill badge-default">{counters.threadDumpWaiting || 0}</span>
+            <Badge pill>{counters.threadDumpWaiting || 0}</Badge>
           </Badge>&nbsp;
           <Badge color="warning" className="hand" onClick={this.updateBadgeFilter('TIMED_WAITING')}>
             Timed Waiting&nbsp;
-            <span className="badge badge-pill badge-default">{counters.threadDumpTimedWaiting || 0}</span>
+            <Badge pill>{counters.threadDumpTimedWaiting || 0}</Badge>
           </Badge>&nbsp;
           <Badge color="danger" className="hand" onClick={this.updateBadgeFilter('BLOCKED')}>
             Blocked&nbsp;
-            <span className="badge badge-pill badge-default">{counters.threadDumpBlocked || 0}</span>
+            <Badge pill>{counters.threadDumpBlocked || 0}</Badge>
           </Badge>&nbsp;
           <div className="mt-2">&nbsp;</div>
           <Input type="text" className="form-control" placeholder="Filter by Lock Name..." onChange={this.updateSearchFilter} />
@@ -123,7 +123,7 @@ export class MetricsModal extends React.Component<IMetricsModalProps, IMetricsMo
                       {threadDumpInfo.threadName} (ID {threadDumpInfo.threadId})&nbsp;
                     </h6>
                     <ThreadItem threadDumpInfo={threadDumpInfo} />
-                    <div className="row">
+                    <Row>
                       <Table responsive>
                         <thead>
                           <tr>
@@ -146,7 +146,7 @@ export class MetricsModal extends React.Component<IMetricsModalProps, IMetricsMo
                           </tr>
                         </tbody>
                       </Table>
-                    </div>
+                    </Row>
                   </div>
                 ))
               : null}

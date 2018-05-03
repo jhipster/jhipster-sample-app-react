@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button, Label, Row, Col } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField, AvFeedback } from 'availity-reactstrap-validation';
 import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
-import { FaBan, FaFloppyO, FaArrowLeft } from 'react-icons/lib/fa';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import { locales } from 'app/config/translation';
 import { IUser } from 'app/shared/model/user.model';
@@ -73,13 +73,13 @@ export class UserManagementUpdate extends React.Component<IUserManagementUpdateP
             {loading ? (
               <p>Loading...</p>
             ) : (
-              <AvForm model={isNew ? {} : user} onValidSubmit={this.saveUser}>
+              <AvForm onValidSubmit={this.saveUser}>
                 {user.id ? (
                   <AvGroup>
                     <Label for="id">
                       <Translate contentKey="global.field.id">ID</Translate>
                     </Label>
-                    <AvField type="text" className="form-control" name="id" required readOnly />
+                    <AvField type="text" className="form-control" name="id" required readOnly value={user.id} />
                   </AvGroup>
                 ) : null}
                 <AvGroup>
@@ -108,6 +108,7 @@ export class UserManagementUpdate extends React.Component<IUserManagementUpdateP
                         errorMessage: translate('register.messages.validate.login.maxlength')
                       }
                     }}
+                    value={user.login}
                   />
                 </AvGroup>
                 <AvGroup>
@@ -124,6 +125,7 @@ export class UserManagementUpdate extends React.Component<IUserManagementUpdateP
                         errorMessage: translate('entity.validation.maxlength', { max: 50 })
                       }
                     }}
+                    value={user.firstName}
                   />
                 </AvGroup>
                 <AvGroup>
@@ -140,6 +142,7 @@ export class UserManagementUpdate extends React.Component<IUserManagementUpdateP
                         errorMessage: translate('entity.validation.maxlength', { max: 50 })
                       }
                     }}
+                    value={user.lastName}
                   />
                   <AvFeedback>This field cannot be longer than 50 characters.</AvFeedback>
                 </AvGroup>
@@ -166,6 +169,7 @@ export class UserManagementUpdate extends React.Component<IUserManagementUpdateP
                         errorMessage: translate('global.messages.validate.email.maxlength')
                       }
                     }}
+                    value={user.email}
                   />
                 </AvGroup>
                 <AvGroup check>
@@ -198,14 +202,14 @@ export class UserManagementUpdate extends React.Component<IUserManagementUpdateP
                   </AvInput>
                 </AvGroup>
                 <Button tag={Link} to="/admin/user-management" replace color="info">
-                  <FaArrowLeft />&nbsp;
+                  <FontAwesomeIcon icon="arrow-left" />&nbsp;
                   <span className="d-none d-md-inline">
                     <Translate contentKey="entity.action.back">Back</Translate>
                   </span>
                 </Button>
                 &nbsp;
                 <Button color="primary" type="submit" disabled={isInvalid || updating}>
-                  <FaFloppyO />&nbsp;
+                  <FontAwesomeIcon icon="save" />&nbsp;
                   <Translate contentKey="entity.action.save">Save</Translate>
                 </Button>
               </AvForm>

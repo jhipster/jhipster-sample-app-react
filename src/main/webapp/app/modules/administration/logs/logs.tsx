@@ -89,14 +89,14 @@ export class LogsPage extends React.Component<ILogsPageProps, ILogsPageState> {
                   <button
                     disabled={isFetching}
                     onClick={this.changeLevel(logger.name, 'TRACE')}
-                    className={this.getClassName(logger.level, 'TRACE', 'danger')}
+                    className={this.getClassName(logger.level, 'TRACE', 'primary')}
                   >
                     TRACE
                   </button>
                   <button
                     disabled={isFetching}
                     onClick={this.changeLevel(logger.name, 'DEBUG')}
-                    className={this.getClassName(logger.level, 'DEBUG', 'warning')}
+                    className={this.getClassName(logger.level, 'DEBUG', 'success')}
                   >
                     DEBUG
                   </button>
@@ -110,16 +110,23 @@ export class LogsPage extends React.Component<ILogsPageProps, ILogsPageState> {
                   <button
                     disabled={isFetching}
                     onClick={this.changeLevel(logger.name, 'WARN')}
-                    className={this.getClassName(logger.level, 'WARN', 'success')}
+                    className={this.getClassName(logger.level, 'WARN', 'warning')}
                   >
                     WARN
                   </button>
                   <button
                     disabled={isFetching}
                     onClick={this.changeLevel(logger.name, 'ERROR')}
-                    className={this.getClassName(logger.level, 'ERROR', 'primary')}
+                    className={this.getClassName(logger.level, 'ERROR', 'danger')}
                   >
                     ERROR
+                  </button>
+                  <button
+                    disabled={isFetching}
+                    onClick={this.changeLevel(logger.name, 'OFF')}
+                    className={this.getClassName(logger.level, 'OFF', 'secondary')}
+                  >
+                    OFF
                   </button>
                 </td>
               </tr>

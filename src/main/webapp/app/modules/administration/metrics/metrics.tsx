@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Table, Progress } from 'reactstrap';
+import { Table, Progress, Col, Row, Button } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
-import { FaEye, FaRefresh } from 'react-icons/lib/fa';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import { APP_WHOLE_NUMBER_FORMAT, APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT } from 'app/config/constants';
 import { systemMetrics, systemThreadDump } from '../administration.reducer';
@@ -78,11 +78,11 @@ export class MetricsPage extends React.Component<any, IMetricsPageState> {
   renderModal = () => <MetricsModal handleClose={this.handleClose} showModal={this.state.showModal} threadDump={this.props.threadDump} />;
 
   renderGauges = metrics => (
-    <div className="row">
-      <div className="col-sm-12">
+    <Row>
+      <Col sm="12">
         <h3>JVM Metrics</h3>
-        <div className="row">
-          <div className="col-md-4">
+        <Row>
+          <Col md="4">
             <b>Memory</b>
             <p>
               <span>Total Memory</span> (
@@ -162,9 +162,10 @@ export class MetricsPage extends React.Component<any, IMetricsPageState> {
                 %
               </span>
             </Progress>
-          </div>
-          <div className="col-md-4">
-            <b>Threads</b> (Total: {metrics.gauges['jvm.threads.count'].value}) <FaEye onClick={this.getThreadDump} />
+          </Col>
+          <Col md="4">
+            <b>Threads</b> (Total: {metrics.gauges['jvm.threads.count'].value}){' '}
+            <FontAwesomeIcon icon="eye" className="hand" onClick={this.getThreadDump} />
             <p>
               <span>Runnable</span> {metrics.gauges['jvm.threads.runnable.count'].value}
             </p>
@@ -241,29 +242,37 @@ export class MetricsPage extends React.Component<any, IMetricsPageState> {
                 %
               </span>
             </Progress>
-          </div>
-          <div className="col-md-4">
+          </Col>
+          <Col md="4">
             <b>Garbage collections</b>
-            <div className="row">
-              <div className="col-md-9">Mark Sweep count</div>
-              <div className="col-md-3 text-right">{metrics.gauges['jvm.garbage.PS-MarkSweep.count'].value}</div>
-            </div>
-            <div className="row">
-              <div className="col-md-9">Mark Sweep time</div>
-              <div className="col-md-3 text-right">{metrics.gauges['jvm.garbage.PS-MarkSweep.time'].value}ms</div>
-            </div>
-            <div className="row">
-              <div className="col-md-9">Scavenge count</div>
-              <div className="col-md-3 text-right">{metrics.gauges['jvm.garbage.PS-Scavenge.count'].value}</div>
-            </div>
-            <div className="row">
-              <div className="col-md-9">Scavenge time</div>
-              <div className="col-md-3 text-right">{metrics.gauges['jvm.garbage.PS-Scavenge.time'].value}ms</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            <Row>
+              <Col md="9">Mark Sweep count</Col>
+              <Col md="3" className="text-right">
+                {metrics.gauges['jvm.garbage.PS-MarkSweep.count'].value}
+              </Col>
+            </Row>
+            <Row>
+              <Col md="9">Mark Sweep time</Col>
+              <Col md="3" className="text-right">
+                {metrics.gauges['jvm.garbage.PS-MarkSweep.time'].value}ms
+              </Col>
+            </Row>
+            <Row>
+              <Col md="9">Scavenge count</Col>
+              <Col md="3" className="text-right">
+                {metrics.gauges['jvm.garbage.PS-Scavenge.count'].value}
+              </Col>
+            </Row>
+            <Row>
+              <Col md="9">Scavenge time</Col>
+              <Col md="3" className="text-right">
+                {metrics.gauges['jvm.garbage.PS-Scavenge.time'].value}ms
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Col>
+    </Row>
   );
 
   render() {
@@ -274,24 +283,19 @@ export class MetricsPage extends React.Component<any, IMetricsPageState> {
       <div>
         <h2>Application Metrics</h2>
         <p>
-          <button
-            type="button"
-            onClick={this.getMetrics}
-            className={isFetching ? 'btn btn-danger' : 'btn btn-primary'}
-            disabled={isFetching}
-          >
-            <FaRefresh />&nbsp;
+          <Button onClick={this.getMetrics} color={isFetching ? 'btn btn-danger' : 'btn btn-primary'} disabled={isFetching}>
+            <FontAwesomeIcon icon="sync" />&nbsp;
             <Translate component="span" contentKey="health.refresh.button">
               Refresh
             </Translate>
-          </button>
+          </Button>
         </p>
         <hr />
         {metrics.gauges ? this.renderGauges(metrics) : ''}
 
         {metrics.meters && metrics.timers ? (
-          <div className="row">
-            <div className="col-sm-12">
+          <Row>
+            <Col sm="12">
               <h3>HTTP requests (events per second)</h3>
               <p>
                 <span>Active requests:</span>{' '}
@@ -467,16 +471,16 @@ export class MetricsPage extends React.Component<any, IMetricsPageState> {
                   </tr>
                 </tbody>
               </Table>
-            </div>
-          </div>
+            </Col>
+          </Row>
         ) : (
           ''
         )}
         {servicesStats ? (
-          <div className="row">
-            <div className="col-sm-12">
+          <Row>
+            <Col sm="12">
               <h3>Services statistics (time in millisecond)</h3>
-            </div>
+            </Col>
             <Table>
               <thead>
                 <tr>
@@ -521,14 +525,14 @@ export class MetricsPage extends React.Component<any, IMetricsPageState> {
                 ))}
               </tbody>
             </Table>
-          </div>
+          </Row>
         ) : (
           ''
         )}
 
         {cachesStats ? (
-          <div className="row">
-            <div className="col-sm-12">
+          <Row>
+            <Col sm="12">
               <h3>Ehcache statistics</h3>
               <Table>
                 <thead>
@@ -551,15 +555,17 @@ export class MetricsPage extends React.Component<any, IMetricsPageState> {
                   ))}
                 </tbody>
               </Table>
-            </div>
-          </div>
+            </Col>
+          </Row>
         ) : (
           ''
         )}
 
-        {metrics.gauges && metrics.gauges['HikariPool-1.pool.TotalConnections'].value > 0 ? (
-          <div className="row">
-            <div className="col-sm-12">
+        {metrics.gauges &&
+        metrics.gauges['HikariPool-1.pool.TotalConnections'] &&
+        metrics.gauges['HikariPool-1.pool.TotalConnections'].value > 0 ? (
+          <Row>
+            <Col sm="12">
               <h3>DataSource statistics (time in millisecond)</h3>
               <Table>
                 <thead>
@@ -654,8 +660,8 @@ export class MetricsPage extends React.Component<any, IMetricsPageState> {
                   </tr>
                 </tbody>
               </Table>
-            </div>
-          </div>
+            </Col>
+          </Row>
         ) : (
           ''
         )}

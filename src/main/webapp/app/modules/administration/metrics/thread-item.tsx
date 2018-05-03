@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Collapse, Card, CardBody } from 'reactstrap';
+import { Collapse, Card, CardBody, Row } from 'reactstrap';
 
 export interface IThreadItemProps {
   threadDumpInfo: any;
@@ -31,7 +31,7 @@ export class ThreadItem extends React.Component<IThreadItemProps, IThreadItemSta
         <Collapse isOpen={this.state.collapse}>
           <Card>
             <CardBody>
-              <div className="row break" style={{ overflowX: 'scroll' }}>
+              <Row className="break" style={{ overflowX: 'scroll' }}>
                 {Object.entries(threadDumpInfo.stackTrace).map(([stK, stV]: [string, any]) => (
                   <samp key={`detail-${stK}`}>
                     {stV.className}.{stV.methodName}
@@ -41,7 +41,7 @@ export class ThreadItem extends React.Component<IThreadItemProps, IThreadItemSta
                   </samp>
                 ))}
                 <span className="mt-1" />
-              </div>
+              </Row>
             </CardBody>
           </Card>
         </Collapse>

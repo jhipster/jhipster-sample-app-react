@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Translate, translate } from 'react-jhipster';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Alert } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Alert, Row, Col } from 'reactstrap';
 import { AvForm, AvField, AvGroup, AvInput } from 'availity-reactstrap-validation';
 import { Link } from 'react-router-dom';
 
@@ -27,17 +27,17 @@ class LoginModal extends React.Component<ILoginModalProps> {
             <Translate contentKey="login.title">Sign in</Translate>
           </ModalHeader>
           <ModalBody>
-            <div className="row">
-              <div className="col-md-12">
+            <Row>
+              <Col md="12">
                 {loginError ? (
-                  <div className="alert alert-danger">
+                  <Alert color="danger">
                     <Translate contentKey="login.messages.error.authentication">
                       <strong>Failed to sign in!</strong> Please check your credentials and try again.
                     </Translate>
-                  </div>
+                  </Alert>
                 ) : null}
-              </div>
-              <div className="col-md-12">
+              </Col>
+              <Col md="12">
                 <AvField
                   name="username"
                   label={translate('global.form.username')}
@@ -59,8 +59,8 @@ class LoginModal extends React.Component<ILoginModalProps> {
                     <AvInput type="checkbox" name="rememberMe" /> <Translate contentKey="login.form.rememberme">Remember me</Translate>
                   </Label>
                 </AvGroup>
-              </div>
-            </div>
+              </Col>
+            </Row>
             <div className="mt-1">&nbsp;</div>
             <Alert color="warning">
               <Link to="/reset/request">

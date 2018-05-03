@@ -15,31 +15,8 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-import {
-  FaHome,
-  FaThList,
-  FaUserPlus,
-  FaUser,
-  FaFlag,
-  FaHeart,
-  FaList,
-  FaTasks,
-  FaDashboard,
-  FaBook,
-  FaWrench,
-  FaSignIn,
-  FaSignOut,
-  FaClockO,
-  FaHddO,
-  // tslint:disable-next-line
-  FaRoad,
-  // tslint:disable-next-line
-  FaEye,
-  // tslint:disable-next-line
-  FaAsterisk,
-  // tslint:disable-next-line
-  FaBell
-} from 'react-icons/lib/fa';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+
 import { NavLink as Link } from 'react-router-dom';
 import LoadingBar from 'react-redux-loading-bar';
 
@@ -49,6 +26,9 @@ import appConfig from 'app/config/constants';
 export interface IHeaderProps {
   isAuthenticated: boolean;
   isAdmin: boolean;
+  ribbonEnv: string;
+  isInProduction: boolean;
+  isSwaggerEnabled: boolean;
   currentLocale: string;
   onLocaleChange: Function;
 }
@@ -62,7 +42,8 @@ const BrandIcon = props => (
     <img src="static/images/logo-jhipster-react.svg" alt="Logo" />
   </div>
 );
-export class Header extends React.Component<IHeaderProps, IHeaderState> {
+
+export default class Header extends React.Component<IHeaderProps, IHeaderState> {
   state: IHeaderState = {
     menuOpen: false
   };
@@ -72,10 +53,10 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
   };
 
   renderDevRibbon = () =>
-    process.env.NODE_ENV === 'development' ? (
+    this.props.isInProduction === false ? (
       <div className="ribbon dev">
         <a href="">
-          <Translate contentKey="global.ribbon.dev">Development</Translate>
+          <Translate contentKey={`global.ribbon.${this.props.ribbonEnv}`} />
         </a>
       </div>
     ) : null;
@@ -87,57 +68,64 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
   render() {
     const { currentLocale, isAuthenticated, isAdmin } = this.props;
     const entityMenuItems = [
-      /* jhipster-needle-add-entity-to-menu - - JHipster will add entities to the menu here */
+      /* jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here */
       <span key="dummy-placeholder" /> /* workaround to avoid error when there are no entities */
     ];
-    /* jhipster-needle-add-element-to-menu - JHipster will add entities to the menu here */
+    /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
     const adminMenuItems = [
       <DropdownItem tag={Link} key="user-management" to="/admin/user-management">
-        <FaUser /> User Management
+        <FontAwesomeIcon icon="user" /> User Management
       </DropdownItem>,
       <DropdownItem tag={Link} key="metrics" to="/admin/metrics">
-        <FaDashboard /> Metrics
+        <FontAwesomeIcon icon="tachometer-alt" /> Metrics
       </DropdownItem>,
       <DropdownItem tag={Link} key="health" to="/admin/health">
-        <FaHeart /> Health
+        <FontAwesomeIcon icon="heart" /> Health
       </DropdownItem>,
       <DropdownItem tag={Link} key="configuration" to="/admin/configuration">
-        <FaList /> Configuration
+        <FontAwesomeIcon icon="list" /> Configuration
       </DropdownItem>,
       <DropdownItem tag={Link} key="audits" to="/admin/audits">
-        <FaBell /> Audits
-      </DropdownItem>,
-      <DropdownItem tag={Link} key="logs" to="/admin/logs">
-        <FaTasks /> Logs
+        <FontAwesomeIcon icon="bell" /> Audits
       </DropdownItem>,
       /* jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here */
-      <DropdownItem tag={Link} key="docs" to="/admin/docs">
-        <FaBook /> API Docs
-      </DropdownItem>,
-      <DropdownItem tag="a" key="h2-console" href="./h2-console" target="_tab">
-        <FaHddO /> Database
+      <DropdownItem tag={Link} key="logs" to="/admin/logs">
+        <FontAwesomeIcon icon="tasks" /> Logs
       </DropdownItem>
     ];
+
+    const swaggerItem = (
+      <DropdownItem tag={Link} key="docs" to="/admin/docs">
+        <FontAwesomeIcon icon="book" /> API Docs
+      </DropdownItem>
+    );
+
+    const databaseItem = [
+      <DropdownItem tag="a" key="h2-console" href="./h2-console" target="_tab">
+        <FontAwesomeIcon icon="hdd" /> Database
+      </DropdownItem>
+    ];
+
     const accountMenuItems = [];
     if (isAuthenticated) {
       accountMenuItems.push(
         <DropdownItem tag={Link} key="settings" to="/account/settings">
-          <FaWrench /> Settings
+          <FontAwesomeIcon icon="wrench" /> Settings
         </DropdownItem>,
         <DropdownItem tag={Link} key="password" to="/account/password">
-          <FaClockO /> Password
+          <FontAwesomeIcon icon="clock" /> Password
         </DropdownItem>,
         <DropdownItem tag={Link} key="logout" to="/logout">
-          <FaSignOut /> Logout
+          <FontAwesomeIcon icon="sign-out-alt" /> Logout
         </DropdownItem>
       );
     } else {
       accountMenuItems.push(
         <DropdownItem tag={Link} key="login" to="/login">
-          <FaSignIn /> Login
+          <FontAwesomeIcon icon="sign-in-alt" /> Login
         </DropdownItem>,
         <DropdownItem tag={Link} key="register" to="/register">
-          <FaSignIn /> Register
+          <FontAwesomeIcon icon="sign-in-alt" /> Register
         </DropdownItem>
       );
     }
@@ -145,7 +133,7 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
     const entitiesMenu = (
       <UncontrolledDropdown nav inNavbar key="entities">
         <DropdownToggle nav caret className="d-flex align-items-center">
-          <FaThList />
+          <FontAwesomeIcon icon="th-list" />
           <span>Entities</span>
         </DropdownToggle>
         <DropdownMenu right>{entityMenuItems}</DropdownMenu>
@@ -154,11 +142,14 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
     const adminMenu = (
       <UncontrolledDropdown nav inNavbar key="admin">
         <DropdownToggle nav caret className="d-flex align-items-center">
-          <FaUserPlus />
+          <FontAwesomeIcon icon="user-plus" />
           <span>Administration</span>
         </DropdownToggle>
         <DropdownMenu right style={{ width: '130%' }}>
           {adminMenuItems}
+          {this.props.isSwaggerEnabled ? swaggerItem : null}
+
+          {!this.props.isInProduction ? databaseItem : null}
         </DropdownMenu>
       </UncontrolledDropdown>
     );
@@ -180,7 +171,7 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink tag={Link} to="/" className="d-flex align-items-center">
-                  <FaHome />
+                  <FontAwesomeIcon icon="home" />
                   <span>Home</span>
                 </NavLink>
               </NavItem>
@@ -188,7 +179,7 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
               {locales.length > 1 ? (
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret className="d-flex align-items-center">
-                    <FaFlag />
+                    <FontAwesomeIcon icon="flag" />
                     <span>{currentLocale.toUpperCase()}</span>
                   </DropdownToggle>
                   <DropdownMenu right>
@@ -202,7 +193,7 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
               ) : null}
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret className="d-flex align-items-center">
-                  <FaUser />
+                  <FontAwesomeIcon icon="user" />
                   <span>Account</span>
                 </DropdownToggle>
                 <DropdownMenu right>{accountMenuItems}</DropdownMenu>
@@ -214,5 +205,3 @@ export class Header extends React.Component<IHeaderProps, IHeaderState> {
     );
   }
 }
-
-export default Header;

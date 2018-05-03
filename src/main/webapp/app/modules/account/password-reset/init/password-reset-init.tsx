@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Translate, translate } from 'react-jhipster';
 import { connect } from 'react-redux';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
-import { Button, Alert } from 'reactstrap';
+import { Button, Alert, Col, Row } from 'reactstrap';
 
 import { handlePasswordResetInit, reset } from '../password-reset.reducer';
 
@@ -49,8 +49,8 @@ export class PasswordResetInit extends React.Component<IPasswordResetInitProps> 
 
     return (
       <div>
-        <div className="row justify-content-center">
-          <div className="col-md-8">
+        <Row className="justify-content-center">
+          <Col md="8">
             <h1>
               <Translate contentKey="reset.request.title">Reset your password</Translate>
             </h1>
@@ -76,8 +76,8 @@ export class PasswordResetInit extends React.Component<IPasswordResetInitProps> 
                 <Translate contentKey="reset.request.form.button">Reset password</Translate>
               </Button>
             </AvForm>
-          </div>
-        </div>
+          </Col>
+        </Row>
       </div>
     );
   }

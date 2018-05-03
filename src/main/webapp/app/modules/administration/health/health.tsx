@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Translate } from 'react-jhipster';
-import { Table, Badge } from 'reactstrap';
-import { FaEye, FaRefresh } from 'react-icons/lib/fa';
+import { Table, Badge, Col, Row, Button } from 'reactstrap';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import { systemHealth } from '../administration.reducer';
 import HealthModal from './health-modal';
@@ -63,20 +63,15 @@ export class HealthPage extends React.Component<IHealthPageProps, IHealthPageSta
       <div>
         <h2>Health Checks</h2>
         <p>
-          <button
-            type="button"
-            onClick={this.getSystemHealth}
-            className={isFetching ? 'btn btn-danger' : 'btn btn-primary'}
-            disabled={isFetching}
-          >
-            <FaRefresh />&nbsp;
+          <Button onClick={this.getSystemHealth} color={isFetching ? 'btn btn-danger' : 'btn btn-primary'} disabled={isFetching}>
+            <FontAwesomeIcon icon="sync" />&nbsp;
             <Translate component="span" contentKey="health.refresh.button">
               Refresh
             </Translate>
-          </button>
+          </Button>
         </p>
-        <div className="row">
-          <div className="col-12">
+        <Row>
+          <Col md="12">
             <Table bordered>
               <thead>
                 <tr>
@@ -97,7 +92,7 @@ export class HealthPage extends React.Component<IHealthPageProps, IHealthPageSta
                         <td>
                           {data[configPropKey].details ? (
                             <a onClick={this.getSystemHealthInfo(configPropKey, data[configPropKey])}>
-                              <FaEye />
+                              <FontAwesomeIcon icon="eye" />
                             </a>
                           ) : null}
                         </td>
@@ -106,8 +101,8 @@ export class HealthPage extends React.Component<IHealthPageProps, IHealthPageSta
                 )}
               </tbody>
             </Table>
-          </div>
-        </div>
+          </Col>
+        </Row>
         {this.renderModal()}
       </div>
     );

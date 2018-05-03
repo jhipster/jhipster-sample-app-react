@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Translate } from 'react-jhipster';
 import { connect } from 'react-redux';
+import { Row, Col, Alert } from 'reactstrap';
 
 import { getSession } from 'app/shared/reducers/authentication';
 
@@ -34,8 +35,8 @@ export class Home extends React.Component<IHomeProp, IHomeState> {
   render() {
     const { currentUser } = this.state;
     return (
-      <div className="row">
-        <div className="col-md-9">
+      <Row>
+        <Col md="9">
           <h2>
             <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>
           </h2>
@@ -44,15 +45,15 @@ export class Home extends React.Component<IHomeProp, IHomeState> {
           </p>
           {currentUser && currentUser.login ? (
             <div>
-              <div className="alert alert-success">
+              <Alert color="success">
                 <Translate contentKey="home.logged.message" interpolate={{ username: currentUser.login }}>
                   You are logged in as user {currentUser.login}.
                 </Translate>
-              </div>
+              </Alert>
             </div>
           ) : (
             <div>
-              <div className="alert alert-warning">
+              <Alert color="warning">
                 <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
                 <Link to="/login" className="alert-link">
                   <Translate contentKey="global.messages.info.authenticated.link">sign in</Translate>
@@ -62,14 +63,14 @@ export class Home extends React.Component<IHomeProp, IHomeState> {
                   <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
                   <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
                 </Translate>
-              </div>
+              </Alert>
 
-              <div className="alert alert-warning">
+              <Alert color="warning">
                 <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yet?</Translate>&nbsp;
                 <Link to="/register" className="alert-link">
                   <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
                 </Link>
-              </div>
+              </Alert>
             </div>
           )}
           <p>
@@ -110,11 +111,11 @@ export class Home extends React.Component<IHomeProp, IHomeState> {
               Github
             </a>!
           </p>
-        </div>
-        <div className="col-md-3 pad">
+        </Col>
+        <Col md="3" className="pad">
           <span className="hipster rounded" />
-        </div>
-      </div>
+        </Col>
+      </Row>
     );
   }
 }

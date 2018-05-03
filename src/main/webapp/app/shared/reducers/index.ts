@@ -3,6 +3,7 @@ import { loadingBarReducer as loadingBar } from 'react-redux-loading-bar';
 
 import locale from './locale';
 import authentication from './authentication';
+import applicationProfile from './application-profile';
 
 import administration from 'app/modules/administration/administration.reducer';
 import userManagement from 'app/modules/administration/user-management/user-management.reducer';
@@ -16,6 +17,7 @@ import passwordReset from 'app/modules/account/password-reset/password-reset.red
 export default combineReducers({
   authentication,
   locale,
+  applicationProfile,
   administration,
   userManagement,
   register,

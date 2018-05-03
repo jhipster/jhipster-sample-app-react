@@ -1,7 +1,12 @@
 import { expect } from 'chai';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
+import thunk from 'redux-thunk';
+import axios from 'axios';
+import * as sinon from 'sinon';
+import configureStore from 'redux-mock-store';
+import promiseMiddleware from 'redux-promise-middleware';
 
-import authentication, { ACTION_TYPES } from 'app/shared/reducers/authentication';
+import authentication, { ACTION_TYPES, getSession, login } from 'app/shared/reducers/authentication';
 
 describe('Authentication reducer tests', () => {
   function isAccountEmpty(state): boolean {
@@ -41,8 +46,8 @@ describe('Authentication reducer tests', () => {
       expect(toTest).to.contain({
         loading: false,
         loginError: false,
-        showModalLogin: false,
-        loginSuccess: true
+        loginSuccess: true,
+        showModalLogin: false
       });
     });
 
@@ -101,8 +106,8 @@ describe('Authentication reducer tests', () => {
         loading: false,
         isAuthenticated: false,
         loginSuccess: false,
-        errorMessage: null,
         loginError: false,
+        errorMessage: null,
         redirectMessage: null,
         showModalLogin: true
       });
@@ -116,8 +121,8 @@ describe('Authentication reducer tests', () => {
         loading: false,
         isAuthenticated: false,
         loginSuccess: false,
-        errorMessage: null,
         loginError: false,
+        errorMessage: null,
         redirectMessage: message,
         showModalLogin: true
       });
@@ -132,6 +137,30 @@ describe('Authentication reducer tests', () => {
         showModalLogin: true,
         isAuthenticated: false
       });
+    });
+  });
+
+  describe('Actions', () => {
+    let store;
+
+    const resolvedObject = { value: 'whatever' };
+    beforeEach(() => {
+      const mockStore = configureStore([thunk, promiseMiddleware()]);
+      store = mockStore({});
+      axios.get = sinon.stub().returns(Promise.resolve(resolvedObject));
+    });
+
+    it('dispatches GET_SESSION_PENDING and GET_SESSION_FULFILLED actions', async () => {
+      const expectedActions = [
+        {
+          type: REQUEST(ACTION_TYPES.GET_SESSION)
+        },
+        {
+          type: SUCCESS(ACTION_TYPES.GET_SESSION),
+          payload: resolvedObject
+        }
+      ];
+      await store.dispatch(getSession()).then(() => expect(store.getActions()).to.eql(expectedActions));
     });
   });
 });

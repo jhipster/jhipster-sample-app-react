@@ -1,7 +1,12 @@
 import { expect } from 'chai';
-import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
+import thunk from 'redux-thunk';
+import axios from 'axios';
+import * as sinon from 'sinon';
+import configureStore from 'redux-mock-store';
+import promiseMiddleware from 'redux-promise-middleware';
 
-import password, { ACTION_TYPES } from 'app/modules/account/password/password.reducer';
+import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
+import password, { ACTION_TYPES, savePassword } from 'app/modules/account/password/password.reducer';
 
 describe('Password reducer tests', () => {
   describe('Common tests', () => {
@@ -40,6 +45,37 @@ describe('Password reducer tests', () => {
         updateFailure: true,
         loading: false
       });
+    });
+  });
+
+  describe('Actions', () => {
+    let store;
+
+    const resolvedObject = { value: 'whatever' };
+    beforeEach(() => {
+      const mockStore = configureStore([thunk, promiseMiddleware()]);
+      store = mockStore({});
+      axios.post = sinon.stub().returns(Promise.resolve(resolvedObject));
+    });
+
+    it('dispatches UPDATE_PASSWORD_PENDING and UPDATE_PASSWORD_FULFILLED actions', async () => {
+      const meta = {
+        errorMessage: 'translation-not-found[password.messages.error]',
+        successMessage: 'translation-not-found[password.messages.success]'
+      };
+
+      const expectedActions = [
+        {
+          type: REQUEST(ACTION_TYPES.UPDATE_PASSWORD),
+          meta
+        },
+        {
+          type: SUCCESS(ACTION_TYPES.UPDATE_PASSWORD),
+          payload: resolvedObject,
+          meta
+        }
+      ];
+      await store.dispatch(savePassword('', '')).then(() => expect(store.getActions()).to.eql(expectedActions));
     });
   });
 });
