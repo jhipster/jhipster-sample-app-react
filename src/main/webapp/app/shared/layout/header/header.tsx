@@ -20,8 +20,8 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { NavLink as Link } from 'react-router-dom';
 import LoadingBar from 'react-redux-loading-bar';
 
-import { locales } from 'app/config/translation';
-import appConfig from 'app/config/constants';
+import { locales } from '../../../config/translation';
+import appConfig from '../../../config/constants';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;

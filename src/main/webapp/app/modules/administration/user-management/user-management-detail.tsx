@@ -5,8 +5,8 @@ import { Button, Row, Badge } from 'reactstrap';
 import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
-import { APP_DATE_FORMAT } from 'app/config/constants';
-import { IUser } from 'app/shared/model/user.model';
+import { APP_DATE_FORMAT } from '../../../config/constants';
+import { IUser } from '../../../shared/model/user.model';
 import { getUser } from './user-management.reducer';
 
 export interface IUserManagementDetailProps {

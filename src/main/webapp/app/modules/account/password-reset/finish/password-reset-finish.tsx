@@ -6,7 +6,7 @@ import { Translate, translate } from 'react-jhipster';
 import { Link } from 'react-router-dom';
 
 import { handlePasswordResetFinish, reset } from '../password-reset.reducer';
-import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
+import PasswordStrengthBar from '../../../../shared/layout/password/password-strength-bar';
 
 const actionRequiredAlert = (
   <Alert color="warning">

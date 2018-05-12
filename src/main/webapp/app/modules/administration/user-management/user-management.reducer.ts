@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
 
-import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
-import { IUser } from 'app/shared/model/user.model';
+import { REQUEST, SUCCESS, FAILURE } from '../../../shared/reducers/action-type.util';
+import { IUser } from '../../../shared/model/user.model';
 
 export const ACTION_TYPES = {
   FETCH_ROLES: 'userManagement/FETCH_ROLES',

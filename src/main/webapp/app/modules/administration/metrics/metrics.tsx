@@ -4,7 +4,7 @@ import { Table, Progress, Col, Row, Button } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
-import { APP_WHOLE_NUMBER_FORMAT, APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT } from 'app/config/constants';
+import { APP_WHOLE_NUMBER_FORMAT, APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT } from '../../../config/constants';
 import { systemMetrics, systemThreadDump } from '../administration.reducer';
 import MetricsModal from './metrics-modal';
 
