@@ -4,6 +4,7 @@ import { Table, Input, Row, Col, Badge } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 
 import { getConfigurations, getEnv } from '../administration.reducer';
+import { getValues } from '../../../shared/util/util.Object';
 
 export interface IConfigurationPageProps {
   isFetching?: boolean;
@@ -52,7 +53,7 @@ export class ConfigurationPage extends React.Component<IConfigurationPageProps, 
   };
 
   getContextList = contexts =>
-    Object.values(contexts)
+    getValues(contexts)
       .map((v: any) => v.beans)
       .reduce((acc, e) => ({ ...acc, ...e }));
 
@@ -84,7 +85,7 @@ export class ConfigurationPage extends React.Component<IConfigurationPageProps, 
           </thead>
           <tbody>
             {configProps.contexts
-              ? Object.values(this.getContextList(configProps.contexts))
+              ? getValues(this.getContextList(configProps.contexts))
                   .filter(this.propsFilterFn)
                   .map((property, propIndex) => (
                     <tr key={propIndex}>

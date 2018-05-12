@@ -14,9 +14,9 @@ import {
 } from 'react-jhipster';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
-import { APP_DATE_FORMAT } from 'app/config/constants';
-import { IUser } from 'app/shared/model/user.model';
-import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
+import { APP_DATE_FORMAT } from '../../../config/constants';
+import { IUser } from '../../../shared/model/user.model';
+import { ITEMS_PER_PAGE } from '../../../shared/util/pagination.constants';
 import { getUsers, updateUser } from './user-management.reducer';
 
 export interface IUserManagementProps {

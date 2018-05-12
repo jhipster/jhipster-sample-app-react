@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { Translate, translate } from 'react-jhipster';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 
-import { locales } from 'app/config/translation';
-import { getSession } from 'app/shared/reducers/authentication';
+import { locales } from '../../../config/translation';
+import { getSession } from '../../../shared/reducers/authentication';
 import { saveAccountSettings, reset } from './settings.reducer';
 
 const successAlert = (

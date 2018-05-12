@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { Row, Col, Alert, Button } from 'reactstrap';
 
-import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
+import PasswordStrengthBar from '../../../shared/layout/password/password-strength-bar';
 import { handleRegister, reset } from './register.reducer';
 
 export const mainErrorMessages = {

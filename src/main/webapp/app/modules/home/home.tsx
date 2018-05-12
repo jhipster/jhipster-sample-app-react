@@ -6,7 +6,7 @@ import { Translate } from 'react-jhipster';
 import { connect } from 'react-redux';
 import { Row, Col, Alert } from 'reactstrap';
 
-import { getSession } from 'app/shared/reducers/authentication';
+import { getSession } from '../../shared/reducers/authentication';
 
 export interface IHomeProp {
   account: any;

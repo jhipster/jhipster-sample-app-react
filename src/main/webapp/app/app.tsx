@@ -6,14 +6,14 @@ import { Card } from 'reactstrap';
 import { HashRouter as Router } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
-import { getSession } from 'app/shared/reducers/authentication';
-import { getProfile } from 'app/shared/reducers/application-profile';
-import { setLocale } from 'app/shared/reducers/locale';
-import Header from 'app/shared/layout/header/header';
-import Footer from 'app/shared/layout/footer/footer';
-import { hasAnyAuthority } from 'app/shared/auth/private-route';
-import { AUTHORITIES } from 'app/config/constants';
-import AppRoutes from 'app/routes';
+import { getSession } from './shared/reducers/authentication';
+import { getProfile } from './shared/reducers/application-profile';
+import { setLocale } from './shared/reducers/locale';
+import Header from './shared/layout/header/header';
+import Footer from './shared/layout/footer/footer';
+import { hasAnyAuthority } from './shared/auth/private-route';
+import { AUTHORITIES } from './config/constants';
+import AppRoutes from './routes';
 
 export interface IAppProps {
   isAuthenticated: boolean;

@@ -6,8 +6,8 @@ import { AvForm, AvGroup, AvInput, AvField, AvFeedback } from 'availity-reactstr
 import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
-import { locales } from 'app/config/translation';
-import { IUser } from 'app/shared/model/user.model';
+import { locales } from '../../../config/translation';
+import { IUser } from '../../../shared/model/user.model';
 import { getUser, getRoles, updateUser, createUser, reset } from './user-management.reducer';
 
 export interface IUserManagementUpdateProps {

@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Login from 'app/modules/login/login';
-import Logout from 'app/modules/login/logout';
-import Register from 'app/modules/account/register/register';
-import Home from 'app/modules/home/home';
-import Admin from 'app/modules/administration';
-import Account from 'app/modules/account';
-import Activate from 'app/modules/account/activate/activate';
-import PasswordResetInit from 'app/modules/account/password-reset/init/password-reset-init';
-import PasswordResetFinish from 'app/modules/account/password-reset/finish/password-reset-finish';
-import Entities from 'app/entities';
-import PrivateRoute from 'app/shared/auth/private-route';
-import { AUTHORITIES } from 'app/config/constants';
+import Login from './modules/login/login';
+import Logout from './modules/login/logout';
+import Register from './modules/account/register/register';
+import Home from './modules/home/home';
+import Admin from './modules/administration';
+import Account from './modules/account';
+import Activate from './modules/account/activate/activate';
+import PasswordResetInit from './modules/account/password-reset/init/password-reset-init';
+import PasswordResetFinish from './modules/account/password-reset/finish/password-reset-finish';
+import Entities from './entities';
+import PrivateRoute from './shared/auth/private-route';
+import { AUTHORITIES } from './config/constants';
 
 const Routes = () => (
   <div className="view-routes">

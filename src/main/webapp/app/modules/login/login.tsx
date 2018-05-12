@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { login } from 'app/shared/reducers/authentication';
+import { login } from '../../shared/reducers/authentication';
 import LoginModal from './login-modal';
 
 export interface ILoginProps {

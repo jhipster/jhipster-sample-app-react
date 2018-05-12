@@ -4,8 +4,8 @@ import { Input, Row, Table } from 'reactstrap';
 import { Translate, TextFormat, JhiPagination, getPaginationItemsNumber, getSortState, IPaginationBaseState } from 'react-jhipster';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
-import { APP_TIMESTAMP_FORMAT } from 'app/config/constants';
-import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
+import { APP_TIMESTAMP_FORMAT } from '../../../config/constants';
+import { ITEMS_PER_PAGE } from '../../../shared/util/pagination.constants';
 import { getAudits } from '../administration.reducer';
 
 export interface IAuditsPageProps {
