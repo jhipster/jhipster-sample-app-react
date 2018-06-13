@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Table, Row, Badge } from 'reactstrap';
 import {
   Translate,
@@ -15,20 +15,11 @@ import {
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import { APP_DATE_FORMAT } from 'app/config/constants';
-import { IUser } from 'app/shared/model/user.model';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { getUsers, updateUser } from './user-management.reducer';
+import { IRootState } from 'app/shared/reducers';
 
-export interface IUserManagementProps {
-  getUsers: ICrudGetAllAction<IUser>;
-  updateUser: ICrudPutAction<IUser>;
-  users: IUser[];
-  account: any;
-  match: any;
-  totalItems: 0;
-  history: any;
-  location: any;
-}
+export interface IUserManagementProps extends StateProps, DispatchProps, RouteComponentProps<{}> {}
 
 export class UserManagement extends React.Component<IUserManagementProps, IPaginationBaseState> {
   state: IPaginationBaseState = {
@@ -72,7 +63,7 @@ export class UserManagement extends React.Component<IUserManagementProps, IPagin
     const { users, account, match, totalItems } = this.props;
     return (
       <div>
-        <h2>
+        <h2 className="userManagement-page-heading">
           <Translate contentKey="userManagement.home.title">Users</Translate>
           <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity">
             <FontAwesomeIcon icon="plus" /> <Translate contentKey="userManagement.home.createLabel">Create a new user</Translate>
@@ -118,7 +109,7 @@ export class UserManagement extends React.Component<IUserManagementProps, IPagin
           </thead>
           <tbody>
             {users.map((user, i) => (
-              <tr key={`user-${i}`}>
+              <tr id={user.login} key={`user-${i}`}>
                 <td>
                   <Button tag={Link} to={`${match.url}/${user.login}`} color="link" size="sm">
                     {user.id}
@@ -199,12 +190,15 @@ export class UserManagement extends React.Component<IUserManagementProps, IPagin
   }
 }
 
-const mapStateToProps = storeState => ({
+const mapStateToProps = (storeState: IRootState) => ({
   users: storeState.userManagement.users,
   totalItems: storeState.userManagement.totalItems,
   account: storeState.authentication.account
 });
 
 const mapDispatchToProps = { getUsers, updateUser };
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserManagement);

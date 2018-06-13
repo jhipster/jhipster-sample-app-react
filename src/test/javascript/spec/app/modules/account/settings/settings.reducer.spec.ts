@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import configureStore from 'redux-mock-store';
 import promiseMiddleware from 'redux-promise-middleware';
@@ -13,7 +12,7 @@ describe('Settings reducer tests', () => {
   describe('Common tests', () => {
     it('should return the initial state', () => {
       const toTest = account(undefined, {});
-      expect(toTest).to.contain({
+      expect(toTest).toMatchObject({
         loading: false,
         errorMessage: null,
         updateSuccess: false,
@@ -25,7 +24,7 @@ describe('Settings reducer tests', () => {
   describe('Settings update', () => {
     it('should detect a request', () => {
       const toTest = account(undefined, { type: REQUEST(ACTION_TYPES.UPDATE_ACCOUNT) });
-      expect(toTest).to.contain({
+      expect(toTest).toMatchObject({
         updateSuccess: false,
         updateFailure: false,
         loading: true
@@ -33,7 +32,7 @@ describe('Settings reducer tests', () => {
     });
     it('should detect a success', () => {
       const toTest = account(undefined, { type: SUCCESS(ACTION_TYPES.UPDATE_ACCOUNT) });
-      expect(toTest).to.contain({
+      expect(toTest).toMatchObject({
         updateSuccess: true,
         updateFailure: false,
         loading: false
@@ -41,7 +40,7 @@ describe('Settings reducer tests', () => {
     });
     it('should detect a failure', () => {
       const toTest = account(undefined, { type: FAILURE(ACTION_TYPES.UPDATE_ACCOUNT) });
-      expect(toTest).to.contain({
+      expect(toTest).toMatchObject({
         updateSuccess: false,
         updateFailure: true,
         loading: false
@@ -61,13 +60,19 @@ describe('Settings reducer tests', () => {
     });
 
     it('dispatches UPDATE_ACCOUNT_PENDING and UPDATE_ACCOUNT_FULFILLED actions', async () => {
+      const meta = {
+        successMessage: 'translation-not-found[settings.messages.success]'
+      };
+
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.UPDATE_ACCOUNT)
+          type: REQUEST(ACTION_TYPES.UPDATE_ACCOUNT),
+          meta
         },
         {
           type: SUCCESS(ACTION_TYPES.UPDATE_ACCOUNT),
-          payload: resolvedObject
+          payload: resolvedObject,
+          meta
         },
         {
           type: REQUEST(authActionTypes.GET_SESSION)
@@ -77,7 +82,7 @@ describe('Settings reducer tests', () => {
           payload: resolvedObject
         }
       ];
-      await store.dispatch(saveAccountSettings({})).then(() => expect(store.getActions()).to.eql(expectedActions));
+      await store.dispatch(saveAccountSettings({})).then(() => expect(store.getActions()).toEqual(expectedActions));
     });
   });
 });

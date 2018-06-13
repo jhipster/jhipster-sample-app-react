@@ -14,7 +14,7 @@ const translations = {
 // tslint:enable
 
 let currentLocale;
-const savedLocale = Storage.local.get('locale', 'en');
+const savedLocale = Storage.session.get('locale', 'en');
 TranslatorContext.setDefaultLocale('en');
 TranslatorContext.setRenderInnerTextForMissingKeys(false);
 

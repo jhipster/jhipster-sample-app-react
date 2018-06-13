@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "chai",
+      "mocha"
+    ]
+  },
+  "include": [
+    "src/main/webapp/app/typing.d.ts",
+    "src/main/webapp/app/**/*",
+    "src/test/javascript/**/*"
+  ]
+}

@@ -4,15 +4,11 @@ import { Translate } from 'react-jhipster';
 import { Table, Badge, Col, Row, Button } from 'reactstrap';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
+import { IRootState } from 'app/shared/reducers';
 import { systemHealth } from '../administration.reducer';
 import HealthModal from './health-modal';
 
-export interface IHealthPageProps {
-  isFetching?: boolean;
-  systemHealth: Function;
-  health: any;
-  systemHealthInfo: any;
-}
+export interface IHealthPageProps extends StateProps, DispatchProps {}
 
 export interface IHealthPageState {
   healthObject: any;
@@ -61,7 +57,7 @@ export class HealthPage extends React.Component<IHealthPageProps, IHealthPageSta
     const data = (health || {}).details || {};
     return (
       <div>
-        <h2>Health Checks</h2>
+        <h2 className="health-page-heading">Health Checks</h2>
         <p>
           <Button onClick={this.getSystemHealth} color={isFetching ? 'btn btn-danger' : 'btn btn-primary'} disabled={isFetching}>
             <FontAwesomeIcon icon="sync" />&nbsp;
@@ -109,11 +105,14 @@ export class HealthPage extends React.Component<IHealthPageProps, IHealthPageSta
   }
 }
 
-const mapStateToProps = storeState => ({
+const mapStateToProps = (storeState: IRootState) => ({
   health: storeState.administration.health,
-  isFetching: storeState.administration.isFetching
+  isFetching: storeState.administration.loading
 });
 
 const mapDispatchToProps = { systemHealth };
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(HealthPage);

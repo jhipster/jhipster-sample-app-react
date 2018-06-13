@@ -4,14 +4,10 @@ import { connect } from 'react-redux';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { Button, Alert, Col, Row } from 'reactstrap';
 
+import { IRootState } from 'app/shared/reducers';
 import { handlePasswordResetInit, reset } from '../password-reset.reducer';
 
-export interface IPasswordResetInitProps {
-  handlePasswordResetInit: Function;
-  reset: Function;
-  resetPasswordSuccess: boolean;
-  resetPasswordFailure: boolean;
-}
+export type IPasswordResetInitProps = DispatchProps;
 
 export class PasswordResetInit extends React.Component<IPasswordResetInitProps> {
   componentWillUnmount() {
@@ -24,29 +20,6 @@ export class PasswordResetInit extends React.Component<IPasswordResetInitProps> 
   };
 
   render() {
-    const { resetPasswordSuccess, resetPasswordFailure } = this.props;
-    let alertMessage = null;
-
-    if (resetPasswordFailure) {
-      alertMessage = (
-        <Alert color="danger">
-          <Translate contentKey="reset.request.messages.notfound">
-            <strong>Email address isn't registered!</strong> Please check and try again
-          </Translate>
-        </Alert>
-      );
-    } else {
-      if (resetPasswordSuccess) {
-        alertMessage = (
-          <Alert color="success">
-            <Translate contentKey="reset.request.messages.success">Check your emails for details on how to reset your password.</Translate>
-          </Alert>
-        );
-      } else {
-        alertMessage = null;
-      }
-    }
-
     return (
       <div>
         <Row className="justify-content-center">
@@ -59,7 +32,6 @@ export class PasswordResetInit extends React.Component<IPasswordResetInitProps> 
                 <Translate contentKey="reset.request.messages.info">Enter the email address you used to register</Translate>
               </p>
             </Alert>
-            {alertMessage}
             <AvForm onValidSubmit={this.handleValidSubmit}>
               <AvField
                 name="email"
@@ -83,11 +55,8 @@ export class PasswordResetInit extends React.Component<IPasswordResetInitProps> 
   }
 }
 
-const mapStateToProps = ({ passwordReset }) => ({
-  resetPasswordSuccess: passwordReset.resetPasswordSuccess,
-  resetPasswordFailure: passwordReset.resetPasswordFailure
-});
-
 const mapDispatchToProps = { handlePasswordResetInit, reset };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PasswordResetInit);
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(null, mapDispatchToProps)(PasswordResetInit);

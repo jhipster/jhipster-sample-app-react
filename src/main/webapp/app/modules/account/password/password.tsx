@@ -4,16 +4,12 @@ import { connect } from 'react-redux';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { Row, Col, Button } from 'reactstrap';
 
+import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import { savePassword, reset } from './password.reducer';
 
-export interface IUserPasswordProps {
-  account: any;
-  getSession: Function;
-  savePassword: Function;
-  reset: Function;
-}
+export interface IUserPasswordProps extends StateProps, DispatchProps {}
 
 export interface IUserPasswordState {
   password: string;
@@ -48,12 +44,12 @@ export class PasswordPage extends React.Component<IUserPasswordProps, IUserPassw
       <div>
         <Row className="justify-content-center">
           <Col md="8">
-            <h2>
+            <h2 id="password-title">
               <Translate contentKey="password.title" interpolate={{ username: account.login }}>
                 Password for {account.login}
               </Translate>
             </h2>
-            <AvForm onValidSubmit={this.handleValidSubmit}>
+            <AvForm id="password-form" onValidSubmit={this.handleValidSubmit}>
               <AvField
                 name="currentPassword"
                 label={translate('global.form.currentpassword')}
@@ -111,11 +107,14 @@ export class PasswordPage extends React.Component<IUserPasswordProps, IUserPassw
   }
 }
 
-const mapStateToProps = ({ authentication }) => ({
+const mapStateToProps = ({ authentication }: IRootState) => ({
   account: authentication.account,
   isAuthenticated: authentication.isAuthenticated
 });
 
 const mapDispatchToProps = { getSession, savePassword, reset };
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordPage);

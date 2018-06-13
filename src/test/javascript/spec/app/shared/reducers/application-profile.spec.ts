@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { REQUEST, SUCCESS } from 'app/shared/reducers/action-type.util';
 import thunk from 'redux-thunk';
 import axios from 'axios';
@@ -17,7 +16,7 @@ describe('Profile reducer tests', () => {
   describe('Common tests', () => {
     it('should return the initial state', () => {
       const toTest = profile(undefined, {});
-      expect(toTest).to.eql(initialState);
+      expect(toTest).toEqual(initialState);
     });
 
     it('should return the right payload in prod', () => {
@@ -28,7 +27,7 @@ describe('Profile reducer tests', () => {
         }
       };
 
-      expect(profile(undefined, { type: SUCCESS(ACTION_TYPES.GET_PROFILE), payload })).to.eql({
+      expect(profile(undefined, { type: SUCCESS(ACTION_TYPES.GET_PROFILE), payload })).toEqual({
         ribbonEnv: 'awesome ribbon stuff',
         inProduction: true,
         isSwaggerEnabled: false
@@ -43,7 +42,7 @@ describe('Profile reducer tests', () => {
         }
       };
 
-      expect(profile(undefined, { type: SUCCESS(ACTION_TYPES.GET_PROFILE), payload })).to.eql({
+      expect(profile(undefined, { type: SUCCESS(ACTION_TYPES.GET_PROFILE), payload })).toEqual({
         ribbonEnv: 'awesome ribbon stuff',
         inProduction: false,
         isSwaggerEnabled: true
@@ -71,7 +70,7 @@ describe('Profile reducer tests', () => {
           payload: resolvedObject
         }
       ];
-      await store.dispatch(getProfile()).then(() => expect(store.getActions()).to.eql(expectedActions));
+      await store.dispatch(getProfile()).then(() => expect(store.getActions()).toEqual(expectedActions));
     });
   });
 });

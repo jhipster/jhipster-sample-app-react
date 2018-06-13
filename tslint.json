@@ -50,7 +50,7 @@
       "check-else",
       "check-whitespace"
     ],
-    "quotemark": [true, "single", "jsx-double"],
+    "quotemark": [true, "single", "jsx-double", "avoid-escape"],
     "radix": true,
     "semicolon": [true, "always", "ignore-bound-class-methods"],
     "triple-equals": [true, "allow-null-check"],
@@ -142,7 +142,7 @@
       "check-else",
       "check-whitespace"
     ],
-    "quotemark": [true, "single", "jsx-double"],
+    "quotemark": [true, "single", "jsx-double", "avoid-escape"],
     "radix": true,
     "semicolon": [true, "always", "ignore-bound-class-methods"],
     "triple-equals": [true, "allow-null-check"],

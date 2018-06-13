@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { cleanEntity } from 'app/shared/util/entity-utils';
 
 describe('Entity utils', () => {
@@ -16,8 +14,8 @@ describe('Entity utils', () => {
         }
       };
 
-      expect(cleanEntity({ ...entityA })).to.eql(entityA);
-      expect(cleanEntity({ ...entityB })).to.eql(entityB);
+      expect(cleanEntity({ ...entityA })).toEqual(entityA);
+      expect(cleanEntity({ ...entityB })).toEqual(entityB);
     });
 
     it('should remove fields with an empty id', () => {
@@ -27,7 +25,7 @@ describe('Entity utils', () => {
         }
       };
 
-      expect(cleanEntity({ ...entity })).to.eql({});
+      expect(cleanEntity({ ...entity })).toEqual({});
     });
 
     it('should not remove fields that are not objects', () => {
@@ -38,7 +36,7 @@ describe('Entity utils', () => {
         d: '5'
       };
 
-      expect(cleanEntity({ ...entity })).to.eql(entity);
+      expect(cleanEntity({ ...entity })).toEqual(entity);
     });
   });
 });

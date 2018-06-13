@@ -19,14 +19,16 @@ const initialState = {
   loginSuccess: false,
   loginError: false, // Errors returned from server side
   showModalLogin: false,
-  account: {},
-  errorMessage: null, // Errors returned from server side
-  redirectMessage: null
+  account: {} as any,
+  errorMessage: null as string, // Errors returned from server side
+  redirectMessage: null as string
 };
+
+export type AuthenticationState = Readonly<typeof initialState>;
 
 // Reducer
 
-export default (state = initialState, action) => {
+export default (state: AuthenticationState = initialState, action): AuthenticationState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.LOGIN):
     case REQUEST(ACTION_TYPES.GET_SESSION):

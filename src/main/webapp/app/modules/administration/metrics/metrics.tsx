@@ -7,14 +7,9 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { APP_WHOLE_NUMBER_FORMAT, APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT } from 'app/config/constants';
 import { systemMetrics, systemThreadDump } from '../administration.reducer';
 import MetricsModal from './metrics-modal';
+import { IRootState } from 'app/shared/reducers';
 
-export interface IMetricsPageProps {
-  isFetching?: boolean;
-  systemMetrics: Function;
-  systemThreadDump: Function;
-  metrics: any;
-  threadDump: any;
-}
+export interface IMetricsPageProps extends StateProps, DispatchProps {}
 
 export interface IMetricsPageState {
   showModal: boolean;
@@ -74,6 +69,16 @@ export class MetricsPage extends React.Component<any, IMetricsPageState> {
     }
     return stat;
   };
+
+  gaugeRow = (metrics, label: String, key) =>
+    metrics.gauges[key] ? (
+      <Row>
+        <Col md="9">{label}</Col>
+        <Col md="3" className="text-right">
+          {metrics.gauges[key].value}
+        </Col>
+      </Row>
+    ) : null;
 
   renderModal = () => <MetricsModal handleClose={this.handleClose} showModal={this.state.showModal} threadDump={this.props.threadDump} />;
 
@@ -245,30 +250,10 @@ export class MetricsPage extends React.Component<any, IMetricsPageState> {
           </Col>
           <Col md="4">
             <b>Garbage collections</b>
-            <Row>
-              <Col md="9">Mark Sweep count</Col>
-              <Col md="3" className="text-right">
-                {metrics.gauges['jvm.garbage.PS-MarkSweep.count'].value}
-              </Col>
-            </Row>
-            <Row>
-              <Col md="9">Mark Sweep time</Col>
-              <Col md="3" className="text-right">
-                {metrics.gauges['jvm.garbage.PS-MarkSweep.time'].value}ms
-              </Col>
-            </Row>
-            <Row>
-              <Col md="9">Scavenge count</Col>
-              <Col md="3" className="text-right">
-                {metrics.gauges['jvm.garbage.PS-Scavenge.count'].value}
-              </Col>
-            </Row>
-            <Row>
-              <Col md="9">Scavenge time</Col>
-              <Col md="3" className="text-right">
-                {metrics.gauges['jvm.garbage.PS-Scavenge.time'].value}ms
-              </Col>
-            </Row>
+            {this.gaugeRow(metrics, 'Mark Sweep count', 'jvm.garbage.PS-MarkSweep.count')}
+            {this.gaugeRow(metrics, 'Mark Sweep time', 'jvm.garbage.PS-MarkSweep.time')}
+            {this.gaugeRow(metrics, 'Scavenge count', 'jvm.garbage.PS-Scavenge.count')}
+            {this.gaugeRow(metrics, 'Scavenge time', 'jvm.garbage.PS-Scavenge.time')}
           </Col>
         </Row>
       </Col>
@@ -281,7 +266,7 @@ export class MetricsPage extends React.Component<any, IMetricsPageState> {
     const { servicesStats, cachesStats } = this.getStats(data);
     return (
       <div>
-        <h2>Application Metrics</h2>
+        <h2 className="metrics-page-heading">Application Metrics</h2>
         <p>
           <Button onClick={this.getMetrics} color={isFetching ? 'btn btn-danger' : 'btn btn-primary'} disabled={isFetching}>
             <FontAwesomeIcon icon="sync" />&nbsp;
@@ -672,12 +657,15 @@ export class MetricsPage extends React.Component<any, IMetricsPageState> {
   }
 }
 
-const mapStateToProps = storeState => ({
+const mapStateToProps = (storeState: IRootState) => ({
   metrics: storeState.administration.metrics,
-  isFetching: storeState.administration.isFetching,
+  isFetching: storeState.administration.loading,
   threadDump: storeState.administration.threadDump
 });
 
 const mapDispatchToProps = { systemMetrics, systemThreadDump };
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(MetricsPage);

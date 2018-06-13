@@ -5,34 +5,17 @@ import { Translate, translate } from 'react-jhipster';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 
 import { locales } from 'app/config/translation';
+import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
 import { saveAccountSettings, reset } from './settings.reducer';
 
-const successAlert = (
-  <Alert color="success">
-    <strong>
-      <Translate contentKey="settings.messages.success">Settings saved!</Translate>
-    </strong>
-  </Alert>
-);
-
-export interface IUserSettingsProps {
-  account: any;
-  getSession: Function;
-  saveAccountSettings: Function;
-  reset: Function;
-  updateSuccess: boolean;
-}
+export interface IUserSettingsProps extends StateProps, DispatchProps {}
 
 export interface IUserSettingsState {
   account: any;
 }
 
 export class SettingsPage extends React.Component<IUserSettingsProps, IUserSettingsState> {
-  state: IUserSettingsState = {
-    account: this.props.account
-  };
-
   componentDidMount() {
     this.props.getSession();
   }
@@ -41,26 +24,10 @@ export class SettingsPage extends React.Component<IUserSettingsProps, IUserSetti
     this.props.reset();
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      account: nextProps.account
-    });
-  }
-
-  setLangKey = event => {
-    this.setState({
-      account: {
-        ...this.state.account,
-        langKey: event.target.value
-      }
-    });
-  };
-
   handleValidSubmit = (event, values) => {
     const account = {
-      ...this.state.account,
-      ...values,
-      langKey: this.state.account.langKey
+      ...this.props.account,
+      ...values
     };
 
     this.props.saveAccountSettings(account);
@@ -68,20 +35,18 @@ export class SettingsPage extends React.Component<IUserSettingsProps, IUserSetti
   };
 
   render() {
-    const { account } = this.state;
-    const { updateSuccess } = this.props;
+    const { account } = this.props;
 
     return (
       <div>
         <Row className="justify-content-center">
           <Col md="8">
-            <h2>
+            <h2 id="settings-title">
               <Translate contentKey="settings.title" interpolate={{ username: account.login }}>
                 User settings for {account.login}
               </Translate>
             </h2>
-            {updateSuccess ? successAlert : null}
-            <AvForm onValidSubmit={this.handleValidSubmit}>
+            <AvForm id="settings-form" onValidSubmit={this.handleValidSubmit}>
               {/* First name */}
               <AvField
                 className="form-control"
@@ -130,8 +95,7 @@ export class SettingsPage extends React.Component<IUserSettingsProps, IUserSetti
                 name="langKey"
                 className="form-control"
                 label={translate('settings.form.language')}
-                onChange={this.setLangKey}
-                defaultValue={account.langKey}
+                value={account.langKey}
               >
                 {/* TODO: Add findLanguageFromKey translation to options */}
                 {locales.map(lang => (
@@ -151,13 +115,14 @@ export class SettingsPage extends React.Component<IUserSettingsProps, IUserSetti
   }
 }
 
-const mapStateToProps = ({ authentication, settings }) => ({
+const mapStateToProps = ({ authentication }: IRootState) => ({
   account: authentication.account,
-  isAuthenticated: authentication.isAuthenticated,
-  updateSuccess: settings.updateSuccess,
-  updateFailure: settings.updateFailure
+  isAuthenticated: authentication.isAuthenticated
 });
 
 const mapDispatchToProps = { getSession, saveAccountSettings, reset };
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Label, Row, Col } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField, AvFeedback } from 'availity-reactstrap-validation';
 import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
@@ -9,20 +9,9 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { locales } from 'app/config/translation';
 import { IUser } from 'app/shared/model/user.model';
 import { getUser, getRoles, updateUser, createUser, reset } from './user-management.reducer';
+import { IRootState } from 'app/shared/reducers';
 
-export interface IUserManagementUpdateProps {
-  getUser: ICrudGetAction<IUser>;
-  getRoles: ICrudGetAllAction<any>;
-  updateUser: ICrudPutAction<IUser>;
-  createUser: ICrudPutAction<IUser>;
-  reset: Function;
-  loading: boolean;
-  updating: boolean;
-  user: IUser;
-  roles: any[];
-  match: any;
-  history: any;
-}
+export interface IUserManagementUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ login: string }> {}
 
 export interface IUserManagementUpdateState {
   isNew: boolean;
@@ -174,7 +163,8 @@ export class UserManagementUpdate extends React.Component<IUserManagementUpdateP
                 </AvGroup>
                 <AvGroup check>
                   <Label>
-                    <AvInput type="checkbox" name="activated" /> <Translate contentKey="userManagement.activated">Activated</Translate>
+                    <AvInput type="checkbox" name="activated" value={user.activated} />{' '}
+                    <Translate contentKey="userManagement.activated">Activated</Translate>
                   </Label>
                 </AvGroup>
                 <AvGroup>
@@ -221,7 +211,7 @@ export class UserManagementUpdate extends React.Component<IUserManagementUpdateP
   }
 }
 
-const mapStateToProps = storeState => ({
+const mapStateToProps = (storeState: IRootState) => ({
   user: storeState.userManagement.user,
   roles: storeState.userManagement.authorities,
   loading: storeState.userManagement.loading,
@@ -229,5 +219,8 @@ const mapStateToProps = storeState => ({
 });
 
 const mapDispatchToProps = { getUser, getRoles, updateUser, createUser, reset };
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserManagementUpdate);

@@ -1,23 +1,17 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
 import { Input, Row, Table } from 'reactstrap';
 import { Translate, TextFormat, JhiPagination, getPaginationItemsNumber, getSortState, IPaginationBaseState } from 'react-jhipster';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import { APP_TIMESTAMP_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
+
+import { IRootState } from 'app/shared/reducers';
 import { getAudits } from '../administration.reducer';
 
-export interface IAuditsPageProps {
-  isFetching?: boolean;
-  audits: any[];
-  getAudits: Function;
-  totalItems: 0;
-  history: any;
-  location: any;
-  onChangeFromDate: any;
-  onChangeToDate: any;
-}
+export interface IAuditsPageProps extends StateProps, DispatchProps, RouteComponentProps<{}> {}
 
 export interface IAuditsPageState extends IPaginationBaseState {
   fromDate: string;
@@ -96,7 +90,7 @@ export class AuditsPage extends React.Component<IAuditsPageProps, IAuditsPageSta
     const { fromDate, toDate } = this.state;
     return (
       <div>
-        <h2>Audits</h2>
+        <h2 className="audits-page-heading">Audits</h2>
         <span>
           <Translate contentKey="audits.filter.from">from</Translate>
         </span>
@@ -152,11 +146,14 @@ export class AuditsPage extends React.Component<IAuditsPageProps, IAuditsPageSta
   }
 }
 
-const mapStateToProps = storeState => ({
+const mapStateToProps = (storeState: IRootState) => ({
   audits: storeState.administration.audits,
   totalItems: storeState.administration.totalItems
 });
 
 const mapDispatchToProps = { getAudits };
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuditsPage);

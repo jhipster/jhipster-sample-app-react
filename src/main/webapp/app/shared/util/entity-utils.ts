@@ -22,5 +22,5 @@ export const cleanEntity = entity => {
  * @param data Array that contains the values.
  * @param fieldName Name of the field that contains the key in the value.
  */
-export const keysToValues = (keyList: any[], data: any[], fieldName: string) =>
+export const keysToValues = (keyList: ReadonlyArray<any>, data: ReadonlyArray<any>, fieldName: string) =>
   keyList.map((k: any) => data.find((e: any) => e[fieldName] === k));

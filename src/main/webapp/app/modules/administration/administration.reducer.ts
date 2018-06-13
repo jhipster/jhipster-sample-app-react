@@ -21,22 +21,24 @@ const initialState = {
     routes: []
   },
   logs: {
-    loggers: []
+    loggers: [] as any[]
   },
-  health: {},
+  health: {} as any,
   metrics: {},
   threadDump: [],
   configuration: {
-    configProps: {},
-    env: {}
+    configProps: {} as any,
+    env: {} as any
   },
   audits: [],
   totalItems: 0
 };
 
+export type AdministrationState = Readonly<typeof initialState>;
+
 // Reducer
 
-export default (state = initialState, action) => {
+export default (state: AdministrationState = initialState, action): AdministrationState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.FETCH_GATEWAY_ROUTE):
     case REQUEST(ACTION_TYPES.FETCH_METRICS):

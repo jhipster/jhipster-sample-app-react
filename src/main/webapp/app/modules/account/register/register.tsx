@@ -5,40 +5,10 @@ import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { Row, Col, Alert, Button } from 'reactstrap';
 
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
+import { IRootState } from 'app/shared/reducers';
 import { handleRegister, reset } from './register.reducer';
 
-export const mainErrorMessages = {
-  failed: (
-    <Translate contentKey="register.messages.error.fail">
-      <span>
-        <strong>Registration failed!</strong> Please try again later.
-      </span>
-    </Translate>
-  ),
-  userexists: (
-    <Translate contentKey="register.messages.error.userexists">
-      <span>
-        <strong>Login name already registered!</strong> Please choose another one.
-      </span>
-    </Translate>
-  ),
-  emailexists: (
-    <Translate contentKey="register.messages.error.emailexists">
-      <span>
-        <strong>Email is already in use!</strong> Please choose another one.
-      </span>
-    </Translate>
-  )
-};
-
-export interface IRegisterProps {
-  handleRegister: Function;
-  reset: Function;
-  registrationSuccess: boolean;
-  registrationFailure: boolean;
-  errorMessage: string;
-  currentLocale: string;
-}
+export interface IRegisterProps extends StateProps, DispatchProps {}
 
 export interface IRegisterState {
   password: string;
@@ -63,37 +33,13 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
   };
 
   render() {
-    const { registrationSuccess, registrationFailure, errorMessage } = this.props;
-    let alertMessage = null;
-
-    if (registrationFailure) {
-      alertMessage = (
-        <Alert color="danger">{mainErrorMessages[errorMessage] ? mainErrorMessages[errorMessage] : mainErrorMessages.failed}</Alert>
-      );
-    } else {
-      if (registrationSuccess) {
-        alertMessage = (
-          <Alert color="success">
-            <Translate contentKey="register.messages.success">
-              <span>
-                <strong>Registration saved!</strong> Please check your email for confirmation.
-              </span>
-            </Translate>
-          </Alert>
-        );
-      } else {
-        alertMessage = null;
-      }
-    }
-
     return (
       <div>
         <Row className="justify-content-center">
           <Col md="8">
-            <h1>
+            <h1 id="register-title">
               <Translate contentKey="register.title">Registration</Translate>
             </h1>
-            {alertMessage}
           </Col>
         </Row>
         <Row className="justify-content-center">
@@ -156,7 +102,7 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
                 <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
               </span>
               <a className="alert-link">
-                <Translate contentKey="global.messages.info.authenticated.link">sign in </Translate>
+                <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
               </a>
               <span>
                 <Translate contentKey="global.messages.info.authenticated.suffix">
@@ -173,13 +119,12 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
   }
 }
 
-const mapStateToProps = ({ register, locale }) => ({
-  registrationSuccess: register.registrationSuccess,
-  registrationFailure: register.registrationFailure,
-  errorMessage: register.errorMessage,
+const mapStateToProps = ({ locale }: IRootState) => ({
   currentLocale: locale.currentLocale
 });
 
 const mapDispatchToProps = { handleRegister, reset };
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);

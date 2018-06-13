@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { translate } from 'react-jhipster';
 
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { getSession } from 'app/shared/reducers/authentication';
@@ -15,8 +16,10 @@ const initialState = {
   updateFailure: false
 };
 
+export type SettingsState = Readonly<typeof initialState>;
+
 // Reducer
-export default (state = initialState, action) => {
+export default (state: SettingsState = initialState, action): SettingsState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.UPDATE_ACCOUNT):
       return {
@@ -54,7 +57,10 @@ const apiUrl = '/api/account';
 export const saveAccountSettings = account => async dispatch => {
   await dispatch({
     type: ACTION_TYPES.UPDATE_ACCOUNT,
-    payload: axios.post(apiUrl, account)
+    payload: axios.post(apiUrl, account),
+    meta: {
+      successMessage: translate('settings.messages.success')
+    }
   });
   dispatch(getSession());
 };

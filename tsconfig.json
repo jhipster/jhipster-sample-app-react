@@ -10,11 +10,13 @@
     "removeComments": false,
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
     "outDir": "target/www/app",
     "lib": ["es2015", "es2017", "dom"],
     "typeRoots": [
       "node_modules/@types"
     ],
+    "types": ["webpack-env"],
     "allowJs": true,
     "checkJs": false,
     "baseUrl": "./",
@@ -25,8 +27,7 @@
   },
   "include": [
     "src/main/webapp/app/typing.d.ts",
-    "src/main/webapp/app/**/*",
-    "src/test/javascript/**/*"
+    "src/main/webapp/app/**/*"
   ],
   "exclude": [
     "node_modules"

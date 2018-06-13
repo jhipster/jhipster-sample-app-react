@@ -6,34 +6,18 @@ import { Translate } from 'react-jhipster';
 import { connect } from 'react-redux';
 import { Row, Col, Alert } from 'reactstrap';
 
+import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
 
-export interface IHomeProp {
-  account: any;
-  getSession: Function;
-}
+export interface IHomeProp extends StateProps, DispatchProps {}
 
-export interface IHomeState {
-  currentUser: any;
-}
-
-export class Home extends React.Component<IHomeProp, IHomeState> {
-  state: IHomeState = {
-    currentUser: this.props.account
-  };
-
-  componentWillMount() {
+export class Home extends React.Component<IHomeProp> {
+  componentDidMount() {
     this.props.getSession();
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      currentUser: nextProps.account
-    });
-  }
-
   render() {
-    const { currentUser } = this.state;
+    const { account } = this.props;
     return (
       <Row>
         <Col md="9">
@@ -43,11 +27,11 @@ export class Home extends React.Component<IHomeProp, IHomeState> {
           <p className="lead">
             <Translate contentKey="home.subtitle">This is your homepage</Translate>
           </p>
-          {currentUser && currentUser.login ? (
+          {account && account.login ? (
             <div>
               <Alert color="success">
-                <Translate contentKey="home.logged.message" interpolate={{ username: currentUser.login }}>
-                  You are logged in as user {currentUser.login}.
+                <Translate contentKey="home.logged.message" interpolate={{ username: account.login }}>
+                  You are logged in as user {account.login}.
                 </Translate>
               </Alert>
             </div>
@@ -56,7 +40,7 @@ export class Home extends React.Component<IHomeProp, IHomeState> {
               <Alert color="warning">
                 <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
                 <Link to="/login" className="alert-link">
-                  <Translate contentKey="global.messages.info.authenticated.link">sign in</Translate>
+                  <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
                 </Link>
                 <Translate contentKey="global.messages.info.authenticated.suffix">
                   , you can try the default accounts:
@@ -126,5 +110,8 @@ const mapStateToProps = storeState => ({
 });
 
 const mapDispatchToProps = { getSession };
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

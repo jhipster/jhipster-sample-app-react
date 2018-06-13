@@ -3,49 +3,13 @@ import { connect } from 'react-redux';
 import { Alert, Col, Row, Button } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { Translate, translate } from 'react-jhipster';
-import { Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
+import { IRootState } from 'app/shared/reducers';
 import { handlePasswordResetFinish, reset } from '../password-reset.reducer';
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 
-const actionRequiredAlert = (
-  <Alert color="warning">
-    <Translate contentKey="reset.finish.messages.info">Choose a new password</Translate>
-  </Alert>
-);
-
-const successAlert = (
-  <Alert color="success">
-    <Translate contentKey="reset.finish.messages.success">
-      <strong>Your password has been reset.</strong> Please{' '}
-    </Translate>{' '}
-    <Link className="alert-link" to="/login">
-      <Translate contentKey="global.messages.info.authenticated.link">sign in</Translate>
-    </Link>.
-  </Alert>
-);
-
-const errorAlert = (
-  <Alert color="danger">
-    <Translate contentKey="reset.finish.messages.error">
-      Your password couldn't be reset. Remember a password request is only valid for 24 hours.
-    </Translate>
-  </Alert>
-);
-
-const missingArgAlert = (
-  <Alert color="danger">
-    <Translate contentKey="reset.finish.messages.keymissing">The reset key is missing.</Translate>
-  </Alert>
-);
-
-export interface IPasswordResetFinishProps {
-  resetPasswordSuccess: boolean;
-  resetPasswordFailure: boolean;
-  handlePasswordResetFinish: Function;
-  reset: Function;
-  match: any;
-}
+export interface IPasswordResetFinishProps extends DispatchProps, RouteComponentProps<{ key: string }> {}
 
 export interface IPasswordResetFinishState {
   password: string;
@@ -107,7 +71,6 @@ export class PasswordResetFinishPage extends React.Component<IPasswordResetFinis
 
   render() {
     const { key } = this.state;
-    const { resetPasswordSuccess, resetPasswordFailure } = this.props;
 
     return (
       <div>
@@ -116,10 +79,6 @@ export class PasswordResetFinishPage extends React.Component<IPasswordResetFinis
             <h1>
               <Translate contentKey="reset.finish.title">Reset password</Translate>
             </h1>
-            {key ? actionRequiredAlert : null}
-            {!resetPasswordSuccess && !resetPasswordFailure && !key ? missingArgAlert : null}
-            {resetPasswordSuccess ? successAlert : null}
-            {resetPasswordFailure ? errorAlert : null}
             <div>{key ? this.getResetForm() : null}</div>
           </Col>
         </Row>
@@ -128,11 +87,8 @@ export class PasswordResetFinishPage extends React.Component<IPasswordResetFinis
   }
 }
 
-const mapStateToProps = ({ passwordReset }) => ({
-  resetPasswordSuccess: passwordReset.resetPasswordSuccess,
-  resetPasswordFailure: passwordReset.resetPasswordFailure
-});
-
 const mapDispatchToProps = { handlePasswordResetFinish, reset };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PasswordResetFinishPage);
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(null, mapDispatchToProps)(PasswordResetFinishPage);

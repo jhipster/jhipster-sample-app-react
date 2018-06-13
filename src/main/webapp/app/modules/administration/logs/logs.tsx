@@ -3,13 +3,9 @@ import { connect } from 'react-redux';
 import { Translate } from 'react-jhipster';
 
 import { getLoggers, changeLogLevel } from '../administration.reducer';
+import { IRootState } from 'app/shared/reducers';
 
-export interface ILogsPageProps {
-  isFetching?: boolean;
-  getLoggers: Function;
-  changeLogLevel: Function;
-  logs: any;
-}
+export interface ILogsPageProps extends StateProps, DispatchProps {}
 
 export interface ILogsPageState {
   filter: string;
@@ -47,15 +43,15 @@ export class LogsPage extends React.Component<ILogsPageProps, ILogsPageState> {
   render() {
     const { logs, isFetching } = this.props;
     const { filter } = this.state;
-    const loggers = logs ? logs.loggers : {};
+    const loggers = logs ? logs.loggers : [];
     return (
       <div>
-        <h2>
+        <h2 className="logs-page-heading">
           <Translate contentKey="logs.title">Logs</Translate>
         </h2>
         <p>
           <Translate contentKey="logs.nbloggers" interpolate={{ total: loggers.length }}>
-            There are {loggers.length} loggers.
+            There are {loggers.length.toString()} loggers.
           </Translate>
         </p>
 
@@ -138,11 +134,14 @@ export class LogsPage extends React.Component<ILogsPageProps, ILogsPageState> {
   }
 }
 
-const mapStateToProps = ({ administration }) => ({
+const mapStateToProps = ({ administration }: IRootState) => ({
   logs: administration.logs,
-  isFetching: administration.isFetching
+  isFetching: administration.loading
 });
 
 const mapDispatchToProps = { getLoggers, changeLogLevel };
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogsPage);

@@ -12,8 +12,10 @@ const initialState = {
   activationFailure: false
 };
 
+export type ActivateState = Readonly<typeof initialState>;
+
 // Reducer
-export default (state = initialState, action) => {
+export default (state: ActivateState = initialState, action): ActivateState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.ACTIVATE_ACCOUNT):
       return {

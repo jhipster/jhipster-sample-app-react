@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 import * as sinon from 'sinon';
@@ -12,7 +11,7 @@ describe('Password reducer tests', () => {
   describe('Common tests', () => {
     it('should return the initial state', () => {
       const toTest = password(undefined, {});
-      expect(toTest).to.contain({
+      expect(toTest).toMatchObject({
         loading: false,
         errorMessage: null,
         updateSuccess: false,
@@ -24,7 +23,7 @@ describe('Password reducer tests', () => {
   describe('Password update', () => {
     it('should detect a request', () => {
       const toTest = password(undefined, { type: REQUEST(ACTION_TYPES.UPDATE_PASSWORD) });
-      expect(toTest).to.contain({
+      expect(toTest).toMatchObject({
         updateSuccess: false,
         updateFailure: false,
         loading: true
@@ -32,7 +31,7 @@ describe('Password reducer tests', () => {
     });
     it('should detect a success', () => {
       const toTest = password(undefined, { type: SUCCESS(ACTION_TYPES.UPDATE_PASSWORD) });
-      expect(toTest).to.contain({
+      expect(toTest).toMatchObject({
         updateSuccess: true,
         updateFailure: false,
         loading: false
@@ -40,7 +39,7 @@ describe('Password reducer tests', () => {
     });
     it('should detect a failure', () => {
       const toTest = password(undefined, { type: FAILURE(ACTION_TYPES.UPDATE_PASSWORD) });
-      expect(toTest).to.contain({
+      expect(toTest).toMatchObject({
         updateSuccess: false,
         updateFailure: true,
         loading: false
@@ -75,7 +74,7 @@ describe('Password reducer tests', () => {
           meta
         }
       ];
-      await store.dispatch(savePassword('', '')).then(() => expect(store.getActions()).to.eql(expectedActions));
+      await store.dispatch(savePassword('', '')).then(() => expect(store.getActions()).toEqual(expectedActions));
     });
   });
 });
