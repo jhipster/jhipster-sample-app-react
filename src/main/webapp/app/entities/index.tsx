@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { Switch } from 'react-router-dom';
+
 // tslint:disable-next-line:no-unused-variable
-import { Route, Switch } from 'react-router-dom';
+import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
