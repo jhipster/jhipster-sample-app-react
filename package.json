@@ -70,7 +70,7 @@
     "husky": "0.14.3",
     "image-webpack-loader": "4.2.0",
     "jest": "22.4.4",
-    "jest-junit": "5.0.0",
+    "jest-sonar-reporter": "2.0.0",
     "chai-as-promised": "7.1.1",
     "json-loader": "0.5.7",
     "lint-staged": "7.0.1",
@@ -139,5 +139,9 @@
     "webpack:test": "yarn run test",
     "webpack-dev-server": "node --max_old_space_size=4096 node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "webpack": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js"
+  },
+  "jestSonar": {
+    "reportPath": "target/test-results/jest",
+    "reportFile": "TESTS-results.xml"
   }
 }
