@@ -25,7 +25,7 @@ describe('private-route component', () => {
     const error = comp.find('div.insufficient-authority');
     expect(error.length).toEqual(1);
     expect(error.find('.alert-danger').html()).toEqual(
-      '<div class="alert alert-danger"><span>translation-not-found[error.http.403]</span></div>'
+      '<div class="alert alert-danger"><span>You are not authorized to access this page.</span></div>'
     );
   });
 

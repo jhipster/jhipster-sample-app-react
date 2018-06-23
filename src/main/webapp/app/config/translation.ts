@@ -1,37 +1,28 @@
-/* global: require*/
+import axios from 'axios';
 import { TranslatorContext, Storage } from 'react-jhipster';
-import { merge } from 'lodash';
 
 import { setLocale } from 'app/shared/reducers/locale';
 
-const mergeTranslations = requireContext =>
-  requireContext.keys().reduce((merged, key) => merge({ ...merged }, { ...requireContext(key) }), {});
-
-// tslint:disable:object-literal-key-quotes
-const translations = {
-  en: mergeTranslations(require.context('../../i18n/en', false, /.json$/))
-};
-// tslint:enable
+export const locales = ['en'];
 
 let currentLocale;
 const savedLocale = Storage.session.get('locale', 'en');
 TranslatorContext.setDefaultLocale('en');
 TranslatorContext.setRenderInnerTextForMissingKeys(false);
 
-export const locales = Object.keys(translations);
-
 export const registerLocales = store => {
-  locales.forEach(key => {
-    TranslatorContext.registerTranslations(key, translations[key]);
+  locales.forEach(locale => {
+    axios.get(`/i18n/${locale}.json`).then(response => {
+      TranslatorContext.registerTranslations(locale, response.data);
+    });
   });
   store.subscribe(() => {
     const previousLocale = currentLocale;
     currentLocale = store.getState().locale.currentLocale;
     if (previousLocale !== currentLocale) {
-      Storage.local.set('locale', currentLocale);
+      Storage.session.set('locale', currentLocale);
       TranslatorContext.setLocale(currentLocale);
     }
   });
   store.dispatch(setLocale(savedLocale));
-  return savedLocale;
 };
