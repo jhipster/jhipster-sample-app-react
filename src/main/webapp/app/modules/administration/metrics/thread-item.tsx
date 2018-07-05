@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Collapse, Card, CardBody, Row } from 'reactstrap';
 
 export interface IThreadItemProps {

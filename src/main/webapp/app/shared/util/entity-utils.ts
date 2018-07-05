@@ -1,4 +1,4 @@
-import { pick } from 'lodash';
+import pick from 'lodash/pick';
 
 /**
  * Removes fields with an 'id' field that equals ''.

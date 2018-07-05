@@ -1,12 +1,12 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { AppContainer } from 'react-hot-loader';
 
 import DevTools from './config/devtools';
 import initStore from './config/store';
-import { registerLocales } from './config/translation';
+import { registerLocale } from './config/translation';
 import setupAxiosInterceptors from './config/axios-interceptor';
 import { clearAuthentication } from './shared/reducers/authentication';
 import ErrorBoundary from './shared/error/error-boundary';
@@ -16,7 +16,7 @@ import { loadIcons } from './config/icon-loader';
 const devTools = process.env.NODE_ENV === 'development' ? <DevTools /> : null;
 
 const store = initStore();
-registerLocales(store);
+registerLocale(store);
 
 const actions = bindActionCreators({ clearAuthentication }, store.dispatch);
 setupAxiosInterceptors(() => actions.clearAuthentication('login.error.unauthorized'));

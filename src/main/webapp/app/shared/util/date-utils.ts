@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 
 import { APP_LOCAL_DATETIME_FORMAT } from 'app/config/constants';
 

@@ -71,10 +71,22 @@ module.exports = options => ({
   stats: {
     children: false
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: `'${options.env}'`,
+        BUILD_TIMESTAMP: `'${new Date().getTime()}'`,
         VERSION: `'${utils.parseVersion()}'`,
         DEBUG_INFO_ENABLED: options.env === 'development',
         // The root URL for API calls, ending with a '/' - for example: `"https://www.jhipster.tech:8081/myservice/"`.
@@ -90,7 +102,7 @@ module.exports = options => ({
       { from: './node_modules/swagger-ui/dist/lib', to: 'swagger-ui/dist/lib' },
       { from: './node_modules/swagger-ui/dist/swagger-ui.min.js', to: 'swagger-ui/dist/swagger-ui.min.js' },
       { from: './src/main/webapp//swagger-ui/', to: 'swagger-ui' },
-      { from: './src/main/webapp/static/', to: 'static' },
+      { from: './src/main/webapp/static/', to: 'content' },
       { from: './src/main/webapp/favicon.ico', to: 'favicon.ico' },
       { from: './src/main/webapp/manifest.webapp', to: 'manifest.webapp' },
       // jhipster-needle-add-assets-to-webpack - JHipster will add/remove third-party resources in this array

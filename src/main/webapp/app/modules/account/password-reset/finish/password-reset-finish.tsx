@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col, Row, Button } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
@@ -91,4 +91,7 @@ const mapDispatchToProps = { handlePasswordResetFinish, reset };
 
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(null, mapDispatchToProps)(PasswordResetFinishPage);
+export default connect(
+  null,
+  mapDispatchToProps
+)(PasswordResetFinishPage);

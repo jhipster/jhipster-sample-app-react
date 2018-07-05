@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Translate, translate } from 'react-jhipster';
 import { connect } from 'react-redux';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
@@ -127,4 +127,7 @@ const mapDispatchToProps = { handleRegister, reset };
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RegisterPage);

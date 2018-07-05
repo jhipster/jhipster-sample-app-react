@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
@@ -33,4 +33,7 @@ const mapDispatchToProps = { logout };
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Logout);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Logout);

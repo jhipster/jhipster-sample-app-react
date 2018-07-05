@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Button, Col, Alert, Row } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Translate, translate } from 'react-jhipster';
@@ -125,4 +125,7 @@ const mapDispatchToProps = { getSession, saveAccountSettings, reset };
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsPage);

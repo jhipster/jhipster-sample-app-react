@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Badge } from 'reactstrap';
 import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_DATE_FORMAT } from 'app/config/constants';
 import { IUser } from 'app/shared/model/user.model';
@@ -113,4 +113,7 @@ const mapDispatchToProps = { getUser };
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserManagementDetail);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserManagementDetail);

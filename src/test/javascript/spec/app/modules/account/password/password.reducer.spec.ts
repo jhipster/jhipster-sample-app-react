@@ -1,6 +1,6 @@
 import thunk from 'redux-thunk';
 import axios from 'axios';
-import * as sinon from 'sinon';
+import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
 import promiseMiddleware from 'redux-promise-middleware';
 

@@ -1,8 +1,9 @@
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const path = require('path');
 
@@ -10,18 +11,17 @@ const utils = require('./utils.js');
 const commonConfig = require('./webpack.common.js');
 
 const ENV = 'production';
-const extractCSS = new ExtractTextPlugin(`content/[name].[hash].css`);
 
 module.exports = webpackMerge(commonConfig({ env: ENV }), {
   // devtool: 'source-map', // Enable source maps. Please note that this will slow down the build
-  mode: 'production',
+  mode: ENV,
   entry: {
     main: './src/main/webapp/app/index'
   },
   output: {
     path: utils.root('target/www'),
     filename: 'app/[name].[hash].bundle.js',
-    chunkFilename: 'app/[id].[hash].chunk.js'
+    chunkFilename: 'app/[name].[hash].chunk.js'
   },
   module: {
     rules: [
@@ -32,25 +32,20 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
       },
       {
         test: /\.css$/,
-        use: extractCSS.extract({
-          fallback: 'style-loader',
-          use: ['css-loader'],
-          publicPath: '../'
-        })
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../'
+            }
+          },
+          'css-loader'
+        ]
       }
     ]
   },
   optimization: {
     runtimeChunk: false,
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all'
-        }
-      }
-    },
     minimizer: [
       new UglifyJsPlugin({
         cache: true,
@@ -66,11 +61,16 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
             keep_fnames: true
           }
         }
-      })
+      }),
+      new OptimizeCSSAssetsPlugin({})
     ]
   },
   plugins: [
-    extractCSS,
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      filename: 'content/[name].[hash].css',
+      chunkFilename: 'content/[name].[hash].css'
+    }),
     new MomentLocalesPlugin({
       localesToKeep: [
         'en'

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
 const formatDiskSpaceOutput = rawValue => {

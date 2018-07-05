@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import UserManagement from './user-management';

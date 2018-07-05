@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import { shallow } from 'enzyme';
 
-import * as sinon from 'sinon';
+import sinon from 'sinon';
 
 import LoadingBar from 'react-redux-loading-bar';
 import { Navbar, Nav } from 'reactstrap';

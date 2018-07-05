@@ -1,6 +1,7 @@
+import 'react-toastify/dist/ReactToastify.css';
 import './app.css';
 
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Card } from 'reactstrap';
 import { HashRouter as Router } from 'react-router-dom';
@@ -70,4 +71,7 @@ const mapDispatchToProps = { setLocale, getSession, getProfile };
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
