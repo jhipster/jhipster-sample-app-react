@@ -23,7 +23,7 @@
     "react-addons-transition-group": "16.0.0-alpha.3",
     "react-dom": "16.4.1",
     "react-hot-loader": "3.1.1",
-    "react-jhipster": "0.5.3",
+    "react-jhipster": "0.5.4",
     "react-loadable": "5.4.0",
     "react-redux": "5.0.7",
     "react-redux-loading-bar": "4.0.5",
@@ -66,13 +66,14 @@
     "file-loader": "1.1.11",
     "fork-ts-checker-webpack-plugin": "0.4.2",
     "friendly-errors-webpack-plugin": "1.7.0",
-    "generator-jhipster": "5.0.2",
+    "generator-jhipster": "5.1.0",
     "html-webpack-plugin": "3.2.0",
     "http-proxy-middleware": "0.18.0",
     "identity-obj-proxy": "3.0.0",
     "husky": "0.14.3",
     "image-webpack-loader": "4.3.1",
     "jest": "23.2.0",
+    "jest-junit": "5.1.0",
     "jest-sonar-reporter": "2.0.0",
     "chai-as-promised": "7.1.1",
     "json-loader": "0.5.7",
@@ -148,6 +149,6 @@
   },
   "jestSonar": {
     "reportPath": "target/test-results/jest",
-    "reportFile": "TESTS-results.xml"
+    "reportFile": "TESTS-results-sonar.xml"
   }
 }

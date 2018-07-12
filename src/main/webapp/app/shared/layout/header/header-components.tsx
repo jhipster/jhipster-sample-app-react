@@ -40,7 +40,7 @@ export const Home = props => (
     <NavLink tag={Link} to="/" className="d-flex align-items-center">
       <FontAwesomeIcon icon="home" />
       <span>
-        <Translate contentKey="global.menu.home" />
+        <Translate contentKey="global.menu.home">Home</Translate>
       </span>
     </NavLink>
   </NavItem>

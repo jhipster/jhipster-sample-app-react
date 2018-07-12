@@ -96,13 +96,13 @@ export const displayAuthError = message => ({ type: ACTION_TYPES.ERROR_MESSAGE, 
 export const getSession = () => dispatch =>
   dispatch({
     type: ACTION_TYPES.GET_SESSION,
-    payload: axios.get('/api/account')
+    payload: axios.get('api/account')
   });
 
 export const login = (username, password, rememberMe = false) => async (dispatch, getState) => {
   const result = await dispatch({
     type: ACTION_TYPES.LOGIN,
-    payload: axios.post('/api/authenticate', { username, password, rememberMe })
+    payload: axios.post('api/authenticate', { username, password, rememberMe })
   });
   const bearerToken = result.value.headers.authorization;
   if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {

@@ -3,12 +3,18 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MergeJsonWebpackPlugin = require('merge-jsons-webpack-plugin');
+const path = require('path');
 
 const utils = require('./utils.js');
 
 const getTsLoaderRule = env => {
   const rules = [
-    { loader: 'cache-loader' },
+    {
+      loader: 'cache-loader',
+      options: {
+        cacheDirectory: path.resolve('target/cache-loader')
+      }
+    },
     {
         loader: 'thread-loader',
         options: {
