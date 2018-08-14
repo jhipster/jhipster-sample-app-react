@@ -87,16 +87,6 @@
                     window.swaggerUi.api.clientAuthorizations.add("bearer", apiKeyAuth);
                 }
 
-                function getCSRF() {
-                    var name = "XSRF-TOKEN=";
-                    var ca = document.cookie.split(';');
-                    for(var i=0; i<ca.length; i++) {
-                        var c = ca[i];
-                        while (c.charAt(0)==' ') c = c.substring(1);
-                        if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
-                    }
-                    return "";
-                }
 
                 function log() {
                     if ('console' in window) {
@@ -115,7 +105,7 @@
                     var security = {};
                     window.springfox.securityConfig(function(data) {
                         security = data;
-                        if (typeof initOAuth == "function" && oAuthIsDefined(security)) {
+                        if (typeof initOAuth === "function" && oAuthIsDefined(security)) {
                             initOAuth(security);
                         }
                     });

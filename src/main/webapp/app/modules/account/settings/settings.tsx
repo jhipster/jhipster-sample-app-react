@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Translate, translate } from 'react-jhipster';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 
-import { locales } from 'app/config/translation';
+import { locales, languages } from 'app/config/translation';
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
 import { saveAccountSettings, reset } from './settings.reducer';
@@ -97,10 +97,9 @@ export class SettingsPage extends React.Component<IUserSettingsProps, IUserSetti
                 label={translate('settings.form.language')}
                 value={account.langKey}
               >
-                {/* TODO: Add findLanguageFromKey translation to options */}
-                {locales.map(lang => (
-                  <option value={lang} key={lang}>
-                    {lang}
+                {locales.map(locale => (
+                  <option value={locale} key={locale}>
+                    {languages[locale].name}
                   </option>
                 ))}
               </AvField>

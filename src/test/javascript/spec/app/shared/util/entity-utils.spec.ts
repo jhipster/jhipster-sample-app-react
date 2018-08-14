@@ -1,4 +1,4 @@
-import { cleanEntity } from 'app/shared/util/entity-utils';
+import { cleanEntity, mapIdList } from 'app/shared/util/entity-utils';
 
 describe('Entity utils', () => {
   describe('cleanEntity', () => {
@@ -37,6 +37,20 @@ describe('Entity utils', () => {
       };
 
       expect(cleanEntity({ ...entity })).toEqual(entity);
+    });
+  });
+
+  describe('mapIdList', () => {
+    it("should map ids no matter the element's type", () => {
+      const ids = ['jhipster', '', 1, { key: 'value' }];
+
+      expect(mapIdList(ids)).toEqual([{ id: 'jhipster' }, { id: 1 }, { id: { key: 'value' } }]);
+    });
+
+    it('should return an empty array', () => {
+      const ids = [];
+
+      expect(mapIdList(ids)).toEqual([]);
     });
   });
 });

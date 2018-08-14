@@ -2,10 +2,19 @@ import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util'
 import thunk from 'redux-thunk';
 import axios from 'axios';
 import sinon from 'sinon';
+import { Storage } from 'react-jhipster';
 import configureStore from 'redux-mock-store';
 import promiseMiddleware from 'redux-promise-middleware';
 
-import authentication, { ACTION_TYPES, getSession, login } from 'app/shared/reducers/authentication';
+import authentication, {
+  ACTION_TYPES,
+  getSession,
+  login,
+  clearAuthentication,
+  logout,
+  clearAuthToken
+} from 'app/shared/reducers/authentication';
+import { ACTION_TYPES as localeActionTypes } from 'app/shared/reducers/locale';
 
 describe('Authentication reducer tests', () => {
   function isAccountEmpty(state): boolean {
@@ -145,7 +154,7 @@ describe('Authentication reducer tests', () => {
     const resolvedObject = { value: 'whatever' };
     beforeEach(() => {
       const mockStore = configureStore([thunk, promiseMiddleware()]);
-      store = mockStore({});
+      store = mockStore({ authentication: { account: { langKey: 'en' } } });
       axios.get = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
 
@@ -160,6 +169,89 @@ describe('Authentication reducer tests', () => {
         }
       ];
       await store.dispatch(getSession()).then(() => expect(store.getActions()).toEqual(expectedActions));
+    });
+
+    it('dispatches LOGOUT actions', async () => {
+      const expectedActions = [
+        {
+          type: ACTION_TYPES.LOGOUT
+        }
+      ];
+      await store.dispatch(logout());
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    it('dispatches CLEAR_AUTH actions', async () => {
+      const expectedActions = [
+        {
+          message: 'message',
+          type: ACTION_TYPES.ERROR_MESSAGE
+        },
+        {
+          type: ACTION_TYPES.CLEAR_AUTH
+        }
+      ];
+      await store.dispatch(clearAuthentication('message'));
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    it('dispatches LOGIN, GET_SESSION and SET_LOCALE success and request actions', async () => {
+      const loginResponse = { headers: { authorization: 'auth' } };
+      axios.post = sinon.stub().returns(Promise.resolve(loginResponse));
+      const expectedActions = [
+        {
+          type: REQUEST(ACTION_TYPES.LOGIN)
+        },
+        {
+          type: SUCCESS(ACTION_TYPES.LOGIN),
+          payload: loginResponse
+        },
+        {
+          type: REQUEST(ACTION_TYPES.GET_SESSION)
+        },
+        {
+          type: SUCCESS(ACTION_TYPES.GET_SESSION),
+          payload: resolvedObject
+        },
+        {
+          type: localeActionTypes.SET_LOCALE,
+          locale: 'en'
+        }
+      ];
+      await store.dispatch(login()).then(() => expect(store.getActions()).toEqual(expectedActions));
+    });
+  });
+  describe('clearAuthToken', () => {
+    let store;
+    beforeEach(() => {
+      const mockStore = configureStore([thunk, promiseMiddleware()]);
+      store = mockStore({ authentication: { account: { langKey: 'en' } } });
+    });
+    it('clears the session token on clearAuthToken', async () => {
+      const AUTH_TOKEN_KEY = 'jhi-authenticationToken';
+      const loginResponse = { headers: { authorization: 'Bearer TestToken' } };
+      axios.post = sinon.stub().returns(Promise.resolve(loginResponse));
+
+      await store.dispatch(login()).then(() => {
+        expect(Storage.session.get(AUTH_TOKEN_KEY)).toBe('TestToken');
+        expect(Storage.local.get(AUTH_TOKEN_KEY)).toBe(undefined);
+        clearAuthToken();
+        expect(Storage.session.get(AUTH_TOKEN_KEY)).toBe(undefined);
+        expect(Storage.local.get(AUTH_TOKEN_KEY)).toBe(undefined);
+      });
+    });
+    it('clears the local storage token on clearAuthToken', async () => {
+      const AUTH_TOKEN_KEY = 'jhi-authenticationToken';
+      const loginResponse = { headers: { authorization: 'Bearer TestToken' } };
+      axios.post = sinon.stub().returns(Promise.resolve(loginResponse));
+
+      await store.dispatch(login('user', 'user', true)).then(() => {
+        expect(Storage.session.get(AUTH_TOKEN_KEY)).toBe(undefined);
+        expect(Storage.local.get(AUTH_TOKEN_KEY)).toBe('TestToken');
+        clearAuthToken();
+        expect(Storage.session.get(AUTH_TOKEN_KEY)).toBe(undefined);
+        expect(Storage.local.get(AUTH_TOKEN_KEY)).toBe(undefined);
+      });
     });
   });
 });

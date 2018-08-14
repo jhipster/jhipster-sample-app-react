@@ -3,6 +3,7 @@ import { translate } from 'react-jhipster';
 
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { getSession } from 'app/shared/reducers/authentication';
+import { setLocale } from 'app/shared/reducers/locale';
 
 export const ACTION_TYPES = {
   UPDATE_ACCOUNT: 'account/UPDATE_ACCOUNT',
@@ -54,7 +55,7 @@ export default (state: SettingsState = initialState, action): SettingsState => {
 // Actions
 const apiUrl = 'api/account';
 
-export const saveAccountSettings = account => async dispatch => {
+export const saveAccountSettings = account => async (dispatch, getState) => {
   await dispatch({
     type: ACTION_TYPES.UPDATE_ACCOUNT,
     payload: axios.post(apiUrl, account),
@@ -62,7 +63,12 @@ export const saveAccountSettings = account => async dispatch => {
       successMessage: translate('settings.messages.success')
     }
   });
-  dispatch(getSession());
+  await dispatch(getSession());
+
+  const accountState = getState().authentication.account;
+  if (accountState && accountState.langKey) {
+    dispatch(setLocale(accountState.langKey));
+  }
 };
 
 export const reset = () => ({

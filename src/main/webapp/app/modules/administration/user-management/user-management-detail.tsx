@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Badge } from 'reactstrap';
-import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
+import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_DATE_FORMAT } from 'app/config/constants';
-import { IUser } from 'app/shared/model/user.model';
+import { languages } from 'app/config/translation';
 import { getUser } from './user-management.reducer';
 import { IRootState } from 'app/shared/reducers';
 
@@ -56,7 +56,7 @@ export class UserManagementDetail extends React.Component<IUserManagementDetailP
             <dt>
               <Translate contentKey="userManagement.langKey">Lang Key</Translate>
             </dt>
-            <dd>{user.langKey}</dd>
+            <dd>{user.langKey ? languages[user.langKey].name : undefined}</dd>
             <dt>
               <Translate contentKey="userManagement.createdBy">Created By</Translate>
             </dt>
