@@ -22,7 +22,8 @@ const initialState = {
   showModalLogin: false,
   account: {} as any,
   errorMessage: null as string, // Errors returned from server side
-  redirectMessage: null as string
+  redirectMessage: null as string,
+  sessionHasBeenFetched: false
 };
 
 export type AuthenticationState = Readonly<typeof initialState>;
@@ -49,6 +50,7 @@ export default (state: AuthenticationState = initialState, action): Authenticati
         ...state,
         loading: false,
         isAuthenticated: false,
+        sessionHasBeenFetched: true,
         showModalLogin: true,
         errorMessage: action.payload
       };
@@ -71,6 +73,7 @@ export default (state: AuthenticationState = initialState, action): Authenticati
         ...state,
         isAuthenticated,
         loading: false,
+        sessionHasBeenFetched: true,
         account: action.payload.data
       };
     }
@@ -118,7 +121,7 @@ export const login = (username, password, rememberMe = false) => async (dispatch
 
   const account = getState().authentication.account;
   if (account && account.langKey) {
-    dispatch(setLocale(account.langKey));
+    await dispatch(setLocale(account.langKey));
   }
 };
 

@@ -100,8 +100,7 @@ export default (state: UserManagementState = initialState, action): UserManageme
       };
     case ACTION_TYPES.RESET:
       return {
-        ...state,
-        user: {}
+        ...initialState
       };
     default:
       return state;

@@ -50,7 +50,7 @@ describe('Activate reducer tests', () => {
     };
     expect(
       activate(
-        { data: { id: 1 } },
+        { activationSuccess: true, activationFailure: true },
         {
           type: ACTION_TYPES.RESET
         }

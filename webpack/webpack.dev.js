@@ -28,7 +28,7 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
     rules: [
       {
         test: /\.css$/,
-        loaders: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader']
       }
     ]
   },
@@ -56,7 +56,7 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
   },
   plugins: [
     new SimpleProgressWebpackPlugin({
-        format: options.stats === 'minimal' ? 'compact' : 'expanded'
+      format: options.stats === 'minimal' ? 'compact' : 'expanded'
     }),
     new FriendlyErrorsWebpackPlugin(),
     new BrowserSyncPlugin({
@@ -66,7 +66,7 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
         target: 'http://localhost:9060'
       }
     }, {
-        reload: false
+      reload: false
     }),
     new webpack.HotModuleReplacementPlugin(),
     new writeFilePlugin(),

@@ -57,7 +57,7 @@ describe('Settings reducer tests', () => {
       };
       expect(
         account(
-          { data: { id: 1 } },
+          { ...initialState, loading: true },
           {
             type: ACTION_TYPES.RESET
           }

@@ -8,8 +8,7 @@
     ]
   },
   "include": [
-    "src/main/webapp/app/typing.d.ts",
     "src/main/webapp/app/**/*",
-    "src/test/javascript/**/*"
+    "src/test/javascript/e2e/**/*"
   ]
 }

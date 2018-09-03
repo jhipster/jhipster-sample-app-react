@@ -55,7 +55,7 @@ describe('Password reducer tests', () => {
       };
       expect(
         password(
-          { data: { id: 1 } },
+          { ...initialState, loading: true },
           {
             type: ACTION_TYPES.RESET
           }

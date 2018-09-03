@@ -67,7 +67,7 @@ export const saveAccountSettings = account => async (dispatch, getState) => {
 
   const accountState = getState().authentication.account;
   if (accountState && accountState.langKey) {
-    dispatch(setLocale(accountState.langKey));
+    await dispatch(setLocale(accountState.langKey));
   }
 };
 
