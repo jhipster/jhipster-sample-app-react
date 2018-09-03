@@ -1,0 +1,49 @@
+import { ExpectedConditions, ElementFinder, browser, by, element } from 'protractor';
+
+const waitUntilDisplayedTimeout = 30000;
+
+export const checkSelectorExist = (selector: ElementFinder) => selector !== undefined;
+
+/**
+ * @returns Function which resolves to boolean
+ */
+export const isDisplayed = (selector: ElementFinder) => {
+  if (!checkSelectorExist(selector)) return;
+  return ExpectedConditions.visibilityOf(selector);
+};
+
+export const isHidden = (selector: ElementFinder) => {
+  if (!checkSelectorExist(selector)) return;
+  return ExpectedConditions.invisibilityOf(selector);
+};
+
+/**
+ * Wait until this page is displayed.
+ */
+export const waitUntilDisplayed = (selector: ElementFinder, classname = '', timeout = waitUntilDisplayedTimeout) => {
+  if (!checkSelectorExist(selector)) return;
+
+  browser.wait(
+    isDisplayed(selector),
+    timeout,
+    `Failed while waiting for "${selector.locator()}" of Page Object Class '${classname}' to display.`
+  );
+};
+
+export const waitUntilHidden = (selector: ElementFinder, classname = '', timeout = waitUntilDisplayedTimeout) => {
+  if (!checkSelectorExist(selector)) return;
+
+  browser.wait(
+    isHidden(selector),
+    timeout,
+    `Failed while waiting for "${selector.locator()}" of Page Object Class '${classname}' to be hidden.`
+  );
+};
+
+export const getUserDeactivatedButtonByLogin = (login: string): ElementFinder =>
+  element(by.css('table > tbody'))
+    .element(by.id(login))
+    .element(by.buttonText('Deactivated'));
+
+export const getToastByInnerText = (text: string): ElementFinder =>
+  element(by.css('.toastify-container')).element(by.cssContainingText('div[role=alert]', text));
