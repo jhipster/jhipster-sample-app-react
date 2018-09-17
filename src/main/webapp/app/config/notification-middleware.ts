@@ -25,9 +25,9 @@ export default () => next => action => {
         let alert: string = null;
         let alertParams: string = null;
         Object.entries(headers).forEach(([k, v]: [string, string]) => {
-          if (k.endsWith('app-alert')) {
+          if (k.toLowerCase().endsWith('app-alert')) {
             alert = v;
-          } else if (k.endsWith('app-params')) {
+          } else if (k.toLowerCase().endsWith('app-params')) {
             alertParams = v;
           }
         });
@@ -57,9 +57,9 @@ export default () => next => action => {
               let errorHeader = null;
               let entityKey = null;
               headers.forEach(([k, v]: [string, string]) => {
-                if (k.endsWith('app-error')) {
+                if (k.toLowerCase().endsWith('app-error')) {
                   errorHeader = v;
-                } else if (k.endsWith('app-params')) {
+                } else if (k.toLowerCase().endsWith('app-params')) {
                   entityKey = v;
                 }
               });
