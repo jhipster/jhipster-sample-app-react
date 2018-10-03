@@ -46,7 +46,7 @@ export class LogsPage extends React.Component<ILogsPageProps, ILogsPageState> {
     const loggers = logs ? logs.loggers : [];
     return (
       <div>
-        <h2 className="logs-page-heading">
+        <h2 id="logs-page-heading">
           <Translate contentKey="logs.title">Logs</Translate>
         </h2>
         <p>

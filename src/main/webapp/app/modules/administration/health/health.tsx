@@ -57,10 +57,11 @@ export class HealthPage extends React.Component<IHealthPageProps, IHealthPageSta
     const data = (health || {}).details || {};
     return (
       <div>
-        <h2 className="health-page-heading">Health Checks</h2>
+        <h2 id="health-page-heading">Health Checks</h2>
         <p>
           <Button onClick={this.getSystemHealth} color={isFetching ? 'btn btn-danger' : 'btn btn-primary'} disabled={isFetching}>
-            <FontAwesomeIcon icon="sync" />&nbsp;
+            <FontAwesomeIcon icon="sync" />
+            &nbsp;
             <Translate component="span" contentKey="health.refresh.button">
               Refresh
             </Translate>

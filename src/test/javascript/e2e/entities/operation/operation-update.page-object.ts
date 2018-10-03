@@ -14,74 +14,74 @@ export default class OperationUpdatePage {
     return this.pageTitle;
   }
 
-  setDateInput(date) {
-    this.dateInput.sendKeys(date);
+  async setDateInput(date) {
+    await this.dateInput.sendKeys(date);
   }
 
-  getDateInput() {
+  async getDateInput() {
     return this.dateInput.getAttribute('value');
   }
 
-  setDescriptionInput(description) {
-    this.descriptionInput.sendKeys(description);
+  async setDescriptionInput(description) {
+    await this.descriptionInput.sendKeys(description);
   }
 
-  getDescriptionInput() {
+  async getDescriptionInput() {
     return this.descriptionInput.getAttribute('value');
   }
 
-  setAmountInput(amount) {
-    this.amountInput.sendKeys(amount);
+  async setAmountInput(amount) {
+    await this.amountInput.sendKeys(amount);
   }
 
-  getAmountInput() {
+  async getAmountInput() {
     return this.amountInput.getAttribute('value');
   }
 
-  bankAccountSelectLastOption() {
-    this.bankAccountSelect
+  async bankAccountSelectLastOption() {
+    await this.bankAccountSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  bankAccountSelectOption(option) {
-    this.bankAccountSelect.sendKeys(option);
+  async bankAccountSelectOption(option) {
+    await this.bankAccountSelect.sendKeys(option);
   }
 
   getBankAccountSelect() {
     return this.bankAccountSelect;
   }
 
-  getBankAccountSelectedOption() {
+  async getBankAccountSelectedOption() {
     return this.bankAccountSelect.element(by.css('option:checked')).getText();
   }
 
-  labelSelectLastOption() {
-    this.labelSelect
+  async labelSelectLastOption() {
+    await this.labelSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  labelSelectOption(option) {
-    this.labelSelect.sendKeys(option);
+  async labelSelectOption(option) {
+    await this.labelSelect.sendKeys(option);
   }
 
   getLabelSelect() {
     return this.labelSelect;
   }
 
-  getLabelSelectedOption() {
+  async getLabelSelectedOption() {
     return this.labelSelect.element(by.css('option:checked')).getText();
   }
 
-  save() {
-    return this.saveButton.click();
+  async save() {
+    await this.saveButton.click();
   }
 
-  cancel() {
-    this.cancelButton.click();
+  async cancel() {
+    await this.cancelButton.click();
   }
 
   getSaveButton() {

@@ -91,9 +91,8 @@ export class MetricsPage extends React.Component<IMetricsPageProps, IMetricsPage
             <b>Memory</b>
             <p>
               <span>Total Memory</span> (
-              <TextFormat value={metrics.gauges['jvm.memory.total.used'].value / 1048576} type="number" format={APP_WHOLE_NUMBER_FORMAT} />
-              M /{' '}
-              <TextFormat value={metrics.gauges['jvm.memory.total.max'].value / 1048576} type="number" format={APP_WHOLE_NUMBER_FORMAT} />
+              <TextFormat value={metrics.gauges['jvm.memory.total.used'].value / 1048576} type="number" format={APP_WHOLE_NUMBER_FORMAT} />M
+              / <TextFormat value={metrics.gauges['jvm.memory.total.max'].value / 1048576} type="number" format={APP_WHOLE_NUMBER_FORMAT} />
               M)
             </p>
             <Progress
@@ -114,9 +113,8 @@ export class MetricsPage extends React.Component<IMetricsPageProps, IMetricsPage
             </Progress>
             <p>
               <span>Heap Memory</span> (
-              <TextFormat value={metrics.gauges['jvm.memory.heap.used'].value / 1048576} type="number" format={APP_WHOLE_NUMBER_FORMAT} />
-              M /{' '}
-              <TextFormat value={metrics.gauges['jvm.memory.heap.max'].value / 1048576} type="number" format={APP_WHOLE_NUMBER_FORMAT} />
+              <TextFormat value={metrics.gauges['jvm.memory.heap.used'].value / 1048576} type="number" format={APP_WHOLE_NUMBER_FORMAT} />M
+              / <TextFormat value={metrics.gauges['jvm.memory.heap.max'].value / 1048576} type="number" format={APP_WHOLE_NUMBER_FORMAT} />
               M)
             </p>
             <Progress
@@ -268,10 +266,11 @@ export class MetricsPage extends React.Component<IMetricsPageProps, IMetricsPage
     const { servicesStats, cachesStats } = this.getStats(data);
     return (
       <div>
-        <h2 className="metrics-page-heading">Application Metrics</h2>
+        <h2 id="metrics-page-heading">Application Metrics</h2>
         <p>
           <Button onClick={this.getMetrics} color={isFetching ? 'btn btn-danger' : 'btn btn-primary'} disabled={isFetching}>
-            <FontAwesomeIcon icon="sync" />&nbsp;
+            <FontAwesomeIcon icon="sync" />
+            &nbsp;
             <Translate component="span" contentKey="health.refresh.button">
               Refresh
             </Translate>
@@ -558,8 +557,7 @@ export class MetricsPage extends React.Component<IMetricsPageProps, IMetricsPage
                 <thead>
                   <tr>
                     <th>
-                      <span>Usage</span>
-                      ({metrics.gauges['HikariPool-1.pool.ActiveConnections'].value} /{' '}
+                      <span>Usage</span>({metrics.gauges['HikariPool-1.pool.ActiveConnections'].value} /{' '}
                       {metrics.gauges['HikariPool-1.pool.TotalConnections'].value})
                     </th>
                     <th className="text-right">Count</th>

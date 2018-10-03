@@ -10,20 +10,20 @@ export default class LabelUpdatePage {
     return this.pageTitle;
   }
 
-  setLabelInput(label) {
-    this.labelInput.sendKeys(label);
+  async setLabelInput(label) {
+    await this.labelInput.sendKeys(label);
   }
 
-  getLabelInput() {
+  async getLabelInput() {
     return this.labelInput.getAttribute('value');
   }
 
-  save() {
-    return this.saveButton.click();
+  async save() {
+    await this.saveButton.click();
   }
 
-  cancel() {
-    this.cancelButton.click();
+  async cancel() {
+    await this.cancelButton.click();
   }
 
   getSaveButton() {

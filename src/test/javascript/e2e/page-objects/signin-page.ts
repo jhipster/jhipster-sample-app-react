@@ -15,40 +15,42 @@ export default class SignInPage extends BasePage {
     this.selector = selector;
   }
 
-  get() {
-    browser.get('#/login');
-    this.waitUntilDisplayed();
+  async get() {
+    await browser.get('#/login');
+    await this.waitUntilDisplayed();
   }
 
-  getTitle() {
+  async getTitle() {
     return this.title.getAttribute('id');
   }
 
-  setUserName(username: string) {
-    return this.username.sendKeys(username);
+  async setUserName(username: string) {
+    await this.username.sendKeys(username);
   }
 
-  clearUserName() {
-    return this.username.clear();
+  async clearUserName() {
+    await this.username.clear();
   }
 
-  setPassword(password: string) {
-    return this.password.sendKeys(password);
+  async setPassword(password: string) {
+    await this.password.sendKeys(password);
   }
 
-  clearPassword() {
-    return this.password.clear();
+  async clearPassword() {
+    await this.password.clear();
   }
 
-  autoSignInUsing(username: string, password: string) {
-    this.setUserName(username);
-    this.setPassword(password);
-    return this.login();
+  async autoSignInUsing(username: string, password: string) {
+    await this.setUserName(username);
+    await this.setPassword(password);
+    await this.login();
   }
 
-  autoSignOut = () => browser.get('#/logout');
+  async autoSignOut() {
+    await browser.get('#/logout');
+  }
 
-  login() {
-    return this.loginButton.click();
+  async login() {
+    await this.loginButton.click();
   }
 }

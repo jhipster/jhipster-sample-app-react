@@ -12,47 +12,47 @@ export default class BankAccountUpdatePage {
     return this.pageTitle;
   }
 
-  setNameInput(name) {
-    this.nameInput.sendKeys(name);
+  async setNameInput(name) {
+    await this.nameInput.sendKeys(name);
   }
 
-  getNameInput() {
+  async getNameInput() {
     return this.nameInput.getAttribute('value');
   }
 
-  setBalanceInput(balance) {
-    this.balanceInput.sendKeys(balance);
+  async setBalanceInput(balance) {
+    await this.balanceInput.sendKeys(balance);
   }
 
-  getBalanceInput() {
+  async getBalanceInput() {
     return this.balanceInput.getAttribute('value');
   }
 
-  userSelectLastOption() {
-    this.userSelect
+  async userSelectLastOption() {
+    await this.userSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  userSelectOption(option) {
-    this.userSelect.sendKeys(option);
+  async userSelectOption(option) {
+    await this.userSelect.sendKeys(option);
   }
 
   getUserSelect() {
     return this.userSelect;
   }
 
-  getUserSelectedOption() {
+  async getUserSelectedOption() {
     return this.userSelect.element(by.css('option:checked')).getText();
   }
 
-  save() {
-    return this.saveButton.click();
+  async save() {
+    await this.saveButton.click();
   }
 
-  cancel() {
-    this.cancelButton.click();
+  async cancel() {
+    await this.cancelButton.click();
   }
 
   getSaveButton() {

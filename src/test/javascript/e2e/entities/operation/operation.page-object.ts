@@ -7,8 +7,8 @@ export default class OperationComponentsPage {
   deleteButtons = element.all(by.css('div table .btn-danger'));
   title: ElementFinder = element(by.id('operation-heading'));
 
-  clickOnCreateButton() {
-    return this.createButton.click();
+  async clickOnCreateButton() {
+    await this.createButton.click();
   }
 
   async clickOnLastDeleteButton() {
@@ -23,12 +23,12 @@ export default class OperationComponentsPage {
     return this.title;
   }
 
-  waitUntilLoaded() {
-    waitUntilDisplayed(this.deleteButtons.first());
+  async waitUntilLoaded() {
+    await waitUntilDisplayed(this.deleteButtons.first());
   }
 
-  waitUntilDeleteButtonsLength(length) {
-    waitUntilCount(this.deleteButtons, length);
+  async waitUntilDeleteButtonsLength(length) {
+    await waitUntilCount(this.deleteButtons, length);
   }
 }
 

@@ -20,20 +20,20 @@ export const isHidden = (selector: ElementFinder) => {
 /**
  * Wait until this page is displayed.
  */
-export const waitUntilDisplayed = (selector: ElementFinder, classname = '', timeout = waitUntilDisplayedTimeout) => {
+export const waitUntilDisplayed = async (selector: ElementFinder, classname = '', timeout = waitUntilDisplayedTimeout) => {
   if (!checkSelectorExist(selector)) return;
 
-  browser.wait(
+  await browser.wait(
     isDisplayed(selector),
     timeout,
     `Failed while waiting for "${selector.locator()}" of Page Object Class '${classname}' to display.`
   );
 };
 
-export const waitUntilHidden = (selector: ElementFinder, classname = '', timeout = waitUntilDisplayedTimeout) => {
+export const waitUntilHidden = async (selector: ElementFinder, classname = '', timeout = waitUntilDisplayedTimeout) => {
   if (!checkSelectorExist(selector)) return;
 
-  browser.wait(
+  await browser.wait(
     isHidden(selector),
     timeout,
     `Failed while waiting for "${selector.locator()}" of Page Object Class '${classname}' to be hidden.`
@@ -44,13 +44,19 @@ export const waitForCount = (elementArrayFinder: ElementArrayFinder, expectedCou
   return elementArrayFinder.count().then(actualCount => expectedCount === actualCount);
 };
 
-export const waitUntilCount = (elementArrayFinder: ElementArrayFinder, expectedCount: number, timeout = waitUntilDisplayedTimeout) => {
-  browser.wait(
+export const waitUntilCount = async (
+  elementArrayFinder: ElementArrayFinder,
+  expectedCount: number,
+  timeout = waitUntilDisplayedTimeout
+) => {
+  await browser.wait(
     waitForCount(elementArrayFinder, expectedCount),
     timeout,
     `Failed while waiting for "${elementArrayFinder.locator()}" to have ${expectedCount} elements.`
   );
 };
+
+export const getModifiedDateSortButton = (): ElementFinder => element(by.id('modified-date-sort'));
 
 export const getUserDeactivatedButtonByLogin = (login: string): ElementFinder =>
   element(by.css('table > tbody'))

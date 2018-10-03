@@ -10,82 +10,78 @@ const selector: ElementFinder = $('#app-header');
 export default class NavBarPage extends BasePage {
   selector: ElementFinder;
   signInPage: SignInPage;
-  adminMenu: ElementFinder;
+  adminMenu: ElementFinder = this.selector.$('#admin-menu');
   accountMenu: ElementFinder = this.selector.$('#account-menu');
   entityMenu: ElementFinder = this.selector.$('#entity-menu');
 
-  constructor(asAdmin?: Boolean) {
+  constructor() {
     super(selector);
     this.selector = selector;
-    if (asAdmin) {
-      this.adminMenu = this.selector.$('#admin-menu');
-    }
     this.signInPage = new SignInPage();
   }
 
-  getPasswordPage() {
-    this.clickOnAccountMenuItem('password');
+  async getPasswordPage() {
+    await this.clickOnAccountMenuItem('password');
     return new PasswordPage();
   }
 
-  getSettingsPage() {
-    this.clickOnAccountMenuItem('settings');
+  async getSettingsPage() {
+    await this.clickOnAccountMenuItem('settings');
     return new SettingsPage();
   }
 
-  getRegisterPage() {
-    this.clickOnAccountMenu();
-    this.clickOnTabMenu('#/register');
+  async getRegisterPage() {
+    await this.clickOnAccountMenu();
+    await this.clickOnTabMenu('#/register');
     return new RegisterPage();
   }
 
-  getSignInPage() {
-    this.clickOnAccountMenu();
-    this.clickOnTabMenu('#/login');
-    return new SignInPage();
+  async getSignInPage() {
+    await this.clickOnAccountMenu();
+    await this.clickOnTabMenu('#/login');
+    return this.signInPage;
   }
 
-  getEntityPage(entityName: string) {
-    this.clickOnEntityMenu();
-    return this.clickOnEntity(entityName);
+  async getEntityPage(entityName: string) {
+    await this.clickOnEntityMenu();
+    await this.clickOnEntity(entityName);
   }
 
-  clickOnTabMenu(item: string) {
-    return this.selector
+  async clickOnTabMenu(item: string) {
+    await this.selector
       .$('#header-tabs')
       .$(`.dropdown-item[href="${item}"]`)
       .click();
   }
 
-  clickOnAccountMenu() {
-    return this.accountMenu.click();
+  async clickOnAccountMenu() {
+    await this.accountMenu.click();
   }
 
-  clickOnAccountMenuItem(item: string) {
-    this.accountMenu.click();
-    return this.selector.$(`.dropdown-item[href="#/account/${item}"`).click();
+  async clickOnAccountMenuItem(item: string) {
+    await this.accountMenu.click();
+    await this.selector.$(`.dropdown-item[href="#/account/${item}"`).click();
   }
 
-  clickOnAdminMenuItem(item: string) {
-    this.adminMenu.click();
-    return this.selector.$(`.dropdown-item[href="#/admin/${item}"]`).click();
+  async clickOnAdminMenuItem(item: string) {
+    await this.adminMenu.click();
+    await this.selector.$(`.dropdown-item[href="#/admin/${item}"]`).click();
   }
 
-  clickOnEntityMenu() {
-    return this.entityMenu.click();
+  async clickOnEntityMenu() {
+    await this.entityMenu.click();
   }
 
-  clickOnEntity(entityName: string) {
-    return this.selector.$(`.dropdown-item[href="#/entity/${entityName}"]`).click();
+  async clickOnEntity(entityName: string) {
+    await this.selector.$(`.dropdown-item[href="#/entity/${entityName}"]`).click();
   }
 
-  autoSignIn() {
-    this.signInPage.get();
-    this.signInPage.autoSignInUsing('admin', 'admin');
-    return this.signInPage.waitUntilHidden();
+  async autoSignIn() {
+    await this.signInPage.get();
+    await this.signInPage.autoSignInUsing('admin', 'admin');
   }
 
-  autoSignOut() {
-    this.signInPage.autoSignOut();
+  async autoSignOut() {
+    await this.signInPage.autoSignOut();
   }
 }
