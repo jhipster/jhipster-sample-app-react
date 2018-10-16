@@ -17,7 +17,6 @@ export default (state: LocaleState = initialState, action): LocaleState => {
     case ACTION_TYPES.SET_LOCALE:
       const currentLocale = action.locale;
       if (state.currentLocale !== currentLocale) {
-        Storage.session.set('locale', currentLocale);
         TranslatorContext.setLocale(currentLocale);
       }
       return {

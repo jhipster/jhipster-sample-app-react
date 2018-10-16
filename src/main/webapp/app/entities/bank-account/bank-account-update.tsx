@@ -32,6 +32,12 @@ export class BankAccountUpdate extends React.Component<IBankAccountUpdateProps, 
     };
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.updateSuccess !== this.props.updateSuccess && nextProps.updateSuccess) {
+      this.handleClose();
+    }
+  }
+
   componentDidMount() {
     if (this.state.isNew) {
       this.props.reset();
@@ -55,7 +61,6 @@ export class BankAccountUpdate extends React.Component<IBankAccountUpdateProps, 
       } else {
         this.props.updateEntity(entity);
       }
-      this.handleClose();
     }
   };
 
@@ -160,7 +165,8 @@ const mapStateToProps = (storeState: IRootState) => ({
   users: storeState.userManagement.users,
   bankAccountEntity: storeState.bankAccount.entity,
   loading: storeState.bankAccount.loading,
-  updating: storeState.bankAccount.updating
+  updating: storeState.bankAccount.updating,
+  updateSuccess: storeState.bankAccount.updateSuccess
 });
 
 const mapDispatchToProps = {

@@ -36,6 +36,12 @@ export class OperationUpdate extends React.Component<IOperationUpdateProps, IOpe
     };
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.updateSuccess !== this.props.updateSuccess && nextProps.updateSuccess) {
+      this.handleClose();
+    }
+  }
+
   componentDidMount() {
     if (!this.state.isNew) {
       this.props.getEntity(this.props.match.params.id);
@@ -61,7 +67,6 @@ export class OperationUpdate extends React.Component<IOperationUpdateProps, IOpe
       } else {
         this.props.updateEntity(entity);
       }
-      this.handleClose();
     }
   };
 
@@ -197,7 +202,8 @@ const mapStateToProps = (storeState: IRootState) => ({
   labels: storeState.label.entities,
   operationEntity: storeState.operation.entity,
   loading: storeState.operation.loading,
-  updating: storeState.operation.updating
+  updating: storeState.operation.updating,
+  updateSuccess: storeState.operation.updateSuccess
 });
 
 const mapDispatchToProps = {

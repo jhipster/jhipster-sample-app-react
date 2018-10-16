@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { translate } from 'react-jhipster';
+import { translate, Storage } from 'react-jhipster';
 
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { getSession } from 'app/shared/reducers/authentication';
-import { setLocale } from 'app/shared/reducers/locale';
 
 export const ACTION_TYPES = {
   UPDATE_ACCOUNT: 'account/UPDATE_ACCOUNT',
@@ -63,12 +62,12 @@ export const saveAccountSettings = account => async (dispatch, getState) => {
       successMessage: translate('settings.messages.success')
     }
   });
-  await dispatch(getSession());
 
-  const accountState = getState().authentication.account;
-  if (accountState && accountState.langKey) {
-    await dispatch(setLocale(accountState.langKey));
+  if (Storage.session.get(`locale`)) {
+    Storage.session.remove(`locale`);
   }
+
+  await dispatch(getSession());
 };
 
 export const reset = () => ({

@@ -67,7 +67,6 @@ export default (state: UserManagementState = initialState, action): UserManageme
     case SUCCESS(ACTION_TYPES.FETCH_ROLES):
       return {
         ...state,
-        loading: false,
         authorities: action.payload.data
       };
     case SUCCESS(ACTION_TYPES.FETCH_USERS):
@@ -96,7 +95,7 @@ export default (state: UserManagementState = initialState, action): UserManageme
         ...state,
         updating: false,
         updateSuccess: true,
-        user: {}
+        user: defaultValue
       };
     case ACTION_TYPES.RESET:
       return {

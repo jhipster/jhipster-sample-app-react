@@ -31,9 +31,9 @@ public class LabelResource {
 
     private static final String ENTITY_NAME = "label";
 
-    private final LabelRepository labelRepository;
+    private LabelRepository labelRepository;
 
-    private final LabelMapper labelMapper;
+    private LabelMapper labelMapper;
 
     public LabelResource(LabelRepository labelRepository, LabelMapper labelMapper) {
         this.labelRepository = labelRepository;

@@ -22,7 +22,11 @@ export class UserManagementUpdate extends React.Component<IUserManagementUpdateP
   };
 
   componentDidMount() {
-    !this.state.isNew && this.props.getUser(this.props.match.params.login);
+    if (this.state.isNew) {
+      this.props.reset();
+    } else {
+      this.props.getUser(this.props.match.params.login);
+    }
     this.props.getRoles();
   }
 
@@ -46,7 +50,6 @@ export class UserManagementUpdate extends React.Component<IUserManagementUpdateP
   render() {
     const isInvalid = false;
     const { user, loading, updating, roles } = this.props;
-    const { isNew } = this.state;
     return (
       <div>
         <Row className="justify-content-center">
@@ -191,14 +194,16 @@ export class UserManagementUpdate extends React.Component<IUserManagementUpdateP
                   </AvInput>
                 </AvGroup>
                 <Button tag={Link} to="/admin/user-management" replace color="info">
-                  <FontAwesomeIcon icon="arrow-left" />&nbsp;
+                  <FontAwesomeIcon icon="arrow-left" />
+                  &nbsp;
                   <span className="d-none d-md-inline">
                     <Translate contentKey="entity.action.back">Back</Translate>
                   </span>
                 </Button>
                 &nbsp;
                 <Button color="primary" type="submit" disabled={isInvalid || updating}>
-                  <FontAwesomeIcon icon="save" />&nbsp;
+                  <FontAwesomeIcon icon="save" />
+                  &nbsp;
                   <Translate contentKey="entity.action.save">Save</Translate>
                 </Button>
               </AvForm>

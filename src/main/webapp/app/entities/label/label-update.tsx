@@ -32,6 +32,12 @@ export class LabelUpdate extends React.Component<ILabelUpdateProps, ILabelUpdate
     };
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.updateSuccess !== this.props.updateSuccess && nextProps.updateSuccess) {
+      this.handleClose();
+    }
+  }
+
   componentDidMount() {
     if (this.state.isNew) {
       this.props.reset();
@@ -55,7 +61,6 @@ export class LabelUpdate extends React.Component<ILabelUpdateProps, ILabelUpdate
       } else {
         this.props.updateEntity(entity);
       }
-      this.handleClose();
     }
   };
 
@@ -130,7 +135,8 @@ const mapStateToProps = (storeState: IRootState) => ({
   operations: storeState.operation.entities,
   labelEntity: storeState.label.entity,
   loading: storeState.label.loading,
-  updating: storeState.label.updating
+  updating: storeState.label.updating,
+  updateSuccess: storeState.label.updateSuccess
 });
 
 const mapDispatchToProps = {

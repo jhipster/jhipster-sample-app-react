@@ -166,6 +166,10 @@ describe('Authentication reducer tests', () => {
         {
           type: SUCCESS(ACTION_TYPES.GET_SESSION),
           payload: resolvedObject
+        },
+        {
+          type: localeActionTypes.SET_LOCALE,
+          locale: 'en'
         }
       ];
       await store.dispatch(getSession()).then(() => expect(store.getActions()).toEqual(expectedActions));
