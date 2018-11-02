@@ -1,5 +1,5 @@
 /* tslint:disable no-unused-expression */
-import { browser, protractor } from 'protractor';
+import { browser, element, by, protractor } from 'protractor';
 
 import NavBarPage from './../../page-objects/navbar-page';
 import SignInPage from './../../page-objects/signin-page';
@@ -69,6 +69,9 @@ describe('Operation e2e test', () => {
     await operationComponentsPage.waitUntilLoaded();
     const nbButtonsBeforeDelete = await operationComponentsPage.countDeleteButtons();
     await operationComponentsPage.clickOnLastDeleteButton();
+
+    const deleteModal = element(by.className('modal'));
+    await waitUntilDisplayed(deleteModal);
 
     operationDeleteDialog = new OperationDeleteDialog();
     expect(await operationDeleteDialog.getDialogTitle().getAttribute('id')).to.match(

@@ -1,5 +1,5 @@
 /* tslint:disable no-unused-expression */
-import { browser } from 'protractor';
+import { browser, element, by } from 'protractor';
 
 import NavBarPage from './../../page-objects/navbar-page';
 import SignInPage from './../../page-objects/signin-page';
@@ -63,6 +63,9 @@ describe('Label e2e test', () => {
     await labelComponentsPage.waitUntilLoaded();
     const nbButtonsBeforeDelete = await labelComponentsPage.countDeleteButtons();
     await labelComponentsPage.clickOnLastDeleteButton();
+
+    const deleteModal = element(by.className('modal'));
+    await waitUntilDisplayed(deleteModal);
 
     labelDeleteDialog = new LabelDeleteDialog();
     expect(await labelDeleteDialog.getDialogTitle().getAttribute('id')).to.match(/jhipsterSampleApplicationReactApp.label.delete.question/);

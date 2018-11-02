@@ -25,8 +25,9 @@ export class OperationDetail extends React.Component<IOperationDetailProps> {
       <Row>
         <Col md="8">
           <h2>
-            <Translate contentKey="jhipsterSampleApplicationReactApp.operation.detail.title">Operation</Translate> [
-            <b>{operationEntity.id}</b>]
+            <Translate contentKey="jhipsterSampleApplicationReactApp.operation.detail.title">Operation</Translate> [<b>
+              {operationEntity.id}
+            </b>]
           </h2>
           <dl className="jh-entity-details">
             <dt>
@@ -72,8 +73,7 @@ export class OperationDetail extends React.Component<IOperationDetailProps> {
             <span className="d-none d-md-inline">
               <Translate contentKey="entity.action.back">Back</Translate>
             </span>
-          </Button>
-          &nbsp;
+          </Button>&nbsp;
           <Button tag={Link} to={`/entity/operation/${operationEntity.id}/edit`} replace color="primary">
             <FontAwesomeIcon icon="pencil-alt" />{' '}
             <span className="d-none d-md-inline">

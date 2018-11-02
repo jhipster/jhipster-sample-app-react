@@ -31,9 +31,9 @@ public class BankAccountResource {
 
     private static final String ENTITY_NAME = "bankAccount";
 
-    private BankAccountRepository bankAccountRepository;
+    private final BankAccountRepository bankAccountRepository;
 
-    private BankAccountMapper bankAccountMapper;
+    private final BankAccountMapper bankAccountMapper;
 
     public BankAccountResource(BankAccountRepository bankAccountRepository, BankAccountMapper bankAccountMapper) {
         this.bankAccountRepository = bankAccountRepository;

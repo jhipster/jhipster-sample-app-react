@@ -36,9 +36,9 @@ public class OperationResource {
 
     private static final String ENTITY_NAME = "operation";
 
-    private OperationRepository operationRepository;
+    private final OperationRepository operationRepository;
 
-    private OperationMapper operationMapper;
+    private final OperationMapper operationMapper;
 
     public OperationResource(OperationRepository operationRepository, OperationMapper operationMapper) {
         this.operationRepository = operationRepository;
@@ -111,7 +111,7 @@ public class OperationResource {
             page = operationRepository.findAll(pageable).map(operationMapper::toDto);
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/operations?eagerload=%b", eagerload));
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**

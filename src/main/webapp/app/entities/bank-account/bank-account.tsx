@@ -26,8 +26,7 @@ export class BankAccount extends React.Component<IBankAccountProps> {
         <h2 id="bank-account-heading">
           <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.title">Bank Accounts</Translate>
           <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
-            <FontAwesomeIcon icon="plus" />
-            &nbsp;
+            <FontAwesomeIcon icon="plus" />&nbsp;
             <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.createLabel">Create new Bank Account</Translate>
           </Link>
         </h2>

@@ -1,5 +1,5 @@
 /* tslint:disable no-unused-expression */
-import { browser } from 'protractor';
+import { browser, element, by } from 'protractor';
 
 import NavBarPage from './../../page-objects/navbar-page';
 import SignInPage from './../../page-objects/signin-page';
@@ -66,6 +66,9 @@ describe('BankAccount e2e test', () => {
     await bankAccountComponentsPage.waitUntilLoaded();
     const nbButtonsBeforeDelete = await bankAccountComponentsPage.countDeleteButtons();
     await bankAccountComponentsPage.clickOnLastDeleteButton();
+
+    const deleteModal = element(by.className('modal'));
+    await waitUntilDisplayed(deleteModal);
 
     bankAccountDeleteDialog = new BankAccountDeleteDialog();
     expect(await bankAccountDeleteDialog.getDialogTitle().getAttribute('id')).to.match(
