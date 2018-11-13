@@ -4,12 +4,17 @@ import promiseMiddleware from 'redux-promise-middleware';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 import sinon from 'sinon';
+import { TranslatorContext } from 'react-jhipster';
 
 import account, { ACTION_TYPES, saveAccountSettings, reset } from 'app/modules/account/settings/settings.reducer';
 import { ACTION_TYPES as authActionTypes } from 'app/shared/reducers/authentication';
 import { ACTION_TYPES as localeActionTypes } from 'app/shared/reducers/locale';
 
 describe('Settings reducer tests', () => {
+  beforeAll(() => {
+    TranslatorContext.registerTranslations('en', {});
+  });
+
   describe('Common tests', () => {
     it('should return the initial state', () => {
       const toTest = account(undefined, {});

@@ -2,6 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import promiseMiddleware from 'redux-promise-middleware';
 import * as toastify from 'react-toastify'; // synthetic default import doesn't work here due to mocking.
 import sinon from 'sinon';
+import { TranslatorContext } from 'react-jhipster';
 
 import notificationMiddleware from 'app/config/notification-middleware';
 
@@ -104,6 +105,10 @@ describe('Notification Middleware', () => {
   };
 
   const makeStore = () => applyMiddleware(notificationMiddleware, promiseMiddleware())(createStore)(() => null);
+
+  beforeAll(() => {
+    TranslatorContext.registerTranslations('en', {});
+  });
 
   beforeEach(() => {
     store = makeStore();
