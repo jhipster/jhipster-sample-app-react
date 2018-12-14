@@ -69,7 +69,7 @@
     "file-loader": "2.0.0",
     "fork-ts-checker-webpack-plugin": "0.4.9",
     "friendly-errors-webpack-plugin": "1.7.0",
-    "generator-jhipster": "5.7.0",
+    "generator-jhipster": "5.7.1",
     "html-webpack-plugin": "3.2.0",
     "husky": "1.1.0",
     "identity-obj-proxy": "3.0.0",
@@ -123,13 +123,13 @@
     "node": ">=8.9.0"
   },
   "lint-staged": {
-    "src/**/*.{json,ts,tsx,css,scss}": [
+    "{,src/**/}*.{md,json,ts,tsx,css,scss}": [
       "prettier --write",
       "git add"
     ]
   },
   "scripts": {
-    "prettier:format": "prettier --write \"src/**/*.{json,ts,tsx,css,scss}\"",
+    "prettier:format": "prettier --write \"{,src/**/}*.{md,json,ts,tsx,css,scss}\"",
     "lint": "tslint --project tsconfig.json -e 'node_modules/**'",
     "lint:fix": "npm run lint -- --fix",
     "cleanup": "rimraf target/www",
@@ -137,7 +137,10 @@
     "postinstall": "webdriver-manager update --gecko false",
     "start": "npm run webpack:dev",
     "start-tls": "npm run webpack:dev -- --env.tls",
-    "test": "npm run lint && jest --coverage --logHeapUsage -w=2 --config src/test/javascript/jest.conf.js",
+    "jest": "jest --coverage --logHeapUsage --maxWorkers=2 --config src/test/javascript/jest.conf.js",
+    "jest:update": "npm run jest -- --updateSnapshot",
+    "test": "npm run lint && npm run jest",
+    "test-ci": "npm run lint && npm run jest:update",
     "test:watch": "npm test -- --watch",
     "webpack:dev": "npm run webpack-dev-server -- --config webpack/webpack.dev.js --inline --port=9060 --env.stats=minimal",
     "webpack:dev-verbose": "npm run webpack-dev-server -- --config webpack/webpack.dev.js --inline --port=9060 --profile --progress --env.stats=normal",

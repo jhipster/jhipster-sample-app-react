@@ -12,26 +12,18 @@
     "suppressImplicitAnyIndexErrors": true,
     "outDir": "target/www/app",
     "lib": ["es2015", "es2017", "dom"],
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "typeRoots": ["node_modules/@types"],
     "types": ["webpack-env", "jest"],
     "allowJs": true,
     "checkJs": false,
     "baseUrl": "./",
     "paths": {
-        "app/*": ["src/main/webapp/app/*"]
+      "app/*": ["src/main/webapp/app/*"]
     },
     "importHelpers": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "src/main/webapp/app/typing.d.ts",
-    "src/main/webapp/app/**/*",
-    "src/test/javascript/spec/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src/main/webapp/app/typing.d.ts", "src/main/webapp/app/**/*", "src/test/javascript/spec/**/*"],
+  "exclude": ["node_modules"]
 }

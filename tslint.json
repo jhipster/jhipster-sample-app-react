@@ -1,10 +1,5 @@
 {
-  "extends": [
-    "tslint:latest",
-    "tslint-eslint-rules",
-    "tslint-react",
-    "tslint-config-prettier"
-  ],
+  "extends": ["tslint:latest", "tslint-eslint-rules", "tslint-react", "tslint-config-prettier"],
   "jsRules": {
     "class-name": true,
     "comment-format": [true, "check-space"],
@@ -14,22 +9,10 @@
     "label-position": true,
     "max-line-length": [true, 180],
     "member-access": false,
-    "member-ordering": [
-      true,
-      "static-before-instance",
-      "variables-before-functions"
-    ],
+    "member-ordering": [true, "static-before-instance", "variables-before-functions"],
     "no-arg": true,
     "no-bitwise": false,
-    "no-console": [
-      true,
-      "log",
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
+    "no-console": [true, "log", "debug", "info", "time", "timeEnd", "trace"],
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-variable": true,
@@ -43,37 +26,27 @@
     "no-var-keyword": true,
     "no-implicit-dependencies": [true, "dev"],
     "object-literal-sort-keys": false,
-    "one-line": [
-      true,
-      "check-open-brace",
-      "check-catch",
-      "check-else",
-      "check-whitespace"
-    ],
+    "one-line": [true, "check-open-brace", "check-catch", "check-else", "check-whitespace"],
     "quotemark": [true, "single", "jsx-double", "avoid-escape"],
     "radix": true,
     "semicolon": [true, "always", "ignore-bound-class-methods"],
     "triple-equals": [true, "allow-null-check"],
     "variable-name": false,
-    "whitespace": [
-      true,
-      "check-branch",
-      "check-decl",
-      "check-operator",
-      "check-separator",
-      "check-type"
-    ],
+    "whitespace": [true, "check-branch", "check-decl", "check-operator", "check-separator", "check-type"],
     "prefer-const": true,
     "arrow-parens": [true, "ban-single-arg-parens"],
     "arrow-return-shorthand": [true],
     "import-spacing": true,
     "no-consecutive-blank-lines": [true],
     "object-literal-shorthand": true,
-    "space-before-function-paren": [true, {"named": "never", "asyncArrow": "always"}],
-    "trailing-comma": [true, {
-      "multiline": "never",
-      "singleline": "never"
-    }],
+    "space-before-function-paren": [true, { "named": "never", "asyncArrow": "always" }],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never"
+      }
+    ],
     "ordered-imports": [false],
     "curly": [true, "ignore-same-line"],
     "switch-default": true,
@@ -105,22 +78,10 @@
     "label-position": true,
     "max-line-length": [true, 180],
     "member-access": false,
-    "member-ordering": [
-      true,
-      "static-before-instance",
-      "variables-before-functions"
-    ],
+    "member-ordering": [true, "static-before-instance", "variables-before-functions"],
     "no-arg": true,
     "no-bitwise": false,
-    "no-console": [
-      true,
-      "log",
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
+    "no-console": [true, "log", "debug", "info", "time", "timeEnd", "trace"],
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-variable": true,
@@ -135,13 +96,7 @@
     "no-var-keyword": true,
     "no-implicit-dependencies": [false, "dev"],
     "object-literal-sort-keys": false,
-    "one-line": [
-      true,
-      "check-open-brace",
-      "check-catch",
-      "check-else",
-      "check-whitespace"
-    ],
+    "one-line": [true, "check-open-brace", "check-catch", "check-else", "check-whitespace"],
     "quotemark": [true, "single", "jsx-double", "avoid-escape"],
     "radix": true,
     "semicolon": [true, "always", "ignore-bound-class-methods"],
@@ -174,11 +129,14 @@
     "import-spacing": true,
     "no-consecutive-blank-lines": [true],
     "object-literal-shorthand": true,
-    "space-before-function-paren": [true, {"named": "never", "asyncArrow": "always"}],
-    "trailing-comma": [true, {
-      "multiline": "never",
-      "singleline": "never"
-    }],
+    "space-before-function-paren": [true, { "named": "never", "asyncArrow": "always" }],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never"
+      }
+    ],
     "ordered-imports": [false],
     "curly": [true, "ignore-same-line"],
     "switch-default": true,
@@ -207,7 +165,6 @@
     "jsx-boolean-value": [true, "never"],
     "jsx-no-multiline-js": false,
     "jsx-alignment": false
-
   },
   "rulesDirectory": []
 }
