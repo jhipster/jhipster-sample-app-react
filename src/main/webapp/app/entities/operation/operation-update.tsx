@@ -15,7 +15,7 @@ import { getEntities as getLabels } from 'app/entities/label/label.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './operation.reducer';
 import { IOperation } from 'app/shared/model/operation.model';
 // tslint:disable-next-line:no-unused-variable
-import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
+import { convertDateTimeFromServer, convertDateTimeToServer } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 
 export interface IOperationUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
@@ -52,7 +52,7 @@ export class OperationUpdate extends React.Component<IOperationUpdateProps, IOpe
   }
 
   saveEntity = (event, errors, values) => {
-    values.date = new Date(values.date);
+    values.date = convertDateTimeToServer(values.date);
 
     if (errors.length === 0) {
       const { operationEntity } = this.props;
@@ -112,6 +112,7 @@ export class OperationUpdate extends React.Component<IOperationUpdateProps, IOpe
                     type="datetime-local"
                     className="form-control"
                     name="date"
+                    placeholder={'YYYY-MM-DD HH:mm'}
                     value={isNew ? null : convertDateTimeFromServer(this.props.operationEntity.date)}
                     validate={{
                       required: { value: true, errorMessage: translate('entity.validation.required') }

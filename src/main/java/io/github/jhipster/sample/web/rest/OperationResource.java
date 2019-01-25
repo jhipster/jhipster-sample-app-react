@@ -1,6 +1,4 @@
 package io.github.jhipster.sample.web.rest;
-
-import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.sample.domain.Operation;
 import io.github.jhipster.sample.repository.OperationRepository;
 import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
@@ -53,13 +51,11 @@ public class OperationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/operations")
-    @Timed
     public ResponseEntity<OperationDTO> createOperation(@Valid @RequestBody OperationDTO operationDTO) throws URISyntaxException {
         log.debug("REST request to save Operation : {}", operationDTO);
         if (operationDTO.getId() != null) {
             throw new BadRequestAlertException("A new operation cannot already have an ID", ENTITY_NAME, "idexists");
         }
-
         Operation operation = operationMapper.toEntity(operationDTO);
         operation = operationRepository.save(operation);
         OperationDTO result = operationMapper.toDto(operation);
@@ -78,13 +74,11 @@ public class OperationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/operations")
-    @Timed
     public ResponseEntity<OperationDTO> updateOperation(@Valid @RequestBody OperationDTO operationDTO) throws URISyntaxException {
         log.debug("REST request to update Operation : {}", operationDTO);
         if (operationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-
         Operation operation = operationMapper.toEntity(operationDTO);
         operation = operationRepository.save(operation);
         OperationDTO result = operationMapper.toDto(operation);
@@ -101,7 +95,6 @@ public class OperationResource {
      * @return the ResponseEntity with status 200 (OK) and the list of operations in body
      */
     @GetMapping("/operations")
-    @Timed
     public ResponseEntity<List<OperationDTO>> getAllOperations(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Operations");
         Page<OperationDTO> page;
@@ -121,7 +114,6 @@ public class OperationResource {
      * @return the ResponseEntity with status 200 (OK) and with body the operationDTO, or with status 404 (Not Found)
      */
     @GetMapping("/operations/{id}")
-    @Timed
     public ResponseEntity<OperationDTO> getOperation(@PathVariable Long id) {
         log.debug("REST request to get Operation : {}", id);
         Optional<OperationDTO> operationDTO = operationRepository.findOneWithEagerRelationships(id)
@@ -136,10 +128,8 @@ public class OperationResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/operations/{id}")
-    @Timed
     public ResponseEntity<Void> deleteOperation(@PathVariable Long id) {
         log.debug("REST request to delete Operation : {}", id);
-
         operationRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }

@@ -13,7 +13,7 @@ import { getUsers } from 'app/modules/administration/user-management/user-manage
 import { getEntity, updateEntity, createEntity, reset } from './bank-account.reducer';
 import { IBankAccount } from 'app/shared/model/bank-account.model';
 // tslint:disable-next-line:no-unused-variable
-import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
+import { convertDateTimeFromServer, convertDateTimeToServer } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 
 export interface IBankAccountUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}

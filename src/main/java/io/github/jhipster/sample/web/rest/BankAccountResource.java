@@ -1,6 +1,4 @@
 package io.github.jhipster.sample.web.rest;
-
-import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.sample.domain.BankAccount;
 import io.github.jhipster.sample.repository.BankAccountRepository;
 import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
@@ -48,13 +46,11 @@ public class BankAccountResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/bank-accounts")
-    @Timed
     public ResponseEntity<BankAccountDTO> createBankAccount(@Valid @RequestBody BankAccountDTO bankAccountDTO) throws URISyntaxException {
         log.debug("REST request to save BankAccount : {}", bankAccountDTO);
         if (bankAccountDTO.getId() != null) {
             throw new BadRequestAlertException("A new bankAccount cannot already have an ID", ENTITY_NAME, "idexists");
         }
-
         BankAccount bankAccount = bankAccountMapper.toEntity(bankAccountDTO);
         bankAccount = bankAccountRepository.save(bankAccount);
         BankAccountDTO result = bankAccountMapper.toDto(bankAccount);
@@ -73,13 +69,11 @@ public class BankAccountResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/bank-accounts")
-    @Timed
     public ResponseEntity<BankAccountDTO> updateBankAccount(@Valid @RequestBody BankAccountDTO bankAccountDTO) throws URISyntaxException {
         log.debug("REST request to update BankAccount : {}", bankAccountDTO);
         if (bankAccountDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-
         BankAccount bankAccount = bankAccountMapper.toEntity(bankAccountDTO);
         bankAccount = bankAccountRepository.save(bankAccount);
         BankAccountDTO result = bankAccountMapper.toDto(bankAccount);
@@ -94,7 +88,6 @@ public class BankAccountResource {
      * @return the ResponseEntity with status 200 (OK) and the list of bankAccounts in body
      */
     @GetMapping("/bank-accounts")
-    @Timed
     public List<BankAccountDTO> getAllBankAccounts() {
         log.debug("REST request to get all BankAccounts");
         List<BankAccount> bankAccounts = bankAccountRepository.findAll();
@@ -108,7 +101,6 @@ public class BankAccountResource {
      * @return the ResponseEntity with status 200 (OK) and with body the bankAccountDTO, or with status 404 (Not Found)
      */
     @GetMapping("/bank-accounts/{id}")
-    @Timed
     public ResponseEntity<BankAccountDTO> getBankAccount(@PathVariable Long id) {
         log.debug("REST request to get BankAccount : {}", id);
         Optional<BankAccountDTO> bankAccountDTO = bankAccountRepository.findById(id)
@@ -123,10 +115,8 @@ public class BankAccountResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/bank-accounts/{id}")
-    @Timed
     public ResponseEntity<Void> deleteBankAccount(@PathVariable Long id) {
         log.debug("REST request to delete BankAccount : {}", id);
-
         bankAccountRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }

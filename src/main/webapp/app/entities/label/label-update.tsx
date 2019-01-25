@@ -13,7 +13,7 @@ import { getEntities as getOperations } from 'app/entities/operation/operation.r
 import { getEntity, updateEntity, createEntity, reset } from './label.reducer';
 import { ILabel } from 'app/shared/model/label.model';
 // tslint:disable-next-line:no-unused-variable
-import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
+import { convertDateTimeFromServer, convertDateTimeToServer } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 
 export interface ILabelUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}

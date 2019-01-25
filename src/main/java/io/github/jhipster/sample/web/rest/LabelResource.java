@@ -1,6 +1,4 @@
 package io.github.jhipster.sample.web.rest;
-
-import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.sample.domain.Label;
 import io.github.jhipster.sample.repository.LabelRepository;
 import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
@@ -48,13 +46,11 @@ public class LabelResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/labels")
-    @Timed
     public ResponseEntity<LabelDTO> createLabel(@Valid @RequestBody LabelDTO labelDTO) throws URISyntaxException {
         log.debug("REST request to save Label : {}", labelDTO);
         if (labelDTO.getId() != null) {
             throw new BadRequestAlertException("A new label cannot already have an ID", ENTITY_NAME, "idexists");
         }
-
         Label label = labelMapper.toEntity(labelDTO);
         label = labelRepository.save(label);
         LabelDTO result = labelMapper.toDto(label);
@@ -73,13 +69,11 @@ public class LabelResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/labels")
-    @Timed
     public ResponseEntity<LabelDTO> updateLabel(@Valid @RequestBody LabelDTO labelDTO) throws URISyntaxException {
         log.debug("REST request to update Label : {}", labelDTO);
         if (labelDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-
         Label label = labelMapper.toEntity(labelDTO);
         label = labelRepository.save(label);
         LabelDTO result = labelMapper.toDto(label);
@@ -94,7 +88,6 @@ public class LabelResource {
      * @return the ResponseEntity with status 200 (OK) and the list of labels in body
      */
     @GetMapping("/labels")
-    @Timed
     public List<LabelDTO> getAllLabels() {
         log.debug("REST request to get all Labels");
         List<Label> labels = labelRepository.findAll();
@@ -108,7 +101,6 @@ public class LabelResource {
      * @return the ResponseEntity with status 200 (OK) and with body the labelDTO, or with status 404 (Not Found)
      */
     @GetMapping("/labels/{id}")
-    @Timed
     public ResponseEntity<LabelDTO> getLabel(@PathVariable Long id) {
         log.debug("REST request to get Label : {}", id);
         Optional<LabelDTO> labelDTO = labelRepository.findById(id)
@@ -123,10 +115,8 @@ public class LabelResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/labels/{id}")
-    @Timed
     public ResponseEntity<Void> deleteLabel(@PathVariable Long id) {
         log.debug("REST request to delete Label : {}", id);
-
         labelRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
