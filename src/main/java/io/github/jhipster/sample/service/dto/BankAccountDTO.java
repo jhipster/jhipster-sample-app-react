@@ -1,5 +1,4 @@
 package io.github.jhipster.sample.service.dto;
-
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -17,6 +16,7 @@ public class BankAccountDTO implements Serializable {
 
     @NotNull
     private BigDecimal balance;
+
 
     private Long userId;
 

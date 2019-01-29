@@ -110,7 +110,7 @@ export class MetricsPage extends React.Component<IMetricsPageProps, IMetricsPage
           ''
         )}
 
-        {metrics.databases ? (
+        {metrics.databases && JSON.stringify(metrics.databases) !== '{}' ? (
           <Row>
             <Col sm="12">
               <DatasourceMetrics

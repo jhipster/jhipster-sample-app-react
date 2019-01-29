@@ -1,5 +1,4 @@
 package io.github.jhipster.sample.service.dto;
-
 import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -22,6 +21,7 @@ public class OperationDTO implements Serializable {
 
     @NotNull
     private BigDecimal amount;
+
 
     private Long bankAccountId;
 

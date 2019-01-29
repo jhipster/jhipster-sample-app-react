@@ -1,5 +1,4 @@
 package io.github.jhipster.sample.service.dto;
-
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,6 +13,7 @@ public class LabelDTO implements Serializable {
     @NotNull
     @Size(min = 3)
     private String label;
+
 
     public Long getId() {
         return id;
