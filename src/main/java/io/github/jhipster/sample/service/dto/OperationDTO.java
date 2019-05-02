@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.Objects;
 
 /**
- * A DTO for the Operation entity.
+ * A DTO for the {@link io.github.jhipster.sample.domain.Operation} entity.
  */
 public class OperationDTO implements Serializable {
 

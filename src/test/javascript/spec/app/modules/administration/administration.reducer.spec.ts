@@ -97,12 +97,20 @@ describe('Administration reducer tests', () => {
 
   describe('Success', () => {
     it('should update state according to a successful fetch logs request', () => {
-      const payload = { data: [{ name: 'ROOT', level: 'DEBUG' }] };
+      const payload = {
+        data: {
+          loggers: {
+            main: {
+              effectiveLevel: 'WARN'
+            }
+          }
+        }
+      };
       const toTest = administration(undefined, { type: SUCCESS(ACTION_TYPES.FETCH_LOGS), payload });
 
       expect(toTest).toMatchObject({
         loading: false,
-        logs: { loggers: payload.data }
+        logs: payload.data
       });
     });
 
@@ -179,10 +187,10 @@ describe('Administration reducer tests', () => {
 
     const resolvedObject = { value: 'whatever' };
     beforeEach(() => {
-      const mockStore = configureStore([thunk, promiseMiddleware()]);
+      const mockStore = configureStore([thunk, promiseMiddleware]);
       store = mockStore({});
       axios.get = sinon.stub().returns(Promise.resolve(resolvedObject));
-      axios.put = sinon.stub().returns(Promise.resolve(resolvedObject));
+      axios.post = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
     it('dispatches FETCH_HEALTH_PENDING and FETCH_HEALTH_FULFILLED actions', async () => {
       const expectedActions = [

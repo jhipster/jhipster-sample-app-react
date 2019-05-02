@@ -1,8 +1,7 @@
 {
   "global": {
     "title": "JhipsterSampleApplicationReact",
-    "browsehappy":
-      "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
+    "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
     "menu": {
       "home": "Home",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
@@ -38,15 +37,15 @@
       "language": "Language"
     },
     "form": {
-      "username": "Username",
+      "username.label": "Username",
       "username.placeholder": "Your username",
-      "currentpassword": "Current password",
+      "currentpassword.label": "Current password",
       "currentpassword.placeholder": "Current password",
-      "newpassword": "New password",
+      "newpassword.label": "New password",
       "newpassword.placeholder": "New password",
-      "confirmpassword": "New password confirmation",
+      "confirmpassword.label": "New password confirmation",
       "confirmpassword.placeholder": "Confirm the new password",
-      "email": "Email",
+      "email.label": "Email",
       "email.placeholder": "Your email"
     },
     "messages": {
@@ -54,8 +53,7 @@
         "authenticated": {
           "prefix": "If you want to ",
           "link": "sign in",
-          "suffix":
-            ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
+          "suffix": ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
         },
         "register": {
           "noaccount": "You don't have an account yet?",

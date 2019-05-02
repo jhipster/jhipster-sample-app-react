@@ -26,7 +26,8 @@ export class Label extends React.Component<ILabelProps> {
         <h2 id="label-heading">
           <Translate contentKey="jhipsterSampleApplicationReactApp.label.home.title">Labels</Translate>
           <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
-            <FontAwesomeIcon icon="plus" />&nbsp;
+            <FontAwesomeIcon icon="plus" />
+            &nbsp;
             <Translate contentKey="jhipsterSampleApplicationReactApp.label.home.createLabel">Create new Label</Translate>
           </Link>
         </h2>

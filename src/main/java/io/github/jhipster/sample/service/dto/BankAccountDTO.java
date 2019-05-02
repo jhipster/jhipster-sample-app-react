@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * A DTO for the BankAccount entity.
+ * A DTO for the {@link io.github.jhipster.sample.domain.BankAccount} entity.
  */
 public class BankAccountDTO implements Serializable {
 

@@ -16,7 +16,7 @@ export default class SignInPage extends BasePage {
   }
 
   async get() {
-    await browser.get('#/login');
+    await browser.get('/login');
     await this.waitUntilDisplayed();
   }
 
@@ -47,7 +47,7 @@ export default class SignInPage extends BasePage {
   }
 
   async autoSignOut() {
-    await browser.get('#/logout');
+    await browser.get('/logout');
   }
 
   async login() {

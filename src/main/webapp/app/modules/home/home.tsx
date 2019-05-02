@@ -1,4 +1,4 @@
-import './home.css';
+import './home.scss';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -93,7 +93,8 @@ export class Home extends React.Component<IHomeProp> {
             <Translate contentKey="home.like">If you like JHipster, do not forget to give us a star on</Translate>{' '}
             <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
               Github
-            </a>!
+            </a>
+            !
           </p>
         </Col>
         <Col md="3" className="pad">

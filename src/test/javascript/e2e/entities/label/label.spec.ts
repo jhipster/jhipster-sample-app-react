@@ -42,17 +42,24 @@ describe('Label e2e test', () => {
     expect(await labelUpdatePage.getPageTitle().getAttribute('id')).to.match(
       /jhipsterSampleApplicationReactApp.label.home.createOrEditLabel/
     );
+    await labelUpdatePage.cancel();
   });
 
   it('should create and save Labels', async () => {
-    const nbButtonsBeforeCreate = await labelComponentsPage.countDeleteButtons();
+    async function createLabel() {
+      await labelComponentsPage.clickOnCreateButton();
+      await labelUpdatePage.setLabelInput('label');
+      expect(await labelUpdatePage.getLabelInput()).to.match(/label/);
+      await waitUntilDisplayed(labelUpdatePage.getSaveButton());
+      await labelUpdatePage.save();
+      await waitUntilHidden(labelUpdatePage.getSaveButton());
+      expect(await labelUpdatePage.getSaveButton().isPresent()).to.be.false;
+    }
 
-    await labelUpdatePage.setLabelInput('label');
-    expect(await labelUpdatePage.getLabelInput()).to.match(/label/);
-    await waitUntilDisplayed(labelUpdatePage.getSaveButton());
-    await labelUpdatePage.save();
-    await waitUntilHidden(labelUpdatePage.getSaveButton());
-    expect(await labelUpdatePage.getSaveButton().isPresent()).to.be.false;
+    await createLabel();
+    await labelComponentsPage.waitUntilLoaded();
+    const nbButtonsBeforeCreate = await labelComponentsPage.countDeleteButtons();
+    await createLabel();
 
     await labelComponentsPage.waitUntilDeleteButtonsLength(nbButtonsBeforeCreate + 1);
     expect(await labelComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeCreate + 1);

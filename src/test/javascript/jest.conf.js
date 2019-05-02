@@ -5,7 +5,7 @@ module.exports = {
   rootDir: '../../../',
   testURL: 'http://localhost/',
   coverageDirectory: '<rootDir>/target/test-results/',
-  testMatch: ['<rootDir>/src/test/javascript/spec/**/+(*.)+(spec.ts?(x))'],
+  testMatch: ['<rootDir>/src/test/javascript/spec/**/@(*.)@(spec.ts?(x))'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   coveragePathIgnorePatterns: [
     '<rootDir>/src/test/javascript'
@@ -29,7 +29,8 @@ module.exports = {
   snapshotSerializers: ['enzyme-to-json/serializer'],
   globals: {
     'ts-jest': {
-      tsConfigFile: './tsconfig.test.json'
+      tsConfig: './tsconfig.test.json',
+      diagnostics: false
     }
   }
 };

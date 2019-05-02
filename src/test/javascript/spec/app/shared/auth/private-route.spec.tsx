@@ -66,7 +66,7 @@ describe('private-route component', () => {
         renderFn({
           location: '/'
         })
-      )
+      ).html()
     ).toThrow(Error);
   });
 });

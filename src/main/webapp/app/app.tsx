@@ -1,11 +1,12 @@
 import 'react-toastify/dist/ReactToastify.css';
-import './app.css';
+import './app.scss';
 
 import React from 'react';
 import { connect } from 'react-redux';
 import { Card } from 'reactstrap';
-import { HashRouter as Router } from 'react-router-dom';
-import { ToastContainer, ToastPosition, toast } from 'react-toastify';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import { hot } from 'react-hot-loader';
 
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
@@ -18,6 +19,11 @@ import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
 
+const baseHref = document
+  .querySelector('base')
+  .getAttribute('href')
+  .replace(/\/$/, '');
+
 export interface IAppProps extends StateProps, DispatchProps {}
 
 export class App extends React.Component<IAppProps> {
@@ -29,13 +35,9 @@ export class App extends React.Component<IAppProps> {
   render() {
     const paddingTop = '60px';
     return (
-      <Router>
+      <Router basename={baseHref}>
         <div className="app-container" style={{ paddingTop }}>
-          <ToastContainer
-            position={toast.POSITION.TOP_LEFT as ToastPosition}
-            className="toastify-container"
-            toastClassName="toastify-toast"
-          />
+          <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
           <ErrorBoundary>
             <Header
               isAuthenticated={this.props.isAuthenticated}
@@ -78,4 +80,4 @@ type DispatchProps = typeof mapDispatchToProps;
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(hot(module)(App));

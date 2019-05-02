@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
-import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
+import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
 import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -91,14 +91,14 @@ export class BankAccountUpdate extends React.Component<IBankAccountUpdateProps, 
               <AvForm model={isNew ? {} : bankAccountEntity} onSubmit={this.saveEntity}>
                 {!isNew ? (
                   <AvGroup>
-                    <Label for="id">
+                    <Label for="bank-account-id">
                       <Translate contentKey="global.field.id">ID</Translate>
                     </Label>
                     <AvInput id="bank-account-id" type="text" className="form-control" name="id" required readOnly />
                   </AvGroup>
                 ) : null}
                 <AvGroup>
-                  <Label id="nameLabel" for="name">
+                  <Label id="nameLabel" for="bank-account-name">
                     <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.name">Name</Translate>
                   </Label>
                   <AvField
@@ -111,7 +111,7 @@ export class BankAccountUpdate extends React.Component<IBankAccountUpdateProps, 
                   />
                 </AvGroup>
                 <AvGroup>
-                  <Label id="balanceLabel" for="balance">
+                  <Label id="balanceLabel" for="bank-account-balance">
                     <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.balance">Balance</Translate>
                   </Label>
                   <AvField
@@ -125,7 +125,7 @@ export class BankAccountUpdate extends React.Component<IBankAccountUpdateProps, 
                   />
                 </AvGroup>
                 <AvGroup>
-                  <Label for="user.login">
+                  <Label for="bank-account-user">
                     <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.user">User</Translate>
                   </Label>
                   <AvInput id="bank-account-user" type="select" className="form-control" name="userId">
@@ -140,14 +140,16 @@ export class BankAccountUpdate extends React.Component<IBankAccountUpdateProps, 
                   </AvInput>
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/bank-account" replace color="info">
-                  <FontAwesomeIcon icon="arrow-left" />&nbsp;
+                  <FontAwesomeIcon icon="arrow-left" />
+                  &nbsp;
                   <span className="d-none d-md-inline">
                     <Translate contentKey="entity.action.back">Back</Translate>
                   </span>
                 </Button>
                 &nbsp;
                 <Button color="primary" id="save-entity" type="submit" disabled={updating}>
-                  <FontAwesomeIcon icon="save" />&nbsp;
+                  <FontAwesomeIcon icon="save" />
+                  &nbsp;
                   <Translate contentKey="entity.action.save">Save</Translate>
                 </Button>
               </AvForm>

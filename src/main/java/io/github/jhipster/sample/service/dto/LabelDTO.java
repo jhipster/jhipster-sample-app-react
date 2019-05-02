@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the Label entity.
+ * A DTO for the {@link io.github.jhipster.sample.domain.Label} entity.
  */
 public class LabelDTO implements Serializable {
 

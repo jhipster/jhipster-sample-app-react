@@ -6,7 +6,7 @@ import io.github.jhipster.sample.service.dto.BankAccountDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity BankAccount and its DTO BankAccountDTO.
+ * Mapper for the entity {@link BankAccount} and its DTO {@link BankAccountDTO}.
  */
 @Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface BankAccountMapper extends EntityMapper<BankAccountDTO, BankAccount> {

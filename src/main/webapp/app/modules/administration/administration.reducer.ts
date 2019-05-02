@@ -77,7 +77,7 @@ export default (state: AdministrationState = initialState, action): Administrati
         ...state,
         loading: false,
         logs: {
-          loggers: action.payload.data
+          loggers: action.payload.data.loggers
         }
       };
     case SUCCESS(ACTION_TYPES.FETCH_CONFIGURATIONS):
@@ -125,7 +125,7 @@ export const systemHealth = () => ({
 
 export const systemMetrics = () => ({
   type: ACTION_TYPES.FETCH_METRICS,
-  payload: axios.get('management/jhi-metrics')
+  payload: axios.get('management/jhimetrics')
 });
 
 export const systemThreadDump = () => ({
@@ -135,18 +135,15 @@ export const systemThreadDump = () => ({
 
 export const getLoggers = () => ({
   type: ACTION_TYPES.FETCH_LOGS,
-  payload: axios.get('management/logs')
+  payload: axios.get('management/loggers')
 });
 
-export const changeLogLevel = (name, level) => {
-  const body = {
-    level,
-    name
-  };
+export const changeLogLevel = (name, configuredLevel) => {
+  const body = { configuredLevel };
   return async dispatch => {
     await dispatch({
       type: ACTION_TYPES.FETCH_LOGS_CHANGE_LEVEL,
-      payload: axios.put('management/logs', body)
+      payload: axios.post('management/loggers/' + name, body)
     });
     dispatch(getLoggers());
   };

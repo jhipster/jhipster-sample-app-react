@@ -42,20 +42,27 @@ describe('BankAccount e2e test', () => {
     expect(await bankAccountUpdatePage.getPageTitle().getAttribute('id')).to.match(
       /jhipsterSampleApplicationReactApp.bankAccount.home.createOrEditLabel/
     );
+    await bankAccountUpdatePage.cancel();
   });
 
   it('should create and save BankAccounts', async () => {
-    const nbButtonsBeforeCreate = await bankAccountComponentsPage.countDeleteButtons();
+    async function createBankAccount() {
+      await bankAccountComponentsPage.clickOnCreateButton();
+      await bankAccountUpdatePage.setNameInput('name');
+      expect(await bankAccountUpdatePage.getNameInput()).to.match(/name/);
+      await bankAccountUpdatePage.setBalanceInput('5');
+      expect(await bankAccountUpdatePage.getBalanceInput()).to.eq('5');
+      await bankAccountUpdatePage.userSelectLastOption();
+      await waitUntilDisplayed(bankAccountUpdatePage.getSaveButton());
+      await bankAccountUpdatePage.save();
+      await waitUntilHidden(bankAccountUpdatePage.getSaveButton());
+      expect(await bankAccountUpdatePage.getSaveButton().isPresent()).to.be.false;
+    }
 
-    await bankAccountUpdatePage.setNameInput('name');
-    expect(await bankAccountUpdatePage.getNameInput()).to.match(/name/);
-    await bankAccountUpdatePage.setBalanceInput('5');
-    expect(await bankAccountUpdatePage.getBalanceInput()).to.eq('5');
-    await bankAccountUpdatePage.userSelectLastOption();
-    await waitUntilDisplayed(bankAccountUpdatePage.getSaveButton());
-    await bankAccountUpdatePage.save();
-    await waitUntilHidden(bankAccountUpdatePage.getSaveButton());
-    expect(await bankAccountUpdatePage.getSaveButton().isPresent()).to.be.false;
+    await createBankAccount();
+    await bankAccountComponentsPage.waitUntilLoaded();
+    const nbButtonsBeforeCreate = await bankAccountComponentsPage.countDeleteButtons();
+    await createBankAccount();
 
     await bankAccountComponentsPage.waitUntilDeleteButtonsLength(nbButtonsBeforeCreate + 1);
     expect(await bankAccountComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeCreate + 1);

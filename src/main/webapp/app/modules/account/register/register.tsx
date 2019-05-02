@@ -47,7 +47,7 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
             <AvForm id="register-form" onValidSubmit={this.handleValidSubmit}>
               <AvField
                 name="username"
-                label={translate('global.form.username')}
+                label={translate('global.form.username.label')}
                 placeholder={translate('global.form.username.placeholder')}
                 validate={{
                   required: { value: true, errorMessage: translate('register.messages.validate.login.required') },
@@ -58,7 +58,7 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
               />
               <AvField
                 name="email"
-                label={translate('global.form.email')}
+                label={translate('global.form.email.label')}
                 placeholder={translate('global.form.email.placeholder')}
                 type="email"
                 validate={{
@@ -69,7 +69,7 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
               />
               <AvField
                 name="firstPassword"
-                label={translate('global.form.newpassword')}
+                label={translate('global.form.newpassword.label')}
                 placeholder={translate('global.form.newpassword.placeholder')}
                 type="password"
                 onChange={this.updatePassword}
@@ -82,7 +82,7 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
               <PasswordStrengthBar password={this.state.password} />
               <AvField
                 name="secondPassword"
-                label={translate('global.form.confirmpassword')}
+                label={translate('global.form.confirmpassword.label')}
                 placeholder={translate('global.form.confirmpassword.placeholder')}
                 type="password"
                 validate={{

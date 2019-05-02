@@ -6,6 +6,7 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const SimpleProgressWebpackPlugin = require('simple-progress-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const path = require('path');
+const sass = require('sass');
 
 const utils = require('./utils.js');
 const commonConfig = require('./webpack.common.js');
@@ -16,44 +17,41 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
   devtool: 'cheap-module-source-map', // https://reactjs.org/docs/cross-origin-errors.html
   mode: ENV,
   entry: [
-    'react-hot-loader/patch',
     './src/main/webapp/app/index'
   ],
   output: {
-    path: utils.root('target/www'),
+    path: utils.root('target/classes/static/'),
     filename: 'app/[name].bundle.js',
     chunkFilename: 'app/[id].chunk.js'
   },
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        test: /\.(sa|sc|c)ss$/,
+        use: ['style-loader', 'css-loader', 'postcss-loader', {
+            loader: 'sass-loader',
+            options: { implementation: sass }
+          }
+        ]
       }
     ]
   },
   devServer: {
     stats: options.stats,
     hot: true,
-    contentBase: './target/www',
+    contentBase: './target/classes/static/',
     proxy: [{
       context: [
-        /* jhipster-needle-add-entity-to-webpack - JHipster will add entity api paths here */
-        '/api',
-        '/management',
-        '/swagger-resources',
-        '/v2/api-docs',
-        '/h2-console',        
-        '/auth'
+        '/'
       ],
-      target: `http${options.tls ? 's' : ''}://127.0.0.1:8080`,
+      target: `http${options.tls ? 's' : ''}://localhost:8080`,
       secure: false,
-      changeOrigin: options.tls,
-      headers: { host: 'localhost:9000' }
+      changeOrigin: options.tls
     }],
     watchOptions: {
       ignored: /node_modules/
-    }
+    },
+    https: options.tls
   },
   stats: process.env.JHI_DISABLE_WEBPACK_LOGS ? 'none' : options.stats,
   plugins: [
@@ -64,10 +62,14 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
         }),
     new FriendlyErrorsWebpackPlugin(),
     new BrowserSyncPlugin({
+      https: options.tls,
       host: 'localhost',
       port: 9000,
       proxy: {
-        target: 'http://localhost:9060'
+        target: `http${options.tls ? 's' : ''}://localhost:9060`,
+          proxyOptions: {
+              changeOrigin: false  //pass the Host header to the backend unchanged  https://github.com/Browsersync/browser-sync/issues/430
+          }
       },
       socket: {
         clients: {
@@ -77,6 +79,7 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
     }, {
       reload: false
     }),
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new writeFilePlugin(),
     new webpack.WatchIgnorePlugin([

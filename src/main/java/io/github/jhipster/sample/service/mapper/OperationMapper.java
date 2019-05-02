@@ -6,7 +6,7 @@ import io.github.jhipster.sample.service.dto.OperationDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity Operation and its DTO OperationDTO.
+ * Mapper for the entity {@link Operation} and its DTO {@link OperationDTO}.
  */
 @Mapper(componentModel = "spring", uses = {BankAccountMapper.class, LabelMapper.class})
 public interface OperationMapper extends EntityMapper<OperationDTO, Operation> {

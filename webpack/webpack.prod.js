@@ -6,6 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const path = require('path');
+const sass = require('sass');
 
 const utils = require('./utils.js');
 const commonConfig = require('./webpack.common.js');
@@ -19,7 +20,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
     main: './src/main/webapp/app/index'
   },
   output: {
-    path: utils.root('target/www'),
+    path: utils.root('target/classes/static/'),
     filename: 'app/[name].[hash].bundle.js',
     chunkFilename: 'app/[name].[hash].chunk.js'
   },
@@ -31,7 +32,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         loader: 'stripcomment-loader'
       },
       {
-        test: /\.css$/,
+        test: /\.(sa|sc|c)ss$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -39,7 +40,12 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
               publicPath: '../'
             }
           },
-          'css-loader'
+          'css-loader',
+          'postcss-loader',
+          {
+            loader: 'sass-loader',
+            options: { implementation: sass }
+          }
         ]
       }
     ]
@@ -52,13 +58,27 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         parallel: true,
         // sourceMap: true, // Enable source maps. Please note that this will slow down the build
         terserOptions: {
+          ecma: 6,
+          toplevel: true,
+          module: true,
           beautify: false,
           comments: false,
           compress: {
-            warnings: false
+            warnings: false,
+            ecma: 6,
+            module: true,
+            toplevel: true
+          },
+          output: {
+              comments: false,
+              beautify: false,
+              indent_level: 2,
+              ecma: 6
           },
           mangle: {
-            keep_fnames: true
+            keep_fnames: true,
+            module: true,
+            toplevel: true
           }
         }
       }),

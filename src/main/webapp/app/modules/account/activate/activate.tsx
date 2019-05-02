@@ -14,7 +14,8 @@ const successAlert = (
     </Translate>
     <Link to="/login" className="alert-link">
       <Translate contentKey="global.messages.info.authenticated.link">sign in</Translate>
-    </Link>.
+    </Link>
+    .
   </Alert>
 );
 

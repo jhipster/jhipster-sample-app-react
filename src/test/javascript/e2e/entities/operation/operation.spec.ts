@@ -42,23 +42,30 @@ describe('Operation e2e test', () => {
     expect(await operationUpdatePage.getPageTitle().getAttribute('id')).to.match(
       /jhipsterSampleApplicationReactApp.operation.home.createOrEditLabel/
     );
+    await operationUpdatePage.cancel();
   });
 
   it('should create and save Operations', async () => {
-    const nbButtonsBeforeCreate = await operationComponentsPage.countDeleteButtons();
+    async function createOperation() {
+      await operationComponentsPage.clickOnCreateButton();
+      await operationUpdatePage.setDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
+      expect(await operationUpdatePage.getDateInput()).to.contain('2001-01-01T02:30');
+      await operationUpdatePage.setDescriptionInput('description');
+      expect(await operationUpdatePage.getDescriptionInput()).to.match(/description/);
+      await operationUpdatePage.setAmountInput('5');
+      expect(await operationUpdatePage.getAmountInput()).to.eq('5');
+      await operationUpdatePage.bankAccountSelectLastOption();
+      // operationUpdatePage.labelSelectLastOption();
+      await waitUntilDisplayed(operationUpdatePage.getSaveButton());
+      await operationUpdatePage.save();
+      await waitUntilHidden(operationUpdatePage.getSaveButton());
+      expect(await operationUpdatePage.getSaveButton().isPresent()).to.be.false;
+    }
 
-    await operationUpdatePage.setDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
-    expect(await operationUpdatePage.getDateInput()).to.contain('2001-01-01T02:30');
-    await operationUpdatePage.setDescriptionInput('description');
-    expect(await operationUpdatePage.getDescriptionInput()).to.match(/description/);
-    await operationUpdatePage.setAmountInput('5');
-    expect(await operationUpdatePage.getAmountInput()).to.eq('5');
-    await operationUpdatePage.bankAccountSelectLastOption();
-    // operationUpdatePage.labelSelectLastOption();
-    await waitUntilDisplayed(operationUpdatePage.getSaveButton());
-    await operationUpdatePage.save();
-    await waitUntilHidden(operationUpdatePage.getSaveButton());
-    expect(await operationUpdatePage.getSaveButton().isPresent()).to.be.false;
+    await createOperation();
+    await operationComponentsPage.waitUntilLoaded();
+    const nbButtonsBeforeCreate = await operationComponentsPage.countDeleteButtons();
+    await createOperation();
 
     await operationComponentsPage.waitUntilDeleteButtonsLength(nbButtonsBeforeCreate + 1);
     expect(await operationComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeCreate + 1);

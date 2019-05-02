@@ -25,9 +25,8 @@ export class BankAccountDetail extends React.Component<IBankAccountDetailProps> 
       <Row>
         <Col md="8">
           <h2>
-            <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.detail.title">BankAccount</Translate> [<b>
-              {bankAccountEntity.id}
-            </b>]
+            <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.detail.title">BankAccount</Translate> [
+            <b>{bankAccountEntity.id}</b>]
           </h2>
           <dl className="jh-entity-details">
             <dt>
@@ -52,7 +51,8 @@ export class BankAccountDetail extends React.Component<IBankAccountDetailProps> 
             <span className="d-none d-md-inline">
               <Translate contentKey="entity.action.back">Back</Translate>
             </span>
-          </Button>&nbsp;
+          </Button>
+          &nbsp;
           <Button tag={Link} to={`/entity/bank-account/${bankAccountEntity.id}/edit`} replace color="primary">
             <FontAwesomeIcon icon="pencil-alt" />{' '}
             <span className="d-none d-md-inline">

@@ -104,7 +104,7 @@ describe('Notification Middleware', () => {
     })
   };
 
-  const makeStore = () => applyMiddleware(notificationMiddleware, promiseMiddleware())(createStore)(() => null);
+  const makeStore = () => applyMiddleware(notificationMiddleware, promiseMiddleware)(createStore)(() => null);
 
   beforeAll(() => {
     TranslatorContext.registerTranslations('en', {});

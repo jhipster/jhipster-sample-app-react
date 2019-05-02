@@ -1,6 +1,4 @@
 
-const os = require('os');
-
 exports.config = {
   allScriptsTimeout: 20000,
 
@@ -32,7 +30,7 @@ exports.config = {
     reporter: 'spec',
     slow: 3000,
     ui: 'bdd',
-    timeout: 30000
+    timeout: 720000
   },
 
   beforeLaunch () {

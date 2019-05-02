@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
-import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
+import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
 import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -97,14 +97,14 @@ export class OperationUpdate extends React.Component<IOperationUpdateProps, IOpe
               <AvForm model={isNew ? {} : operationEntity} onSubmit={this.saveEntity}>
                 {!isNew ? (
                   <AvGroup>
-                    <Label for="id">
+                    <Label for="operation-id">
                       <Translate contentKey="global.field.id">ID</Translate>
                     </Label>
                     <AvInput id="operation-id" type="text" className="form-control" name="id" required readOnly />
                   </AvGroup>
                 ) : null}
                 <AvGroup>
-                  <Label id="dateLabel" for="date">
+                  <Label id="dateLabel" for="operation-date">
                     <Translate contentKey="jhipsterSampleApplicationReactApp.operation.date">Date</Translate>
                   </Label>
                   <AvInput
@@ -120,13 +120,13 @@ export class OperationUpdate extends React.Component<IOperationUpdateProps, IOpe
                   />
                 </AvGroup>
                 <AvGroup>
-                  <Label id="descriptionLabel" for="description">
+                  <Label id="descriptionLabel" for="operation-description">
                     <Translate contentKey="jhipsterSampleApplicationReactApp.operation.description">Description</Translate>
                   </Label>
                   <AvField id="operation-description" type="text" name="description" />
                 </AvGroup>
                 <AvGroup>
-                  <Label id="amountLabel" for="amount">
+                  <Label id="amountLabel" for="operation-amount">
                     <Translate contentKey="jhipsterSampleApplicationReactApp.operation.amount">Amount</Translate>
                   </Label>
                   <AvField
@@ -140,7 +140,7 @@ export class OperationUpdate extends React.Component<IOperationUpdateProps, IOpe
                   />
                 </AvGroup>
                 <AvGroup>
-                  <Label for="bankAccount.name">
+                  <Label for="operation-bankAccount">
                     <Translate contentKey="jhipsterSampleApplicationReactApp.operation.bankAccount">Bank Account</Translate>
                   </Label>
                   <AvInput id="operation-bankAccount" type="select" className="form-control" name="bankAccountId">
@@ -155,7 +155,7 @@ export class OperationUpdate extends React.Component<IOperationUpdateProps, IOpe
                   </AvInput>
                 </AvGroup>
                 <AvGroup>
-                  <Label for="labels">
+                  <Label for="operation-label">
                     <Translate contentKey="jhipsterSampleApplicationReactApp.operation.label">Label</Translate>
                   </Label>
                   <AvInput
@@ -177,14 +177,16 @@ export class OperationUpdate extends React.Component<IOperationUpdateProps, IOpe
                   </AvInput>
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/operation" replace color="info">
-                  <FontAwesomeIcon icon="arrow-left" />&nbsp;
+                  <FontAwesomeIcon icon="arrow-left" />
+                  &nbsp;
                   <span className="d-none d-md-inline">
                     <Translate contentKey="entity.action.back">Back</Translate>
                   </span>
                 </Button>
                 &nbsp;
                 <Button color="primary" id="save-entity" type="submit" disabled={updating}>
-                  <FontAwesomeIcon icon="save" />&nbsp;
+                  <FontAwesomeIcon icon="save" />
+                  &nbsp;
                   <Translate contentKey="entity.action.save">Save</Translate>
                 </Button>
               </AvForm>

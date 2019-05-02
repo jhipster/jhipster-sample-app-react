@@ -6,7 +6,7 @@ import io.github.jhipster.sample.service.dto.LabelDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity Label and its DTO LabelDTO.
+ * Mapper for the entity {@link Label} and its DTO {@link LabelDTO}.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface LabelMapper extends EntityMapper<LabelDTO, Label> {

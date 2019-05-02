@@ -1,4 +1,4 @@
-import './password-strength-bar.css';
+import './password-strength-bar.scss';
 
 import React from 'react';
 import { Translate } from 'react-jhipster';
