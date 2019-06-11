@@ -11,6 +11,7 @@ import {
   getUserDeactivatedButtonByLogin,
   getModifiedDateSortButton,
   waitUntilDisplayed,
+  waitUntilClickable,
   waitUntilHidden
 } from '../../util/utils';
 
@@ -100,11 +101,11 @@ describe('Account', () => {
     expect(await element(by.id('user-management-page-heading')).isPresent()).to.be.true;
 
     const modifiedDateSortButton = getModifiedDateSortButton();
-    await waitUntilDisplayed(modifiedDateSortButton);
+    await waitUntilClickable(modifiedDateSortButton);
     await modifiedDateSortButton.click();
 
     const deactivatedButton = getUserDeactivatedButtonByLogin('user_test');
-    await waitUntilDisplayed(deactivatedButton);
+    await waitUntilClickable(deactivatedButton);
     await deactivatedButton.click();
     await waitUntilHidden(deactivatedButton);
 

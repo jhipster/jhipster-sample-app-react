@@ -103,7 +103,7 @@ export default (state: AdministrationState = initialState, action): Administrati
         ...state,
         loading: false,
         audits: action.payload.data,
-        totalItems: action.payload.headers['x-total-count']
+        totalItems: parseInt(action.payload.headers['x-total-count'], 10)
       };
     case SUCCESS(ACTION_TYPES.FETCH_HEALTH):
       return {
