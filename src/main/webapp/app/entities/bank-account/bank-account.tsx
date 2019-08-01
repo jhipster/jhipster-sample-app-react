@@ -28,7 +28,7 @@ export class BankAccount extends React.Component<IBankAccountProps> {
           <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
-            <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.createLabel">Create new Bank Account</Translate>
+            <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.createLabel">Create a new Bank Account</Translate>
           </Link>
         </h2>
         <div className="table-responsive">

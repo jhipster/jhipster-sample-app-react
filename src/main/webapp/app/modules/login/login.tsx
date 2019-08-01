@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 
@@ -8,41 +8,24 @@ import LoginModal from './login-modal';
 
 export interface ILoginProps extends StateProps, DispatchProps, RouteComponentProps<{}> {}
 
-export interface ILoginState {
-  showModal: boolean;
-}
+export const Login = (props: ILoginProps) => {
+  const [showModal, setShowModal] = useState(props.showModal);
 
-export class Login extends React.Component<ILoginProps, ILoginState> {
-  state: ILoginState = {
-    showModal: this.props.showModal
-  };
+  useEffect(() => {
+    setShowModal(props.showModal);
+  });
 
-  componentDidUpdate(prevProps: ILoginProps, prevState) {
-    if (this.props !== prevProps) {
-      this.setState({ showModal: this.props.showModal });
-    }
+  const handleLogin = (username, password, rememberMe = false) => props.login(username, password, rememberMe);
+
+  const handleClose = () => setShowModal(false);
+
+  const { location, isAuthenticated } = props;
+  const { from } = location.state || { from: { pathname: '/', search: location.search } };
+  if (isAuthenticated) {
+    return <Redirect to={from} />;
   }
-
-  handleLogin = (username, password, rememberMe = false) => {
-    this.props.login(username, password, rememberMe);
-  };
-
-  handleClose = () => {
-    this.setState({ showModal: false });
-  };
-
-  render() {
-    const { location, isAuthenticated } = this.props;
-    const { from } = location.state || { from: { pathname: '/', search: location.search } };
-    const { showModal } = this.state;
-    if (isAuthenticated) {
-      return <Redirect to={from} />;
-    }
-    return (
-      <LoginModal showModal={showModal} handleLogin={this.handleLogin} handleClose={this.handleClose} loginError={this.props.loginError} />
-    );
-  }
-}
+  return <LoginModal showModal={showModal} handleLogin={handleLogin} handleClose={handleClose} loginError={props.loginError} />;
+};
 
 const mapStateToProps = ({ authentication }: IRootState) => ({
   isAuthenticated: authentication.isAuthenticated,

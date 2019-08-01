@@ -72,7 +72,7 @@ export class Operation extends React.Component<IOperationProps, IOperationState>
           <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
-            <Translate contentKey="jhipsterSampleApplicationReactApp.operation.home.createLabel">Create new Operation</Translate>
+            <Translate contentKey="jhipsterSampleApplicationReactApp.operation.home.createLabel">Create a new Operation</Translate>
           </Link>
         </h2>
         <div className="table-responsive">
