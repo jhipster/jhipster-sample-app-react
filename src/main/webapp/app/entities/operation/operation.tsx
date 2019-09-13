@@ -3,14 +3,12 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
-// tslint:disable-next-line:no-unused-variable
 import { Translate, ICrudGetAllAction, TextFormat, getSortState, IPaginationBaseState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntities, reset } from './operation.reducer';
 import { IOperation } from 'app/shared/model/operation.model';
-// tslint:disable-next-line:no-unused-variable
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 
@@ -85,7 +83,7 @@ export class Operation extends React.Component<IOperationProps, IOperationState>
             initialLoad={false}
           >
             {operationList && operationList.length > 0 ? (
-              <Table responsive>
+              <Table responsive aria-describedby="operation-heading">
                 <thead>
                   <tr>
                     <th className="hand" onClick={this.sort('id')}>

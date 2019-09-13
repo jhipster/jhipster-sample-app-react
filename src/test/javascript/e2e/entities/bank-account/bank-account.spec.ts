@@ -1,10 +1,8 @@
-/* tslint:disable no-unused-expression */
 import { browser, element, by } from 'protractor';
 
 import NavBarPage from './../../page-objects/navbar-page';
 import SignInPage from './../../page-objects/signin-page';
-import BankAccountComponentsPage from './bank-account.page-object';
-import { BankAccountDeleteDialog } from './bank-account.page-object';
+import BankAccountComponentsPage, { BankAccountDeleteDialog } from './bank-account.page-object';
 import BankAccountUpdatePage from './bank-account-update.page-object';
 import { waitUntilDisplayed, waitUntilHidden } from '../../util/utils';
 

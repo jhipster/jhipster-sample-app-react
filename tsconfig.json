@@ -12,7 +12,6 @@
     "suppressImplicitAnyIndexErrors": true,
     "outDir": "target/classes/static/app",
     "lib": ["es2015", "es2017", "dom"],
-    "typeRoots": ["node_modules/@types"],
     "types": ["webpack-env", "jest"],
     "allowJs": true,
     "checkJs": false,
@@ -24,6 +23,6 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src/main/webapp/app/typing.d.ts", "src/main/webapp/app/**/*", "src/test/javascript/spec/**/*"],
+  "include": ["src/main/webapp/app", "src/test/javascript/spec"],
   "exclude": ["node_modules"]
 }

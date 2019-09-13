@@ -25,7 +25,7 @@ const accountMenuItems = (
     <MenuItem id="login-item" icon="sign-in-alt" to="/login">
       <Translate contentKey="global.menu.account.login">Sign in</Translate>
     </MenuItem>
-    <MenuItem icon="sign-in-alt" to="/register">
+    <MenuItem icon="sign-in-alt" to="/account/register">
       <Translate contentKey="global.menu.account.register">Register</Translate>
     </MenuItem>
   </>

@@ -47,9 +47,7 @@ module.exports = options => ({
       '.js', '.jsx', '.ts', '.tsx', '.json'
     ],
     modules: ['node_modules'],
-    alias: {
-      app: utils.root('src/main/webapp/app/')
-    }
+    alias: utils.mapTypescriptAliasToWebpackAlias()
   },
   module: {
     rules: [
@@ -74,9 +72,9 @@ module.exports = options => ({
         loader: 'source-map-loader'
       },
       {
-        test: /\.tsx?$/,
+        test: /\.(j|t)sx?$/,
         enforce: 'pre',
-        loader: 'tslint-loader',
+        loader: 'eslint-loader',
         exclude: [utils.root('node_modules')]
       }
     ]
@@ -101,7 +99,7 @@ module.exports = options => ({
         NODE_ENV: `'${options.env}'`,
         BUILD_TIMESTAMP: `'${new Date().getTime()}'`,
         // APP_VERSION is passed as an environment variable from the Gradle / Maven build tasks.
-        VERSION: `'${process.env.hasOwnProperty('APP_VERSION') ? process.env.APP_VERSION : 'UNKNOWN'}'`,
+        VERSION: `'${process.env.hasOwnProperty('APP_VERSION') ? process.env.APP_VERSION : 'DEV'}'`,
         DEBUG_INFO_ENABLED: options.env === 'development',
         // The root URL for API calls, ending with a '/' - for example: `"https://www.jhipster.tech:8081/myservice/"`.
         // If this URL is left empty (""), then it will be relative to the current context.
@@ -110,7 +108,7 @@ module.exports = options => ({
         SERVER_API_URL: `''`
       }
     }),
-    new ForkTsCheckerWebpackPlugin({ tslint: true }),
+    new ForkTsCheckerWebpackPlugin({ eslint: true }),
     new CopyWebpackPlugin([
       { from: './node_modules/swagger-ui/dist/css', to: 'swagger-ui/dist/css' },
       { from: './node_modules/swagger-ui/dist/lib', to: 'swagger-ui/dist/lib' },

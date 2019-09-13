@@ -1,4 +1,3 @@
-/* tslint:disable no-unused-expression */
 import { element, by, browser } from 'protractor';
 
 import NavBarPage from '../../page-objects/navbar-page';

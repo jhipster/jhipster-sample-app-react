@@ -68,7 +68,7 @@ export default (state: OperationState = initialState, action): OperationState =>
         updateSuccess: false,
         errorMessage: action.payload
       };
-    case SUCCESS(ACTION_TYPES.FETCH_OPERATION_LIST):
+    case SUCCESS(ACTION_TYPES.FETCH_OPERATION_LIST): {
       const links = parseHeaderForLinks(action.payload.headers.link);
 
       return {
@@ -78,6 +78,7 @@ export default (state: OperationState = initialState, action): OperationState =>
         entities: loadMoreDataWhenScrolled(state.entities, action.payload.data, links),
         totalItems: parseInt(action.payload.headers['x-total-count'], 10)
       };
+    }
     case SUCCESS(ACTION_TYPES.FETCH_OPERATION):
       return {
         ...state,

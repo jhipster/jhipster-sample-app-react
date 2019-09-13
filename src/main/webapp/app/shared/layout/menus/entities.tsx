@@ -7,7 +7,6 @@ import { NavLink as Link } from 'react-router-dom';
 import { NavDropdown } from './menu-components';
 
 export const EntitiesMenu = props => (
-  // tslint:disable-next-line:jsx-self-close
   <NavDropdown icon="th-list" name={translate('global.menu.entities.main')} id="entity-menu">
     <MenuItem icon="asterisk" to="/entity/bank-account">
       <Translate contentKey="global.menu.entities.bankAccount" />

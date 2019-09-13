@@ -1,10 +1,8 @@
-/* tslint:disable no-unused-expression */
 import { browser, element, by } from 'protractor';
 
 import NavBarPage from './../../page-objects/navbar-page';
 import SignInPage from './../../page-objects/signin-page';
-import LabelComponentsPage from './label.page-object';
-import { LabelDeleteDialog } from './label.page-object';
+import LabelComponentsPage, { LabelDeleteDialog } from './label.page-object';
 import LabelUpdatePage from './label-update.page-object';
 import { waitUntilDisplayed, waitUntilHidden } from '../../util/utils';
 

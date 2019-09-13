@@ -1,4 +1,3 @@
-/* tslint:disable no-unused-expression */
 import { browser, element, by } from 'protractor';
 
 import SignInPage from '../../page-objects/signin-page';

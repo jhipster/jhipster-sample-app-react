@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { Input, Row, Table } from 'reactstrap';
 import { Translate, TextFormat, JhiPagination, JhiItemCount, getSortState, IPaginationBaseState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,10 +36,12 @@ export const AuditsPage = (props: IAuditsPageProps) => {
   const [toDate, setToDate] = useState(today());
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     getAllAudits();
   }, [fromDate, toDate, pagination.activePage, pagination.order, pagination.sort]);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     transition();
   }, [pagination.activePage, pagination.order, pagination.sort]);
 

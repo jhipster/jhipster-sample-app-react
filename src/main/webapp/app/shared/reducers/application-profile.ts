@@ -16,7 +16,7 @@ export type ApplicationProfileState = Readonly<typeof initialState>;
 
 export default (state: ApplicationProfileState = initialState, action): ApplicationProfileState => {
   switch (action.type) {
-    case SUCCESS(ACTION_TYPES.GET_PROFILE):
+    case SUCCESS(ACTION_TYPES.GET_PROFILE): {
       const { data } = action.payload;
       return {
         ...state,
@@ -24,6 +24,7 @@ export default (state: ApplicationProfileState = initialState, action): Applicat
         inProduction: data.activeProfiles.includes('prod'),
         isSwaggerEnabled: data.activeProfiles.includes('swagger')
       };
+    }
     default:
       return state;
   }

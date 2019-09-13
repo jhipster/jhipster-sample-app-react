@@ -32,7 +32,7 @@ export default class NavBarPage extends BasePage {
 
   async getRegisterPage() {
     await this.clickOnAccountMenu();
-    await this.clickOnTabMenu('/register');
+    await this.clickOnTabMenu('/account/register');
     return new RegisterPage();
   }
 

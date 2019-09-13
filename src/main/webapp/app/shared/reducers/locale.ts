@@ -14,7 +14,7 @@ export type LocaleState = Readonly<typeof initialState>;
 
 export default (state: LocaleState = initialState, action): LocaleState => {
   switch (action.type) {
-    case ACTION_TYPES.SET_LOCALE:
+    case ACTION_TYPES.SET_LOCALE: {
       const currentLocale = action.locale;
       if (state.currentLocale !== currentLocale) {
         TranslatorContext.setLocale(currentLocale);
@@ -22,6 +22,7 @@ export default (state: LocaleState = initialState, action): LocaleState => {
       return {
         currentLocale
       };
+    }
     default:
       return state;
   }

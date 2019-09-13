@@ -1,10 +1,8 @@
-/* tslint:disable no-unused-expression */
 import { browser, element, by, protractor } from 'protractor';
 
 import NavBarPage from './../../page-objects/navbar-page';
 import SignInPage from './../../page-objects/signin-page';
-import OperationComponentsPage from './operation.page-object';
-import { OperationDeleteDialog } from './operation.page-object';
+import OperationComponentsPage, { OperationDeleteDialog } from './operation.page-object';
 import OperationUpdatePage from './operation-update.page-object';
 import { waitUntilDisplayed, waitUntilHidden } from '../../util/utils';
 

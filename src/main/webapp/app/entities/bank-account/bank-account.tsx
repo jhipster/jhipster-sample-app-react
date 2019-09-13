@@ -2,14 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
-// tslint:disable-next-line:no-unused-variable
 import { Translate, ICrudGetAllAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntities } from './bank-account.reducer';
 import { IBankAccount } from 'app/shared/model/bank-account.model';
-// tslint:disable-next-line:no-unused-variable
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 
 export interface IBankAccountProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
@@ -33,7 +31,7 @@ export class BankAccount extends React.Component<IBankAccountProps> {
         </h2>
         <div className="table-responsive">
           {bankAccountList && bankAccountList.length > 0 ? (
-            <Table responsive>
+            <Table responsive aria-describedby="bank-account-heading">
               <thead>
                 <tr>
                   <th>
