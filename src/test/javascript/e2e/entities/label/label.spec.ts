@@ -11,8 +11,8 @@ const expect = chai.expect;
 describe('Label e2e test', () => {
   let navBarPage: NavBarPage;
   let signInPage: SignInPage;
-  let labelUpdatePage: LabelUpdatePage;
   let labelComponentsPage: LabelComponentsPage;
+  let labelUpdatePage: LabelUpdatePage;
   let labelDeleteDialog: LabelDeleteDialog;
 
   before(async () => {

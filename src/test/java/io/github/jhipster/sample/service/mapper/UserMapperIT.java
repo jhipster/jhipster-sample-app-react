@@ -1,6 +1,5 @@
 package io.github.jhipster.sample.service.mapper;
 
-
 import io.github.jhipster.sample.JhipsterSampleApplicationReactApp;
 import io.github.jhipster.sample.domain.User;
 import io.github.jhipster.sample.service.dto.UserDTO;
