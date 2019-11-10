@@ -291,42 +291,4 @@ public class BankAccountResourceIT {
         List<BankAccount> bankAccountList = bankAccountRepository.findAll();
         assertThat(bankAccountList).hasSize(databaseSizeBeforeDelete - 1);
     }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(BankAccount.class);
-        BankAccount bankAccount1 = new BankAccount();
-        bankAccount1.setId(1L);
-        BankAccount bankAccount2 = new BankAccount();
-        bankAccount2.setId(bankAccount1.getId());
-        assertThat(bankAccount1).isEqualTo(bankAccount2);
-        bankAccount2.setId(2L);
-        assertThat(bankAccount1).isNotEqualTo(bankAccount2);
-        bankAccount1.setId(null);
-        assertThat(bankAccount1).isNotEqualTo(bankAccount2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(BankAccountDTO.class);
-        BankAccountDTO bankAccountDTO1 = new BankAccountDTO();
-        bankAccountDTO1.setId(1L);
-        BankAccountDTO bankAccountDTO2 = new BankAccountDTO();
-        assertThat(bankAccountDTO1).isNotEqualTo(bankAccountDTO2);
-        bankAccountDTO2.setId(bankAccountDTO1.getId());
-        assertThat(bankAccountDTO1).isEqualTo(bankAccountDTO2);
-        bankAccountDTO2.setId(2L);
-        assertThat(bankAccountDTO1).isNotEqualTo(bankAccountDTO2);
-        bankAccountDTO1.setId(null);
-        assertThat(bankAccountDTO1).isNotEqualTo(bankAccountDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(bankAccountMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(bankAccountMapper.fromId(null)).isNull();
-    }
 }

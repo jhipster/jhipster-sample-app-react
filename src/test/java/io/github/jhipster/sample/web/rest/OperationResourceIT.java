@@ -344,42 +344,4 @@ public class OperationResourceIT {
         List<Operation> operationList = operationRepository.findAll();
         assertThat(operationList).hasSize(databaseSizeBeforeDelete - 1);
     }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Operation.class);
-        Operation operation1 = new Operation();
-        operation1.setId(1L);
-        Operation operation2 = new Operation();
-        operation2.setId(operation1.getId());
-        assertThat(operation1).isEqualTo(operation2);
-        operation2.setId(2L);
-        assertThat(operation1).isNotEqualTo(operation2);
-        operation1.setId(null);
-        assertThat(operation1).isNotEqualTo(operation2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(OperationDTO.class);
-        OperationDTO operationDTO1 = new OperationDTO();
-        operationDTO1.setId(1L);
-        OperationDTO operationDTO2 = new OperationDTO();
-        assertThat(operationDTO1).isNotEqualTo(operationDTO2);
-        operationDTO2.setId(operationDTO1.getId());
-        assertThat(operationDTO1).isEqualTo(operationDTO2);
-        operationDTO2.setId(2L);
-        assertThat(operationDTO1).isNotEqualTo(operationDTO2);
-        operationDTO1.setId(null);
-        assertThat(operationDTO1).isNotEqualTo(operationDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(operationMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(operationMapper.fromId(null)).isNull();
-    }
 }

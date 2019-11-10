@@ -44,14 +44,14 @@ export class BankAccountDetail extends React.Component<IBankAccountDetailProps> 
             </dt>
             <dd>{bankAccountEntity.userLogin ? bankAccountEntity.userLogin : ''}</dd>
           </dl>
-          <Button tag={Link} to="/entity/bank-account" replace color="info">
+          <Button tag={Link} to="/bank-account" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}
             <span className="d-none d-md-inline">
               <Translate contentKey="entity.action.back">Back</Translate>
             </span>
           </Button>
           &nbsp;
-          <Button tag={Link} to={`/entity/bank-account/${bankAccountEntity.id}/edit`} replace color="primary">
+          <Button tag={Link} to={`/bank-account/${bankAccountEntity.id}/edit`} replace color="primary">
             <FontAwesomeIcon icon="pencil-alt" />{' '}
             <span className="d-none d-md-inline">
               <Translate contentKey="entity.action.edit">Edit</Translate>

@@ -33,14 +33,14 @@ export class LabelDetail extends React.Component<ILabelDetailProps> {
             </dt>
             <dd>{labelEntity.label}</dd>
           </dl>
-          <Button tag={Link} to="/entity/label" replace color="info">
+          <Button tag={Link} to="/label" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}
             <span className="d-none d-md-inline">
               <Translate contentKey="entity.action.back">Back</Translate>
             </span>
           </Button>
           &nbsp;
-          <Button tag={Link} to={`/entity/label/${labelEntity.id}/edit`} replace color="primary">
+          <Button tag={Link} to={`/label/${labelEntity.id}/edit`} replace color="primary">
             <FontAwesomeIcon icon="pencil-alt" />{' '}
             <span className="d-none d-md-inline">
               <Translate contentKey="entity.action.edit">Edit</Translate>

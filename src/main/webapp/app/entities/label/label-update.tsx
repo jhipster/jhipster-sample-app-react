@@ -63,7 +63,7 @@ export class LabelUpdate extends React.Component<ILabelUpdateProps, ILabelUpdate
   };
 
   handleClose = () => {
-    this.props.history.push('/entity/label');
+    this.props.history.push('/label');
   };
 
   render() {
@@ -107,7 +107,7 @@ export class LabelUpdate extends React.Component<ILabelUpdateProps, ILabelUpdate
                     }}
                   />
                 </AvGroup>
-                <Button tag={Link} id="cancel-save" to="/entity/label" replace color="info">
+                <Button tag={Link} id="cancel-save" to="/label" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                   &nbsp;
                   <span className="d-none d-md-inline">

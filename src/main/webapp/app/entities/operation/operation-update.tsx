@@ -69,7 +69,7 @@ export class OperationUpdate extends React.Component<IOperationUpdateProps, IOpe
   };
 
   handleClose = () => {
-    this.props.history.push('/entity/operation');
+    this.props.history.push('/operation');
   };
 
   render() {
@@ -174,7 +174,7 @@ export class OperationUpdate extends React.Component<IOperationUpdateProps, IOpe
                       : null}
                   </AvInput>
                 </AvGroup>
-                <Button tag={Link} id="cancel-save" to="/entity/operation" replace color="info">
+                <Button tag={Link} id="cancel-save" to="/operation" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                   &nbsp;
                   <span className="d-none d-md-inline">

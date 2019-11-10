@@ -261,42 +261,4 @@ public class LabelResourceIT {
         List<Label> labelList = labelRepository.findAll();
         assertThat(labelList).hasSize(databaseSizeBeforeDelete - 1);
     }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Label.class);
-        Label label1 = new Label();
-        label1.setId(1L);
-        Label label2 = new Label();
-        label2.setId(label1.getId());
-        assertThat(label1).isEqualTo(label2);
-        label2.setId(2L);
-        assertThat(label1).isNotEqualTo(label2);
-        label1.setId(null);
-        assertThat(label1).isNotEqualTo(label2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(LabelDTO.class);
-        LabelDTO labelDTO1 = new LabelDTO();
-        labelDTO1.setId(1L);
-        LabelDTO labelDTO2 = new LabelDTO();
-        assertThat(labelDTO1).isNotEqualTo(labelDTO2);
-        labelDTO2.setId(labelDTO1.getId());
-        assertThat(labelDTO1).isEqualTo(labelDTO2);
-        labelDTO2.setId(2L);
-        assertThat(labelDTO1).isNotEqualTo(labelDTO2);
-        labelDTO1.setId(null);
-        assertThat(labelDTO1).isNotEqualTo(labelDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(labelMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(labelMapper.fromId(null)).isNull();
-    }
 }
