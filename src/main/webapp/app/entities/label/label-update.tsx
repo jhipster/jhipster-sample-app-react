@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
@@ -16,118 +16,104 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 
 export interface ILabelUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
-export interface ILabelUpdateState {
-  isNew: boolean;
-  operationId: string;
-}
+export const LabelUpdate = (props: ILabelUpdateProps) => {
+  const [operationId, setOperationId] = useState('0');
+  const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-export class LabelUpdate extends React.Component<ILabelUpdateProps, ILabelUpdateState> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      operationId: '0',
-      isNew: !this.props.match.params || !this.props.match.params.id
-    };
-  }
+  const { labelEntity, operations, loading, updating } = props;
 
-  componentWillUpdate(nextProps, nextState) {
-    if (nextProps.updateSuccess !== this.props.updateSuccess && nextProps.updateSuccess) {
-      this.handleClose();
-    }
-  }
+  const handleClose = () => {
+    props.history.push('/label');
+  };
 
-  componentDidMount() {
-    if (this.state.isNew) {
-      this.props.reset();
+  useEffect(() => {
+    if (isNew) {
+      props.reset();
     } else {
-      this.props.getEntity(this.props.match.params.id);
+      props.getEntity(props.match.params.id);
     }
 
-    this.props.getOperations();
-  }
+    props.getOperations();
+  }, []);
 
-  saveEntity = (event, errors, values) => {
+  useEffect(() => {
+    if (props.updateSuccess) {
+      handleClose();
+    }
+  }, [props.updateSuccess]);
+
+  const saveEntity = (event, errors, values) => {
     if (errors.length === 0) {
-      const { labelEntity } = this.props;
       const entity = {
         ...labelEntity,
         ...values
       };
 
-      if (this.state.isNew) {
-        this.props.createEntity(entity);
+      if (isNew) {
+        props.createEntity(entity);
       } else {
-        this.props.updateEntity(entity);
+        props.updateEntity(entity);
       }
     }
   };
 
-  handleClose = () => {
-    this.props.history.push('/label');
-  };
-
-  render() {
-    const { labelEntity, operations, loading, updating } = this.props;
-    const { isNew } = this.state;
-
-    return (
-      <div>
-        <Row className="justify-content-center">
-          <Col md="8">
-            <h2 id="jhipsterSampleApplicationReactApp.label.home.createOrEditLabel">
-              <Translate contentKey="jhipsterSampleApplicationReactApp.label.home.createOrEditLabel">Create or edit a Label</Translate>
-            </h2>
-          </Col>
-        </Row>
-        <Row className="justify-content-center">
-          <Col md="8">
-            {loading ? (
-              <p>Loading...</p>
-            ) : (
-              <AvForm model={isNew ? {} : labelEntity} onSubmit={this.saveEntity}>
-                {!isNew ? (
-                  <AvGroup>
-                    <Label for="label-id">
-                      <Translate contentKey="global.field.id">ID</Translate>
-                    </Label>
-                    <AvInput id="label-id" type="text" className="form-control" name="id" required readOnly />
-                  </AvGroup>
-                ) : null}
+  return (
+    <div>
+      <Row className="justify-content-center">
+        <Col md="8">
+          <h2 id="jhipsterSampleApplicationReactApp.label.home.createOrEditLabel">
+            <Translate contentKey="jhipsterSampleApplicationReactApp.label.home.createOrEditLabel">Create or edit a Label</Translate>
+          </h2>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col md="8">
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <AvForm model={isNew ? {} : labelEntity} onSubmit={saveEntity}>
+              {!isNew ? (
                 <AvGroup>
-                  <Label id="labelLabel" for="label-label">
-                    <Translate contentKey="jhipsterSampleApplicationReactApp.label.label">Label</Translate>
+                  <Label for="label-id">
+                    <Translate contentKey="global.field.id">ID</Translate>
                   </Label>
-                  <AvField
-                    id="label-label"
-                    type="text"
-                    name="label"
-                    validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') },
-                      minLength: { value: 3, errorMessage: translate('entity.validation.minlength', { min: 3 }) }
-                    }}
-                  />
+                  <AvInput id="label-id" type="text" className="form-control" name="id" required readOnly />
                 </AvGroup>
-                <Button tag={Link} id="cancel-save" to="/label" replace color="info">
-                  <FontAwesomeIcon icon="arrow-left" />
-                  &nbsp;
-                  <span className="d-none d-md-inline">
-                    <Translate contentKey="entity.action.back">Back</Translate>
-                  </span>
-                </Button>
+              ) : null}
+              <AvGroup>
+                <Label id="labelLabel" for="label-label">
+                  <Translate contentKey="jhipsterSampleApplicationReactApp.label.label">Label</Translate>
+                </Label>
+                <AvField
+                  id="label-label"
+                  type="text"
+                  name="label"
+                  validate={{
+                    required: { value: true, errorMessage: translate('entity.validation.required') },
+                    minLength: { value: 3, errorMessage: translate('entity.validation.minlength', { min: 3 }) }
+                  }}
+                />
+              </AvGroup>
+              <Button tag={Link} id="cancel-save" to="/label" replace color="info">
+                <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <Button color="primary" id="save-entity" type="submit" disabled={updating}>
-                  <FontAwesomeIcon icon="save" />
-                  &nbsp;
-                  <Translate contentKey="entity.action.save">Save</Translate>
-                </Button>
-              </AvForm>
-            )}
-          </Col>
-        </Row>
-      </div>
-    );
-  }
-}
+                <span className="d-none d-md-inline">
+                  <Translate contentKey="entity.action.back">Back</Translate>
+                </span>
+              </Button>
+              &nbsp;
+              <Button color="primary" id="save-entity" type="submit" disabled={updating}>
+                <FontAwesomeIcon icon="save" />
+                &nbsp;
+                <Translate contentKey="entity.action.save">Save</Translate>
+              </Button>
+            </AvForm>
+          )}
+        </Col>
+      </Row>
+    </div>
+  );
+};
 
 const mapStateToProps = (storeState: IRootState) => ({
   operations: storeState.operation.entities,
@@ -148,7 +134,4 @@ const mapDispatchToProps = {
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LabelUpdate);
+export default connect(mapStateToProps, mapDispatchToProps)(LabelUpdate);

@@ -26,6 +26,8 @@ describe('Operation e2e test', () => {
     await signInPage.loginButton.click();
     await signInPage.waitUntilHidden();
     await waitUntilDisplayed(navBarPage.entityMenu);
+    await waitUntilDisplayed(navBarPage.adminMenu);
+    await waitUntilDisplayed(navBarPage.accountMenu);
   });
 
   it('should load Operations', async () => {
@@ -64,6 +66,7 @@ describe('Operation e2e test', () => {
     await operationComponentsPage.waitUntilLoaded();
     const nbButtonsBeforeCreate = await operationComponentsPage.countDeleteButtons();
     await createOperation();
+    await operationComponentsPage.waitUntilLoaded();
 
     await operationComponentsPage.waitUntilDeleteButtonsLength(nbButtonsBeforeCreate + 1);
     expect(await operationComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeCreate + 1);

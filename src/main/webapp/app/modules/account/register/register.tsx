@@ -115,7 +115,4 @@ const mapDispatchToProps = { handleRegister, reset };
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RegisterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);

@@ -26,6 +26,8 @@ describe('Label e2e test', () => {
     await signInPage.loginButton.click();
     await signInPage.waitUntilHidden();
     await waitUntilDisplayed(navBarPage.entityMenu);
+    await waitUntilDisplayed(navBarPage.adminMenu);
+    await waitUntilDisplayed(navBarPage.accountMenu);
   });
 
   it('should load Labels', async () => {
@@ -58,6 +60,7 @@ describe('Label e2e test', () => {
     await labelComponentsPage.waitUntilLoaded();
     const nbButtonsBeforeCreate = await labelComponentsPage.countDeleteButtons();
     await createLabel();
+    await labelComponentsPage.waitUntilLoaded();
 
     await labelComponentsPage.waitUntilDeleteButtonsLength(nbButtonsBeforeCreate + 1);
     expect(await labelComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeCreate + 1);

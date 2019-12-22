@@ -102,7 +102,4 @@ const mapDispatchToProps = { getSession, savePassword, reset };
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PasswordPage);
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordPage);

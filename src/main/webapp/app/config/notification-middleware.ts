@@ -28,7 +28,7 @@ export default () => next => action => {
           if (k.toLowerCase().endsWith('app-alert')) {
             alert = v;
           } else if (k.toLowerCase().endsWith('app-params')) {
-            alertParams = v;
+            alertParams = decodeURIComponent(v.replace(/\+/g, ' '));
           }
         });
         if (alert) {

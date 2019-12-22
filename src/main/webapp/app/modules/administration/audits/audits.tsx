@@ -151,7 +151,4 @@ const mapDispatchToProps = { getAudits };
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AuditsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(AuditsPage);

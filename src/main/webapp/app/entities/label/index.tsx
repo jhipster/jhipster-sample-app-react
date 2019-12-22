@@ -11,12 +11,12 @@ import LabelDeleteDialog from './label-delete-dialog';
 const Routes = ({ match }) => (
   <>
     <Switch>
+      <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={LabelDeleteDialog} />
       <ErrorBoundaryRoute exact path={`${match.url}/new`} component={LabelUpdate} />
       <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={LabelUpdate} />
       <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={LabelDetail} />
       <ErrorBoundaryRoute path={match.url} component={Label} />
     </Switch>
-    <ErrorBoundaryRoute path={`${match.url}/:id/delete`} component={LabelDeleteDialog} />
   </>
 );
 

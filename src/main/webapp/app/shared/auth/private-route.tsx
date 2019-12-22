@@ -34,7 +34,7 @@ export const PrivateRouteComponent = ({
 
   const renderRedirect = props => {
     if (!sessionHasBeenFetched) {
-      return <div />;
+      return <div></div>;
     } else {
       return isAuthenticated ? (
         checkAuthorities(props)
@@ -81,11 +81,6 @@ type StateProps = ReturnType<typeof mapStateToProps>;
  * Accepts same props as React router Route.
  * The route also checks for authorization if hasAnyAuthorities is specified.
  */
-export const PrivateRoute = connect<StateProps, undefined, IOwnProps>(
-  mapStateToProps,
-  null,
-  null,
-  { pure: false }
-)(PrivateRouteComponent);
+export const PrivateRoute = connect<StateProps, undefined, IOwnProps>(mapStateToProps, null, null, { pure: false })(PrivateRouteComponent);
 
 export default PrivateRoute;

@@ -26,6 +26,8 @@ describe('BankAccount e2e test', () => {
     await signInPage.loginButton.click();
     await signInPage.waitUntilHidden();
     await waitUntilDisplayed(navBarPage.entityMenu);
+    await waitUntilDisplayed(navBarPage.adminMenu);
+    await waitUntilDisplayed(navBarPage.accountMenu);
   });
 
   it('should load BankAccounts', async () => {
@@ -61,6 +63,7 @@ describe('BankAccount e2e test', () => {
     await bankAccountComponentsPage.waitUntilLoaded();
     const nbButtonsBeforeCreate = await bankAccountComponentsPage.countDeleteButtons();
     await createBankAccount();
+    await bankAccountComponentsPage.waitUntilLoaded();
 
     await bankAccountComponentsPage.waitUntilDeleteButtonsLength(nbButtonsBeforeCreate + 1);
     expect(await bankAccountComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeCreate + 1);

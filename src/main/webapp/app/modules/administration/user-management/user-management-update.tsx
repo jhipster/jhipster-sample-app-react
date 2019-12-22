@@ -217,7 +217,4 @@ const mapDispatchToProps = { getUser, getRoles, updateUser, createUser, reset };
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserManagementUpdate);
+export default connect(mapStateToProps, mapDispatchToProps)(UserManagementUpdate);
