@@ -1,0 +1,5 @@
+tasks:
+  - init: npm install && ./mvnw install -DskipTests=false
+    command: npm run start
+image:
+  file: .gitpod.Dockerfile
