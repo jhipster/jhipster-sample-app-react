@@ -1,4 +1,5 @@
 package io.github.jhipster.sample.service.dto;
+
 import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;

@@ -117,7 +117,7 @@ public class BankAccountResourceIT {
         // Create the BankAccount
         BankAccountDTO bankAccountDTO = bankAccountMapper.toDto(bankAccount);
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(bankAccountDTO)))
             .andExpect(status().isCreated());
 
@@ -140,7 +140,7 @@ public class BankAccountResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(bankAccountDTO)))
             .andExpect(status().isBadRequest());
 
@@ -161,7 +161,7 @@ public class BankAccountResourceIT {
         BankAccountDTO bankAccountDTO = bankAccountMapper.toDto(bankAccount);
 
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(bankAccountDTO)))
             .andExpect(status().isBadRequest());
 
@@ -180,7 +180,7 @@ public class BankAccountResourceIT {
         BankAccountDTO bankAccountDTO = bankAccountMapper.toDto(bankAccount);
 
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(bankAccountDTO)))
             .andExpect(status().isBadRequest());
 
@@ -197,7 +197,7 @@ public class BankAccountResourceIT {
         // Get all the bankAccountList
         restBankAccountMockMvc.perform(get("/api/bank-accounts?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(bankAccount.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.intValue())));
@@ -212,7 +212,7 @@ public class BankAccountResourceIT {
         // Get the bankAccount
         restBankAccountMockMvc.perform(get("/api/bank-accounts/{id}", bankAccount.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(bankAccount.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.balance").value(DEFAULT_BALANCE.intValue()));
@@ -243,7 +243,7 @@ public class BankAccountResourceIT {
         BankAccountDTO bankAccountDTO = bankAccountMapper.toDto(updatedBankAccount);
 
         restBankAccountMockMvc.perform(put("/api/bank-accounts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(bankAccountDTO)))
             .andExpect(status().isOk());
 
@@ -265,7 +265,7 @@ public class BankAccountResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restBankAccountMockMvc.perform(put("/api/bank-accounts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(bankAccountDTO)))
             .andExpect(status().isBadRequest());
 
@@ -284,7 +284,7 @@ public class BankAccountResourceIT {
 
         // Delete the bankAccount
         restBankAccountMockMvc.perform(delete("/api/bank-accounts/{id}", bankAccount.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

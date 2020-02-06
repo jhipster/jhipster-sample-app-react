@@ -4,7 +4,15 @@ import NavBarPage from './../../page-objects/navbar-page';
 import SignInPage from './../../page-objects/signin-page';
 import OperationComponentsPage, { OperationDeleteDialog } from './operation.page-object';
 import OperationUpdatePage from './operation-update.page-object';
-import { waitUntilDisplayed, waitUntilHidden } from '../../util/utils';
+import {
+  waitUntilDisplayed,
+  waitUntilAnyDisplayed,
+  click,
+  getRecordsCount,
+  waitUntilHidden,
+  waitUntilCount,
+  isVisible
+} from '../../util/utils';
 
 const expect = chai.expect;
 
@@ -14,6 +22,7 @@ describe('Operation e2e test', () => {
   let operationComponentsPage: OperationComponentsPage;
   let operationUpdatePage: OperationUpdatePage;
   let operationDeleteDialog: OperationDeleteDialog;
+  let beforeRecordsCount = 0;
 
   before(async () => {
     await browser.get('/');
@@ -33,11 +42,16 @@ describe('Operation e2e test', () => {
   it('should load Operations', async () => {
     await navBarPage.getEntityPage('operation');
     operationComponentsPage = new OperationComponentsPage();
-    expect(await operationComponentsPage.getTitle().getText()).to.match(/Operations/);
+    expect(await operationComponentsPage.title.getText()).to.match(/Operations/);
+
+    expect(await operationComponentsPage.createButton.isEnabled()).to.be.true;
+    await waitUntilAnyDisplayed([operationComponentsPage.noRecords, operationComponentsPage.table]);
+
+    beforeRecordsCount = (await isVisible(operationComponentsPage.noRecords)) ? 0 : await getRecordsCount(operationComponentsPage.table);
   });
 
   it('should load create Operation page', async () => {
-    await operationComponentsPage.clickOnCreateButton();
+    await operationComponentsPage.createButton.click();
     operationUpdatePage = new OperationUpdatePage();
     expect(await operationUpdatePage.getPageTitle().getAttribute('id')).to.match(
       /jhipsterSampleApplicationReactApp.operation.home.createOrEditLabel/
@@ -46,48 +60,47 @@ describe('Operation e2e test', () => {
   });
 
   it('should create and save Operations', async () => {
-    async function createOperation() {
-      await operationComponentsPage.clickOnCreateButton();
-      await operationUpdatePage.setDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
-      expect(await operationUpdatePage.getDateInput()).to.contain('2001-01-01T02:30');
-      await operationUpdatePage.setDescriptionInput('description');
-      expect(await operationUpdatePage.getDescriptionInput()).to.match(/description/);
-      await operationUpdatePage.setAmountInput('5');
-      expect(await operationUpdatePage.getAmountInput()).to.eq('5');
-      await operationUpdatePage.bankAccountSelectLastOption();
-      // operationUpdatePage.labelSelectLastOption();
-      await waitUntilDisplayed(operationUpdatePage.getSaveButton());
-      await operationUpdatePage.save();
-      await waitUntilHidden(operationUpdatePage.getSaveButton());
-      expect(await operationUpdatePage.getSaveButton().isPresent()).to.be.false;
-    }
+    await operationComponentsPage.createButton.click();
+    await operationUpdatePage.setDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
+    expect(await operationUpdatePage.getDateInput()).to.contain('2001-01-01T02:30');
+    await operationUpdatePage.setDescriptionInput('description');
+    expect(await operationUpdatePage.getDescriptionInput()).to.match(/description/);
+    await operationUpdatePage.setAmountInput('5');
+    expect(await operationUpdatePage.getAmountInput()).to.eq('5');
+    await operationUpdatePage.bankAccountSelectLastOption();
+    // operationUpdatePage.labelSelectLastOption();
+    await waitUntilDisplayed(operationUpdatePage.saveButton);
+    await operationUpdatePage.save();
+    await waitUntilHidden(operationUpdatePage.saveButton);
+    expect(await isVisible(operationUpdatePage.saveButton)).to.be.false;
 
-    await createOperation();
-    await operationComponentsPage.waitUntilLoaded();
-    const nbButtonsBeforeCreate = await operationComponentsPage.countDeleteButtons();
-    await createOperation();
-    await operationComponentsPage.waitUntilLoaded();
+    expect(await operationComponentsPage.createButton.isEnabled()).to.be.true;
 
-    await operationComponentsPage.waitUntilDeleteButtonsLength(nbButtonsBeforeCreate + 1);
-    expect(await operationComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeCreate + 1);
+    await waitUntilDisplayed(operationComponentsPage.table);
+
+    await waitUntilCount(operationComponentsPage.records, beforeRecordsCount + 1);
+    expect(await operationComponentsPage.records.count()).to.eq(beforeRecordsCount + 1);
   });
 
   it('should delete last Operation', async () => {
-    await operationComponentsPage.waitUntilLoaded();
-    const nbButtonsBeforeDelete = await operationComponentsPage.countDeleteButtons();
-    await operationComponentsPage.clickOnLastDeleteButton();
-
-    const deleteModal = element(by.className('modal'));
-    await waitUntilDisplayed(deleteModal);
+    const deleteButton = operationComponentsPage.getDeleteButton(operationComponentsPage.records.last());
+    await click(deleteButton);
 
     operationDeleteDialog = new OperationDeleteDialog();
+    await waitUntilDisplayed(operationDeleteDialog.deleteModal);
     expect(await operationDeleteDialog.getDialogTitle().getAttribute('id')).to.match(
       /jhipsterSampleApplicationReactApp.operation.delete.question/
     );
     await operationDeleteDialog.clickOnConfirmButton();
 
-    await operationComponentsPage.waitUntilDeleteButtonsLength(nbButtonsBeforeDelete - 1);
-    expect(await operationComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeDelete - 1);
+    await waitUntilHidden(operationDeleteDialog.deleteModal);
+
+    expect(await isVisible(operationDeleteDialog.deleteModal)).to.be.false;
+
+    await waitUntilAnyDisplayed([operationComponentsPage.noRecords, operationComponentsPage.table]);
+
+    const afterCount = (await isVisible(operationComponentsPage.noRecords)) ? 0 : await getRecordsCount(operationComponentsPage.table);
+    expect(afterCount).to.eq(beforeRecordsCount);
   });
 
   after(async () => {

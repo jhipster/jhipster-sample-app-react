@@ -1,5 +1,6 @@
 package io.github.jhipster.sample.service.mapper;
 
+
 import io.github.jhipster.sample.domain.*;
 import io.github.jhipster.sample.service.dto.OperationDTO;
 

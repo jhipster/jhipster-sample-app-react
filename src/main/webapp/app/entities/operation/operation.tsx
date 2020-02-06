@@ -71,7 +71,7 @@ export const Operation = (props: IOperationProps) => {
     setSorting(true);
   };
 
-  const { operationList, match } = props;
+  const { operationList, match, loading } = props;
   return (
     <div>
       <h2 id="operation-heading">
@@ -164,9 +164,11 @@ export const Operation = (props: IOperationProps) => {
               </tbody>
             </Table>
           ) : (
-            <div className="alert alert-warning">
-              <Translate contentKey="jhipsterSampleApplicationReactApp.operation.home.notFound">No Operations found</Translate>
-            </div>
+            !loading && (
+              <div className="alert alert-warning">
+                <Translate contentKey="jhipsterSampleApplicationReactApp.operation.home.notFound">No Operations found</Translate>
+              </div>
+            )
           )}
         </InfiniteScroll>
       </div>
@@ -176,6 +178,7 @@ export const Operation = (props: IOperationProps) => {
 
 const mapStateToProps = ({ operation }: IRootState) => ({
   operationList: operation.entities,
+  loading: operation.loading,
   totalItems: operation.totalItems,
   links: operation.links,
   entity: operation.entity,

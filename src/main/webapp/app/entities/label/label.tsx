@@ -17,7 +17,7 @@ export const Label = (props: ILabelProps) => {
     props.getEntities();
   }, []);
 
-  const { labelList, match } = props;
+  const { labelList, match, loading } = props;
   return (
     <div>
       <h2 id="label-heading">
@@ -78,9 +78,11 @@ export const Label = (props: ILabelProps) => {
             </tbody>
           </Table>
         ) : (
-          <div className="alert alert-warning">
-            <Translate contentKey="jhipsterSampleApplicationReactApp.label.home.notFound">No Labels found</Translate>
-          </div>
+          !loading && (
+            <div className="alert alert-warning">
+              <Translate contentKey="jhipsterSampleApplicationReactApp.label.home.notFound">No Labels found</Translate>
+            </div>
+          )
         )}
       </div>
     </div>
@@ -88,7 +90,8 @@ export const Label = (props: ILabelProps) => {
 };
 
 const mapStateToProps = ({ label }: IRootState) => ({
-  labelList: label.entities
+  labelList: label.entities,
+  loading: label.loading
 });
 
 const mapDispatchToProps = {

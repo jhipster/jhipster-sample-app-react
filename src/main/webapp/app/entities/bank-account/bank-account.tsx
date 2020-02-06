@@ -17,7 +17,7 @@ export const BankAccount = (props: IBankAccountProps) => {
     props.getEntities();
   }, []);
 
-  const { bankAccountList, match } = props;
+  const { bankAccountList, match, loading } = props;
   return (
     <div>
       <h2 id="bank-account-heading">
@@ -86,9 +86,11 @@ export const BankAccount = (props: IBankAccountProps) => {
             </tbody>
           </Table>
         ) : (
-          <div className="alert alert-warning">
-            <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.notFound">No Bank Accounts found</Translate>
-          </div>
+          !loading && (
+            <div className="alert alert-warning">
+              <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.notFound">No Bank Accounts found</Translate>
+            </div>
+          )
         )}
       </div>
     </div>
@@ -96,7 +98,8 @@ export const BankAccount = (props: IBankAccountProps) => {
 };
 
 const mapStateToProps = ({ bankAccount }: IRootState) => ({
-  bankAccountList: bankAccount.entities
+  bankAccountList: bankAccount.entities,
+  loading: bankAccount.loading
 });
 
 const mapDispatchToProps = {

@@ -1,38 +1,29 @@
-import { element, by, ElementFinder } from 'protractor';
-
-import { waitUntilCount, waitUntilDisplayed } from '../../util/utils';
+import { element, by, ElementFinder, ElementArrayFinder } from 'protractor';
 
 export default class OperationComponentsPage {
   createButton: ElementFinder = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('div table .btn-danger'));
   title: ElementFinder = element(by.id('operation-heading'));
+  noRecords: ElementFinder = element(by.css('#app-view-container .table-responsive div.alert.alert-warning'));
+  table: ElementFinder = element(by.css('#app-view-container div.table-responsive > table'));
 
-  async clickOnCreateButton() {
-    await this.createButton.click();
+  records: ElementArrayFinder = this.table.all(by.css('tbody tr'));
+
+  getDetailsButton(record: ElementFinder) {
+    return record.element(by.css('a.btn.btn-info.btn-sm'));
   }
 
-  async clickOnLastDeleteButton() {
-    await this.deleteButtons.last().click();
+  getEditButton(record: ElementFinder) {
+    return record.element(by.css('a.btn.btn-primary.btn-sm'));
   }
 
-  async countDeleteButtons() {
-    return this.deleteButtons.count();
-  }
-
-  getTitle() {
-    return this.title;
-  }
-
-  async waitUntilLoaded() {
-    await waitUntilDisplayed(this.deleteButtons.first());
-  }
-
-  async waitUntilDeleteButtonsLength(length) {
-    await waitUntilCount(this.deleteButtons, length);
+  getDeleteButton(record: ElementFinder) {
+    return record.element(by.css('a.btn.btn-danger.btn-sm'));
   }
 }
 
 export class OperationDeleteDialog {
+  deleteModal = element(by.className('modal'));
   private dialogTitle: ElementFinder = element(by.id('jhipsterSampleApplicationReactApp.operation.delete.question'));
   private confirmButton = element(by.id('jhi-confirm-delete-operation'));
 

@@ -4,7 +4,15 @@ import NavBarPage from './../../page-objects/navbar-page';
 import SignInPage from './../../page-objects/signin-page';
 import BankAccountComponentsPage, { BankAccountDeleteDialog } from './bank-account.page-object';
 import BankAccountUpdatePage from './bank-account-update.page-object';
-import { waitUntilDisplayed, waitUntilHidden } from '../../util/utils';
+import {
+  waitUntilDisplayed,
+  waitUntilAnyDisplayed,
+  click,
+  getRecordsCount,
+  waitUntilHidden,
+  waitUntilCount,
+  isVisible
+} from '../../util/utils';
 
 const expect = chai.expect;
 
@@ -14,6 +22,7 @@ describe('BankAccount e2e test', () => {
   let bankAccountComponentsPage: BankAccountComponentsPage;
   let bankAccountUpdatePage: BankAccountUpdatePage;
   let bankAccountDeleteDialog: BankAccountDeleteDialog;
+  let beforeRecordsCount = 0;
 
   before(async () => {
     await browser.get('/');
@@ -33,11 +42,18 @@ describe('BankAccount e2e test', () => {
   it('should load BankAccounts', async () => {
     await navBarPage.getEntityPage('bank-account');
     bankAccountComponentsPage = new BankAccountComponentsPage();
-    expect(await bankAccountComponentsPage.getTitle().getText()).to.match(/Bank Accounts/);
+    expect(await bankAccountComponentsPage.title.getText()).to.match(/Bank Accounts/);
+
+    expect(await bankAccountComponentsPage.createButton.isEnabled()).to.be.true;
+    await waitUntilAnyDisplayed([bankAccountComponentsPage.noRecords, bankAccountComponentsPage.table]);
+
+    beforeRecordsCount = (await isVisible(bankAccountComponentsPage.noRecords))
+      ? 0
+      : await getRecordsCount(bankAccountComponentsPage.table);
   });
 
   it('should load create BankAccount page', async () => {
-    await bankAccountComponentsPage.clickOnCreateButton();
+    await bankAccountComponentsPage.createButton.click();
     bankAccountUpdatePage = new BankAccountUpdatePage();
     expect(await bankAccountUpdatePage.getPageTitle().getAttribute('id')).to.match(
       /jhipsterSampleApplicationReactApp.bankAccount.home.createOrEditLabel/
@@ -46,45 +62,44 @@ describe('BankAccount e2e test', () => {
   });
 
   it('should create and save BankAccounts', async () => {
-    async function createBankAccount() {
-      await bankAccountComponentsPage.clickOnCreateButton();
-      await bankAccountUpdatePage.setNameInput('name');
-      expect(await bankAccountUpdatePage.getNameInput()).to.match(/name/);
-      await bankAccountUpdatePage.setBalanceInput('5');
-      expect(await bankAccountUpdatePage.getBalanceInput()).to.eq('5');
-      await bankAccountUpdatePage.userSelectLastOption();
-      await waitUntilDisplayed(bankAccountUpdatePage.getSaveButton());
-      await bankAccountUpdatePage.save();
-      await waitUntilHidden(bankAccountUpdatePage.getSaveButton());
-      expect(await bankAccountUpdatePage.getSaveButton().isPresent()).to.be.false;
-    }
+    await bankAccountComponentsPage.createButton.click();
+    await bankAccountUpdatePage.setNameInput('name');
+    expect(await bankAccountUpdatePage.getNameInput()).to.match(/name/);
+    await bankAccountUpdatePage.setBalanceInput('5');
+    expect(await bankAccountUpdatePage.getBalanceInput()).to.eq('5');
+    await bankAccountUpdatePage.userSelectLastOption();
+    await waitUntilDisplayed(bankAccountUpdatePage.saveButton);
+    await bankAccountUpdatePage.save();
+    await waitUntilHidden(bankAccountUpdatePage.saveButton);
+    expect(await isVisible(bankAccountUpdatePage.saveButton)).to.be.false;
 
-    await createBankAccount();
-    await bankAccountComponentsPage.waitUntilLoaded();
-    const nbButtonsBeforeCreate = await bankAccountComponentsPage.countDeleteButtons();
-    await createBankAccount();
-    await bankAccountComponentsPage.waitUntilLoaded();
+    expect(await bankAccountComponentsPage.createButton.isEnabled()).to.be.true;
 
-    await bankAccountComponentsPage.waitUntilDeleteButtonsLength(nbButtonsBeforeCreate + 1);
-    expect(await bankAccountComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeCreate + 1);
+    await waitUntilDisplayed(bankAccountComponentsPage.table);
+
+    await waitUntilCount(bankAccountComponentsPage.records, beforeRecordsCount + 1);
+    expect(await bankAccountComponentsPage.records.count()).to.eq(beforeRecordsCount + 1);
   });
 
   it('should delete last BankAccount', async () => {
-    await bankAccountComponentsPage.waitUntilLoaded();
-    const nbButtonsBeforeDelete = await bankAccountComponentsPage.countDeleteButtons();
-    await bankAccountComponentsPage.clickOnLastDeleteButton();
-
-    const deleteModal = element(by.className('modal'));
-    await waitUntilDisplayed(deleteModal);
+    const deleteButton = bankAccountComponentsPage.getDeleteButton(bankAccountComponentsPage.records.last());
+    await click(deleteButton);
 
     bankAccountDeleteDialog = new BankAccountDeleteDialog();
+    await waitUntilDisplayed(bankAccountDeleteDialog.deleteModal);
     expect(await bankAccountDeleteDialog.getDialogTitle().getAttribute('id')).to.match(
       /jhipsterSampleApplicationReactApp.bankAccount.delete.question/
     );
     await bankAccountDeleteDialog.clickOnConfirmButton();
 
-    await bankAccountComponentsPage.waitUntilDeleteButtonsLength(nbButtonsBeforeDelete - 1);
-    expect(await bankAccountComponentsPage.countDeleteButtons()).to.eq(nbButtonsBeforeDelete - 1);
+    await waitUntilHidden(bankAccountDeleteDialog.deleteModal);
+
+    expect(await isVisible(bankAccountDeleteDialog.deleteModal)).to.be.false;
+
+    await waitUntilAnyDisplayed([bankAccountComponentsPage.noRecords, bankAccountComponentsPage.table]);
+
+    const afterCount = (await isVisible(bankAccountComponentsPage.noRecords)) ? 0 : await getRecordsCount(bankAccountComponentsPage.table);
+    expect(afterCount).to.eq(beforeRecordsCount);
   });
 
   after(async () => {

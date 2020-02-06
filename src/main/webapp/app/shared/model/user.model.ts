@@ -20,7 +20,7 @@ export const defaultValue: Readonly<IUser> = {
   firstName: '',
   lastName: '',
   email: '',
-  activated: false,
+  activated: true,
   langKey: '',
   authorities: [],
   createdBy: '',
