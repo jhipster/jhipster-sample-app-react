@@ -17,7 +17,7 @@ export const UserManagementDeleteDialog = (props: IUserManagementDeleteDialogPro
 
   const handleClose = event => {
     event.stopPropagation();
-    props.history.goBack();
+    props.history.push('/admin/user-management');
   };
 
   const confirmDelete = event => {
