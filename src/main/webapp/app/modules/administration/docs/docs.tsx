@@ -1,3 +1,5 @@
+import './docs.scss';
+
 import React from 'react';
 
 const DocsPage = () => (

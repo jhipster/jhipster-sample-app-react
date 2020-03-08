@@ -126,7 +126,6 @@ export const updateEntity: ICrudPutAction<IBankAccount> = entity => async dispat
     type: ACTION_TYPES.UPDATE_BANKACCOUNT,
     payload: axios.put(apiUrl, cleanEntity(entity))
   });
-  dispatch(getEntities());
   return result;
 };
 
@@ -136,7 +135,6 @@ export const deleteEntity: ICrudDeleteAction<IBankAccount> = id => async dispatc
     type: ACTION_TYPES.DELETE_BANKACCOUNT,
     payload: axios.delete(requestUrl)
   });
-  dispatch(getEntities());
   return result;
 };
 

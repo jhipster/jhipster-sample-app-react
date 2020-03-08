@@ -35,12 +35,6 @@ export const Operation = (props: IOperationProps) => {
   }, []);
 
   useEffect(() => {
-    if (props.updateSuccess) {
-      getAllEntities();
-    }
-  });
-
-  useEffect(() => {
     getAllEntities();
   }, [paginationState.activePage]);
 

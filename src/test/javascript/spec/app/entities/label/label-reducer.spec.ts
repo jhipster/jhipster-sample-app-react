@@ -243,13 +243,6 @@ describe('Entities reducer tests', () => {
         {
           type: SUCCESS(ACTION_TYPES.UPDATE_LABEL),
           payload: resolvedObject
-        },
-        {
-          type: REQUEST(ACTION_TYPES.FETCH_LABEL_LIST)
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.FETCH_LABEL_LIST),
-          payload: resolvedObject
         }
       ];
       await store.dispatch(updateEntity({ id: 1 })).then(() => expect(store.getActions()).toEqual(expectedActions));
@@ -262,13 +255,6 @@ describe('Entities reducer tests', () => {
         },
         {
           type: SUCCESS(ACTION_TYPES.DELETE_LABEL),
-          payload: resolvedObject
-        },
-        {
-          type: REQUEST(ACTION_TYPES.FETCH_LABEL_LIST)
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.FETCH_LABEL_LIST),
           payload: resolvedObject
         }
       ];

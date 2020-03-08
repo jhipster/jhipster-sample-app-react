@@ -9,7 +9,7 @@ import java.util.Objects;
  * A DTO for the {@link io.github.jhipster.sample.domain.BankAccount} entity.
  */
 public class BankAccountDTO implements Serializable {
-
+    
     private Long id;
 
     @NotNull
@@ -22,7 +22,7 @@ public class BankAccountDTO implements Serializable {
     private Long userId;
 
     private String userLogin;
-
+    
     public Long getId() {
         return id;
     }

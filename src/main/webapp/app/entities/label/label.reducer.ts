@@ -126,7 +126,6 @@ export const updateEntity: ICrudPutAction<ILabel> = entity => async dispatch => 
     type: ACTION_TYPES.UPDATE_LABEL,
     payload: axios.put(apiUrl, cleanEntity(entity))
   });
-  dispatch(getEntities());
   return result;
 };
 
@@ -136,7 +135,6 @@ export const deleteEntity: ICrudDeleteAction<ILabel> = id => async dispatch => {
     type: ACTION_TYPES.DELETE_LABEL,
     payload: axios.delete(requestUrl)
   });
-  dispatch(getEntities());
   return result;
 };
 
