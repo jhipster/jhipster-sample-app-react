@@ -4,12 +4,12 @@ import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util'
 
 export const ACTION_TYPES = {
   ACTIVATE_ACCOUNT: 'activate/ACTIVATE_ACCOUNT',
-  RESET: 'activate/RESET'
+  RESET: 'activate/RESET',
 };
 
 const initialState = {
   activationSuccess: false,
-  activationFailure: false
+  activationFailure: false,
 };
 
 export type ActivateState = Readonly<typeof initialState>;
@@ -19,21 +19,21 @@ export default (state: ActivateState = initialState, action): ActivateState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.ACTIVATE_ACCOUNT):
       return {
-        ...state
+        ...state,
       };
     case FAILURE(ACTION_TYPES.ACTIVATE_ACCOUNT):
       return {
         ...state,
-        activationFailure: true
+        activationFailure: true,
       };
     case SUCCESS(ACTION_TYPES.ACTIVATE_ACCOUNT):
       return {
         ...state,
-        activationSuccess: true
+        activationSuccess: true,
       };
     case ACTION_TYPES.RESET:
       return {
-        ...initialState
+        ...initialState,
       };
     default:
       return state;
@@ -43,9 +43,9 @@ export default (state: ActivateState = initialState, action): ActivateState => {
 // Actions
 export const activateAction = key => ({
   type: ACTION_TYPES.ACTIVATE_ACCOUNT,
-  payload: axios.get('api/activate?key=' + key)
+  payload: axios.get('api/activate?key=' + key),
 });
 
 export const reset = () => ({
-  type: ACTION_TYPES.RESET
+  type: ACTION_TYPES.RESET,
 });

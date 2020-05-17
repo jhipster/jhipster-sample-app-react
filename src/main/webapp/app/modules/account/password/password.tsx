@@ -17,7 +17,9 @@ export const PasswordPage = (props: IUserPasswordProps) => {
   useEffect(() => {
     props.reset();
     props.getSession();
-    return () => props.reset();
+    return () => {
+      props.reset();
+    };
   }, []);
 
   const handleValidSubmit = (event, values) => {
@@ -42,7 +44,7 @@ export const PasswordPage = (props: IUserPasswordProps) => {
               placeholder={translate('global.form.currentpassword.placeholder')}
               type="password"
               validate={{
-                required: { value: true, errorMessage: translate('global.messages.validate.newpassword.required') }
+                required: { value: true, errorMessage: translate('global.messages.validate.newpassword.required') },
               }}
             />
             <AvField
@@ -53,7 +55,7 @@ export const PasswordPage = (props: IUserPasswordProps) => {
               validate={{
                 required: { value: true, errorMessage: translate('global.messages.validate.newpassword.required') },
                 minLength: { value: 4, errorMessage: translate('global.messages.validate.newpassword.minlength') },
-                maxLength: { value: 50, errorMessage: translate('global.messages.validate.newpassword.maxlength') }
+                maxLength: { value: 50, errorMessage: translate('global.messages.validate.newpassword.maxlength') },
               }}
               onChange={updatePassword}
             />
@@ -66,20 +68,20 @@ export const PasswordPage = (props: IUserPasswordProps) => {
               validate={{
                 required: {
                   value: true,
-                  errorMessage: translate('global.messages.validate.confirmpassword.required')
+                  errorMessage: translate('global.messages.validate.confirmpassword.required'),
                 },
                 minLength: {
                   value: 4,
-                  errorMessage: translate('global.messages.validate.confirmpassword.minlength')
+                  errorMessage: translate('global.messages.validate.confirmpassword.minlength'),
                 },
                 maxLength: {
                   value: 50,
-                  errorMessage: translate('global.messages.validate.confirmpassword.maxlength')
+                  errorMessage: translate('global.messages.validate.confirmpassword.maxlength'),
                 },
                 match: {
                   value: 'newPassword',
-                  errorMessage: translate('global.messages.error.dontmatch')
-                }
+                  errorMessage: translate('global.messages.error.dontmatch'),
+                },
               }}
             />
             <Button color="success" type="submit">
@@ -94,7 +96,7 @@ export const PasswordPage = (props: IUserPasswordProps) => {
 
 const mapStateToProps = ({ authentication }: IRootState) => ({
   account: authentication.account,
-  isAuthenticated: authentication.isAuthenticated
+  isAuthenticated: authentication.isAuthenticated,
 });
 
 const mapDispatchToProps = { getSession, savePassword, reset };

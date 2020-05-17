@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Objects;
 
 /**
  * A DTO for the {@link io.github.jhipster.sample.domain.Operation} entity.
@@ -90,22 +89,19 @@ public class OperationDTO implements Serializable {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof OperationDTO)) {
             return false;
         }
 
-        OperationDTO operationDTO = (OperationDTO) o;
-        if (operationDTO.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), operationDTO.getId());
+        return id != null && id.equals(((OperationDTO) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return 31;
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "OperationDTO{" +

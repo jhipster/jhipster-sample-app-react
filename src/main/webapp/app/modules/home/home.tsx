@@ -101,7 +101,7 @@ export const Home = (props: IHomeProp) => {
 
 const mapStateToProps = storeState => ({
   account: storeState.authentication.account,
-  isAuthenticated: storeState.authentication.isAuthenticated
+  isAuthenticated: storeState.authentication.isAuthenticated,
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;

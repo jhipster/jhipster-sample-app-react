@@ -59,7 +59,7 @@ export const BankAccountDeleteDialog = (props: IBankAccountDeleteDialogProps) =>
 
 const mapStateToProps = ({ bankAccount }: IRootState) => ({
   bankAccountEntity: bankAccount.entity,
-  updateSuccess: bankAccount.updateSuccess
+  updateSuccess: bankAccount.updateSuccess,
 });
 
 const mapDispatchToProps = { getEntity, deleteEntity };

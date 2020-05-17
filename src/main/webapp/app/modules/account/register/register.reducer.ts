@@ -5,14 +5,14 @@ import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util'
 
 export const ACTION_TYPES = {
   CREATE_ACCOUNT: 'register/CREATE_ACCOUNT',
-  RESET: 'register/RESET'
+  RESET: 'register/RESET',
 };
 
 const initialState = {
   loading: false,
   registrationSuccess: false,
   registrationFailure: false,
-  errorMessage: null
+  errorMessage: null,
 };
 
 export type RegisterState = Readonly<typeof initialState>;
@@ -23,22 +23,22 @@ export default (state: RegisterState = initialState, action): RegisterState => {
     case REQUEST(ACTION_TYPES.CREATE_ACCOUNT):
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case FAILURE(ACTION_TYPES.CREATE_ACCOUNT):
       return {
         ...initialState,
         registrationFailure: true,
-        errorMessage: action.payload.response.data.errorKey
+        errorMessage: action.payload.response.data.errorKey,
       };
     case SUCCESS(ACTION_TYPES.CREATE_ACCOUNT):
       return {
         ...initialState,
-        registrationSuccess: true
+        registrationSuccess: true,
       };
     case ACTION_TYPES.RESET:
       return {
-        ...initialState
+        ...initialState,
       };
     default:
       return state;
@@ -50,10 +50,10 @@ export const handleRegister = (login, email, password, langKey = 'en') => ({
   type: ACTION_TYPES.CREATE_ACCOUNT,
   payload: axios.post('api/register', { login, email, password, langKey }),
   meta: {
-    successMessage: translate('register.messages.success')
-  }
+    successMessage: translate('register.messages.success'),
+  },
 });
 
 export const reset = () => ({
-  type: ACTION_TYPES.RESET
+  type: ACTION_TYPES.RESET,
 });

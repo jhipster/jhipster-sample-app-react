@@ -29,10 +29,7 @@ export default class BankAccountUpdatePage {
   }
 
   async userSelectLastOption() {
-    await this.userSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.userSelect.all(by.tagName('option')).last().click();
   }
 
   async userSelectOption(option) {

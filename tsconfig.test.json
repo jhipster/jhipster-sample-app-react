@@ -2,6 +2,7 @@
   "extends": "./tsconfig",
   "compilerOptions": {
     "module": "commonjs",
-    "allowSyntheticDefaultImports": false
+    "allowSyntheticDefaultImports": false,
+    "types": ["jest", "webpack-env"]
   }
 }

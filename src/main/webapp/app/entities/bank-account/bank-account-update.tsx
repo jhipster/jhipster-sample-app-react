@@ -46,9 +46,9 @@ export const BankAccountUpdate = (props: IBankAccountUpdateProps) => {
     if (errors.length === 0) {
       const entity = {
         ...bankAccountEntity,
-        ...values
+        ...values,
       };
-      entity.user = users[values.user];
+      entity.user = values.user;
 
       if (isNew) {
         props.createEntity(entity);
@@ -92,7 +92,7 @@ export const BankAccountUpdate = (props: IBankAccountUpdateProps) => {
                   type="text"
                   name="name"
                   validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') }
+                    required: { value: true, errorMessage: translate('entity.validation.required') },
                   }}
                 />
               </AvGroup>
@@ -106,7 +106,7 @@ export const BankAccountUpdate = (props: IBankAccountUpdateProps) => {
                   name="balance"
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
-                    number: { value: true, errorMessage: translate('entity.validation.number') }
+                    number: { value: true, errorMessage: translate('entity.validation.number') },
                   }}
                 />
               </AvGroup>
@@ -151,7 +151,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   bankAccountEntity: storeState.bankAccount.entity,
   loading: storeState.bankAccount.loading,
   updating: storeState.bankAccount.updating,
-  updateSuccess: storeState.bankAccount.updateSuccess
+  updateSuccess: storeState.bankAccount.updateSuccess,
 });
 
 const mapDispatchToProps = {
@@ -159,7 +159,7 @@ const mapDispatchToProps = {
   getEntity,
   updateEntity,
   createEntity,
-  reset
+  reset,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

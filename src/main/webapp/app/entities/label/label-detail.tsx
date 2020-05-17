@@ -51,7 +51,7 @@ export const LabelDetail = (props: ILabelDetailProps) => {
 };
 
 const mapStateToProps = ({ label }: IRootState) => ({
-  labelEntity: label.entity
+  labelEntity: label.entity,
 });
 
 const mapDispatchToProps = { getEntity };

@@ -46,7 +46,7 @@ export const LabelUpdate = (props: ILabelUpdateProps) => {
     if (errors.length === 0) {
       const entity = {
         ...labelEntity,
-        ...values
+        ...values,
       };
 
       if (isNew) {
@@ -90,7 +90,7 @@ export const LabelUpdate = (props: ILabelUpdateProps) => {
                   name="label"
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
-                    minLength: { value: 3, errorMessage: translate('entity.validation.minlength', { min: 3 }) }
+                    minLength: { value: 3, errorMessage: translate('entity.validation.minlength', { min: 3 }) },
                   }}
                 />
               </AvGroup>
@@ -120,7 +120,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   labelEntity: storeState.label.entity,
   loading: storeState.label.loading,
   updating: storeState.label.updating,
-  updateSuccess: storeState.label.updateSuccess
+  updateSuccess: storeState.label.updateSuccess,
 });
 
 const mapDispatchToProps = {
@@ -128,7 +128,7 @@ const mapDispatchToProps = {
   getEntity,
   updateEntity,
   createEntity,
-  reset
+  reset,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

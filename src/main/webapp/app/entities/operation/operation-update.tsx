@@ -51,7 +51,7 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
       const entity = {
         ...operationEntity,
         ...values,
-        labels: mapIdList(values.labels)
+        labels: mapIdList(values.labels),
       };
 
       if (isNew) {
@@ -99,7 +99,7 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
                   placeholder={'YYYY-MM-DD HH:mm'}
                   value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.operationEntity.date)}
                   validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') }
+                    required: { value: true, errorMessage: translate('entity.validation.required') },
                   }}
                 />
               </AvGroup>
@@ -119,7 +119,7 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
                   name="amount"
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
-                    number: { value: true, errorMessage: translate('entity.validation.number') }
+                    number: { value: true, errorMessage: translate('entity.validation.number') },
                   }}
                 />
               </AvGroup>
@@ -187,7 +187,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   operationEntity: storeState.operation.entity,
   loading: storeState.operation.loading,
   updating: storeState.operation.updating,
-  updateSuccess: storeState.operation.updateSuccess
+  updateSuccess: storeState.operation.updateSuccess,
 });
 
 const mapDispatchToProps = {
@@ -196,7 +196,7 @@ const mapDispatchToProps = {
   getEntity,
   updateEntity,
   createEntity,
-  reset
+  reset,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

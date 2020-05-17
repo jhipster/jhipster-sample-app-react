@@ -59,7 +59,7 @@ export const LabelDeleteDialog = (props: ILabelDeleteDialogProps) => {
 
 const mapStateToProps = ({ label }: IRootState) => ({
   labelEntity: label.entity,
-  updateSuccess: label.updateSuccess
+  updateSuccess: label.updateSuccess,
 });
 
 const mapDispatchToProps = { getEntity, deleteEntity };

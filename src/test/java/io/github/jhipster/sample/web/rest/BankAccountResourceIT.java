@@ -28,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the {@link BankAccountResource} REST controller.
  */
 @SpringBootTest(classes = JhipsterSampleApplicationReactApp.class)
-
 @AutoConfigureMockMvc
 @WithMockUser
 public class BankAccountResourceIT {
@@ -87,7 +86,6 @@ public class BankAccountResourceIT {
     @Transactional
     public void createBankAccount() throws Exception {
         int databaseSizeBeforeCreate = bankAccountRepository.findAll().size();
-
         // Create the BankAccount
         BankAccountDTO bankAccountDTO = bankAccountMapper.toDto(bankAccount);
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
@@ -134,6 +132,7 @@ public class BankAccountResourceIT {
         // Create the BankAccount, which fails.
         BankAccountDTO bankAccountDTO = bankAccountMapper.toDto(bankAccount);
 
+
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(bankAccountDTO)))
@@ -152,6 +151,7 @@ public class BankAccountResourceIT {
 
         // Create the BankAccount, which fails.
         BankAccountDTO bankAccountDTO = bankAccountMapper.toDto(bankAccount);
+
 
         restBankAccountMockMvc.perform(post("/api/bank-accounts")
             .contentType(MediaType.APPLICATION_JSON)
@@ -191,7 +191,6 @@ public class BankAccountResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.balance").value(DEFAULT_BALANCE.intValue()));
     }
-
     @Test
     @Transactional
     public void getNonExistingBankAccount() throws Exception {

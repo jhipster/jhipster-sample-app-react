@@ -30,7 +30,7 @@ export const Logout = (props: ILogoutProps) => {
 
 const mapStateToProps = (storeState: IRootState) => ({
   logoutUrl: storeState.authentication.logoutUrl,
-  idToken: storeState.authentication.idToken
+  idToken: storeState.authentication.idToken,
 });
 
 const mapDispatchToProps = { logout };

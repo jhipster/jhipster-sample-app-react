@@ -55,7 +55,7 @@ export const ActivatePage = (props: IActivateProps) => {
 
 const mapStateToProps = ({ activate }: IRootState) => ({
   activationSuccess: activate.activationSuccess,
-  activationFailure: activate.activationFailure
+  activationFailure: activate.activationFailure,
 });
 
 const mapDispatchToProps = { activateAction, reset };

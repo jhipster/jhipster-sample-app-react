@@ -62,7 +62,7 @@ export const BankAccountDetail = (props: IBankAccountDetailProps) => {
 };
 
 const mapStateToProps = ({ bankAccount }: IRootState) => ({
-  bankAccountEntity: bankAccount.entity
+  bankAccountEntity: bankAccount.entity,
 });
 
 const mapDispatchToProps = { getEntity };

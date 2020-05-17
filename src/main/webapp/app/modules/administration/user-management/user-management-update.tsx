@@ -22,7 +22,9 @@ export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
       props.getUser(props.match.params.login);
     }
     props.getRoles();
-    return () => props.reset();
+    return () => {
+      props.reset();
+    };
   }, []);
 
   const handleClose = () => {
@@ -75,20 +77,20 @@ export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
                   validate={{
                     required: {
                       value: true,
-                      errorMessage: translate('register.messages.validate.login.required')
+                      errorMessage: translate('register.messages.validate.login.required'),
                     },
                     pattern: {
-                      value: '^[_.@A-Za-z0-9-]*$',
-                      errorMessage: translate('register.messages.validate.login.pattern')
+                      value: '^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$',
+                      errorMessage: translate('register.messages.validate.login.pattern'),
                     },
                     minLength: {
                       value: 1,
-                      errorMessage: translate('register.messages.validate.login.minlength')
+                      errorMessage: translate('register.messages.validate.login.minlength'),
                     },
                     maxLength: {
                       value: 50,
-                      errorMessage: translate('register.messages.validate.login.maxlength')
-                    }
+                      errorMessage: translate('register.messages.validate.login.maxlength'),
+                    },
                   }}
                   value={user.login}
                 />
@@ -104,8 +106,8 @@ export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
                   validate={{
                     maxLength: {
                       value: 50,
-                      errorMessage: translate('entity.validation.maxlength', { max: 50 })
-                    }
+                      errorMessage: translate('entity.validation.maxlength', { max: 50 }),
+                    },
                   }}
                   value={user.firstName}
                 />
@@ -121,8 +123,8 @@ export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
                   validate={{
                     maxLength: {
                       value: 50,
-                      errorMessage: translate('entity.validation.maxlength', { max: 50 })
-                    }
+                      errorMessage: translate('entity.validation.maxlength', { max: 50 }),
+                    },
                   }}
                   value={user.lastName}
                 />
@@ -137,19 +139,19 @@ export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
                   validate={{
                     required: {
                       value: true,
-                      errorMessage: translate('global.messages.validate.email.required')
+                      errorMessage: translate('global.messages.validate.email.required'),
                     },
                     email: {
-                      errorMessage: translate('global.messages.validate.email.invalid')
+                      errorMessage: translate('global.messages.validate.email.invalid'),
                     },
                     minLength: {
                       value: 5,
-                      errorMessage: translate('global.messages.validate.email.minlength')
+                      errorMessage: translate('global.messages.validate.email.minlength'),
                     },
                     maxLength: {
                       value: 254,
-                      errorMessage: translate('global.messages.validate.email.maxlength')
-                    }
+                      errorMessage: translate('global.messages.validate.email.maxlength'),
+                    },
                   }}
                   value={user.email}
                 />
@@ -209,7 +211,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   user: storeState.userManagement.user,
   roles: storeState.userManagement.authorities,
   loading: storeState.userManagement.loading,
-  updating: storeState.userManagement.updating
+  updating: storeState.userManagement.updating,
 });
 
 const mapDispatchToProps = { getUser, getRoles, updateUser, createUser, reset };

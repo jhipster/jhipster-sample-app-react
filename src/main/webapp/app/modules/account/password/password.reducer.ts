@@ -5,14 +5,14 @@ import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util'
 
 export const ACTION_TYPES = {
   UPDATE_PASSWORD: 'account/UPDATE_PASSWORD',
-  RESET: 'account/RESET'
+  RESET: 'account/RESET',
 };
 
 const initialState = {
   loading: false,
   errorMessage: null,
   updateSuccess: false,
-  updateFailure: false
+  updateFailure: false,
 };
 
 export type PasswordState = Readonly<typeof initialState>;
@@ -25,25 +25,25 @@ export default (state: PasswordState = initialState, action): PasswordState => {
         ...initialState,
         errorMessage: null,
         updateSuccess: false,
-        loading: true
+        loading: true,
       };
     case FAILURE(ACTION_TYPES.UPDATE_PASSWORD):
       return {
         ...initialState,
         loading: false,
         updateSuccess: false,
-        updateFailure: true
+        updateFailure: true,
       };
     case SUCCESS(ACTION_TYPES.UPDATE_PASSWORD):
       return {
         ...initialState,
         loading: false,
         updateSuccess: true,
-        updateFailure: false
+        updateFailure: false,
       };
     case ACTION_TYPES.RESET:
       return {
-        ...initialState
+        ...initialState,
       };
     default:
       return state;
@@ -58,10 +58,10 @@ export const savePassword = (currentPassword, newPassword) => ({
   payload: axios.post(`${apiUrl}/change-password`, { currentPassword, newPassword }),
   meta: {
     successMessage: translate('password.messages.success'),
-    errorMessage: translate('password.messages.error')
-  }
+    errorMessage: translate('password.messages.error'),
+  },
 });
 
 export const reset = () => ({
-  type: ACTION_TYPES.RESET
+  type: ACTION_TYPES.RESET,
 });

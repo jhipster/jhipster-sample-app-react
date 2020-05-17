@@ -7,36 +7,57 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
+import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { getUsers, updateUser } from './user-management.reducer';
 import { IRootState } from 'app/shared/reducers';
 
 export interface IUserManagementProps extends StateProps, DispatchProps, RouteComponentProps<{}> {}
 
 export const UserManagement = (props: IUserManagementProps) => {
-  const [pagination, setPagination] = useState(getSortState(props.location, ITEMS_PER_PAGE));
+  const [pagination, setPagination] = useState(
+    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
+  );
 
   useEffect(() => {
     props.getUsers(pagination.activePage - 1, pagination.itemsPerPage, `${pagination.sort},${pagination.order}`);
-    props.history.push(`${props.location.pathname}?page=${pagination.activePage}&sort=${pagination.sort},${pagination.order}`);
-  }, [pagination]);
+    const endURL = `?page=${pagination.activePage}&sort=${pagination.sort},${pagination.order}`;
+    if (props.location.search !== endURL) {
+      props.history.push(`${props.location.pathname}${endURL}`);
+    }
+  }, [pagination.activePage, pagination.order, pagination.sort]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(props.location.search);
+    const page = params.get('page');
+    const sort = params.get('sort');
+    if (page && sort) {
+      const sortSplit = sort.split(',');
+      setPagination({
+        ...pagination,
+        activePage: +page,
+        sort: sortSplit[0],
+        order: sortSplit[1],
+      });
+    }
+  }, [props.location.search]);
 
   const sort = p => () =>
     setPagination({
       ...pagination,
       order: pagination.order === 'asc' ? 'desc' : 'asc',
-      sort: p
+      sort: p,
     });
 
   const handlePagination = currentPage =>
     setPagination({
       ...pagination,
-      activePage: currentPage
+      activePage: currentPage,
     });
 
   const toggleActive = user => () =>
     props.updateUser({
       ...user,
-      activated: !user.activated
+      activated: !user.activated,
     });
 
   const { users, account, match, totalItems } = props;
@@ -118,11 +139,13 @@ export const UserManagement = (props: IUserManagementProps) => {
                   : null}
               </td>
               <td>
-                <TextFormat value={user.createdDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
+                {user.createdDate ? <TextFormat value={user.createdDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid /> : null}
               </td>
               <td>{user.lastModifiedBy}</td>
               <td>
-                <TextFormat value={user.lastModifiedDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
+                {user.lastModifiedDate ? (
+                  <TextFormat value={user.lastModifiedDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
+                ) : null}
               </td>
               <td className="text-right">
                 <div className="btn-group flex-btn-group-container">
@@ -156,20 +179,24 @@ export const UserManagement = (props: IUserManagementProps) => {
           ))}
         </tbody>
       </Table>
-      <div className={users && users.length > 0 ? '' : 'd-none'}>
-        <Row className="justify-content-center">
-          <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} i18nEnabled />
-        </Row>
-        <Row className="justify-content-center">
-          <JhiPagination
-            activePage={pagination.activePage}
-            onSelect={handlePagination}
-            maxButtons={5}
-            itemsPerPage={pagination.itemsPerPage}
-            totalItems={props.totalItems}
-          />
-        </Row>
-      </div>
+      {props.totalItems ? (
+        <div className={users && users.length > 0 ? '' : 'd-none'}>
+          <Row className="justify-content-center">
+            <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} i18nEnabled />
+          </Row>
+          <Row className="justify-content-center">
+            <JhiPagination
+              activePage={pagination.activePage}
+              onSelect={handlePagination}
+              maxButtons={5}
+              itemsPerPage={pagination.itemsPerPage}
+              totalItems={props.totalItems}
+            />
+          </Row>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };
@@ -177,7 +204,7 @@ export const UserManagement = (props: IUserManagementProps) => {
 const mapStateToProps = (storeState: IRootState) => ({
   users: storeState.userManagement.users,
   totalItems: storeState.userManagement.totalItems,
-  account: storeState.authentication.account
+  account: storeState.authentication.account,
 });
 
 const mapDispatchToProps = { getUsers, updateUser };

@@ -14,7 +14,12 @@ export const PasswordResetFinishPage = (props: IPasswordResetFinishProps) => {
   const [password, setPassword] = useState('');
   const [key] = useState(getUrlParameter('key', props.location.search));
 
-  useEffect(() => () => props.reset(), []);
+  useEffect(
+    () => () => {
+      props.reset();
+    },
+    []
+  );
 
   const handleValidSubmit = (event, values) => props.handlePasswordResetFinish(key, values.newPassword);
 
@@ -31,7 +36,7 @@ export const PasswordResetFinishPage = (props: IPasswordResetFinishProps) => {
           validate={{
             required: { value: true, errorMessage: translate('global.messages.validate.newpassword.required') },
             minLength: { value: 4, errorMessage: translate('global.messages.validate.newpassword.minlength') },
-            maxLength: { value: 50, errorMessage: translate('global.messages.validate.newpassword.maxlength') }
+            maxLength: { value: 50, errorMessage: translate('global.messages.validate.newpassword.maxlength') },
           }}
           onChange={updatePassword}
         />
@@ -45,7 +50,7 @@ export const PasswordResetFinishPage = (props: IPasswordResetFinishProps) => {
             required: { value: true, errorMessage: translate('global.messages.validate.confirmpassword.required') },
             minLength: { value: 4, errorMessage: translate('global.messages.validate.confirmpassword.minlength') },
             maxLength: { value: 50, errorMessage: translate('global.messages.validate.confirmpassword.maxlength') },
-            match: { value: 'newPassword', errorMessage: translate('global.messages.error.dontmatch') }
+            match: { value: 'newPassword', errorMessage: translate('global.messages.error.dontmatch') },
           }}
         />
         <Button color="success" type="submit">

@@ -91,11 +91,11 @@ export const Label = (props: ILabelProps) => {
 
 const mapStateToProps = ({ label }: IRootState) => ({
   labelList: label.entities,
-  loading: label.loading
+  loading: label.loading,
 });
 
 const mapDispatchToProps = {
-  getEntities
+  getEntities,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

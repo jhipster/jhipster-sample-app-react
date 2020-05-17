@@ -39,10 +39,7 @@ export default class OperationUpdatePage {
   }
 
   async bankAccountSelectLastOption() {
-    await this.bankAccountSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.bankAccountSelect.all(by.tagName('option')).last().click();
   }
 
   async bankAccountSelectOption(option) {
@@ -58,10 +55,7 @@ export default class OperationUpdatePage {
   }
 
   async labelSelectLastOption() {
-    await this.labelSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.labelSelect.all(by.tagName('option')).last().click();
   }
 
   async labelSelectOption(option) {

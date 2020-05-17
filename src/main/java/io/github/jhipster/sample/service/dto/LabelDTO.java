@@ -2,7 +2,6 @@ package io.github.jhipster.sample.service.dto;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * A DTO for the {@link io.github.jhipster.sample.domain.Label} entity.
@@ -37,22 +36,19 @@ public class LabelDTO implements Serializable {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof LabelDTO)) {
             return false;
         }
 
-        LabelDTO labelDTO = (LabelDTO) o;
-        if (labelDTO.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), labelDTO.getId());
+        return id != null && id.equals(((LabelDTO) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return 31;
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "LabelDTO{" +

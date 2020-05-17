@@ -13,7 +13,12 @@ export interface IRegisterProps extends StateProps, DispatchProps {}
 export const RegisterPage = (props: IRegisterProps) => {
   const [password, setPassword] = useState('');
 
-  useEffect(() => () => props.reset(), []);
+  useEffect(
+    () => () => {
+      props.reset();
+    },
+    []
+  );
 
   const handleValidSubmit = (event, values) => {
     props.handleRegister(values.username, values.email, values.firstPassword, props.currentLocale);
@@ -40,9 +45,12 @@ export const RegisterPage = (props: IRegisterProps) => {
               placeholder={translate('global.form.username.placeholder')}
               validate={{
                 required: { value: true, errorMessage: translate('register.messages.validate.login.required') },
-                pattern: { value: '^[_.@A-Za-z0-9-]*$', errorMessage: translate('register.messages.validate.login.pattern') },
+                pattern: {
+                  value: '^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$',
+                  errorMessage: translate('register.messages.validate.login.pattern'),
+                },
                 minLength: { value: 1, errorMessage: translate('register.messages.validate.login.minlength') },
-                maxLength: { value: 50, errorMessage: translate('register.messages.validate.login.maxlength') }
+                maxLength: { value: 50, errorMessage: translate('register.messages.validate.login.maxlength') },
               }}
             />
             <AvField
@@ -53,7 +61,7 @@ export const RegisterPage = (props: IRegisterProps) => {
               validate={{
                 required: { value: true, errorMessage: translate('global.messages.validate.email.required') },
                 minLength: { value: 5, errorMessage: translate('global.messages.validate.email.minlength') },
-                maxLength: { value: 254, errorMessage: translate('global.messages.validate.email.maxlength') }
+                maxLength: { value: 254, errorMessage: translate('global.messages.validate.email.maxlength') },
               }}
             />
             <AvField
@@ -65,7 +73,7 @@ export const RegisterPage = (props: IRegisterProps) => {
               validate={{
                 required: { value: true, errorMessage: translate('global.messages.validate.newpassword.required') },
                 minLength: { value: 4, errorMessage: translate('global.messages.validate.newpassword.minlength') },
-                maxLength: { value: 50, errorMessage: translate('global.messages.validate.newpassword.maxlength') }
+                maxLength: { value: 50, errorMessage: translate('global.messages.validate.newpassword.maxlength') },
               }}
             />
             <PasswordStrengthBar password={password} />
@@ -78,7 +86,7 @@ export const RegisterPage = (props: IRegisterProps) => {
                 required: { value: true, errorMessage: translate('global.messages.validate.confirmpassword.required') },
                 minLength: { value: 4, errorMessage: translate('global.messages.validate.confirmpassword.minlength') },
                 maxLength: { value: 50, errorMessage: translate('global.messages.validate.confirmpassword.maxlength') },
-                match: { value: 'firstPassword', errorMessage: translate('global.messages.error.dontmatch') }
+                match: { value: 'firstPassword', errorMessage: translate('global.messages.error.dontmatch') },
               }}
             />
             <Button id="register-submit" color="primary" type="submit">
@@ -108,7 +116,7 @@ export const RegisterPage = (props: IRegisterProps) => {
 };
 
 const mapStateToProps = ({ locale }: IRootState) => ({
-  currentLocale: locale.currentLocale
+  currentLocale: locale.currentLocale,
 });
 
 const mapDispatchToProps = { handleRegister, reset };

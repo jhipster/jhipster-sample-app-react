@@ -64,7 +64,7 @@ export const ConfigurationPage = (props: IConfigurationPageProps) => {
           {configProps.contexts
             ? Object.values(getContextList(configProps.contexts))
                 .filter(propsFilterFn)
-                .map((property, propIndex) => (
+                .map((property: any, propIndex) => (
                   <tr key={propIndex}>
                     <td>{property['prefix']}</td>
                     <td>
@@ -117,7 +117,7 @@ export const ConfigurationPage = (props: IConfigurationPageProps) => {
 
 const mapStateToProps = ({ administration }: IRootState) => ({
   configuration: administration.configuration,
-  isFetching: administration.loading
+  isFetching: administration.loading,
 });
 
 const mapDispatchToProps = { getConfigurations, getEnv };

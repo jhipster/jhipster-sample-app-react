@@ -20,7 +20,7 @@ describe('Password reducer tests', () => {
         loading: false,
         errorMessage: null,
         updateSuccess: false,
-        updateFailure: false
+        updateFailure: false,
       });
     });
   });
@@ -31,7 +31,7 @@ describe('Password reducer tests', () => {
       expect(toTest).toMatchObject({
         updateSuccess: false,
         updateFailure: false,
-        loading: true
+        loading: true,
       });
     });
     it('should detect a success', () => {
@@ -39,7 +39,7 @@ describe('Password reducer tests', () => {
       expect(toTest).toMatchObject({
         updateSuccess: true,
         updateFailure: false,
-        loading: false
+        loading: false,
       });
     });
     it('should detect a failure', () => {
@@ -47,7 +47,7 @@ describe('Password reducer tests', () => {
       expect(toTest).toMatchObject({
         updateSuccess: false,
         updateFailure: true,
-        loading: false
+        loading: false,
       });
     });
 
@@ -56,17 +56,17 @@ describe('Password reducer tests', () => {
         loading: false,
         errorMessage: null,
         updateSuccess: false,
-        updateFailure: false
+        updateFailure: false,
       };
       expect(
         password(
           { ...initialState, loading: true },
           {
-            type: ACTION_TYPES.RESET
+            type: ACTION_TYPES.RESET,
           }
         )
       ).toEqual({
-        ...initialState
+        ...initialState,
       });
     });
   });
@@ -84,27 +84,27 @@ describe('Password reducer tests', () => {
     it('dispatches UPDATE_PASSWORD_PENDING and UPDATE_PASSWORD_FULFILLED actions', async () => {
       const meta = {
         errorMessage: 'translation-not-found[password.messages.error]',
-        successMessage: 'translation-not-found[password.messages.success]'
+        successMessage: 'translation-not-found[password.messages.success]',
       };
 
       const expectedActions = [
         {
           type: REQUEST(ACTION_TYPES.UPDATE_PASSWORD),
-          meta
+          meta,
         },
         {
           type: SUCCESS(ACTION_TYPES.UPDATE_PASSWORD),
           payload: resolvedObject,
-          meta
-        }
+          meta,
+        },
       ];
       await store.dispatch(savePassword('', '')).then(() => expect(store.getActions()).toEqual(expectedActions));
     });
     it('dispatches ACTION_TYPES.RESET actions', async () => {
       const expectedActions = [
         {
-          type: ACTION_TYPES.RESET
-        }
+          type: ACTION_TYPES.RESET,
+        },
       ];
       await store.dispatch(reset());
       expect(store.getActions()).toEqual(expectedActions);

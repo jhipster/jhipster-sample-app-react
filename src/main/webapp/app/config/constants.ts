@@ -1,5 +1,5 @@
 const config = {
-  VERSION: process.env.VERSION
+  VERSION: process.env.VERSION,
 };
 
 export default config;
@@ -8,11 +8,11 @@ export const SERVER_API_URL = process.env.SERVER_API_URL;
 
 export const AUTHORITIES = {
   ADMIN: 'ROLE_ADMIN',
-  USER: 'ROLE_USER'
+  USER: 'ROLE_USER',
 };
 
 export const messages = {
-  DATA_ERROR_ALERT: 'Internal Error'
+  DATA_ERROR_ALERT: 'Internal Error',
 };
 
 export const APP_DATE_FORMAT = 'DD/MM/YY HH:mm';

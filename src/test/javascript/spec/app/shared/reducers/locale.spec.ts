@@ -10,14 +10,14 @@ describe('Locale reducer tests', () => {
   it('should return the initial state', () => {
     const localeState = locale(undefined, {});
     expect(localeState).toMatchObject({
-      currentLocale: undefined
+      currentLocale: '',
     });
   });
 
   it('should correctly set the first time locale', () => {
     const localeState = locale(undefined, { type: ACTION_TYPES.SET_LOCALE, locale: 'en' });
     expect(localeState).toMatchObject({
-      currentLocale: 'en'
+      currentLocale: 'en',
     });
     expect(TranslatorContext.context.locale).toEqual('en');
   });
@@ -27,7 +27,7 @@ describe('Locale reducer tests', () => {
     expect(TranslatorContext.context.locale).toEqual('en');
     const localeState = locale({ currentLocale: 'en' }, { type: ACTION_TYPES.SET_LOCALE, locale: 'es' });
     expect(localeState).toMatchObject({
-      currentLocale: 'es'
+      currentLocale: 'es',
     });
     expect(TranslatorContext.context.locale).toEqual('es');
   });
@@ -47,8 +47,8 @@ describe('Locale reducer tests', () => {
       const expectedActions = [
         {
           type: ACTION_TYPES.SET_LOCALE,
-          locale: defaultLocale
-        }
+          locale: defaultLocale,
+        },
       ];
 
       await store.dispatch(setLocale(defaultLocale)).then(() => {

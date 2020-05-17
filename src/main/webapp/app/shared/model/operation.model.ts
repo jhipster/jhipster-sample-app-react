@@ -3,7 +3,7 @@ import { ILabel } from 'app/shared/model/label.model';
 
 export interface IOperation {
   id?: number;
-  date?: Moment;
+  date?: string;
   description?: string;
   amount?: number;
   bankAccountName?: string;

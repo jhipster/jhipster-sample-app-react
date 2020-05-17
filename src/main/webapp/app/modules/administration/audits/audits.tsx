@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_TIMESTAMP_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
+import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 
 import { IRootState } from 'app/shared/reducers';
 import { getAudits } from '../administration.reducer';
@@ -31,7 +32,9 @@ const today = (): string => {
 };
 
 export const AuditsPage = (props: IAuditsPageProps) => {
-  const [pagination, setPagination] = useState(getSortState(props.location, ITEMS_PER_PAGE));
+  const [pagination, setPagination] = useState(
+    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
+  );
   const [fromDate, setFromDate] = useState(previousMonth());
   const [toDate, setToDate] = useState(today());
 
@@ -45,6 +48,21 @@ export const AuditsPage = (props: IAuditsPageProps) => {
     transition();
   }, [pagination.activePage, pagination.order, pagination.sort]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(props.location.search);
+    const page = params.get('page');
+    const sort = params.get('sort');
+    if (page && sort) {
+      const sortSplit = sort.split(',');
+      setPagination({
+        ...pagination,
+        activePage: +page,
+        sort: sortSplit[0],
+        order: sortSplit[1],
+      });
+    }
+  }, [props.location.search]);
+
   const onChangeFromDate = evt => setFromDate(evt.target.value);
 
   const onChangeToDate = evt => setToDate(evt.target.value);
@@ -53,17 +71,20 @@ export const AuditsPage = (props: IAuditsPageProps) => {
     setPagination({
       ...pagination,
       order: pagination.order === 'asc' ? 'desc' : 'asc',
-      sort: p
+      sort: p,
     });
 
   const transition = () => {
-    props.history.push(`${props.location.pathname}?page=${pagination.activePage}&sort=${pagination.sort},${pagination.order}`);
+    const endURL = `?page=${pagination.activePage}&sort=${pagination.sort},${pagination.order}`;
+    if (props.location.search !== endURL) {
+      props.history.push(`${props.location.pathname}${endURL}`);
+    }
   };
 
   const handlePagination = currentPage =>
     setPagination({
       ...pagination,
-      activePage: currentPage
+      activePage: currentPage,
     });
 
   const getAllAudits = () => {
@@ -123,27 +144,31 @@ export const AuditsPage = (props: IAuditsPageProps) => {
           <Translate contentKey="audits.notFound">No audit found</Translate>
         </div>
       )}
-      <div className={audits && audits.length > 0 ? '' : 'd-none'}>
-        <Row className="justify-content-center">
-          <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} i18nEnabled />
-        </Row>
-        <Row className="justify-content-center">
-          <JhiPagination
-            activePage={pagination.activePage}
-            onSelect={handlePagination}
-            maxButtons={5}
-            itemsPerPage={pagination.itemsPerPage}
-            totalItems={props.totalItems}
-          />
-        </Row>
-      </div>
+      {props.totalItems ? (
+        <div className={audits && audits.length > 0 ? '' : 'd-none'}>
+          <Row className="justify-content-center">
+            <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} i18nEnabled />
+          </Row>
+          <Row className="justify-content-center">
+            <JhiPagination
+              activePage={pagination.activePage}
+              onSelect={handlePagination}
+              maxButtons={5}
+              itemsPerPage={pagination.itemsPerPage}
+              totalItems={props.totalItems}
+            />
+          </Row>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
   audits: storeState.administration.audits,
-  totalItems: storeState.administration.totalItems
+  totalItems: storeState.administration.totalItems,
 });
 
 const mapDispatchToProps = { getAudits };

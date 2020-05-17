@@ -11,7 +11,7 @@ import {
   getRecordsCount,
   waitUntilHidden,
   waitUntilCount,
-  isVisible
+  isVisible,
 } from '../../util/utils';
 
 const expect = chai.expect;

@@ -10,7 +10,7 @@ import {
   JvmThreads,
   EndpointsRequestsMetrics,
   SystemMetrics,
-  Translate
+  Translate,
 } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -120,7 +120,7 @@ export const MetricsPage = (props: IMetricsPageProps) => {
 const mapStateToProps = (storeState: IRootState) => ({
   metrics: storeState.administration.metrics,
   isFetching: storeState.administration.loading,
-  threadDump: storeState.administration.threadDump
+  threadDump: storeState.administration.threadDump,
 });
 
 const mapDispatchToProps = { systemMetrics, systemThreadDump };

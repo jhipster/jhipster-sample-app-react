@@ -22,7 +22,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
   const handleValidSubmit = (event, values) => {
     const account = {
       ...props.account,
-      ...values
+      ...values,
     };
 
     props.saveAccountSettings(account);
@@ -49,7 +49,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
               validate={{
                 required: { value: true, errorMessage: translate('settings.messages.validate.firstname.required') },
                 minLength: { value: 1, errorMessage: translate('settings.messages.validate.firstname.minlength') },
-                maxLength: { value: 50, errorMessage: translate('settings.messages.validate.firstname.maxlength') }
+                maxLength: { value: 50, errorMessage: translate('settings.messages.validate.firstname.maxlength') },
               }}
               value={props.account.firstName}
             />
@@ -63,7 +63,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
               validate={{
                 required: { value: true, errorMessage: translate('settings.messages.validate.lastname.required') },
                 minLength: { value: 1, errorMessage: translate('settings.messages.validate.lastname.minlength') },
-                maxLength: { value: 50, errorMessage: translate('settings.messages.validate.lastname.maxlength') }
+                maxLength: { value: 50, errorMessage: translate('settings.messages.validate.lastname.maxlength') },
               }}
               value={props.account.lastName}
             />
@@ -76,7 +76,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
               validate={{
                 required: { value: true, errorMessage: translate('global.messages.validate.email.required') },
                 minLength: { value: 5, errorMessage: translate('global.messages.validate.email.minlength') },
-                maxLength: { value: 254, errorMessage: translate('global.messages.validate.email.maxlength') }
+                maxLength: { value: 254, errorMessage: translate('global.messages.validate.email.maxlength') },
               }}
               value={props.account.email}
             />
@@ -107,7 +107,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
 
 const mapStateToProps = ({ authentication }: IRootState) => ({
   account: authentication.account,
-  isAuthenticated: authentication.isAuthenticated
+  isAuthenticated: authentication.isAuthenticated,
 });
 
 const mapDispatchToProps = { getSession, saveAccountSettings, reset };

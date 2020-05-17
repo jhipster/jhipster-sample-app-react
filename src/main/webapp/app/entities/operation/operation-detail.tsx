@@ -31,9 +31,7 @@ export const OperationDetail = (props: IOperationDetailProps) => {
               <Translate contentKey="jhipsterSampleApplicationReactApp.operation.date">Date</Translate>
             </span>
           </dt>
-          <dd>
-            <TextFormat value={operationEntity.date} type="date" format={APP_DATE_FORMAT} />
-          </dd>
+          <dd>{operationEntity.date ? <TextFormat value={operationEntity.date} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
           <dt>
             <span id="description">
               <Translate contentKey="jhipsterSampleApplicationReactApp.operation.description">Description</Translate>
@@ -58,7 +56,7 @@ export const OperationDetail = (props: IOperationDetailProps) => {
               ? operationEntity.labels.map((val, i) => (
                   <span key={val.id}>
                     <a>{val.label}</a>
-                    {i === operationEntity.labels.length - 1 ? '' : ', '}
+                    {operationEntity.labels && i === operationEntity.labels.length - 1 ? '' : ', '}
                   </span>
                 ))
               : null}
@@ -83,7 +81,7 @@ export const OperationDetail = (props: IOperationDetailProps) => {
 };
 
 const mapStateToProps = ({ operation }: IRootState) => ({
-  operationEntity: operation.entity
+  operationEntity: operation.entity,
 });
 
 const mapDispatchToProps = { getEntity };

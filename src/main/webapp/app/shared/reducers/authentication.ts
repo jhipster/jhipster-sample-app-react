@@ -9,7 +9,7 @@ export const ACTION_TYPES = {
   GET_SESSION: 'authentication/GET_SESSION',
   LOGOUT: 'authentication/LOGOUT',
   CLEAR_AUTH: 'authentication/CLEAR_AUTH',
-  ERROR_MESSAGE: 'authentication/ERROR_MESSAGE'
+  ERROR_MESSAGE: 'authentication/ERROR_MESSAGE',
 };
 
 const AUTH_TOKEN_KEY = 'jhi-authenticationToken';
@@ -21,11 +21,11 @@ const initialState = {
   loginError: false, // Errors returned from server side
   showModalLogin: false,
   account: {} as any,
-  errorMessage: null as string, // Errors returned from server side
-  redirectMessage: null as string,
+  errorMessage: (null as unknown) as string, // Errors returned from server side
+  redirectMessage: (null as unknown) as string,
   sessionHasBeenFetched: false,
-  idToken: null as string,
-  logoutUrl: null as string
+  idToken: (null as unknown) as string,
+  logoutUrl: (null as unknown) as string,
 };
 
 export type AuthenticationState = Readonly<typeof initialState>;
@@ -38,14 +38,14 @@ export default (state: AuthenticationState = initialState, action): Authenticati
     case REQUEST(ACTION_TYPES.GET_SESSION):
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case FAILURE(ACTION_TYPES.LOGIN):
       return {
         ...initialState,
         errorMessage: action.payload,
         showModalLogin: true,
-        loginError: true
+        loginError: true,
       };
     case FAILURE(ACTION_TYPES.GET_SESSION):
       return {
@@ -54,7 +54,7 @@ export default (state: AuthenticationState = initialState, action): Authenticati
         isAuthenticated: false,
         sessionHasBeenFetched: true,
         showModalLogin: true,
-        errorMessage: action.payload
+        errorMessage: action.payload,
       };
     case SUCCESS(ACTION_TYPES.LOGIN):
       return {
@@ -62,12 +62,12 @@ export default (state: AuthenticationState = initialState, action): Authenticati
         loading: false,
         loginError: false,
         showModalLogin: false,
-        loginSuccess: true
+        loginSuccess: true,
       };
     case ACTION_TYPES.LOGOUT:
       return {
         ...initialState,
-        showModalLogin: true
+        showModalLogin: true,
       };
     case SUCCESS(ACTION_TYPES.GET_SESSION): {
       const isAuthenticated = action.payload && action.payload.data && action.payload.data.activated;
@@ -76,21 +76,21 @@ export default (state: AuthenticationState = initialState, action): Authenticati
         isAuthenticated,
         loading: false,
         sessionHasBeenFetched: true,
-        account: action.payload.data
+        account: action.payload.data,
       };
     }
     case ACTION_TYPES.ERROR_MESSAGE:
       return {
         ...initialState,
         showModalLogin: true,
-        redirectMessage: action.message
+        redirectMessage: action.message,
       };
     case ACTION_TYPES.CLEAR_AUTH:
       return {
         ...state,
         loading: false,
         showModalLogin: true,
-        isAuthenticated: false
+        isAuthenticated: false,
       };
     default:
       return state;
@@ -99,10 +99,10 @@ export default (state: AuthenticationState = initialState, action): Authenticati
 
 export const displayAuthError = message => ({ type: ACTION_TYPES.ERROR_MESSAGE, message });
 
-export const getSession = () => async (dispatch, getState) => {
+export const getSession: () => void = () => async (dispatch, getState) => {
   await dispatch({
     type: ACTION_TYPES.GET_SESSION,
-    payload: axios.get('api/account')
+    payload: axios.get('api/account'),
   });
 
   const { account } = getState().authentication;
@@ -112,10 +112,13 @@ export const getSession = () => async (dispatch, getState) => {
   }
 };
 
-export const login = (username, password, rememberMe = false) => async (dispatch, getState) => {
+export const login: (username: string, password: string, rememberMe?: boolean) => void = (username, password, rememberMe = false) => async (
+  dispatch,
+  getState
+) => {
   const result = await dispatch({
     type: ACTION_TYPES.LOGIN,
-    payload: axios.post('api/authenticate', { username, password, rememberMe })
+    payload: axios.post('api/authenticate', { username, password, rememberMe }),
   });
   const bearerToken = result.value.headers.authorization;
   if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
@@ -138,10 +141,10 @@ export const clearAuthToken = () => {
   }
 };
 
-export const logout = () => dispatch => {
+export const logout: () => void = () => dispatch => {
   clearAuthToken();
   dispatch({
-    type: ACTION_TYPES.LOGOUT
+    type: ACTION_TYPES.LOGOUT,
   });
 };
 
@@ -149,6 +152,6 @@ export const clearAuthentication = messageKey => (dispatch, getState) => {
   clearAuthToken();
   dispatch(displayAuthError(messageKey));
   dispatch({
-    type: ACTION_TYPES.CLEAR_AUTH
+    type: ACTION_TYPES.CLEAR_AUTH,
   });
 };

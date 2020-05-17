@@ -5,13 +5,13 @@ describe('Entity utils', () => {
     it('should not remove fields with an id', () => {
       const entityA = {
         a: {
-          id: 5
-        }
+          id: 5,
+        },
       };
       const entityB = {
         a: {
-          id: '5'
-        }
+          id: '5',
+        },
       };
 
       expect(cleanEntity({ ...entityA })).toEqual(entityA);
@@ -21,8 +21,8 @@ describe('Entity utils', () => {
     it('should remove fields with an empty id', () => {
       const entity = {
         a: {
-          id: ''
-        }
+          id: '',
+        },
       };
 
       expect(cleanEntity({ ...entity })).toEqual({});
@@ -33,7 +33,7 @@ describe('Entity utils', () => {
         a: '',
         b: 5,
         c: [],
-        d: '5'
+        d: '5',
       };
 
       expect(cleanEntity({ ...entity })).toEqual(entity);

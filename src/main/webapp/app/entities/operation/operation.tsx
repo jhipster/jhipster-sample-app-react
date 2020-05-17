@@ -11,11 +11,14 @@ import { getEntities, reset } from './operation.reducer';
 import { IOperation } from 'app/shared/model/operation.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
+import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 
 export interface IOperationProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export const Operation = (props: IOperationProps) => {
-  const [paginationState, setPaginationState] = useState(getSortState(props.location, ITEMS_PER_PAGE));
+  const [paginationState, setPaginationState] = useState(
+    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
+  );
   const [sorting, setSorting] = useState(false);
 
   const getAllEntities = () => {
@@ -26,7 +29,7 @@ export const Operation = (props: IOperationProps) => {
     props.reset();
     setPaginationState({
       ...paginationState,
-      activePage: 1
+      activePage: 1,
     });
   };
 
@@ -39,10 +42,10 @@ export const Operation = (props: IOperationProps) => {
   }, [paginationState.activePage]);
 
   const handleLoadMore = () => {
-    if (window.pageYOffset > 0) {
+    if ((window as any).pageYOffset > 0) {
       setPaginationState({
         ...paginationState,
-        activePage: paginationState.activePage + 1
+        activePage: paginationState.activePage + 1,
       });
     }
   };
@@ -60,7 +63,7 @@ export const Operation = (props: IOperationProps) => {
       ...paginationState,
       activePage: 1,
       order: paginationState.order === 'asc' ? 'desc' : 'asc',
-      sort: p
+      sort: p,
     });
     setSorting(true);
   };
@@ -119,9 +122,7 @@ export const Operation = (props: IOperationProps) => {
                         {operation.id}
                       </Button>
                     </td>
-                    <td>
-                      <TextFormat type="date" value={operation.date} format={APP_DATE_FORMAT} />
-                    </td>
+                    <td>{operation.date ? <TextFormat type="date" value={operation.date} format={APP_DATE_FORMAT} /> : null}</td>
                     <td>{operation.description}</td>
                     <td>{operation.amount}</td>
                     <td>
@@ -176,12 +177,12 @@ const mapStateToProps = ({ operation }: IRootState) => ({
   totalItems: operation.totalItems,
   links: operation.links,
   entity: operation.entity,
-  updateSuccess: operation.updateSuccess
+  updateSuccess: operation.updateSuccess,
 });
 
 const mapDispatchToProps = {
   getEntities,
-  reset
+  reset,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

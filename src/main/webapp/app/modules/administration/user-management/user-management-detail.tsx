@@ -64,9 +64,7 @@ export const UserManagementDetail = (props: IUserManagementDetailProps) => {
           <dt>
             <Translate contentKey="userManagement.createdDate">Created Date</Translate>
           </dt>
-          <dd>
-            <TextFormat value={user.createdDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
-          </dd>
+          <dd>{user.createdDate ? <TextFormat value={user.createdDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid /> : null}</dd>
           <dt>
             <Translate contentKey="userManagement.lastModifiedBy">Last Modified By</Translate>
           </dt>
@@ -75,7 +73,9 @@ export const UserManagementDetail = (props: IUserManagementDetailProps) => {
             <Translate contentKey="userManagement.lastModifiedDate">Last Modified Date</Translate>
           </dt>
           <dd>
-            <TextFormat value={user.lastModifiedDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
+            {user.lastModifiedDate ? (
+              <TextFormat value={user.lastModifiedDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
+            ) : null}
           </dd>
           <dt>
             <Translate contentKey="userManagement.profiles">Profiles</Translate>
@@ -104,7 +104,7 @@ export const UserManagementDetail = (props: IUserManagementDetailProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
-  user: storeState.userManagement.user
+  user: storeState.userManagement.user,
 });
 
 const mapDispatchToProps = { getUser };

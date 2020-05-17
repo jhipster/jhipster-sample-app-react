@@ -73,9 +73,7 @@ export const waitUntilCount = async (
 export const getModifiedDateSortButton = (): ElementFinder => element(by.id('modified-date-sort'));
 
 export const getUserDeactivatedButtonByLogin = (login: string): ElementFinder =>
-  element(by.css('table > tbody'))
-    .element(by.id(login))
-    .element(by.buttonText('Deactivated'));
+  element(by.css('table > tbody')).element(by.id(login)).element(by.buttonText('Deactivated'));
 
 export const getToastByInnerText = (text: string): ElementFinder =>
   element(by.css('.toastify-container')).element(by.cssContainingText('div[role=alert]', text));

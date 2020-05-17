@@ -87,7 +87,7 @@ export const HealthPage = (props: IHealthPageProps) => {
 
 const mapStateToProps = (storeState: IRootState) => ({
   health: storeState.administration.health,
-  isFetching: storeState.administration.loading
+  isFetching: storeState.administration.loading,
 });
 
 const mapDispatchToProps = { systemHealth };

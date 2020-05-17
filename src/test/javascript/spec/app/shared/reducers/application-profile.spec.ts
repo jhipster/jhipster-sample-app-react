@@ -11,7 +11,7 @@ describe('Profile reducer tests', () => {
   const initialState = {
     ribbonEnv: '',
     inProduction: true,
-    isSwaggerEnabled: false
+    isSwaggerEnabled: false,
   };
   describe('Common tests', () => {
     it('should return the initial state', () => {
@@ -23,14 +23,14 @@ describe('Profile reducer tests', () => {
       const payload = {
         data: {
           'display-ribbon-on-profiles': 'awesome ribbon stuff',
-          activeProfiles: ['prod']
-        }
+          activeProfiles: ['prod'],
+        },
       };
 
       expect(profile(undefined, { type: SUCCESS(ACTION_TYPES.GET_PROFILE), payload })).toEqual({
         ribbonEnv: 'awesome ribbon stuff',
         inProduction: true,
-        isSwaggerEnabled: false
+        isSwaggerEnabled: false,
       });
     });
 
@@ -38,14 +38,14 @@ describe('Profile reducer tests', () => {
       const payload = {
         data: {
           'display-ribbon-on-profiles': 'awesome ribbon stuff',
-          activeProfiles: ['swagger', 'dev']
-        }
+          activeProfiles: ['swagger', 'dev'],
+        },
       };
 
       expect(profile(undefined, { type: SUCCESS(ACTION_TYPES.GET_PROFILE), payload })).toEqual({
         ribbonEnv: 'awesome ribbon stuff',
         inProduction: false,
-        isSwaggerEnabled: true
+        isSwaggerEnabled: true,
       });
     });
   });
@@ -63,12 +63,12 @@ describe('Profile reducer tests', () => {
     it('dispatches GET_SESSION_PENDING and GET_SESSION_FULFILLED actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.GET_PROFILE)
+          type: REQUEST(ACTION_TYPES.GET_PROFILE),
         },
         {
           type: SUCCESS(ACTION_TYPES.GET_PROFILE),
-          payload: resolvedObject
-        }
+          payload: resolvedObject,
+        },
       ];
       await store.dispatch(getProfile()).then(() => expect(store.getActions()).toEqual(expectedActions));
     });

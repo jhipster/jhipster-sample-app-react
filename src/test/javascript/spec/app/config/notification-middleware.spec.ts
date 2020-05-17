@@ -17,33 +17,33 @@ describe('Notification Middleware', () => {
   // Default action for use in local tests
   const DEFAULT = {
     type: SUCCESS_TYPE,
-    payload: 'foo'
+    payload: 'foo',
   };
   const DEFAULT_PROMISE = {
     type: SUCCESS_TYPE,
-    payload: Promise.resolve('foo')
+    payload: Promise.resolve('foo'),
   };
   const DEFAULT_SUCCESS = {
     type: SUCCESS_TYPE,
     meta: {
-      successMessage: DEFAULT_SUCCESS_MESSAGE
+      successMessage: DEFAULT_SUCCESS_MESSAGE,
     },
-    payload: Promise.resolve('foo')
+    payload: Promise.resolve('foo'),
   };
   const HEADER_SUCCESS = {
     type: SUCCESS_TYPE,
     payload: Promise.resolve({
       status: 201,
       statusText: 'Created',
-      headers: { 'app-alert': 'foo.created', 'app-params': 'foo' }
-    })
+      headers: { 'app-alert': 'foo.created', 'app-params': 'foo' },
+    }),
   };
   const DEFAULT_ERROR = {
     type: ERROR_TYPE,
     meta: {
-      errorMessage: DEFAULT_ERROR_MESSAGE
+      errorMessage: DEFAULT_ERROR_MESSAGE,
     },
-    payload: Promise.reject(new Error('foo'))
+    payload: Promise.reject(new Error('foo')),
   };
   const VALIDATION_ERROR = {
     type: ERROR_TYPE,
@@ -55,13 +55,13 @@ describe('Notification Middleware', () => {
           status: 400,
           path: '/api/foos',
           message: 'error.validation',
-          fieldErrors: [{ objectName: 'foos', field: 'minField', message: 'Min' }]
+          fieldErrors: [{ objectName: 'foos', field: 'minField', message: 'Min' }],
         },
         status: 400,
         statusText: 'Bad Request',
-        headers: { expires: '0' }
-      }
-    })
+        headers: { expires: '0' },
+      },
+    }),
   };
   const HEADER_ERRORS = {
     type: ERROR_TYPE,
@@ -69,9 +69,9 @@ describe('Notification Middleware', () => {
       response: {
         status: 400,
         statusText: 'Bad Request',
-        headers: { 'app-error': 'foo.creation', 'app-params': 'foo' }
-      }
-    })
+        headers: { 'app-error': 'foo.creation', 'app-params': 'foo' },
+      },
+    }),
   };
   const NOT_FOUND_ERROR = {
     type: ERROR_TYPE,
@@ -79,29 +79,29 @@ describe('Notification Middleware', () => {
       response: {
         data: {
           status: 404,
-          message: 'Not found'
+          message: 'Not found',
         },
-        status: 404
-      }
-    })
+        status: 404,
+      },
+    }),
   };
   const NO_SERVER_ERROR = {
     type: ERROR_TYPE,
     payload: Promise.reject({
       response: {
-        status: 0
-      }
-    })
+        status: 0,
+      },
+    }),
   };
   const GENERIC_ERROR = {
     type: ERROR_TYPE,
     payload: Promise.reject({
       response: {
         data: {
-          message: 'Error'
-        }
-      }
-    })
+          message: 'Error',
+        },
+      },
+    }),
   };
 
   const makeStore = () => applyMiddleware(notificationMiddleware, promiseMiddleware)(createStore)(() => null);

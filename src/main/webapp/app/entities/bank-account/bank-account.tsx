@@ -99,11 +99,11 @@ export const BankAccount = (props: IBankAccountProps) => {
 
 const mapStateToProps = ({ bankAccount }: IRootState) => ({
   bankAccountList: bankAccount.entities,
-  loading: bankAccount.loading
+  loading: bankAccount.loading,
 });
 
 const mapDispatchToProps = {
-  getEntities
+  getEntities,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

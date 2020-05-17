@@ -122,7 +122,7 @@ export const LogsPage = (props: ILogsPageProps) => {
 
 const mapStateToProps = ({ administration }: IRootState) => ({
   logs: administration.logs,
-  isFetching: administration.loading
+  isFetching: administration.loading,
 });
 
 const mapDispatchToProps = { getLoggers, changeLogLevel };
