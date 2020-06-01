@@ -48,7 +48,6 @@ export const BankAccountUpdate = (props: IBankAccountUpdateProps) => {
         ...bankAccountEntity,
         ...values,
       };
-      entity.user = values.user;
 
       if (isNew) {
         props.createEntity(entity);
