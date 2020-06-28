@@ -11,12 +11,12 @@ import BankAccountDeleteDialog from './bank-account-delete-dialog';
 const Routes = ({ match }) => (
   <>
     <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={BankAccountDeleteDialog} />
       <ErrorBoundaryRoute exact path={`${match.url}/new`} component={BankAccountUpdate} />
       <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={BankAccountUpdate} />
       <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={BankAccountDetail} />
       <ErrorBoundaryRoute path={match.url} component={BankAccount} />
     </Switch>
+    <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={BankAccountDeleteDialog} />
   </>
 );
 

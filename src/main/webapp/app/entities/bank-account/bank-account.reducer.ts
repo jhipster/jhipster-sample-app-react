@@ -135,6 +135,7 @@ export const deleteEntity: ICrudDeleteAction<IBankAccount> = id => async dispatc
     type: ACTION_TYPES.DELETE_BANKACCOUNT,
     payload: axios.delete(requestUrl),
   });
+  dispatch(getEntities());
   return result;
 };
 

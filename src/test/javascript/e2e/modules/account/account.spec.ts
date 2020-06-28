@@ -102,6 +102,7 @@ describe('Account', () => {
     expect(await element(by.id('user-management-page-heading')).isPresent()).to.be.true;
 
     const modifiedDateSortButton = getModifiedDateSortButton();
+    await waitUntilDisplayed(modifiedDateSortButton);
     await waitUntilClickable(modifiedDateSortButton);
     await modifiedDateSortButton.click();
 

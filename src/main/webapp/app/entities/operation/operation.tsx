@@ -31,11 +31,18 @@ export const Operation = (props: IOperationProps) => {
       ...paginationState,
       activePage: 1,
     });
+    props.getEntities();
   };
 
   useEffect(() => {
     resetAll();
   }, []);
+
+  useEffect(() => {
+    if (props.updateSuccess) {
+      resetAll();
+    }
+  }, [props.updateSuccess]);
 
   useEffect(() => {
     getAllEntities();

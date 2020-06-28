@@ -2,7 +2,7 @@ import { browser, element, by } from 'protractor';
 
 import NavBarPage from './../../page-objects/navbar-page';
 import SignInPage from './../../page-objects/signin-page';
-import BankAccountComponentsPage, { BankAccountDeleteDialog } from './bank-account.page-object';
+import BankAccountComponentsPage from './bank-account.page-object';
 import BankAccountUpdatePage from './bank-account-update.page-object';
 import {
   waitUntilDisplayed,
@@ -21,8 +21,6 @@ describe('BankAccount e2e test', () => {
   let signInPage: SignInPage;
   let bankAccountComponentsPage: BankAccountComponentsPage;
   let bankAccountUpdatePage: BankAccountUpdatePage;
-  let bankAccountDeleteDialog: BankAccountDeleteDialog;
-  let beforeRecordsCount = 0;
 
   before(async () => {
     await browser.get('/');
@@ -39,67 +37,37 @@ describe('BankAccount e2e test', () => {
     await waitUntilDisplayed(navBarPage.accountMenu);
   });
 
-  it('should load BankAccounts', async () => {
-    await navBarPage.getEntityPage('bank-account');
+  beforeEach(async () => {
+    await browser.get('/');
+    await waitUntilDisplayed(navBarPage.entityMenu);
     bankAccountComponentsPage = new BankAccountComponentsPage();
+    bankAccountComponentsPage = await bankAccountComponentsPage.goToPage(navBarPage);
+  });
+
+  it('should load BankAccounts', async () => {
     expect(await bankAccountComponentsPage.title.getText()).to.match(/Bank Accounts/);
-
     expect(await bankAccountComponentsPage.createButton.isEnabled()).to.be.true;
-    await waitUntilAnyDisplayed([bankAccountComponentsPage.noRecords, bankAccountComponentsPage.table]);
+  });
 
-    beforeRecordsCount = (await isVisible(bankAccountComponentsPage.noRecords))
+  it('should create and delete BankAccounts', async () => {
+    const beforeRecordsCount = (await isVisible(bankAccountComponentsPage.noRecords))
       ? 0
       : await getRecordsCount(bankAccountComponentsPage.table);
-  });
-
-  it('should load create BankAccount page', async () => {
-    await bankAccountComponentsPage.createButton.click();
-    bankAccountUpdatePage = new BankAccountUpdatePage();
-    expect(await bankAccountUpdatePage.getPageTitle().getAttribute('id')).to.match(
-      /jhipsterSampleApplicationReactApp.bankAccount.home.createOrEditLabel/
-    );
-    await bankAccountUpdatePage.cancel();
-  });
-
-  it('should create and save BankAccounts', async () => {
-    await bankAccountComponentsPage.createButton.click();
-    await bankAccountUpdatePage.setNameInput('name');
-    expect(await bankAccountUpdatePage.getNameInput()).to.match(/name/);
-    await bankAccountUpdatePage.setBalanceInput('5');
-    expect(await bankAccountUpdatePage.getBalanceInput()).to.eq('5');
-    await bankAccountUpdatePage.userSelectLastOption();
-    await waitUntilDisplayed(bankAccountUpdatePage.saveButton);
-    await bankAccountUpdatePage.save();
-    await waitUntilHidden(bankAccountUpdatePage.saveButton);
-    expect(await isVisible(bankAccountUpdatePage.saveButton)).to.be.false;
+    bankAccountUpdatePage = await bankAccountComponentsPage.goToCreateBankAccount();
+    await bankAccountUpdatePage.enterData();
 
     expect(await bankAccountComponentsPage.createButton.isEnabled()).to.be.true;
-
     await waitUntilDisplayed(bankAccountComponentsPage.table);
-
     await waitUntilCount(bankAccountComponentsPage.records, beforeRecordsCount + 1);
     expect(await bankAccountComponentsPage.records.count()).to.eq(beforeRecordsCount + 1);
-  });
 
-  it('should delete last BankAccount', async () => {
-    const deleteButton = bankAccountComponentsPage.getDeleteButton(bankAccountComponentsPage.records.last());
-    await click(deleteButton);
-
-    bankAccountDeleteDialog = new BankAccountDeleteDialog();
-    await waitUntilDisplayed(bankAccountDeleteDialog.deleteModal);
-    expect(await bankAccountDeleteDialog.getDialogTitle().getAttribute('id')).to.match(
-      /jhipsterSampleApplicationReactApp.bankAccount.delete.question/
-    );
-    await bankAccountDeleteDialog.clickOnConfirmButton();
-
-    await waitUntilHidden(bankAccountDeleteDialog.deleteModal);
-
-    expect(await isVisible(bankAccountDeleteDialog.deleteModal)).to.be.false;
-
-    await waitUntilAnyDisplayed([bankAccountComponentsPage.noRecords, bankAccountComponentsPage.table]);
-
-    const afterCount = (await isVisible(bankAccountComponentsPage.noRecords)) ? 0 : await getRecordsCount(bankAccountComponentsPage.table);
-    expect(afterCount).to.eq(beforeRecordsCount);
+    await bankAccountComponentsPage.deleteBankAccount();
+    if (beforeRecordsCount !== 0) {
+      await waitUntilCount(bankAccountComponentsPage.records, beforeRecordsCount);
+      expect(await bankAccountComponentsPage.records.count()).to.eq(beforeRecordsCount);
+    } else {
+      await waitUntilDisplayed(bankAccountComponentsPage.noRecords);
+    }
   });
 
   after(async () => {

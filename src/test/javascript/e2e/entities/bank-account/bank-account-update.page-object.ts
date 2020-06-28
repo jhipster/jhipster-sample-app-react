@@ -1,4 +1,7 @@
 import { element, by, ElementFinder } from 'protractor';
+import { waitUntilDisplayed, waitUntilHidden, isVisible } from '../../util/utils';
+
+const expect = chai.expect;
 
 export default class BankAccountUpdatePage {
   pageTitle: ElementFinder = element(by.id('jhipsterSampleApplicationReactApp.bankAccount.home.createOrEditLabel'));
@@ -54,5 +57,18 @@ export default class BankAccountUpdatePage {
 
   getSaveButton() {
     return this.saveButton;
+  }
+
+  async enterData() {
+    await waitUntilDisplayed(this.saveButton);
+    await this.setNameInput('name');
+    expect(await this.getNameInput()).to.match(/name/);
+    await waitUntilDisplayed(this.saveButton);
+    await this.setBalanceInput('5');
+    expect(await this.getBalanceInput()).to.eq('5');
+    await this.userSelectLastOption();
+    await this.save();
+    await waitUntilHidden(this.saveButton);
+    expect(await isVisible(this.saveButton)).to.be.false;
   }
 }

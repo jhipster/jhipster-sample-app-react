@@ -1,5 +1,26 @@
 import { element, by, ElementFinder, ElementArrayFinder } from 'protractor';
 
+import { waitUntilAnyDisplayed, waitUntilDisplayed, click, waitUntilHidden, isVisible } from '../../util/utils';
+
+import NavBarPage from './../../page-objects/navbar-page';
+
+import LabelUpdatePage from './label-update.page-object';
+
+const expect = chai.expect;
+export class LabelDeleteDialog {
+  deleteModal = element(by.className('modal'));
+  private dialogTitle: ElementFinder = element(by.id('jhipsterSampleApplicationReactApp.label.delete.question'));
+  private confirmButton = element(by.id('jhi-confirm-delete-label'));
+
+  getDialogTitle() {
+    return this.dialogTitle;
+  }
+
+  async clickOnConfirmButton() {
+    await this.confirmButton.click();
+  }
+}
+
 export default class LabelComponentsPage {
   createButton: ElementFinder = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('div table .btn-danger'));
@@ -20,18 +41,29 @@ export default class LabelComponentsPage {
   getDeleteButton(record: ElementFinder) {
     return record.element(by.css('a.btn.btn-danger.btn-sm'));
   }
-}
 
-export class LabelDeleteDialog {
-  deleteModal = element(by.className('modal'));
-  private dialogTitle: ElementFinder = element(by.id('jhipsterSampleApplicationReactApp.label.delete.question'));
-  private confirmButton = element(by.id('jhi-confirm-delete-label'));
-
-  getDialogTitle() {
-    return this.dialogTitle;
+  async goToPage(navBarPage: NavBarPage) {
+    await navBarPage.getEntityPage('label');
+    await waitUntilAnyDisplayed([this.noRecords, this.table]);
+    return this;
   }
 
-  async clickOnConfirmButton() {
-    await this.confirmButton.click();
+  async goToCreateLabel() {
+    await this.createButton.click();
+    return new LabelUpdatePage();
+  }
+
+  async deleteLabel() {
+    const deleteButton = this.getDeleteButton(this.records.last());
+    await click(deleteButton);
+
+    const labelDeleteDialog = new LabelDeleteDialog();
+    await waitUntilDisplayed(labelDeleteDialog.deleteModal);
+    expect(await labelDeleteDialog.getDialogTitle().getAttribute('id')).to.match(/jhipsterSampleApplicationReactApp.label.delete.question/);
+    await labelDeleteDialog.clickOnConfirmButton();
+
+    await waitUntilHidden(labelDeleteDialog.deleteModal);
+
+    expect(await isVisible(labelDeleteDialog.deleteModal)).to.be.false;
   }
 }

@@ -1,4 +1,7 @@
-import { element, by, ElementFinder } from 'protractor';
+import { element, by, ElementFinder, protractor } from 'protractor';
+import { waitUntilDisplayed, waitUntilHidden, isVisible } from '../../util/utils';
+
+const expect = chai.expect;
 
 export default class OperationUpdatePage {
   pageTitle: ElementFinder = element(by.id('jhipsterSampleApplicationReactApp.operation.home.createOrEditLabel'));
@@ -80,5 +83,22 @@ export default class OperationUpdatePage {
 
   getSaveButton() {
     return this.saveButton;
+  }
+
+  async enterData() {
+    await waitUntilDisplayed(this.saveButton);
+    await this.setDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
+    expect(await this.getDateInput()).to.contain('2001-01-01T02:30');
+    await waitUntilDisplayed(this.saveButton);
+    await this.setDescriptionInput('description');
+    expect(await this.getDescriptionInput()).to.match(/description/);
+    await waitUntilDisplayed(this.saveButton);
+    await this.setAmountInput('5');
+    expect(await this.getAmountInput()).to.eq('5');
+    await this.bankAccountSelectLastOption();
+    // this.labelSelectLastOption();
+    await this.save();
+    await waitUntilHidden(this.saveButton);
+    expect(await isVisible(this.saveButton)).to.be.false;
   }
 }

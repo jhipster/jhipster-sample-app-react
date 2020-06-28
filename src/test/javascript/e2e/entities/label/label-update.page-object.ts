@@ -1,4 +1,7 @@
 import { element, by, ElementFinder } from 'protractor';
+import { waitUntilDisplayed, waitUntilHidden, isVisible } from '../../util/utils';
+
+const expect = chai.expect;
 
 export default class LabelUpdatePage {
   pageTitle: ElementFinder = element(by.id('jhipsterSampleApplicationReactApp.label.home.createOrEditLabel'));
@@ -28,5 +31,14 @@ export default class LabelUpdatePage {
 
   getSaveButton() {
     return this.saveButton;
+  }
+
+  async enterData() {
+    await waitUntilDisplayed(this.saveButton);
+    await this.setLabelInput('label');
+    expect(await this.getLabelInput()).to.match(/label/);
+    await this.save();
+    await waitUntilHidden(this.saveButton);
+    expect(await isVisible(this.saveButton)).to.be.false;
   }
 }

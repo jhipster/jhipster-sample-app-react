@@ -11,12 +11,12 @@ import OperationDeleteDialog from './operation-delete-dialog';
 const Routes = ({ match }) => (
   <>
     <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={OperationDeleteDialog} />
       <ErrorBoundaryRoute exact path={`${match.url}/new`} component={OperationUpdate} />
       <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={OperationUpdate} />
       <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={OperationDetail} />
       <ErrorBoundaryRoute path={match.url} component={Operation} />
     </Switch>
+    <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={OperationDeleteDialog} />
   </>
 );
 
