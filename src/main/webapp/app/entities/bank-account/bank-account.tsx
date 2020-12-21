@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
-import { Translate, ICrudGetAllAction } from 'react-jhipster';
+import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -17,16 +17,26 @@ export const BankAccount = (props: IBankAccountProps) => {
     props.getEntities();
   }, []);
 
+  const handleSyncList = () => {
+    props.getEntities();
+  };
+
   const { bankAccountList, match, loading } = props;
   return (
     <div>
-      <h2 id="bank-account-heading">
+      <h2 id="bank-account-heading" data-cy="BankAccountHeading">
         <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.title">Bank Accounts</Translate>
-        <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
-          <FontAwesomeIcon icon="plus" />
-          &nbsp;
-          <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.createLabel">Create new Bank Account</Translate>
-        </Link>
+        <div className="d-flex justify-content-end">
+          <Button className="mr-2" color="info" onClick={handleSyncList} disabled={loading}>
+            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+            <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.refreshListLabel">Refresh List</Translate>
+          </Button>
+          <Link to={`${match.url}/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+            <FontAwesomeIcon icon="plus" />
+            &nbsp;
+            <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.createLabel">Create new Bank Account</Translate>
+          </Link>
+        </div>
       </h2>
       <div className="table-responsive">
         {bankAccountList && bankAccountList.length > 0 ? (
@@ -50,7 +60,7 @@ export const BankAccount = (props: IBankAccountProps) => {
             </thead>
             <tbody>
               {bankAccountList.map((bankAccount, i) => (
-                <tr key={`entity-${i}`}>
+                <tr key={`entity-${i}`} data-cy="entityTable">
                   <td>
                     <Button tag={Link} to={`${match.url}/${bankAccount.id}`} color="link" size="sm">
                       {bankAccount.id}
@@ -58,22 +68,22 @@ export const BankAccount = (props: IBankAccountProps) => {
                   </td>
                   <td>{bankAccount.name}</td>
                   <td>{bankAccount.balance}</td>
-                  <td>{bankAccount.userLogin ? bankAccount.userLogin : ''}</td>
+                  <td>{bankAccount.user ? bankAccount.user.login : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`${match.url}/${bankAccount.id}`} color="info" size="sm">
+                      <Button tag={Link} to={`${match.url}/${bankAccount.id}`} color="info" size="sm" data-cy="entityDetailsButton">
                         <FontAwesomeIcon icon="eye" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.view">View</Translate>
                         </span>
                       </Button>
-                      <Button tag={Link} to={`${match.url}/${bankAccount.id}/edit`} color="primary" size="sm">
+                      <Button tag={Link} to={`${match.url}/${bankAccount.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
                         <FontAwesomeIcon icon="pencil-alt" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.edit">Edit</Translate>
                         </span>
                       </Button>
-                      <Button tag={Link} to={`${match.url}/${bankAccount.id}/delete`} color="danger" size="sm">
+                      <Button tag={Link} to={`${match.url}/${bankAccount.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
                         <FontAwesomeIcon icon="trash" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.delete">Delete</Translate>

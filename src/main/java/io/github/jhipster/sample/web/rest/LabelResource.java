@@ -2,24 +2,23 @@ package io.github.jhipster.sample.web.rest;
 
 import io.github.jhipster.sample.domain.Label;
 import io.github.jhipster.sample.repository.LabelRepository;
-import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.sample.service.dto.LabelDTO;
 import io.github.jhipster.sample.service.mapper.LabelMapper;
-
-import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
+import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link io.github.jhipster.sample.domain.Label}.
@@ -61,7 +60,8 @@ public class LabelResource {
         Label label = labelMapper.toEntity(labelDTO);
         label = labelRepository.save(label);
         LabelDTO result = labelMapper.toDto(label);
-        return ResponseEntity.created(new URI("/api/labels/" + result.getId()))
+        return ResponseEntity
+            .created(new URI("/api/labels/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -84,9 +84,47 @@ public class LabelResource {
         Label label = labelMapper.toEntity(labelDTO);
         label = labelRepository.save(label);
         LabelDTO result = labelMapper.toDto(label);
-        return ResponseEntity.ok()
+        return ResponseEntity
+            .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, labelDTO.getId().toString()))
             .body(result);
+    }
+
+    /**
+     * {@code PATCH  /labels} : Updates given fields of an existing label.
+     *
+     * @param labelDTO the labelDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated labelDTO,
+     * or with status {@code 400 (Bad Request)} if the labelDTO is not valid,
+     * or with status {@code 404 (Not Found)} if the labelDTO is not found,
+     * or with status {@code 500 (Internal Server Error)} if the labelDTO couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PatchMapping(value = "/labels", consumes = "application/merge-patch+json")
+    public ResponseEntity<LabelDTO> partialUpdateLabel(@NotNull @RequestBody LabelDTO labelDTO) throws URISyntaxException {
+        log.debug("REST request to update Label partially : {}", labelDTO);
+        if (labelDTO.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+
+        Optional<LabelDTO> result = labelRepository
+            .findById(labelDTO.getId())
+            .map(
+                existingLabel -> {
+                    if (labelDTO.getLabel() != null) {
+                        existingLabel.setLabel(labelDTO.getLabel());
+                    }
+
+                    return existingLabel;
+                }
+            )
+            .map(labelRepository::save)
+            .map(labelMapper::toDto);
+
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, labelDTO.getId().toString())
+        );
     }
 
     /**
@@ -110,8 +148,7 @@ public class LabelResource {
     @GetMapping("/labels/{id}")
     public ResponseEntity<LabelDTO> getLabel(@PathVariable Long id) {
         log.debug("REST request to get Label : {}", id);
-        Optional<LabelDTO> labelDTO = labelRepository.findById(id)
-            .map(labelMapper::toDto);
+        Optional<LabelDTO> labelDTO = labelRepository.findById(id).map(labelMapper::toDto);
         return ResponseUtil.wrapOrNotFound(labelDTO);
     }
 
@@ -125,6 +162,9 @@ public class LabelResource {
     public ResponseEntity<Void> deleteLabel(@PathVariable Long id) {
         log.debug("REST request to delete Label : {}", id);
         labelRepository.deleteById(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

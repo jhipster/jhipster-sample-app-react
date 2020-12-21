@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 export interface ILoginModalProps {
   showModal: boolean;
   loginError: boolean;
-  handleLogin: Function;
-  handleClose: Function;
+  handleLogin: (username: string, password: string, rememberMe: boolean) => void;
+  handleClose: () => void;
 }
 
 class LoginModal extends React.Component<ILoginModalProps> {
@@ -23,14 +23,14 @@ class LoginModal extends React.Component<ILoginModalProps> {
     return (
       <Modal isOpen={this.props.showModal} toggle={handleClose} backdrop="static" id="login-page" autoFocus={false}>
         <AvForm onSubmit={this.handleSubmit}>
-          <ModalHeader id="login-title" toggle={handleClose}>
+          <ModalHeader id="login-title" data-cy="loginTitle" toggle={handleClose}>
             <Translate contentKey="login.title">Sign in</Translate>
           </ModalHeader>
           <ModalBody>
             <Row>
               <Col md="12">
                 {loginError ? (
-                  <Alert color="danger">
+                  <Alert color="danger" data-cy="loginError">
                     <Translate contentKey="login.messages.error.authentication">
                       <strong>Failed to sign in!</strong> Please check your credentials and try again.
                     </Translate>
@@ -45,6 +45,7 @@ class LoginModal extends React.Component<ILoginModalProps> {
                   required
                   errorMessage="Username cannot be empty!"
                   autoFocus
+                  data-cy="username"
                 />
                 <AvField
                   name="password"
@@ -53,6 +54,7 @@ class LoginModal extends React.Component<ILoginModalProps> {
                   placeholder={translate('login.form.password.placeholder')}
                   required
                   errorMessage="Password cannot be empty!"
+                  data-cy="password"
                 />
                 <AvGroup check inline>
                   <Label className="form-check-label">
@@ -63,7 +65,7 @@ class LoginModal extends React.Component<ILoginModalProps> {
             </Row>
             <div className="mt-1">&nbsp;</div>
             <Alert color="warning">
-              <Link to="/account/reset/request">
+              <Link to="/account/reset/request" data-cy="forgetYourPasswordSelector">
                 <Translate contentKey="login.password.forgot">Did you forget your password?</Translate>
               </Link>
             </Alert>
@@ -80,7 +82,7 @@ class LoginModal extends React.Component<ILoginModalProps> {
             <Button color="secondary" onClick={handleClose} tabIndex="1">
               <Translate contentKey="entity.action.cancel">Cancel</Translate>
             </Button>{' '}
-            <Button color="primary" type="submit">
+            <Button color="primary" type="submit" data-cy="submit">
               <Translate contentKey="login.form.button">Sign in</Translate>
             </Button>
           </ModalFooter>

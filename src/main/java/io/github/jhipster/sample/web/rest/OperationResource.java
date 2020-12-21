@@ -2,13 +2,15 @@ package io.github.jhipster.sample.web.rest;
 
 import io.github.jhipster.sample.domain.Operation;
 import io.github.jhipster.sample.repository.OperationRepository;
-import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.sample.service.dto.OperationDTO;
 import io.github.jhipster.sample.service.mapper.OperationMapper;
-
-import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,16 +18,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link io.github.jhipster.sample.domain.Operation}.
@@ -67,7 +66,8 @@ public class OperationResource {
         Operation operation = operationMapper.toEntity(operationDTO);
         operation = operationRepository.save(operation);
         OperationDTO result = operationMapper.toDto(operation);
-        return ResponseEntity.created(new URI("/api/operations/" + result.getId()))
+        return ResponseEntity
+            .created(new URI("/api/operations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -90,9 +90,55 @@ public class OperationResource {
         Operation operation = operationMapper.toEntity(operationDTO);
         operation = operationRepository.save(operation);
         OperationDTO result = operationMapper.toDto(operation);
-        return ResponseEntity.ok()
+        return ResponseEntity
+            .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, operationDTO.getId().toString()))
             .body(result);
+    }
+
+    /**
+     * {@code PATCH  /operations} : Updates given fields of an existing operation.
+     *
+     * @param operationDTO the operationDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated operationDTO,
+     * or with status {@code 400 (Bad Request)} if the operationDTO is not valid,
+     * or with status {@code 404 (Not Found)} if the operationDTO is not found,
+     * or with status {@code 500 (Internal Server Error)} if the operationDTO couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PatchMapping(value = "/operations", consumes = "application/merge-patch+json")
+    public ResponseEntity<OperationDTO> partialUpdateOperation(@NotNull @RequestBody OperationDTO operationDTO) throws URISyntaxException {
+        log.debug("REST request to update Operation partially : {}", operationDTO);
+        if (operationDTO.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+
+        Optional<OperationDTO> result = operationRepository
+            .findById(operationDTO.getId())
+            .map(
+                existingOperation -> {
+                    if (operationDTO.getDate() != null) {
+                        existingOperation.setDate(operationDTO.getDate());
+                    }
+
+                    if (operationDTO.getDescription() != null) {
+                        existingOperation.setDescription(operationDTO.getDescription());
+                    }
+
+                    if (operationDTO.getAmount() != null) {
+                        existingOperation.setAmount(operationDTO.getAmount());
+                    }
+
+                    return existingOperation;
+                }
+            )
+            .map(operationRepository::save)
+            .map(operationMapper::toDto);
+
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, operationDTO.getId().toString())
+        );
     }
 
     /**
@@ -103,7 +149,10 @@ public class OperationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of operations in body.
      */
     @GetMapping("/operations")
-    public ResponseEntity<List<OperationDTO>> getAllOperations(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public ResponseEntity<List<OperationDTO>> getAllOperations(
+        Pageable pageable,
+        @RequestParam(required = false, defaultValue = "false") boolean eagerload
+    ) {
         log.debug("REST request to get a page of Operations");
         Page<OperationDTO> page;
         if (eagerload) {
@@ -124,8 +173,7 @@ public class OperationResource {
     @GetMapping("/operations/{id}")
     public ResponseEntity<OperationDTO> getOperation(@PathVariable Long id) {
         log.debug("REST request to get Operation : {}", id);
-        Optional<OperationDTO> operationDTO = operationRepository.findOneWithEagerRelationships(id)
-            .map(operationMapper::toDto);
+        Optional<OperationDTO> operationDTO = operationRepository.findOneWithEagerRelationships(id).map(operationMapper::toDto);
         return ResponseUtil.wrapOrNotFound(operationDTO);
     }
 
@@ -139,6 +187,9 @@ public class OperationResource {
     public ResponseEntity<Void> deleteOperation(@PathVariable Long id) {
         log.debug("REST request to delete Operation : {}", id);
         operationRepository.deleteById(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

@@ -9,7 +9,7 @@ export const ACTION_TYPES = {
 const initialState = {
   ribbonEnv: '',
   inProduction: true,
-  isSwaggerEnabled: false,
+  isOpenAPIEnabled: false,
 };
 
 export type ApplicationProfileState = Readonly<typeof initialState>;
@@ -22,7 +22,7 @@ export default (state: ApplicationProfileState = initialState, action): Applicat
         ...state,
         ribbonEnv: data['display-ribbon-on-profiles'],
         inProduction: data.activeProfiles.includes('prod'),
-        isSwaggerEnabled: data.activeProfiles.includes('swagger'),
+        isOpenAPIEnabled: data.activeProfiles.includes('api-docs'),
       };
     }
     default:

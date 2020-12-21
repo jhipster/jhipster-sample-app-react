@@ -31,7 +31,7 @@ export const RegisterPage = (props: IRegisterProps) => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h1 id="register-title">
+          <h1 id="register-title" data-cy="registerTitle">
             <Translate contentKey="register.title">Registration</Translate>
           </h1>
         </Col>
@@ -52,6 +52,7 @@ export const RegisterPage = (props: IRegisterProps) => {
                 minLength: { value: 1, errorMessage: translate('register.messages.validate.login.minlength') },
                 maxLength: { value: 50, errorMessage: translate('register.messages.validate.login.maxlength') },
               }}
+              data-cy="username"
             />
             <AvField
               name="email"
@@ -63,6 +64,7 @@ export const RegisterPage = (props: IRegisterProps) => {
                 minLength: { value: 5, errorMessage: translate('global.messages.validate.email.minlength') },
                 maxLength: { value: 254, errorMessage: translate('global.messages.validate.email.maxlength') },
               }}
+              data-cy="email"
             />
             <AvField
               name="firstPassword"
@@ -75,6 +77,7 @@ export const RegisterPage = (props: IRegisterProps) => {
                 minLength: { value: 4, errorMessage: translate('global.messages.validate.newpassword.minlength') },
                 maxLength: { value: 50, errorMessage: translate('global.messages.validate.newpassword.maxlength') },
               }}
+              data-cy="firstPassword"
             />
             <PasswordStrengthBar password={password} />
             <AvField
@@ -88,8 +91,9 @@ export const RegisterPage = (props: IRegisterProps) => {
                 maxLength: { value: 50, errorMessage: translate('global.messages.validate.confirmpassword.maxlength') },
                 match: { value: 'firstPassword', errorMessage: translate('global.messages.error.dontmatch') },
               }}
+              data-cy="secondPassword"
             />
-            <Button id="register-submit" color="primary" type="submit">
+            <Button id="register-submit" color="primary" type="submit" data-cy="submit">
               <Translate contentKey="register.form.button">Register</Translate>
             </Button>
           </AvForm>

@@ -1,17 +1,18 @@
 package io.github.jhipster.sample.service.dto;
 
-import java.time.Instant;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link io.github.jhipster.sample.domain.Operation} entity.
  */
 public class OperationDTO implements Serializable {
-    
+
     private Long id;
 
     @NotNull
@@ -22,12 +23,10 @@ public class OperationDTO implements Serializable {
     @NotNull
     private BigDecimal amount;
 
+    private BankAccountDTO bankAccount;
 
-    private Long bankAccountId;
-
-    private String bankAccountName;
     private Set<LabelDTO> labels = new HashSet<>();
-    
+
     public Long getId() {
         return id;
     }
@@ -60,20 +59,12 @@ public class OperationDTO implements Serializable {
         this.amount = amount;
     }
 
-    public Long getBankAccountId() {
-        return bankAccountId;
+    public BankAccountDTO getBankAccount() {
+        return bankAccount;
     }
 
-    public void setBankAccountId(Long bankAccountId) {
-        this.bankAccountId = bankAccountId;
-    }
-
-    public String getBankAccountName() {
-        return bankAccountName;
-    }
-
-    public void setBankAccountName(String bankAccountName) {
-        this.bankAccountName = bankAccountName;
+    public void setBankAccount(BankAccountDTO bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     public Set<LabelDTO> getLabels() {
@@ -93,12 +84,16 @@ public class OperationDTO implements Serializable {
             return false;
         }
 
-        return id != null && id.equals(((OperationDTO) o).id);
+        OperationDTO operationDTO = (OperationDTO) o;
+        if (this.id == null) {
+            return false;
+        }
+        return Objects.equals(this.id, operationDTO.id);
     }
 
     @Override
     public int hashCode() {
-        return 31;
+        return Objects.hash(this.id);
     }
 
     // prettier-ignore
@@ -109,9 +104,8 @@ public class OperationDTO implements Serializable {
             ", date='" + getDate() + "'" +
             ", description='" + getDescription() + "'" +
             ", amount=" + getAmount() +
-            ", bankAccountId=" + getBankAccountId() +
-            ", bankAccountName='" + getBankAccountName() + "'" +
-            ", labels='" + getLabels() + "'" +
+            ", bankAccount=" + getBankAccount() +
+            ", labels=" + getLabels() +
             "}";
     }
 }

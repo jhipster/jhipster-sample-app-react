@@ -1,35 +1,33 @@
 package io.github.jhipster.sample.web.rest;
 
-import io.github.jhipster.sample.JhipsterSampleApplicationReactApp;
-import io.github.jhipster.sample.domain.Label;
-import io.github.jhipster.sample.repository.LabelRepository;
-import io.github.jhipster.sample.service.dto.LabelDTO;
-import io.github.jhipster.sample.service.mapper.LabelMapper;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
-import javax.persistence.EntityManager;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import io.github.jhipster.sample.IntegrationTest;
+import io.github.jhipster.sample.domain.Label;
+import io.github.jhipster.sample.repository.LabelRepository;
+import io.github.jhipster.sample.service.dto.LabelDTO;
+import io.github.jhipster.sample.service.mapper.LabelMapper;
+import java.util.List;
+import javax.persistence.EntityManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
 /**
  * Integration tests for the {@link LabelResource} REST controller.
  */
-@SpringBootTest(classes = JhipsterSampleApplicationReactApp.class)
+@IntegrationTest
 @AutoConfigureMockMvc
 @WithMockUser
-public class LabelResourceIT {
+class LabelResourceIT {
 
     private static final String DEFAULT_LABEL = "AAAAAAAAAA";
     private static final String UPDATED_LABEL = "BBBBBBBBBB";
@@ -55,10 +53,10 @@ public class LabelResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Label createEntity(EntityManager em) {
-        Label label = new Label();
-        label.setLabel(DEFAULT_LABEL);
+        Label label = new Label().label(DEFAULT_LABEL);
         return label;
     }
+
     /**
      * Create an updated entity for this test.
      *
@@ -66,8 +64,7 @@ public class LabelResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Label createUpdatedEntity(EntityManager em) {
-        Label label = new Label();
-        label.setLabel(UPDATED_LABEL);
+        Label label = new Label().label(UPDATED_LABEL);
         return label;
     }
 
@@ -78,13 +75,12 @@ public class LabelResourceIT {
 
     @Test
     @Transactional
-    public void createLabel() throws Exception {
+    void createLabel() throws Exception {
         int databaseSizeBeforeCreate = labelRepository.findAll().size();
         // Create the Label
         LabelDTO labelDTO = labelMapper.toDto(label);
-        restLabelMockMvc.perform(post("/api/labels")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(labelDTO)))
+        restLabelMockMvc
+            .perform(post("/api/labels").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(labelDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Label in the database
@@ -96,17 +92,16 @@ public class LabelResourceIT {
 
     @Test
     @Transactional
-    public void createLabelWithExistingId() throws Exception {
-        int databaseSizeBeforeCreate = labelRepository.findAll().size();
-
+    void createLabelWithExistingId() throws Exception {
         // Create the Label with an existing ID
         label.setId(1L);
         LabelDTO labelDTO = labelMapper.toDto(label);
 
+        int databaseSizeBeforeCreate = labelRepository.findAll().size();
+
         // An entity with an existing ID cannot be created, so this API call must fail
-        restLabelMockMvc.perform(post("/api/labels")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(labelDTO)))
+        restLabelMockMvc
+            .perform(post("/api/labels").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(labelDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Label in the database
@@ -114,10 +109,9 @@ public class LabelResourceIT {
         assertThat(labelList).hasSize(databaseSizeBeforeCreate);
     }
 
-
     @Test
     @Transactional
-    public void checkLabelIsRequired() throws Exception {
+    void checkLabelIsRequired() throws Exception {
         int databaseSizeBeforeTest = labelRepository.findAll().size();
         // set the field null
         label.setLabel(null);
@@ -125,10 +119,8 @@ public class LabelResourceIT {
         // Create the Label, which fails.
         LabelDTO labelDTO = labelMapper.toDto(label);
 
-
-        restLabelMockMvc.perform(post("/api/labels")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(labelDTO)))
+        restLabelMockMvc
+            .perform(post("/api/labels").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(labelDTO)))
             .andExpect(status().isBadRequest());
 
         List<Label> labelList = labelRepository.findAll();
@@ -137,42 +129,44 @@ public class LabelResourceIT {
 
     @Test
     @Transactional
-    public void getAllLabels() throws Exception {
+    void getAllLabels() throws Exception {
         // Initialize the database
         labelRepository.saveAndFlush(label);
 
         // Get all the labelList
-        restLabelMockMvc.perform(get("/api/labels?sort=id,desc"))
+        restLabelMockMvc
+            .perform(get("/api/labels?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(label.getId().intValue())))
             .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL)));
     }
-    
+
     @Test
     @Transactional
-    public void getLabel() throws Exception {
+    void getLabel() throws Exception {
         // Initialize the database
         labelRepository.saveAndFlush(label);
 
         // Get the label
-        restLabelMockMvc.perform(get("/api/labels/{id}", label.getId()))
+        restLabelMockMvc
+            .perform(get("/api/labels/{id}", label.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(label.getId().intValue()))
             .andExpect(jsonPath("$.label").value(DEFAULT_LABEL));
     }
+
     @Test
     @Transactional
-    public void getNonExistingLabel() throws Exception {
+    void getNonExistingLabel() throws Exception {
         // Get the label
-        restLabelMockMvc.perform(get("/api/labels/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+        restLabelMockMvc.perform(get("/api/labels/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
     @Transactional
-    public void updateLabel() throws Exception {
+    void updateLabel() throws Exception {
         // Initialize the database
         labelRepository.saveAndFlush(label);
 
@@ -182,12 +176,11 @@ public class LabelResourceIT {
         Label updatedLabel = labelRepository.findById(label.getId()).get();
         // Disconnect from session so that the updates on updatedLabel are not directly saved in db
         em.detach(updatedLabel);
-        updatedLabel.setLabel(UPDATED_LABEL);
+        updatedLabel.label(UPDATED_LABEL);
         LabelDTO labelDTO = labelMapper.toDto(updatedLabel);
 
-        restLabelMockMvc.perform(put("/api/labels")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(labelDTO)))
+        restLabelMockMvc
+            .perform(put("/api/labels").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(labelDTO)))
             .andExpect(status().isOk());
 
         // Validate the Label in the database
@@ -199,16 +192,15 @@ public class LabelResourceIT {
 
     @Test
     @Transactional
-    public void updateNonExistingLabel() throws Exception {
+    void updateNonExistingLabel() throws Exception {
         int databaseSizeBeforeUpdate = labelRepository.findAll().size();
 
         // Create the Label
         LabelDTO labelDTO = labelMapper.toDto(label);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restLabelMockMvc.perform(put("/api/labels")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(labelDTO)))
+        restLabelMockMvc
+            .perform(put("/api/labels").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(labelDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Label in the database
@@ -218,15 +210,86 @@ public class LabelResourceIT {
 
     @Test
     @Transactional
-    public void deleteLabel() throws Exception {
+    void partialUpdateLabelWithPatch() throws Exception {
+        // Initialize the database
+        labelRepository.saveAndFlush(label);
+
+        int databaseSizeBeforeUpdate = labelRepository.findAll().size();
+
+        // Update the label using partial update
+        Label partialUpdatedLabel = new Label();
+        partialUpdatedLabel.setId(label.getId());
+
+        restLabelMockMvc
+            .perform(
+                patch("/api/labels")
+                    .contentType("application/merge-patch+json")
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedLabel))
+            )
+            .andExpect(status().isOk());
+
+        // Validate the Label in the database
+        List<Label> labelList = labelRepository.findAll();
+        assertThat(labelList).hasSize(databaseSizeBeforeUpdate);
+        Label testLabel = labelList.get(labelList.size() - 1);
+        assertThat(testLabel.getLabel()).isEqualTo(DEFAULT_LABEL);
+    }
+
+    @Test
+    @Transactional
+    void fullUpdateLabelWithPatch() throws Exception {
+        // Initialize the database
+        labelRepository.saveAndFlush(label);
+
+        int databaseSizeBeforeUpdate = labelRepository.findAll().size();
+
+        // Update the label using partial update
+        Label partialUpdatedLabel = new Label();
+        partialUpdatedLabel.setId(label.getId());
+
+        partialUpdatedLabel.label(UPDATED_LABEL);
+
+        restLabelMockMvc
+            .perform(
+                patch("/api/labels")
+                    .contentType("application/merge-patch+json")
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedLabel))
+            )
+            .andExpect(status().isOk());
+
+        // Validate the Label in the database
+        List<Label> labelList = labelRepository.findAll();
+        assertThat(labelList).hasSize(databaseSizeBeforeUpdate);
+        Label testLabel = labelList.get(labelList.size() - 1);
+        assertThat(testLabel.getLabel()).isEqualTo(UPDATED_LABEL);
+    }
+
+    @Test
+    @Transactional
+    void partialUpdateLabelShouldThrown() throws Exception {
+        // Update the label without id should throw
+        Label partialUpdatedLabel = new Label();
+
+        restLabelMockMvc
+            .perform(
+                patch("/api/labels")
+                    .contentType("application/merge-patch+json")
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedLabel))
+            )
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    void deleteLabel() throws Exception {
         // Initialize the database
         labelRepository.saveAndFlush(label);
 
         int databaseSizeBeforeDelete = labelRepository.findAll().size();
 
         // Delete the label
-        restLabelMockMvc.perform(delete("/api/labels/{id}", label.getId())
-            .accept(MediaType.APPLICATION_JSON))
+        restLabelMockMvc
+            .perform(delete("/api/labels/{id}", label.getId()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

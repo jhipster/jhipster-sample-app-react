@@ -1,4 +1,5 @@
-import { Moment } from 'moment';
+import dayjs from 'dayjs';
+import { IBankAccount } from 'app/shared/model/bank-account.model';
 import { ILabel } from 'app/shared/model/label.model';
 
 export interface IOperation {
@@ -6,8 +7,7 @@ export interface IOperation {
   date?: string;
   description?: string;
   amount?: number;
-  bankAccountName?: string;
-  bankAccountId?: number;
+  bankAccount?: IBankAccount;
   labels?: ILabel[];
 }
 

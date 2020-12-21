@@ -1,13 +1,14 @@
 package io.github.jhipster.sample.service.dto;
 
-import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
-import io.github.jhipster.sample.web.rest.TestUtil;
 
-public class OperationDTOTest {
+import io.github.jhipster.sample.web.rest.TestUtil;
+import org.junit.jupiter.api.Test;
+
+class OperationDTOTest {
 
     @Test
-    public void dtoEqualsVerifier() throws Exception {
+    void dtoEqualsVerifier() throws Exception {
         TestUtil.equalsVerifier(OperationDTO.class);
         OperationDTO operationDTO1 = new OperationDTO();
         operationDTO1.setId(1L);

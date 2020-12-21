@@ -41,7 +41,7 @@ export const ConfigurationPage = (props: IConfigurationPageProps) => {
 
   return (
     <div>
-      <h2 id="configuration-page-heading">
+      <h2 id="configuration-page-heading" data-cy="configurationPageHeading">
         <Translate contentKey="configuration.title">Configuration</Translate>
       </h2>
       <span>

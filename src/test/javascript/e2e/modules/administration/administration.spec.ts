@@ -50,11 +50,6 @@ describe('Administration', () => {
     expect(await element(by.id('configuration-page-heading')).getText()).to.eq('Configuration');
   });
 
-  it('should load audits', async () => {
-    await navBarPage.clickOnAdminMenuItem('audits');
-    expect(await element(by.id('audits-page-heading')).getText()).to.eq('Audits');
-  });
-
   it('should load logs', async () => {
     await navBarPage.clickOnAdminMenuItem('logs');
     expect(await element(by.id('logs-page-heading')).getText()).to.eq('Logs');

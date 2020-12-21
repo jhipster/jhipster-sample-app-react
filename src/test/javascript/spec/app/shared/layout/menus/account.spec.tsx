@@ -1,5 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
 import { NavDropdown } from 'app/shared/layout/menus/menu-components';
 import { AccountMenu } from 'app/shared/layout/menus';
@@ -9,13 +11,25 @@ describe('AccountMenu', () => {
 
   const authenticatedWrapper = () => {
     if (!mountedWrapper) {
-      mountedWrapper = shallow(<AccountMenu isAuthenticated />);
+      const history = createMemoryHistory();
+      const { container } = render(
+        <Router history={history}>
+          <AccountMenu isAuthenticated />
+        </Router>
+      );
+      mountedWrapper = container.innerHTML;
     }
     return mountedWrapper;
   };
   const guestWrapper = () => {
     if (!mountedWrapper) {
-      mountedWrapper = shallow(<AccountMenu />);
+      const history = createMemoryHistory();
+      const { container } = (mountedWrapper = render(
+        <Router history={history}>
+          <AccountMenu />
+        </Router>
+      ));
+      mountedWrapper = container.innerHTML;
     }
     return mountedWrapper;
   };
@@ -27,16 +41,16 @@ describe('AccountMenu', () => {
   // All tests will go here
 
   it('Renders a authenticated AccountMenu component', () => {
-    const dropdown = authenticatedWrapper().find(NavDropdown);
-    expect(dropdown).toHaveLength(1);
-    expect(dropdown.find({ to: '/login' })).toHaveLength(0);
-    expect(dropdown.find({ to: '/logout' })).toHaveLength(1);
+    const html = authenticatedWrapper();
+
+    expect(html).not.toContain('/login');
+    expect(html).toContain('/logout');
   });
 
   it('Renders a guest AccountMenu component', () => {
-    const dropdown = guestWrapper().find(NavDropdown);
-    expect(dropdown).toHaveLength(1);
-    expect(dropdown.find({ to: '/login' })).toHaveLength(1);
-    expect(dropdown.find({ to: '/logout' })).toHaveLength(0);
+    const html = guestWrapper();
+
+    expect(html).toContain('/login');
+    expect(html).not.toContain('/logout');
   });
 });

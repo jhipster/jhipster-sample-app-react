@@ -1,14 +1,15 @@
 package io.github.jhipster.sample.service.dto;
 
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
+import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link io.github.jhipster.sample.domain.BankAccount} entity.
  */
 public class BankAccountDTO implements Serializable {
-    
+
     private Long id;
 
     @NotNull
@@ -17,11 +18,8 @@ public class BankAccountDTO implements Serializable {
     @NotNull
     private BigDecimal balance;
 
+    private UserDTO user;
 
-    private Long userId;
-
-    private String userLogin;
-    
     public Long getId() {
         return id;
     }
@@ -46,20 +44,12 @@ public class BankAccountDTO implements Serializable {
         this.balance = balance;
     }
 
-    public Long getUserId() {
-        return userId;
+    public UserDTO getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserLogin() {
-        return userLogin;
-    }
-
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 
     @Override
@@ -71,12 +61,16 @@ public class BankAccountDTO implements Serializable {
             return false;
         }
 
-        return id != null && id.equals(((BankAccountDTO) o).id);
+        BankAccountDTO bankAccountDTO = (BankAccountDTO) o;
+        if (this.id == null) {
+            return false;
+        }
+        return Objects.equals(this.id, bankAccountDTO.id);
     }
 
     @Override
     public int hashCode() {
-        return 31;
+        return Objects.hash(this.id);
     }
 
     // prettier-ignore
@@ -86,8 +80,7 @@ public class BankAccountDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", balance=" + getBalance() +
-            ", userId=" + getUserId() +
-            ", userLogin='" + getUserLogin() + "'" +
+            ", user=" + getUser() +
             "}";
     }
 }

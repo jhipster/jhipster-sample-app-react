@@ -2,12 +2,11 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
-import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
+import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntity } from './operation.reducer';
-import { IOperation } from 'app/shared/model/operation.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 
 export interface IOperationDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
@@ -21,9 +20,9 @@ export const OperationDetail = (props: IOperationDetailProps) => {
   return (
     <Row>
       <Col md="8">
-        <h2>
+        <h2 data-cy="operationDetailsHeading">
           <Translate contentKey="jhipsterSampleApplicationReactApp.operation.detail.title">Operation</Translate> [
-          <b>{operationEntity.id}</b>]
+          <strong>{operationEntity.id}</strong>]
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -47,7 +46,7 @@ export const OperationDetail = (props: IOperationDetailProps) => {
           <dt>
             <Translate contentKey="jhipsterSampleApplicationReactApp.operation.bankAccount">Bank Account</Translate>
           </dt>
-          <dd>{operationEntity.bankAccountName ? operationEntity.bankAccountName : ''}</dd>
+          <dd>{operationEntity.bankAccount ? operationEntity.bankAccount.name : ''}</dd>
           <dt>
             <Translate contentKey="jhipsterSampleApplicationReactApp.operation.label">Label</Translate>
           </dt>
@@ -62,7 +61,7 @@ export const OperationDetail = (props: IOperationDetailProps) => {
               : null}
           </dd>
         </dl>
-        <Button tag={Link} to="/operation" replace color="info">
+        <Button tag={Link} to="/operation" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}
           <span className="d-none d-md-inline">
             <Translate contentKey="entity.action.back">Back</Translate>

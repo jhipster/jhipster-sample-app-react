@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
@@ -18,7 +18,7 @@ export interface ILabelUpdateProps extends StateProps, DispatchProps, RouteCompo
 
 export const LabelUpdate = (props: ILabelUpdateProps) => {
   const [operationId, setOperationId] = useState('0');
-  const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
+  const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const { labelEntity, operations, loading, updating } = props;
 
@@ -61,7 +61,7 @@ export const LabelUpdate = (props: ILabelUpdateProps) => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="jhipsterSampleApplicationReactApp.label.home.createOrEditLabel">
+          <h2 id="jhipsterSampleApplicationReactApp.label.home.createOrEditLabel" data-cy="LabelCreateUpdateHeading">
             <Translate contentKey="jhipsterSampleApplicationReactApp.label.home.createOrEditLabel">Create or edit a Label</Translate>
           </h2>
         </Col>
@@ -86,6 +86,7 @@ export const LabelUpdate = (props: ILabelUpdateProps) => {
                 </Label>
                 <AvField
                   id="label-label"
+                  data-cy="label"
                   type="text"
                   name="label"
                   validate={{
@@ -102,7 +103,7 @@ export const LabelUpdate = (props: ILabelUpdateProps) => {
                 </span>
               </Button>
               &nbsp;
-              <Button color="primary" id="save-entity" type="submit" disabled={updating}>
+              <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
                 <FontAwesomeIcon icon="save" />
                 &nbsp;
                 <Translate contentKey="entity.action.save">Save</Translate>

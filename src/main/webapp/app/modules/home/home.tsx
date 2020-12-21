@@ -1,12 +1,10 @@
 import './home.scss';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Translate } from 'react-jhipster';
 import { connect } from 'react-redux';
 import { Row, Col, Alert } from 'reactstrap';
-
-import { IRootState } from 'app/shared/reducers';
 
 export type IHomeProp = StateProps;
 
@@ -15,6 +13,9 @@ export const Home = (props: IHomeProp) => {
 
   return (
     <Row>
+      <Col md="3" className="pad">
+        <span className="hipster rounded" />
+      </Col>
       <Col md="9">
         <h2>
           <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>
@@ -34,6 +35,7 @@ export const Home = (props: IHomeProp) => {
           <div>
             <Alert color="warning">
               <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
+
               <Link to="/login" className="alert-link">
                 <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
               </Link>
@@ -87,13 +89,10 @@ export const Home = (props: IHomeProp) => {
         <p>
           <Translate contentKey="home.like">If you like JHipster, do not forget to give us a star on</Translate>{' '}
           <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-            Github
+            GitHub
           </a>
           !
         </p>
-      </Col>
-      <Col md="3" className="pad">
-        <span className="hipster rounded" />
       </Col>
     </Row>
   );

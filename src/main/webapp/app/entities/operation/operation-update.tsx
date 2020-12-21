@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
@@ -21,7 +21,7 @@ export interface IOperationUpdateProps extends StateProps, DispatchProps, RouteC
 export const OperationUpdate = (props: IOperationUpdateProps) => {
   const [idslabel, setIdslabel] = useState([]);
   const [bankAccountId, setBankAccountId] = useState('0');
-  const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
+  const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const { operationEntity, bankAccounts, labels, loading, updating } = props;
 
@@ -66,7 +66,7 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="jhipsterSampleApplicationReactApp.operation.home.createOrEditLabel">
+          <h2 id="jhipsterSampleApplicationReactApp.operation.home.createOrEditLabel" data-cy="OperationCreateUpdateHeading">
             <Translate contentKey="jhipsterSampleApplicationReactApp.operation.home.createOrEditLabel">
               Create or edit a Operation
             </Translate>
@@ -93,6 +93,7 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
                 </Label>
                 <AvInput
                   id="operation-date"
+                  data-cy="date"
                   type="datetime-local"
                   className="form-control"
                   name="date"
@@ -107,7 +108,7 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
                 <Label id="descriptionLabel" for="operation-description">
                   <Translate contentKey="jhipsterSampleApplicationReactApp.operation.description">Description</Translate>
                 </Label>
-                <AvField id="operation-description" type="text" name="description" />
+                <AvField id="operation-description" data-cy="description" type="text" name="description" />
               </AvGroup>
               <AvGroup>
                 <Label id="amountLabel" for="operation-amount">
@@ -115,6 +116,7 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
                 </Label>
                 <AvField
                   id="operation-amount"
+                  data-cy="amount"
                   type="text"
                   name="amount"
                   validate={{
@@ -127,7 +129,7 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
                 <Label for="operation-bankAccount">
                   <Translate contentKey="jhipsterSampleApplicationReactApp.operation.bankAccount">Bank Account</Translate>
                 </Label>
-                <AvInput id="operation-bankAccount" type="select" className="form-control" name="bankAccountId">
+                <AvInput id="operation-bankAccount" data-cy="bankAccount" type="select" className="form-control" name="bankAccount.id">
                   <option value="" key="0" />
                   {bankAccounts
                     ? bankAccounts.map(otherEntity => (
@@ -144,11 +146,12 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
                 </Label>
                 <AvInput
                   id="operation-label"
+                  data-cy="label"
                   type="select"
                   multiple
                   className="form-control"
                   name="labels"
-                  value={operationEntity.labels && operationEntity.labels.map(e => e.id)}
+                  value={!isNew && operationEntity.labels && operationEntity.labels.map(e => e.id)}
                 >
                   <option value="" key="0" />
                   {labels
@@ -168,7 +171,7 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
                 </span>
               </Button>
               &nbsp;
-              <Button color="primary" id="save-entity" type="submit" disabled={updating}>
+              <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
                 <FontAwesomeIcon icon="save" />
                 &nbsp;
                 <Translate contentKey="entity.action.save">Save</Translate>

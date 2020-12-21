@@ -46,6 +46,7 @@ export const PasswordPage = (props: IUserPasswordProps) => {
               validate={{
                 required: { value: true, errorMessage: translate('global.messages.validate.newpassword.required') },
               }}
+              data-cy="currentPassword"
             />
             <AvField
               name="newPassword"
@@ -58,6 +59,7 @@ export const PasswordPage = (props: IUserPasswordProps) => {
                 maxLength: { value: 50, errorMessage: translate('global.messages.validate.newpassword.maxlength') },
               }}
               onChange={updatePassword}
+              data-cy="newPassword"
             />
             <PasswordStrengthBar password={password} />
             <AvField
@@ -83,8 +85,9 @@ export const PasswordPage = (props: IUserPasswordProps) => {
                   errorMessage: translate('global.messages.error.dontmatch'),
                 },
               }}
+              data-cy="confirmPassword"
             />
-            <Button color="success" type="submit">
+            <Button color="success" type="submit" data-cy="submit">
               <Translate contentKey="password.form.button">Save</Translate>
             </Button>
           </AvForm>

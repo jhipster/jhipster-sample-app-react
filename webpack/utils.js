@@ -4,7 +4,7 @@ const tsconfig = require('../tsconfig.json');
 
 module.exports = {
   root,
-  mapTypescriptAliasToWebpackAlias
+  mapTypescriptAliasToWebpackAlias,
 };
 
 const _root = path.resolve(__dirname, '..');

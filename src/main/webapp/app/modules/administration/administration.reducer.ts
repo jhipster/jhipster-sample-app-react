@@ -10,7 +10,6 @@ export const ACTION_TYPES = {
   FETCH_THREAD_DUMP: 'administration/FETCH_THREAD_DUMP',
   FETCH_CONFIGURATIONS: 'administration/FETCH_CONFIGURATIONS',
   FETCH_ENV: 'administration/FETCH_ENV',
-  FETCH_AUDITS: 'administration/FETCH_AUDITS',
 };
 
 const initialState = {
@@ -26,7 +25,6 @@ const initialState = {
     configProps: {} as any,
     env: {} as any,
   },
-  audits: [] as any[],
   totalItems: 0,
 };
 
@@ -41,7 +39,6 @@ export default (state: AdministrationState = initialState, action): Administrati
     case REQUEST(ACTION_TYPES.FETCH_LOGS):
     case REQUEST(ACTION_TYPES.FETCH_CONFIGURATIONS):
     case REQUEST(ACTION_TYPES.FETCH_ENV):
-    case REQUEST(ACTION_TYPES.FETCH_AUDITS):
     case REQUEST(ACTION_TYPES.FETCH_HEALTH):
       return {
         ...state,
@@ -53,7 +50,6 @@ export default (state: AdministrationState = initialState, action): Administrati
     case FAILURE(ACTION_TYPES.FETCH_LOGS):
     case FAILURE(ACTION_TYPES.FETCH_CONFIGURATIONS):
     case FAILURE(ACTION_TYPES.FETCH_ENV):
-    case FAILURE(ACTION_TYPES.FETCH_AUDITS):
     case FAILURE(ACTION_TYPES.FETCH_HEALTH):
       return {
         ...state,
@@ -97,13 +93,6 @@ export default (state: AdministrationState = initialState, action): Administrati
           ...state.configuration,
           env: action.payload.data,
         },
-      };
-    case SUCCESS(ACTION_TYPES.FETCH_AUDITS):
-      return {
-        ...state,
-        loading: false,
-        audits: action.payload.data,
-        totalItems: parseInt(action.payload.headers['x-total-count'], 10),
       };
     case SUCCESS(ACTION_TYPES.FETCH_HEALTH):
       return {
@@ -158,17 +147,3 @@ export const getEnv = () => ({
   type: ACTION_TYPES.FETCH_ENV,
   payload: axios.get('management/env'),
 });
-
-export const getAudits = (page, size, sort, fromDate, toDate) => {
-  let requestUrl = `management/audits${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
-  if (fromDate) {
-    requestUrl += `&fromDate=${fromDate}`;
-  }
-  if (toDate) {
-    requestUrl += `&toDate=${toDate}`;
-  }
-  return {
-    type: ACTION_TYPES.FETCH_AUDITS,
-    payload: axios.get(requestUrl),
-  };
-};

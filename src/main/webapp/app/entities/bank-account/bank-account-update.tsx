@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
@@ -18,7 +18,7 @@ export interface IBankAccountUpdateProps extends StateProps, DispatchProps, Rout
 
 export const BankAccountUpdate = (props: IBankAccountUpdateProps) => {
   const [userId, setUserId] = useState('0');
-  const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
+  const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const { bankAccountEntity, users, loading, updating } = props;
 
@@ -61,7 +61,7 @@ export const BankAccountUpdate = (props: IBankAccountUpdateProps) => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="jhipsterSampleApplicationReactApp.bankAccount.home.createOrEditLabel">
+          <h2 id="jhipsterSampleApplicationReactApp.bankAccount.home.createOrEditLabel" data-cy="BankAccountCreateUpdateHeading">
             <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.createOrEditLabel">
               Create or edit a BankAccount
             </Translate>
@@ -88,6 +88,7 @@ export const BankAccountUpdate = (props: IBankAccountUpdateProps) => {
                 </Label>
                 <AvField
                   id="bank-account-name"
+                  data-cy="name"
                   type="text"
                   name="name"
                   validate={{
@@ -101,6 +102,7 @@ export const BankAccountUpdate = (props: IBankAccountUpdateProps) => {
                 </Label>
                 <AvField
                   id="bank-account-balance"
+                  data-cy="balance"
                   type="text"
                   name="balance"
                   validate={{
@@ -113,7 +115,7 @@ export const BankAccountUpdate = (props: IBankAccountUpdateProps) => {
                 <Label for="bank-account-user">
                   <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.user">User</Translate>
                 </Label>
-                <AvInput id="bank-account-user" type="select" className="form-control" name="userId">
+                <AvInput id="bank-account-user" data-cy="user" type="select" className="form-control" name="user.id">
                   <option value="" key="0" />
                   {users
                     ? users.map(otherEntity => (
@@ -132,7 +134,7 @@ export const BankAccountUpdate = (props: IBankAccountUpdateProps) => {
                 </span>
               </Button>
               &nbsp;
-              <Button color="primary" id="save-entity" type="submit" disabled={updating}>
+              <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
                 <FontAwesomeIcon icon="save" />
                 &nbsp;
                 <Translate contentKey="entity.action.save">Save</Translate>

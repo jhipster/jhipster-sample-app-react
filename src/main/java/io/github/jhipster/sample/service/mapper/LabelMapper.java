@@ -1,9 +1,8 @@
 package io.github.jhipster.sample.service.mapper;
 
-
 import io.github.jhipster.sample.domain.*;
 import io.github.jhipster.sample.service.dto.LabelDTO;
-
+import java.util.Set;
 import org.mapstruct.*;
 
 /**
@@ -11,17 +10,9 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface LabelMapper extends EntityMapper<LabelDTO, Label> {
-
-
-    @Mapping(target = "operations", ignore = true)
-    Label toEntity(LabelDTO labelDTO);
-
-    default Label fromId(Long id) {
-        if (id == null) {
-            return null;
-        }
-        Label label = new Label();
-        label.setId(id);
-        return label;
-    }
+    @Named("labelSet")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "label", source = "label")
+    Set<LabelDTO> toDtoLabelSet(Set<Label> label);
 }

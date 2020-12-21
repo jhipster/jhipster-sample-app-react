@@ -2,10 +2,8 @@ import './header.scss';
 
 import React, { useState } from 'react';
 import { Translate, Storage } from 'react-jhipster';
-import { Navbar, Nav, NavbarToggler, NavbarBrand, Collapse } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Navbar, Nav, NavbarToggler, Collapse } from 'reactstrap';
 
-import { NavLink as Link } from 'react-router-dom';
 import LoadingBar from 'react-redux-loading-bar';
 
 import { Home, Brand } from './header-components';
@@ -16,9 +14,9 @@ export interface IHeaderProps {
   isAdmin: boolean;
   ribbonEnv: string;
   isInProduction: boolean;
-  isSwaggerEnabled: boolean;
+  isOpenAPIEnabled: boolean;
   currentLocale: string;
-  onLocaleChange: Function;
+  onLocaleChange: (langKey: string) => void;
 }
 
 const Header = (props: IHeaderProps) => {
@@ -47,7 +45,7 @@ const Header = (props: IHeaderProps) => {
     <div id="app-header">
       {renderDevRibbon()}
       <LoadingBar className="loading-bar" />
-      <Navbar dark expand="sm" fixed="top" className="jh-navbar">
+      <Navbar data-cy="navbar" dark expand="sm" fixed="top" className="jh-navbar">
         <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
         <Brand />
         <Collapse isOpen={menuOpen} navbar>
@@ -55,7 +53,7 @@ const Header = (props: IHeaderProps) => {
             <Home />
             {props.isAuthenticated && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && (
-              <AdminMenu showSwagger={props.isSwaggerEnabled} showDatabase={!props.isInProduction} />
+              <AdminMenu showOpenAPI={props.isOpenAPIEnabled} showDatabase={!props.isInProduction} />
             )}
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
             <AccountMenu isAuthenticated={props.isAuthenticated} />

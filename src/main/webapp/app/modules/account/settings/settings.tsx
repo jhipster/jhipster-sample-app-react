@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Col, Alert, Row } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Translate, translate } from 'react-jhipster';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
@@ -52,6 +52,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
                 maxLength: { value: 50, errorMessage: translate('settings.messages.validate.firstname.maxlength') },
               }}
               value={props.account.firstName}
+              data-cy="firstname"
             />
             {/* Last name */}
             <AvField
@@ -66,6 +67,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
                 maxLength: { value: 50, errorMessage: translate('settings.messages.validate.lastname.maxlength') },
               }}
               value={props.account.lastName}
+              data-cy="lastname"
             />
             {/* Email */}
             <AvField
@@ -79,6 +81,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
                 maxLength: { value: 254, errorMessage: translate('global.messages.validate.email.maxlength') },
               }}
               value={props.account.email}
+              data-cy="email"
             />
             {/* Language key */}
             <AvField
@@ -88,6 +91,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
               className="form-control"
               label={translate('settings.form.language')}
               value={props.account.langKey}
+              data-cy="langKey"
             >
               {locales.map(locale => (
                 <option value={locale} key={locale}>
@@ -95,7 +99,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
                 </option>
               ))}
             </AvField>
-            <Button color="primary" type="submit">
+            <Button color="primary" type="submit" data-cy="submit">
               <Translate contentKey="settings.form.button">Save</Translate>
             </Button>
           </AvForm>

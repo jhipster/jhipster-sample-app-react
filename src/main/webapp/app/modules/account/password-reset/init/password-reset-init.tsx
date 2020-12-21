@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { Button, Alert, Col, Row } from 'reactstrap';
 
-import { IRootState } from 'app/shared/reducers';
 import { handlePasswordResetInit, reset } from '../password-reset.reducer';
 
 export type IPasswordResetInitProps = DispatchProps;
@@ -43,8 +42,9 @@ export class PasswordResetInit extends React.Component<IPasswordResetInitProps> 
                   minLength: { value: 5, errorMessage: translate('global.messages.validate.email.minlength') },
                   maxLength: { value: 254, errorMessage: translate('global.messages.validate.email.maxlength') },
                 }}
+                data-cy="emailResetPassword"
               />
-              <Button color="primary" type="submit">
+              <Button color="primary" type="submit" data-cy="submit">
                 <Translate contentKey="reset.request.form.button">Reset password</Translate>
               </Button>
             </AvForm>
