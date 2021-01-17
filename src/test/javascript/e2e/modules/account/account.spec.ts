@@ -19,8 +19,8 @@ const expect = chai.expect;
 describe('Account', () => {
   let navBarPage: NavBarPage;
   let signInPage: SignInPage;
-  const username = process.env.E2E_USERNAME || 'admin';
-  const password = process.env.E2E_PASSWORD || 'admin';
+  const username = process.env.E2E_USERNAME ?? 'admin';
+  const password = process.env.E2E_PASSWORD ?? 'admin';
   let passwordPage: PasswordPage;
   let settingsPage: SettingsPage;
   let registerPage: RegisterPage;
@@ -208,6 +208,11 @@ describe('Account', () => {
     expect(await passwordPage.getTitle()).to.eq(passwordPageTitle);
 
     await passwordPage.autoChangePassword('new_password', password, password);
+    const toast = getToastByInnerText('Password changed!');
+    await waitUntilDisplayed(toast);
+
+    // Success toast should appear
+    expect(await toast.isPresent()).to.be.true;
 
     await navBarPage.autoSignOut();
   });

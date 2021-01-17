@@ -4,7 +4,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 import { NavDropdown } from 'app/shared/layout/menus/menu-components';
-import { AccountMenu } from 'app/shared/layout/menus';
+import { AccountMenu } from './account';
 
 describe('AccountMenu', () => {
   let mountedWrapper;

@@ -1,4 +1,4 @@
-import { cleanEntity, mapIdList } from 'app/shared/util/entity-utils';
+import { cleanEntity, mapIdList } from './entity-utils';
 
 describe('Entity utils', () => {
   describe('cleanEntity', () => {

@@ -98,7 +98,7 @@ module.exports = options =>
       new writeFilePlugin(),
       new webpack.WatchIgnorePlugin([utils.root('src/test')]),
       new WebpackNotifierPlugin({
-        title: 'JHipster',
+        title: 'Jhipster Sample Application React',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),
       }),
     ].filter(Boolean),

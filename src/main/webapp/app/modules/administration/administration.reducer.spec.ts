@@ -14,10 +14,10 @@ import administration, {
   changeLogLevel,
   getConfigurations,
   getEnv,
-} from 'app/modules/administration/administration.reducer';
+} from './administration.reducer';
 
 describe('Administration reducer tests', () => {
-  const username = process.env.E2E_USERNAME || 'admin';
+  const username = process.env.E2E_USERNAME ?? 'admin';
 
   function isEmpty(element): boolean {
     if (element instanceof Array) {

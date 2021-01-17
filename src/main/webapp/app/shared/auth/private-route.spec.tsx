@@ -5,7 +5,7 @@ import { render } from '@testing-library/react';
 import { TranslatorContext } from 'react-jhipster';
 
 import { AUTHORITIES } from 'app/config/constants';
-import { PrivateRouteComponent, hasAnyAuthority } from 'app/shared/auth/private-route';
+import { PrivateRouteComponent, hasAnyAuthority } from './private-route';
 
 const TestComp = () => <div>Test</div>;
 

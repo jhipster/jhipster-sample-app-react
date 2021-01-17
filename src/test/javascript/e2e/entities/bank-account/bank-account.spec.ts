@@ -21,15 +21,16 @@ describe('BankAccount e2e test', () => {
   let signInPage: SignInPage;
   let bankAccountComponentsPage: BankAccountComponentsPage;
   let bankAccountUpdatePage: BankAccountUpdatePage;
+  const username = process.env.E2E_USERNAME ?? 'admin';
+  const password = process.env.E2E_PASSWORD ?? 'admin';
 
   before(async () => {
     await browser.get('/');
     navBarPage = new NavBarPage();
     signInPage = await navBarPage.getSignInPage();
     await signInPage.waitUntilDisplayed();
-
-    await signInPage.username.sendKeys('admin');
-    await signInPage.password.sendKeys('admin');
+    await signInPage.username.sendKeys(username);
+    await signInPage.password.sendKeys(password);
     await signInPage.loginButton.click();
     await signInPage.waitUntilHidden();
     await waitUntilDisplayed(navBarPage.entityMenu);

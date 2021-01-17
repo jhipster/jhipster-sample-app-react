@@ -5,10 +5,10 @@ import { ILabel } from 'app/shared/model/label.model';
 export interface IOperation {
   id?: number;
   date?: string;
-  description?: string;
+  description?: string | null;
   amount?: number;
-  bankAccount?: IBankAccount;
-  labels?: ILabel[];
+  bankAccount?: IBankAccount | null;
+  labels?: ILabel[] | null;
 }
 
 export const defaultValue: Readonly<IOperation> = {};

@@ -4,18 +4,11 @@ import configureStore from 'redux-mock-store';
 import promiseMiddleware from 'redux-promise-middleware';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
+import { parseHeaderForLinks } from 'react-jhipster';
 
-import reducer, {
-  ACTION_TYPES,
-  createEntity,
-  deleteEntity,
-  getEntities,
-  getEntity,
-  updateEntity,
-  reset,
-} from 'app/entities/bank-account/bank-account.reducer';
+import reducer, { ACTION_TYPES, createEntity, deleteEntity, getEntities, getEntity, updateEntity, reset } from './operation.reducer';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
-import { IBankAccount, defaultValue } from 'app/shared/model/bank-account.model';
+import { IOperation, defaultValue } from 'app/shared/model/operation.model';
 
 describe('Entities reducer tests', () => {
   function isEmpty(element): boolean {
@@ -29,8 +22,12 @@ describe('Entities reducer tests', () => {
   const initialState = {
     loading: false,
     errorMessage: null,
-    entities: [] as ReadonlyArray<IBankAccount>,
+    entities: [] as ReadonlyArray<IOperation>,
     entity: defaultValue,
+    links: {
+      next: 0,
+    },
+    totalItems: 0,
     updating: false,
     updateSuccess: false,
   };
@@ -60,7 +57,7 @@ describe('Entities reducer tests', () => {
 
   describe('Requests', () => {
     it('should set state to loading', () => {
-      testMultipleTypes([REQUEST(ACTION_TYPES.FETCH_BANKACCOUNT_LIST), REQUEST(ACTION_TYPES.FETCH_BANKACCOUNT)], {}, state => {
+      testMultipleTypes([REQUEST(ACTION_TYPES.FETCH_OPERATION_LIST), REQUEST(ACTION_TYPES.FETCH_OPERATION)], {}, state => {
         expect(state).toMatchObject({
           errorMessage: null,
           updateSuccess: false,
@@ -71,7 +68,7 @@ describe('Entities reducer tests', () => {
 
     it('should set state to updating', () => {
       testMultipleTypes(
-        [REQUEST(ACTION_TYPES.CREATE_BANKACCOUNT), REQUEST(ACTION_TYPES.UPDATE_BANKACCOUNT), REQUEST(ACTION_TYPES.DELETE_BANKACCOUNT)],
+        [REQUEST(ACTION_TYPES.CREATE_OPERATION), REQUEST(ACTION_TYPES.UPDATE_OPERATION), REQUEST(ACTION_TYPES.DELETE_OPERATION)],
         {},
         state => {
           expect(state).toMatchObject({
@@ -101,11 +98,11 @@ describe('Entities reducer tests', () => {
     it('should set a message in errorMessage', () => {
       testMultipleTypes(
         [
-          FAILURE(ACTION_TYPES.FETCH_BANKACCOUNT_LIST),
-          FAILURE(ACTION_TYPES.FETCH_BANKACCOUNT),
-          FAILURE(ACTION_TYPES.CREATE_BANKACCOUNT),
-          FAILURE(ACTION_TYPES.UPDATE_BANKACCOUNT),
-          FAILURE(ACTION_TYPES.DELETE_BANKACCOUNT),
+          FAILURE(ACTION_TYPES.FETCH_OPERATION_LIST),
+          FAILURE(ACTION_TYPES.FETCH_OPERATION),
+          FAILURE(ACTION_TYPES.CREATE_OPERATION),
+          FAILURE(ACTION_TYPES.UPDATE_OPERATION),
+          FAILURE(ACTION_TYPES.DELETE_OPERATION),
         ],
         'error message',
         state => {
@@ -121,15 +118,18 @@ describe('Entities reducer tests', () => {
 
   describe('Successes', () => {
     it('should fetch all entities', () => {
-      const payload = { data: [{ 1: 'fake1' }, { 2: 'fake2' }] };
+      const payload = { data: [{ 1: 'fake1' }, { 2: 'fake2' }], headers: { 'x-total-count': 123, link: ';' } };
+      const links = parseHeaderForLinks(payload.headers.link);
       expect(
         reducer(undefined, {
-          type: SUCCESS(ACTION_TYPES.FETCH_BANKACCOUNT_LIST),
+          type: SUCCESS(ACTION_TYPES.FETCH_OPERATION_LIST),
           payload,
         })
       ).toEqual({
         ...initialState,
+        links,
         loading: false,
+        totalItems: payload.headers['x-total-count'],
         entities: payload.data,
       });
     });
@@ -138,7 +138,7 @@ describe('Entities reducer tests', () => {
       const payload = { data: { 1: 'fake1' } };
       expect(
         reducer(undefined, {
-          type: SUCCESS(ACTION_TYPES.FETCH_BANKACCOUNT),
+          type: SUCCESS(ACTION_TYPES.FETCH_OPERATION),
           payload,
         })
       ).toEqual({
@@ -152,7 +152,7 @@ describe('Entities reducer tests', () => {
       const payload = { data: 'fake payload' };
       expect(
         reducer(undefined, {
-          type: SUCCESS(ACTION_TYPES.CREATE_BANKACCOUNT),
+          type: SUCCESS(ACTION_TYPES.CREATE_OPERATION),
           payload,
         })
       ).toEqual({
@@ -166,7 +166,7 @@ describe('Entities reducer tests', () => {
     it('should delete entity', () => {
       const payload = 'fake payload';
       const toTest = reducer(undefined, {
-        type: SUCCESS(ACTION_TYPES.DELETE_BANKACCOUNT),
+        type: SUCCESS(ACTION_TYPES.DELETE_OPERATION),
         payload,
       });
       expect(toTest).toMatchObject({
@@ -189,79 +189,65 @@ describe('Entities reducer tests', () => {
       axios.delete = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
 
-    it('dispatches ACTION_TYPES.FETCH_BANKACCOUNT_LIST actions', async () => {
+    it('dispatches ACTION_TYPES.FETCH_OPERATION_LIST actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.FETCH_BANKACCOUNT_LIST),
+          type: REQUEST(ACTION_TYPES.FETCH_OPERATION_LIST),
         },
         {
-          type: SUCCESS(ACTION_TYPES.FETCH_BANKACCOUNT_LIST),
+          type: SUCCESS(ACTION_TYPES.FETCH_OPERATION_LIST),
           payload: resolvedObject,
         },
       ];
       await store.dispatch(getEntities()).then(() => expect(store.getActions()).toEqual(expectedActions));
     });
 
-    it('dispatches ACTION_TYPES.FETCH_BANKACCOUNT actions', async () => {
+    it('dispatches ACTION_TYPES.FETCH_OPERATION actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.FETCH_BANKACCOUNT),
+          type: REQUEST(ACTION_TYPES.FETCH_OPERATION),
         },
         {
-          type: SUCCESS(ACTION_TYPES.FETCH_BANKACCOUNT),
+          type: SUCCESS(ACTION_TYPES.FETCH_OPERATION),
           payload: resolvedObject,
         },
       ];
       await store.dispatch(getEntity(42666)).then(() => expect(store.getActions()).toEqual(expectedActions));
     });
 
-    it('dispatches ACTION_TYPES.CREATE_BANKACCOUNT actions', async () => {
+    it('dispatches ACTION_TYPES.CREATE_OPERATION actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.CREATE_BANKACCOUNT),
+          type: REQUEST(ACTION_TYPES.CREATE_OPERATION),
         },
         {
-          type: SUCCESS(ACTION_TYPES.CREATE_BANKACCOUNT),
-          payload: resolvedObject,
-        },
-        {
-          type: REQUEST(ACTION_TYPES.FETCH_BANKACCOUNT_LIST),
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.FETCH_BANKACCOUNT_LIST),
+          type: SUCCESS(ACTION_TYPES.CREATE_OPERATION),
           payload: resolvedObject,
         },
       ];
       await store.dispatch(createEntity({ id: 1 })).then(() => expect(store.getActions()).toEqual(expectedActions));
     });
 
-    it('dispatches ACTION_TYPES.UPDATE_BANKACCOUNT actions', async () => {
+    it('dispatches ACTION_TYPES.UPDATE_OPERATION actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.UPDATE_BANKACCOUNT),
+          type: REQUEST(ACTION_TYPES.UPDATE_OPERATION),
         },
         {
-          type: SUCCESS(ACTION_TYPES.UPDATE_BANKACCOUNT),
+          type: SUCCESS(ACTION_TYPES.UPDATE_OPERATION),
           payload: resolvedObject,
         },
       ];
       await store.dispatch(updateEntity({ id: 1 })).then(() => expect(store.getActions()).toEqual(expectedActions));
     });
 
-    it('dispatches ACTION_TYPES.DELETE_BANKACCOUNT actions', async () => {
+    it('dispatches ACTION_TYPES.DELETE_OPERATION actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.DELETE_BANKACCOUNT),
+          type: REQUEST(ACTION_TYPES.DELETE_OPERATION),
         },
         {
-          type: SUCCESS(ACTION_TYPES.DELETE_BANKACCOUNT),
-          payload: resolvedObject,
-        },
-        {
-          type: REQUEST(ACTION_TYPES.FETCH_BANKACCOUNT_LIST),
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.FETCH_BANKACCOUNT_LIST),
+          type: SUCCESS(ACTION_TYPES.DELETE_OPERATION),
           payload: resolvedObject,
         },
       ];

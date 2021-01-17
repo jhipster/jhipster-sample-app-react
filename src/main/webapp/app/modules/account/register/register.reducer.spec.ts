@@ -6,7 +6,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 import { TranslatorContext } from 'react-jhipster';
 
 import { FAILURE, REQUEST, SUCCESS } from 'app/shared/reducers/action-type.util';
-import register, { ACTION_TYPES, handleRegister, reset } from 'app/modules/account/register/register.reducer';
+import register, { ACTION_TYPES, handleRegister, reset } from './register.reducer';
 
 describe('Creating account tests', () => {
   const initialState = {

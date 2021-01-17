@@ -4,7 +4,7 @@ import * as toastify from 'react-toastify'; // synthetic default import doesn't 
 import sinon from 'sinon';
 import { TranslatorContext } from 'react-jhipster';
 
-import notificationMiddleware from 'app/config/notification-middleware';
+import notificationMiddleware from './notification-middleware';
 
 describe('Notification Middleware', () => {
   let store;

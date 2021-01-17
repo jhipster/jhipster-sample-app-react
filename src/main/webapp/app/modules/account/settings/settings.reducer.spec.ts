@@ -6,7 +6,7 @@ import axios from 'axios';
 import sinon from 'sinon';
 import { TranslatorContext } from 'react-jhipster';
 
-import account, { ACTION_TYPES, saveAccountSettings, reset } from 'app/modules/account/settings/settings.reducer';
+import account, { ACTION_TYPES, saveAccountSettings, reset } from './settings.reducer';
 import { ACTION_TYPES as authActionTypes } from 'app/shared/reducers/authentication';
 import { ACTION_TYPES as localeActionTypes } from 'app/shared/reducers/locale';
 

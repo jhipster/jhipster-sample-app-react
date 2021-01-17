@@ -12,7 +12,7 @@ import org.mapstruct.*;
 public interface OperationMapper extends EntityMapper<OperationDTO, Operation> {
     @Mapping(target = "bankAccount", source = "bankAccount", qualifiedByName = "name")
     @Mapping(target = "labels", source = "labels", qualifiedByName = "labelSet")
-    OperationDTO toDto(Operation operation);
+    OperationDTO toDto(Operation s);
 
     @Mapping(target = "removeLabel", ignore = true)
     Operation toEntity(OperationDTO operationDTO);

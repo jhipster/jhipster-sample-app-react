@@ -10,7 +10,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { UserMapper.class })
 public interface BankAccountMapper extends EntityMapper<BankAccountDTO, BankAccount> {
     @Mapping(target = "user", source = "user", qualifiedByName = "login")
-    BankAccountDTO toDto(BankAccount bankAccount);
+    BankAccountDTO toDto(BankAccount s);
 
     @Named("name")
     @BeanMapping(ignoreByDefault = true)

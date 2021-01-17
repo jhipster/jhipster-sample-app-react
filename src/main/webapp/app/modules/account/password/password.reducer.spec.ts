@@ -6,7 +6,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 import { TranslatorContext } from 'react-jhipster';
 
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
-import password, { ACTION_TYPES, savePassword, reset } from 'app/modules/account/password/password.reducer';
+import password, { ACTION_TYPES, savePassword, reset } from './password.reducer';
 
 describe('Password reducer tests', () => {
   beforeAll(() => {

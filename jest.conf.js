@@ -1,14 +1,13 @@
-const tsconfig = require('../../../tsconfig.json');
+const tsconfig = require('./tsconfig.json');
 
 module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
-  rootDir: '../../../',
   testURL: 'http://localhost/',
   cacheDirectory: '<rootDir>/target/jest-cache',
   coverageDirectory: '<rootDir>/target/test-results/',
-  testMatch: ['<rootDir>/src/test/javascript/spec/**/@(*.)@(spec.ts?(x))'],
+  testMatch: ['<rootDir>/src/main/webapp/app/**/@(*.)@(spec.ts?(x))'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   coveragePathIgnorePatterns: ['<rootDir>/src/test/javascript/'],
   moduleNameMapper: mapTypescriptAliasToJestAlias({
@@ -17,7 +16,7 @@ module.exports = {
   reporters: ['default', ['jest-junit', { outputDirectory: './target/test-results/', outputName: 'TESTS-results-jest.xml' }]],
   testResultsProcessor: 'jest-sonar-reporter',
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
-  setupFiles: ['<rootDir>/src/test/javascript/spec/icons-mock.ts', '<rootDir>/src/test/javascript/spec/storage-mock.ts'],
+  setupFiles: ['<rootDir>/src/main/webapp/app/setup-tests.ts'],
   globals: {
     'ts-jest': {
       tsconfig: './tsconfig.test.json',

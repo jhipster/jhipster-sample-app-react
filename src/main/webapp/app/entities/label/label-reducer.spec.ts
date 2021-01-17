@@ -5,15 +5,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
 
-import reducer, {
-  ACTION_TYPES,
-  createEntity,
-  deleteEntity,
-  getEntities,
-  getEntity,
-  updateEntity,
-  reset,
-} from 'app/entities/label/label.reducer';
+import reducer, { ACTION_TYPES, createEntity, deleteEntity, getEntities, getEntity, updateEntity, reset } from './label.reducer';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { ILabel, defaultValue } from 'app/shared/model/label.model';
 

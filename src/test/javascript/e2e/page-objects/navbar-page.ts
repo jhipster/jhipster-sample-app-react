@@ -75,8 +75,8 @@ export default class NavBarPage extends BasePage {
 
   async autoSignIn() {
     await this.signInPage.get();
-    const username = process.env.E2E_USERNAME || 'admin';
-    const password = process.env.E2E_PASSWORD || 'admin';
+    const username = process.env.E2E_USERNAME ?? 'admin';
+    const password = process.env.E2E_PASSWORD ?? 'admin';
     await this.signInPage.autoSignInUsing(username, password);
   }
 

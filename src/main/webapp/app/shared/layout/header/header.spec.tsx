@@ -7,7 +7,7 @@ import { createMemoryHistory } from 'history';
 import sinon from 'sinon';
 
 import initStore from 'app/config/store';
-import Header from 'app/shared/layout/header/header';
+import Header from './header';
 
 describe('Header', () => {
   let mountedWrapper;
