@@ -11,6 +11,7 @@ export const ACTION_TYPES = {
   FETCH_LABEL: 'label/FETCH_LABEL',
   CREATE_LABEL: 'label/CREATE_LABEL',
   UPDATE_LABEL: 'label/UPDATE_LABEL',
+  PARTIAL_UPDATE_LABEL: 'label/PARTIAL_UPDATE_LABEL',
   DELETE_LABEL: 'label/DELETE_LABEL',
   RESET: 'label/RESET',
 };
@@ -41,6 +42,7 @@ export default (state: LabelState = initialState, action): LabelState => {
     case REQUEST(ACTION_TYPES.CREATE_LABEL):
     case REQUEST(ACTION_TYPES.UPDATE_LABEL):
     case REQUEST(ACTION_TYPES.DELETE_LABEL):
+    case REQUEST(ACTION_TYPES.PARTIAL_UPDATE_LABEL):
       return {
         ...state,
         errorMessage: null,
@@ -51,6 +53,7 @@ export default (state: LabelState = initialState, action): LabelState => {
     case FAILURE(ACTION_TYPES.FETCH_LABEL):
     case FAILURE(ACTION_TYPES.CREATE_LABEL):
     case FAILURE(ACTION_TYPES.UPDATE_LABEL):
+    case FAILURE(ACTION_TYPES.PARTIAL_UPDATE_LABEL):
     case FAILURE(ACTION_TYPES.DELETE_LABEL):
       return {
         ...state,
@@ -73,6 +76,7 @@ export default (state: LabelState = initialState, action): LabelState => {
       };
     case SUCCESS(ACTION_TYPES.CREATE_LABEL):
     case SUCCESS(ACTION_TYPES.UPDATE_LABEL):
+    case SUCCESS(ACTION_TYPES.PARTIAL_UPDATE_LABEL):
       return {
         ...state,
         updating: false,
@@ -124,7 +128,15 @@ export const createEntity: ICrudPutAction<ILabel> = entity => async dispatch => 
 export const updateEntity: ICrudPutAction<ILabel> = entity => async dispatch => {
   const result = await dispatch({
     type: ACTION_TYPES.UPDATE_LABEL,
-    payload: axios.put(apiUrl, cleanEntity(entity)),
+    payload: axios.put(`${apiUrl}/${entity.id}`, cleanEntity(entity)),
+  });
+  return result;
+};
+
+export const partialUpdate: ICrudPutAction<ILabel> = entity => async dispatch => {
+  const result = await dispatch({
+    type: ACTION_TYPES.PARTIAL_UPDATE_LABEL,
+    payload: axios.patch(`${apiUrl}/${entity.id}`, cleanEntity(entity)),
   });
   return result;
 };

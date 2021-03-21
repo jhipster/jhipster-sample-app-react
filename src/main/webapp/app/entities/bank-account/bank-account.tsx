@@ -44,7 +44,7 @@ export const BankAccount = (props: IBankAccountProps) => {
             <thead>
               <tr>
                 <th>
-                  <Translate contentKey="global.field.id">ID</Translate>
+                  <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.id">ID</Translate>
                 </th>
                 <th>
                   <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.name">Name</Translate>
@@ -66,6 +66,7 @@ export const BankAccount = (props: IBankAccountProps) => {
                       {bankAccount.id}
                     </Button>
                   </td>
+                  <td>{bankAccount.id}</td>
                   <td>{bankAccount.name}</td>
                   <td>{bankAccount.balance}</td>
                   <td>{bankAccount.user ? bankAccount.user.login : ''}</td>

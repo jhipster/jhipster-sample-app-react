@@ -15,7 +15,7 @@ export interface IUserManagementProps extends StateProps, DispatchProps, RouteCo
 
 export const UserManagement = (props: IUserManagementProps) => {
   const [pagination, setPagination] = useState(
-    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
+    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE, 'id'), props.location.search)
   );
 
   const getUsersFromProps = () => {

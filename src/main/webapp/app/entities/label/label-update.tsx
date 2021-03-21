@@ -17,7 +17,6 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface ILabelUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const LabelUpdate = (props: ILabelUpdateProps) => {
-  const [operationId, setOperationId] = useState('0');
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const { labelEntity, operations, loading, updating } = props;

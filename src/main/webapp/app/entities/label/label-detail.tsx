@@ -21,9 +21,15 @@ export const LabelDetail = (props: ILabelDetailProps) => {
     <Row>
       <Col md="8">
         <h2 data-cy="labelDetailsHeading">
-          <Translate contentKey="jhipsterSampleApplicationReactApp.label.detail.title">Label</Translate> [<strong>{labelEntity.id}</strong>]
+          <Translate contentKey="jhipsterSampleApplicationReactApp.label.detail.title">Label</Translate>
         </h2>
         <dl className="jh-entity-details">
+          <dt>
+            <span id="id">
+              <Translate contentKey="global.field.id">ID</Translate>
+            </span>
+          </dt>
+          <dd>{labelEntity.id}</dd>
           <dt>
             <span id="label">
               <Translate contentKey="jhipsterSampleApplicationReactApp.label.label">Label</Translate>

@@ -17,7 +17,7 @@ export interface IOperationProps extends StateProps, DispatchProps, RouteCompone
 
 export const Operation = (props: IOperationProps) => {
   const [paginationState, setPaginationState] = useState(
-    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
+    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE, 'id'), props.location.search)
   );
   const [sorting, setSorting] = useState(false);
 
@@ -110,7 +110,7 @@ export const Operation = (props: IOperationProps) => {
               <thead>
                 <tr>
                   <th className="hand" onClick={sort('id')}>
-                    <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="jhipsterSampleApplicationReactApp.operation.id">ID</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('date')}>
                     <Translate contentKey="jhipsterSampleApplicationReactApp.operation.date">Date</Translate>{' '}
@@ -139,6 +139,7 @@ export const Operation = (props: IOperationProps) => {
                         {operation.id}
                       </Button>
                     </td>
+                    <td>{operation.id}</td>
                     <td>{operation.date ? <TextFormat type="date" value={operation.date} format={APP_DATE_FORMAT} /> : null}</td>
                     <td>{operation.description}</td>
                     <td>{operation.amount}</td>

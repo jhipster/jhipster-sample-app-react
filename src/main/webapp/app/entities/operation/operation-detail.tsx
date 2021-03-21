@@ -21,10 +21,15 @@ export const OperationDetail = (props: IOperationDetailProps) => {
     <Row>
       <Col md="8">
         <h2 data-cy="operationDetailsHeading">
-          <Translate contentKey="jhipsterSampleApplicationReactApp.operation.detail.title">Operation</Translate> [
-          <strong>{operationEntity.id}</strong>]
+          <Translate contentKey="jhipsterSampleApplicationReactApp.operation.detail.title">Operation</Translate>
         </h2>
         <dl className="jh-entity-details">
+          <dt>
+            <span id="id">
+              <Translate contentKey="global.field.id">ID</Translate>
+            </span>
+          </dt>
+          <dd>{operationEntity.id}</dd>
           <dt>
             <span id="date">
               <Translate contentKey="jhipsterSampleApplicationReactApp.operation.date">Date</Translate>

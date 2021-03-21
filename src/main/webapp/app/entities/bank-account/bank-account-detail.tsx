@@ -21,10 +21,15 @@ export const BankAccountDetail = (props: IBankAccountDetailProps) => {
     <Row>
       <Col md="8">
         <h2 data-cy="bankAccountDetailsHeading">
-          <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.detail.title">BankAccount</Translate> [
-          <strong>{bankAccountEntity.id}</strong>]
+          <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.detail.title">BankAccount</Translate>
         </h2>
         <dl className="jh-entity-details">
+          <dt>
+            <span id="id">
+              <Translate contentKey="global.field.id">ID</Translate>
+            </span>
+          </dt>
+          <dd>{bankAccountEntity.id}</dd>
           <dt>
             <span id="name">
               <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.name">Name</Translate>

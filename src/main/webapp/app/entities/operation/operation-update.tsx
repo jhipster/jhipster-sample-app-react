@@ -20,7 +20,6 @@ export interface IOperationUpdateProps extends StateProps, DispatchProps, RouteC
 
 export const OperationUpdate = (props: IOperationUpdateProps) => {
   const [idslabel, setIdslabel] = useState([]);
-  const [bankAccountId, setBankAccountId] = useState('0');
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const { operationEntity, bankAccounts, labels, loading, updating } = props;
@@ -52,6 +51,7 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
         ...operationEntity,
         ...values,
         labels: mapIdList(values.labels),
+        bankAccount: bankAccounts.find(it => it.id.toString() === values.bankAccountId.toString()),
       };
 
       if (isNew) {
@@ -129,7 +129,7 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
                 <Label for="operation-bankAccount">
                   <Translate contentKey="jhipsterSampleApplicationReactApp.operation.bankAccount">Bank Account</Translate>
                 </Label>
-                <AvInput id="operation-bankAccount" data-cy="bankAccount" type="select" className="form-control" name="bankAccount.id">
+                <AvInput id="operation-bankAccount" data-cy="bankAccount" type="select" className="form-control" name="bankAccountId">
                   <option value="" key="0" />
                   {bankAccounts
                     ? bankAccounts.map(otherEntity => (

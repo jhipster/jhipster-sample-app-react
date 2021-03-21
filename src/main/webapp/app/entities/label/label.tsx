@@ -44,7 +44,7 @@ export const Label = (props: ILabelProps) => {
             <thead>
               <tr>
                 <th>
-                  <Translate contentKey="global.field.id">ID</Translate>
+                  <Translate contentKey="jhipsterSampleApplicationReactApp.label.id">ID</Translate>
                 </th>
                 <th>
                   <Translate contentKey="jhipsterSampleApplicationReactApp.label.label">Label</Translate>
@@ -60,6 +60,7 @@ export const Label = (props: ILabelProps) => {
                       {label.id}
                     </Button>
                   </td>
+                  <td>{label.id}</td>
                   <td>{label.label}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">

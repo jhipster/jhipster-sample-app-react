@@ -46,6 +46,9 @@ module.exports = options => ({
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     modules: ['node_modules'],
     alias: utils.mapTypescriptAliasToWebpackAlias(),
+    fallback: {
+      path: require.resolve('path-browserify'),
+    },
   },
   module: {
     rules: [
@@ -103,18 +106,18 @@ module.exports = options => ({
     new ESLintPlugin({
       extensions: ['js', 'ts', 'jsx', 'tsx'],
     }),
-    new ForkTsCheckerWebpackPlugin({ eslint: true }),
+    new ForkTsCheckerWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: './node_modules/swagger-ui-dist/*.{js,css,html,png}',
-          to: 'swagger-ui',
-          flatten: true,
+          context: './node_modules/swagger-ui-dist/',
+          from: '*.{js,css,html,png}',
+          to: 'swagger-ui/',
           globOptions: { ignore: ['**/index.html'] },
         },
-        { from: './node_modules/axios/dist/axios.min.js', to: 'swagger-ui' },
-        { from: './src/main/webapp/swagger-ui/', to: 'swagger-ui' },
-        { from: './src/main/webapp/content/', to: 'content' },
+        { from: './node_modules/axios/dist/axios.min.js', to: 'swagger-ui/' },
+        { from: './src/main/webapp/swagger-ui/', to: 'swagger-ui/' },
+        { from: './src/main/webapp/content/', to: 'content/' },
         { from: './src/main/webapp/favicon.ico', to: 'favicon.ico' },
         { from: './src/main/webapp/manifest.webapp', to: 'manifest.webapp' },
         // jhipster-needle-add-assets-to-webpack - JHipster will add/remove third-party resources in this array

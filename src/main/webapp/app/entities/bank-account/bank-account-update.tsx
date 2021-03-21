@@ -17,7 +17,6 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface IBankAccountUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const BankAccountUpdate = (props: IBankAccountUpdateProps) => {
-  const [userId, setUserId] = useState('0');
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const { bankAccountEntity, users, loading, updating } = props;
@@ -47,6 +46,7 @@ export const BankAccountUpdate = (props: IBankAccountUpdateProps) => {
       const entity = {
         ...bankAccountEntity,
         ...values,
+        user: users.find(it => it.id.toString() === values.userId.toString()),
       };
 
       if (isNew) {
@@ -115,7 +115,7 @@ export const BankAccountUpdate = (props: IBankAccountUpdateProps) => {
                 <Label for="bank-account-user">
                   <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.user">User</Translate>
                 </Label>
-                <AvInput id="bank-account-user" data-cy="user" type="select" className="form-control" name="user.id">
+                <AvInput id="bank-account-user" data-cy="user" type="select" className="form-control" name="userId">
                   <option value="" key="0" />
                   {users
                     ? users.map(otherEntity => (

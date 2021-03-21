@@ -11,6 +11,7 @@ export const ACTION_TYPES = {
   FETCH_BANKACCOUNT: 'bankAccount/FETCH_BANKACCOUNT',
   CREATE_BANKACCOUNT: 'bankAccount/CREATE_BANKACCOUNT',
   UPDATE_BANKACCOUNT: 'bankAccount/UPDATE_BANKACCOUNT',
+  PARTIAL_UPDATE_BANKACCOUNT: 'bankAccount/PARTIAL_UPDATE_BANKACCOUNT',
   DELETE_BANKACCOUNT: 'bankAccount/DELETE_BANKACCOUNT',
   RESET: 'bankAccount/RESET',
 };
@@ -41,6 +42,7 @@ export default (state: BankAccountState = initialState, action): BankAccountStat
     case REQUEST(ACTION_TYPES.CREATE_BANKACCOUNT):
     case REQUEST(ACTION_TYPES.UPDATE_BANKACCOUNT):
     case REQUEST(ACTION_TYPES.DELETE_BANKACCOUNT):
+    case REQUEST(ACTION_TYPES.PARTIAL_UPDATE_BANKACCOUNT):
       return {
         ...state,
         errorMessage: null,
@@ -51,6 +53,7 @@ export default (state: BankAccountState = initialState, action): BankAccountStat
     case FAILURE(ACTION_TYPES.FETCH_BANKACCOUNT):
     case FAILURE(ACTION_TYPES.CREATE_BANKACCOUNT):
     case FAILURE(ACTION_TYPES.UPDATE_BANKACCOUNT):
+    case FAILURE(ACTION_TYPES.PARTIAL_UPDATE_BANKACCOUNT):
     case FAILURE(ACTION_TYPES.DELETE_BANKACCOUNT):
       return {
         ...state,
@@ -73,6 +76,7 @@ export default (state: BankAccountState = initialState, action): BankAccountStat
       };
     case SUCCESS(ACTION_TYPES.CREATE_BANKACCOUNT):
     case SUCCESS(ACTION_TYPES.UPDATE_BANKACCOUNT):
+    case SUCCESS(ACTION_TYPES.PARTIAL_UPDATE_BANKACCOUNT):
       return {
         ...state,
         updating: false,
@@ -124,7 +128,15 @@ export const createEntity: ICrudPutAction<IBankAccount> = entity => async dispat
 export const updateEntity: ICrudPutAction<IBankAccount> = entity => async dispatch => {
   const result = await dispatch({
     type: ACTION_TYPES.UPDATE_BANKACCOUNT,
-    payload: axios.put(apiUrl, cleanEntity(entity)),
+    payload: axios.put(`${apiUrl}/${entity.id}`, cleanEntity(entity)),
+  });
+  return result;
+};
+
+export const partialUpdate: ICrudPutAction<IBankAccount> = entity => async dispatch => {
+  const result = await dispatch({
+    type: ACTION_TYPES.PARTIAL_UPDATE_BANKACCOUNT,
+    payload: axios.patch(`${apiUrl}/${entity.id}`, cleanEntity(entity)),
   });
   return result;
 };

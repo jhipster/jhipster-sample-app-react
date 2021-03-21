@@ -8,6 +8,7 @@ import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -67,20 +68,32 @@ public class LabelResource {
     }
 
     /**
-     * {@code PUT  /labels} : Updates an existing label.
+     * {@code PUT  /labels/:id} : Updates an existing label.
      *
+     * @param id the id of the labelDTO to save.
      * @param labelDTO the labelDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated labelDTO,
      * or with status {@code 400 (Bad Request)} if the labelDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the labelDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/labels")
-    public ResponseEntity<LabelDTO> updateLabel(@Valid @RequestBody LabelDTO labelDTO) throws URISyntaxException {
-        log.debug("REST request to update Label : {}", labelDTO);
+    @PutMapping("/labels/{id}")
+    public ResponseEntity<LabelDTO> updateLabel(
+        @PathVariable(value = "id", required = false) final Long id,
+        @Valid @RequestBody LabelDTO labelDTO
+    ) throws URISyntaxException {
+        log.debug("REST request to update Label : {}, {}", id, labelDTO);
         if (labelDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        if (!Objects.equals(id, labelDTO.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!labelRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
         Label label = labelMapper.toEntity(labelDTO);
         label = labelRepository.save(label);
         LabelDTO result = labelMapper.toDto(label);
@@ -91,8 +104,9 @@ public class LabelResource {
     }
 
     /**
-     * {@code PATCH  /labels} : Updates given fields of an existing label.
+     * {@code PATCH  /labels/:id} : Partial updates given fields of an existing label, field will ignore if it is null
      *
+     * @param id the id of the labelDTO to save.
      * @param labelDTO the labelDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated labelDTO,
      * or with status {@code 400 (Bad Request)} if the labelDTO is not valid,
@@ -100,21 +114,28 @@ public class LabelResource {
      * or with status {@code 500 (Internal Server Error)} if the labelDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/labels", consumes = "application/merge-patch+json")
-    public ResponseEntity<LabelDTO> partialUpdateLabel(@NotNull @RequestBody LabelDTO labelDTO) throws URISyntaxException {
-        log.debug("REST request to update Label partially : {}", labelDTO);
+    @PatchMapping(value = "/labels/{id}", consumes = "application/merge-patch+json")
+    public ResponseEntity<LabelDTO> partialUpdateLabel(
+        @PathVariable(value = "id", required = false) final Long id,
+        @NotNull @RequestBody LabelDTO labelDTO
+    ) throws URISyntaxException {
+        log.debug("REST request to partial update Label partially : {}, {}", id, labelDTO);
         if (labelDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (!Objects.equals(id, labelDTO.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!labelRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Optional<LabelDTO> result = labelRepository
             .findById(labelDTO.getId())
             .map(
                 existingLabel -> {
-                    if (labelDTO.getLabel() != null) {
-                        existingLabel.setLabel(labelDTO.getLabel());
-                    }
-
+                    labelMapper.partialUpdate(existingLabel, labelDTO);
                     return existingLabel;
                 }
             )

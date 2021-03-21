@@ -18,6 +18,7 @@ export const ACTION_TYPES = {
   FETCH_OPERATION: 'operation/FETCH_OPERATION',
   CREATE_OPERATION: 'operation/CREATE_OPERATION',
   UPDATE_OPERATION: 'operation/UPDATE_OPERATION',
+  PARTIAL_UPDATE_OPERATION: 'operation/PARTIAL_UPDATE_OPERATION',
   DELETE_OPERATION: 'operation/DELETE_OPERATION',
   RESET: 'operation/RESET',
 };
@@ -50,6 +51,7 @@ export default (state: OperationState = initialState, action): OperationState =>
     case REQUEST(ACTION_TYPES.CREATE_OPERATION):
     case REQUEST(ACTION_TYPES.UPDATE_OPERATION):
     case REQUEST(ACTION_TYPES.DELETE_OPERATION):
+    case REQUEST(ACTION_TYPES.PARTIAL_UPDATE_OPERATION):
       return {
         ...state,
         errorMessage: null,
@@ -60,6 +62,7 @@ export default (state: OperationState = initialState, action): OperationState =>
     case FAILURE(ACTION_TYPES.FETCH_OPERATION):
     case FAILURE(ACTION_TYPES.CREATE_OPERATION):
     case FAILURE(ACTION_TYPES.UPDATE_OPERATION):
+    case FAILURE(ACTION_TYPES.PARTIAL_UPDATE_OPERATION):
     case FAILURE(ACTION_TYPES.DELETE_OPERATION):
       return {
         ...state,
@@ -87,6 +90,7 @@ export default (state: OperationState = initialState, action): OperationState =>
       };
     case SUCCESS(ACTION_TYPES.CREATE_OPERATION):
     case SUCCESS(ACTION_TYPES.UPDATE_OPERATION):
+    case SUCCESS(ACTION_TYPES.PARTIAL_UPDATE_OPERATION):
       return {
         ...state,
         updating: false,
@@ -140,7 +144,15 @@ export const createEntity: ICrudPutAction<IOperation> = entity => async dispatch
 export const updateEntity: ICrudPutAction<IOperation> = entity => async dispatch => {
   const result = await dispatch({
     type: ACTION_TYPES.UPDATE_OPERATION,
-    payload: axios.put(apiUrl, cleanEntity(entity)),
+    payload: axios.put(`${apiUrl}/${entity.id}`, cleanEntity(entity)),
+  });
+  return result;
+};
+
+export const partialUpdate: ICrudPutAction<IOperation> = entity => async dispatch => {
+  const result = await dispatch({
+    type: ACTION_TYPES.PARTIAL_UPDATE_OPERATION,
+    payload: axios.patch(`${apiUrl}/${entity.id}`, cleanEntity(entity)),
   });
   return result;
 };
