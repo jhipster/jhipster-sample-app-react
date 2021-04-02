@@ -33,7 +33,7 @@ const openAPIItem = (
 );
 
 const databaseItem = (
-  <DropdownItem tag="a" href="./h2-console" target="_tab">
+  <DropdownItem tag="a" href="./h2-console/" target="_tab">
     <FontAwesomeIcon icon="database" fixedWidth /> <Translate contentKey="global.menu.admin.database">Database</Translate>
   </DropdownItem>
 );

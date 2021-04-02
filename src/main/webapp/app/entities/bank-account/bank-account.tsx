@@ -66,7 +66,6 @@ export const BankAccount = (props: IBankAccountProps) => {
                       {bankAccount.id}
                     </Button>
                   </td>
-                  <td>{bankAccount.id}</td>
                   <td>{bankAccount.name}</td>
                   <td>{bankAccount.balance}</td>
                   <td>{bankAccount.user ? bankAccount.user.login : ''}</td>

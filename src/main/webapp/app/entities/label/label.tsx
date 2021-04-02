@@ -60,7 +60,6 @@ export const Label = (props: ILabelProps) => {
                       {label.id}
                     </Button>
                   </td>
-                  <td>{label.id}</td>
                   <td>{label.label}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">

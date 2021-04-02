@@ -139,7 +139,6 @@ export const Operation = (props: IOperationProps) => {
                         {operation.id}
                       </Button>
                     </td>
-                    <td>{operation.id}</td>
                     <td>{operation.date ? <TextFormat type="date" value={operation.date} format={APP_DATE_FORMAT} /> : null}</td>
                     <td>{operation.description}</td>
                     <td>{operation.amount}</td>
