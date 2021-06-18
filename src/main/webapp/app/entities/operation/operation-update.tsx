@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col, Label } from 'reactstrap';
-import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import { Translate, translate } from 'react-jhipster';
+import { Button, Row, Col, FormText } from 'reactstrap';
+import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IRootState } from 'app/shared/reducers';
 
 import { IBankAccount } from 'app/shared/model/bank-account.model';
 import { getEntities as getBankAccounts } from 'app/entities/bank-account/bank-account.reducer';
@@ -15,14 +12,19 @@ import { getEntity, updateEntity, createEntity, reset } from './operation.reduce
 import { IOperation } from 'app/shared/model/operation.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export interface IOperationUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export const OperationUpdate = (props: RouteComponentProps<{ id: string }>) => {
+  const dispatch = useAppDispatch();
 
-export const OperationUpdate = (props: IOperationUpdateProps) => {
-  const [idslabel, setIdslabel] = useState([]);
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { operationEntity, bankAccounts, labels, loading, updating } = props;
+  const bankAccounts = useAppSelector(state => state.bankAccount.entities);
+  const labels = useAppSelector(state => state.label.entities);
+  const operationEntity = useAppSelector(state => state.operation.entity);
+  const loading = useAppSelector(state => state.operation.loading);
+  const updating = useAppSelector(state => state.operation.updating);
+  const updateSuccess = useAppSelector(state => state.operation.updateSuccess);
 
   const handleClose = () => {
     props.history.push('/operation');
@@ -30,37 +32,47 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
 
   useEffect(() => {
     if (!isNew) {
-      props.getEntity(props.match.params.id);
+      dispatch(getEntity(props.match.params.id));
     }
 
-    props.getBankAccounts();
-    props.getLabels();
+    dispatch(getBankAccounts({}));
+    dispatch(getLabels({}));
   }, []);
 
   useEffect(() => {
-    if (props.updateSuccess) {
+    if (updateSuccess) {
       handleClose();
     }
-  }, [props.updateSuccess]);
+  }, [updateSuccess]);
 
-  const saveEntity = (event, errors, values) => {
+  const saveEntity = values => {
     values.date = convertDateTimeToServer(values.date);
 
-    if (errors.length === 0) {
-      const entity = {
-        ...operationEntity,
-        ...values,
-        labels: mapIdList(values.labels),
-        bankAccount: bankAccounts.find(it => it.id.toString() === values.bankAccountId.toString()),
-      };
+    const entity = {
+      ...operationEntity,
+      ...values,
+      labels: mapIdList(values.labels),
+      bankAccount: bankAccounts.find(it => it.id.toString() === values.bankAccountId.toString()),
+    };
 
-      if (isNew) {
-        props.createEntity(entity);
-      } else {
-        props.updateEntity(entity);
-      }
+    if (isNew) {
+      dispatch(createEntity(entity));
+    } else {
+      dispatch(updateEntity(entity));
     }
   };
+
+  const defaultValues = () =>
+    isNew
+      ? {
+          date: displayDefaultDateTime(),
+        }
+      : {
+          ...operationEntity,
+          date: convertDateTimeFromServer(operationEntity.date),
+          bankAccountId: operationEntity?.bankAccount?.id,
+          labels: operationEntity?.labels?.map(e => e.id.toString()),
+        };
 
   return (
     <div>
@@ -78,92 +90,80 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <AvForm model={isNew ? {} : operationEntity} onSubmit={saveEntity}>
+            <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
               {!isNew ? (
-                <AvGroup>
-                  <Label for="operation-id">
-                    <Translate contentKey="global.field.id">ID</Translate>
-                  </Label>
-                  <AvInput id="operation-id" type="text" className="form-control" name="id" required readOnly />
-                </AvGroup>
+                <ValidatedField
+                  name="id"
+                  required
+                  readOnly
+                  id="operation-id"
+                  label={translate('global.field.id')}
+                  validate={{ required: true }}
+                />
               ) : null}
-              <AvGroup>
-                <Label id="dateLabel" for="operation-date">
-                  <Translate contentKey="jhipsterSampleApplicationReactApp.operation.date">Date</Translate>
-                </Label>
-                <AvInput
-                  id="operation-date"
-                  data-cy="date"
-                  type="datetime-local"
-                  className="form-control"
-                  name="date"
-                  placeholder={'YYYY-MM-DD HH:mm'}
-                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.operationEntity.date)}
-                  validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') },
-                  }}
-                />
-              </AvGroup>
-              <AvGroup>
-                <Label id="descriptionLabel" for="operation-description">
-                  <Translate contentKey="jhipsterSampleApplicationReactApp.operation.description">Description</Translate>
-                </Label>
-                <AvField id="operation-description" data-cy="description" type="text" name="description" />
-              </AvGroup>
-              <AvGroup>
-                <Label id="amountLabel" for="operation-amount">
-                  <Translate contentKey="jhipsterSampleApplicationReactApp.operation.amount">Amount</Translate>
-                </Label>
-                <AvField
-                  id="operation-amount"
-                  data-cy="amount"
-                  type="text"
-                  name="amount"
-                  validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') },
-                    number: { value: true, errorMessage: translate('entity.validation.number') },
-                  }}
-                />
-              </AvGroup>
-              <AvGroup>
-                <Label for="operation-bankAccount">
-                  <Translate contentKey="jhipsterSampleApplicationReactApp.operation.bankAccount">Bank Account</Translate>
-                </Label>
-                <AvInput id="operation-bankAccount" data-cy="bankAccount" type="select" className="form-control" name="bankAccountId">
-                  <option value="" key="0" />
-                  {bankAccounts
-                    ? bankAccounts.map(otherEntity => (
-                        <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.name}
-                        </option>
-                      ))
-                    : null}
-                </AvInput>
-              </AvGroup>
-              <AvGroup>
-                <Label for="operation-label">
-                  <Translate contentKey="jhipsterSampleApplicationReactApp.operation.label">Label</Translate>
-                </Label>
-                <AvInput
-                  id="operation-label"
-                  data-cy="label"
-                  type="select"
-                  multiple
-                  className="form-control"
-                  name="labels"
-                  value={!isNew && operationEntity.labels && operationEntity.labels.map(e => e.id)}
-                >
-                  <option value="" key="0" />
-                  {labels
-                    ? labels.map(otherEntity => (
-                        <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.label}
-                        </option>
-                      ))
-                    : null}
-                </AvInput>
-              </AvGroup>
-              <Button tag={Link} id="cancel-save" to="/operation" replace color="info">
+              <ValidatedField
+                label={translate('jhipsterSampleApplicationReactApp.operation.date')}
+                id="operation-date"
+                name="date"
+                data-cy="date"
+                type="datetime-local"
+                placeholder="YYYY-MM-DD HH:mm"
+                validate={{
+                  required: { value: true, message: translate('entity.validation.required') },
+                }}
+              />
+              <ValidatedField
+                label={translate('jhipsterSampleApplicationReactApp.operation.description')}
+                id="operation-description"
+                name="description"
+                data-cy="description"
+                type="text"
+              />
+              <ValidatedField
+                label={translate('jhipsterSampleApplicationReactApp.operation.amount')}
+                id="operation-amount"
+                name="amount"
+                data-cy="amount"
+                type="text"
+                validate={{
+                  required: { value: true, message: translate('entity.validation.required') },
+                  validate: v => isNumber(v) || translate('entity.validation.number'),
+                }}
+              />
+              <ValidatedField
+                id="operation-bankAccount"
+                name="bankAccountId"
+                data-cy="bankAccount"
+                label={translate('jhipsterSampleApplicationReactApp.operation.bankAccount')}
+                type="select"
+              >
+                <option value="" key="0" />
+                {bankAccounts
+                  ? bankAccounts.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.name}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <ValidatedField
+                label={translate('jhipsterSampleApplicationReactApp.operation.label')}
+                id="operation-label"
+                data-cy="label"
+                type="select"
+                multiple
+                name="labels"
+              >
+                <option value="" key="0" />
+                {labels
+                  ? labels.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.label}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/operation" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
                 <span className="d-none d-md-inline">
@@ -176,7 +176,7 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
                 &nbsp;
                 <Translate contentKey="entity.action.save">Save</Translate>
               </Button>
-            </AvForm>
+            </ValidatedForm>
           )}
         </Col>
       </Row>
@@ -184,25 +184,4 @@ export const OperationUpdate = (props: IOperationUpdateProps) => {
   );
 };
 
-const mapStateToProps = (storeState: IRootState) => ({
-  bankAccounts: storeState.bankAccount.entities,
-  labels: storeState.label.entities,
-  operationEntity: storeState.operation.entity,
-  loading: storeState.operation.loading,
-  updating: storeState.operation.updating,
-  updateSuccess: storeState.operation.updateSuccess,
-});
-
-const mapDispatchToProps = {
-  getBankAccounts,
-  getLabels,
-  getEntity,
-  updateEntity,
-  createEntity,
-  reset,
-};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(OperationUpdate);
+export default OperationUpdate;

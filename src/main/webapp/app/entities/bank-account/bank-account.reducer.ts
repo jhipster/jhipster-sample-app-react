@@ -1,156 +1,121 @@
 import axios from 'axios';
-import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import { createAsyncThunk, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
-import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
-
+import { IQueryParams, createEntitySlice, EntityState, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import { IBankAccount, defaultValue } from 'app/shared/model/bank-account.model';
 
-export const ACTION_TYPES = {
-  FETCH_BANKACCOUNT_LIST: 'bankAccount/FETCH_BANKACCOUNT_LIST',
-  FETCH_BANKACCOUNT: 'bankAccount/FETCH_BANKACCOUNT',
-  CREATE_BANKACCOUNT: 'bankAccount/CREATE_BANKACCOUNT',
-  UPDATE_BANKACCOUNT: 'bankAccount/UPDATE_BANKACCOUNT',
-  PARTIAL_UPDATE_BANKACCOUNT: 'bankAccount/PARTIAL_UPDATE_BANKACCOUNT',
-  DELETE_BANKACCOUNT: 'bankAccount/DELETE_BANKACCOUNT',
-  RESET: 'bankAccount/RESET',
-};
-
-const initialState = {
+const initialState: EntityState<IBankAccount> = {
   loading: false,
   errorMessage: null,
-  entities: [] as ReadonlyArray<IBankAccount>,
+  entities: [],
   entity: defaultValue,
   updating: false,
   updateSuccess: false,
-};
-
-export type BankAccountState = Readonly<typeof initialState>;
-
-// Reducer
-
-export default (state: BankAccountState = initialState, action): BankAccountState => {
-  switch (action.type) {
-    case REQUEST(ACTION_TYPES.FETCH_BANKACCOUNT_LIST):
-    case REQUEST(ACTION_TYPES.FETCH_BANKACCOUNT):
-      return {
-        ...state,
-        errorMessage: null,
-        updateSuccess: false,
-        loading: true,
-      };
-    case REQUEST(ACTION_TYPES.CREATE_BANKACCOUNT):
-    case REQUEST(ACTION_TYPES.UPDATE_BANKACCOUNT):
-    case REQUEST(ACTION_TYPES.DELETE_BANKACCOUNT):
-    case REQUEST(ACTION_TYPES.PARTIAL_UPDATE_BANKACCOUNT):
-      return {
-        ...state,
-        errorMessage: null,
-        updateSuccess: false,
-        updating: true,
-      };
-    case FAILURE(ACTION_TYPES.FETCH_BANKACCOUNT_LIST):
-    case FAILURE(ACTION_TYPES.FETCH_BANKACCOUNT):
-    case FAILURE(ACTION_TYPES.CREATE_BANKACCOUNT):
-    case FAILURE(ACTION_TYPES.UPDATE_BANKACCOUNT):
-    case FAILURE(ACTION_TYPES.PARTIAL_UPDATE_BANKACCOUNT):
-    case FAILURE(ACTION_TYPES.DELETE_BANKACCOUNT):
-      return {
-        ...state,
-        loading: false,
-        updating: false,
-        updateSuccess: false,
-        errorMessage: action.payload,
-      };
-    case SUCCESS(ACTION_TYPES.FETCH_BANKACCOUNT_LIST):
-      return {
-        ...state,
-        loading: false,
-        entities: action.payload.data,
-      };
-    case SUCCESS(ACTION_TYPES.FETCH_BANKACCOUNT):
-      return {
-        ...state,
-        loading: false,
-        entity: action.payload.data,
-      };
-    case SUCCESS(ACTION_TYPES.CREATE_BANKACCOUNT):
-    case SUCCESS(ACTION_TYPES.UPDATE_BANKACCOUNT):
-    case SUCCESS(ACTION_TYPES.PARTIAL_UPDATE_BANKACCOUNT):
-      return {
-        ...state,
-        updating: false,
-        updateSuccess: true,
-        entity: action.payload.data,
-      };
-    case SUCCESS(ACTION_TYPES.DELETE_BANKACCOUNT):
-      return {
-        ...state,
-        updating: false,
-        updateSuccess: true,
-        entity: {},
-      };
-    case ACTION_TYPES.RESET:
-      return {
-        ...initialState,
-      };
-    default:
-      return state;
-  }
 };
 
 const apiUrl = 'api/bank-accounts';
 
 // Actions
 
-export const getEntities: ICrudGetAllAction<IBankAccount> = (page, size, sort) => ({
-  type: ACTION_TYPES.FETCH_BANKACCOUNT_LIST,
-  payload: axios.get<IBankAccount>(`${apiUrl}?cacheBuster=${new Date().getTime()}`),
+export const getEntities = createAsyncThunk('bankAccount/fetch_entity_list', async ({ page, size, sort }: IQueryParams) => {
+  const requestUrl = `${apiUrl}?cacheBuster=${new Date().getTime()}`;
+  return axios.get<IBankAccount[]>(requestUrl);
 });
 
-export const getEntity: ICrudGetAction<IBankAccount> = id => {
-  const requestUrl = `${apiUrl}/${id}`;
-  return {
-    type: ACTION_TYPES.FETCH_BANKACCOUNT,
-    payload: axios.get<IBankAccount>(requestUrl),
-  };
-};
+export const getEntity = createAsyncThunk(
+  'bankAccount/fetch_entity',
+  async (id: string | number) => {
+    const requestUrl = `${apiUrl}/${id}`;
+    return axios.get<IBankAccount>(requestUrl);
+  },
+  { serializeError: serializeAxiosError }
+);
 
-export const createEntity: ICrudPutAction<IBankAccount> = entity => async dispatch => {
-  const result = await dispatch({
-    type: ACTION_TYPES.CREATE_BANKACCOUNT,
-    payload: axios.post(apiUrl, cleanEntity(entity)),
-  });
-  dispatch(getEntities());
-  return result;
-};
+export const createEntity = createAsyncThunk(
+  'bankAccount/create_entity',
+  async (entity: IBankAccount, thunkAPI) => {
+    const result = await axios.post<IBankAccount>(apiUrl, cleanEntity(entity));
+    thunkAPI.dispatch(getEntities({}));
+    return result;
+  },
+  { serializeError: serializeAxiosError }
+);
 
-export const updateEntity: ICrudPutAction<IBankAccount> = entity => async dispatch => {
-  const result = await dispatch({
-    type: ACTION_TYPES.UPDATE_BANKACCOUNT,
-    payload: axios.put(`${apiUrl}/${entity.id}`, cleanEntity(entity)),
-  });
-  return result;
-};
+export const updateEntity = createAsyncThunk(
+  'bankAccount/update_entity',
+  async (entity: IBankAccount, thunkAPI) => {
+    const result = await axios.put<IBankAccount>(`${apiUrl}/${entity.id}`, cleanEntity(entity));
+    thunkAPI.dispatch(getEntities({}));
+    return result;
+  },
+  { serializeError: serializeAxiosError }
+);
 
-export const partialUpdate: ICrudPutAction<IBankAccount> = entity => async dispatch => {
-  const result = await dispatch({
-    type: ACTION_TYPES.PARTIAL_UPDATE_BANKACCOUNT,
-    payload: axios.patch(`${apiUrl}/${entity.id}`, cleanEntity(entity)),
-  });
-  return result;
-};
+export const partialUpdateEntity = createAsyncThunk(
+  'bankAccount/partial_update_entity',
+  async (entity: IBankAccount, thunkAPI) => {
+    const result = await axios.patch<IBankAccount>(`${apiUrl}/${entity.id}`, cleanEntity(entity));
+    thunkAPI.dispatch(getEntities({}));
+    return result;
+  },
+  { serializeError: serializeAxiosError }
+);
 
-export const deleteEntity: ICrudDeleteAction<IBankAccount> = id => async dispatch => {
-  const requestUrl = `${apiUrl}/${id}`;
-  const result = await dispatch({
-    type: ACTION_TYPES.DELETE_BANKACCOUNT,
-    payload: axios.delete(requestUrl),
-  });
-  dispatch(getEntities());
-  return result;
-};
+export const deleteEntity = createAsyncThunk(
+  'bankAccount/delete_entity',
+  async (id: string | number, thunkAPI) => {
+    const requestUrl = `${apiUrl}/${id}`;
+    const result = await axios.delete<IBankAccount>(requestUrl);
+    thunkAPI.dispatch(getEntities({}));
+    return result;
+  },
+  { serializeError: serializeAxiosError }
+);
 
-export const reset = () => ({
-  type: ACTION_TYPES.RESET,
+// slice
+
+export const BankAccountSlice = createEntitySlice({
+  name: 'bankAccount',
+  initialState,
+  extraReducers(builder) {
+    builder
+      .addCase(getEntity.fulfilled, (state, action) => {
+        state.loading = false;
+        state.entity = action.payload.data;
+      })
+      .addCase(deleteEntity.fulfilled, state => {
+        state.updating = false;
+        state.updateSuccess = true;
+        state.entity = {};
+      })
+      .addMatcher(isFulfilled(getEntities), (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          entities: action.payload.data,
+        };
+      })
+      .addMatcher(isFulfilled(createEntity, updateEntity, partialUpdateEntity), (state, action) => {
+        state.updating = false;
+        state.loading = false;
+        state.updateSuccess = true;
+        state.entity = action.payload.data;
+      })
+      .addMatcher(isPending(getEntities, getEntity), state => {
+        state.errorMessage = null;
+        state.updateSuccess = false;
+        state.loading = true;
+      })
+      .addMatcher(isPending(createEntity, updateEntity, partialUpdateEntity, deleteEntity), state => {
+        state.errorMessage = null;
+        state.updateSuccess = false;
+        state.updating = true;
+      });
+  },
 });
+
+export const { reset } = BankAccountSlice.actions;
+
+// Reducer
+export default BankAccountSlice.reducer;

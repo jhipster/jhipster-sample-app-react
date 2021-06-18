@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Badge } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
@@ -8,16 +7,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { APP_DATE_FORMAT } from 'app/config/constants';
 import { languages } from 'app/config/translation';
 import { getUser } from './user-management.reducer';
-import { IRootState } from 'app/shared/reducers';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export interface IUserManagementDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ login: string }> {}
+export const UserManagementDetail = (props: RouteComponentProps<{ login: string }>) => {
+  const dispatch = useAppDispatch();
 
-export const UserManagementDetail = (props: IUserManagementDetailProps) => {
   useEffect(() => {
-    props.getUser(props.match.params.login);
+    dispatch(getUser(props.match.params.login));
   }, []);
 
-  const { user } = props;
+  const user = useAppSelector(state => state.userManagement.user);
 
   return (
     <div>
@@ -103,13 +102,4 @@ export const UserManagementDetail = (props: IUserManagementDetailProps) => {
   );
 };
 
-const mapStateToProps = (storeState: IRootState) => ({
-  user: storeState.userManagement.user,
-});
-
-const mapDispatchToProps = { getUser };
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserManagementDetail);
+export default UserManagementDetail;

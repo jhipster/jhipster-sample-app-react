@@ -3,13 +3,12 @@ import './home.scss';
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Translate } from 'react-jhipster';
-import { connect } from 'react-redux';
 import { Row, Col, Alert } from 'reactstrap';
 
-export type IHomeProp = StateProps;
+import { useAppSelector } from 'app/config/store';
 
-export const Home = (props: IHomeProp) => {
-  const { account } = props;
+export const Home = () => {
+  const account = useAppSelector(state => state.authentication.account);
 
   return (
     <Row>
@@ -65,7 +64,7 @@ export const Home = (props: IHomeProp) => {
             </a>
           </li>
           <li>
-            <a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
+            <a href="https://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
               <Translate contentKey="home.link.stackoverflow">JHipster on Stack Overflow</Translate>
             </a>
           </li>
@@ -98,11 +97,4 @@ export const Home = (props: IHomeProp) => {
   );
 };
 
-const mapStateToProps = storeState => ({
-  account: storeState.authentication.account,
-  isAuthenticated: storeState.authentication.isAuthenticated,
-});
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-
-export default connect(mapStateToProps)(Home);
+export default Home;

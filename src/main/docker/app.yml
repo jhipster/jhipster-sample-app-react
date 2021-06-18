@@ -15,7 +15,7 @@ services:
     ports:
       - 127.0.0.1:8080:8080
   jhipstersampleapplicationreact-mysql:
-    image: mysql:8.0.23
+    image: mysql:8.0.25
     # volumes:
     #   - ~/volumes/jhipster/jhipsterSampleApplicationReact/mysql/:/var/lib/mysql/
     environment:

@@ -1,156 +1,121 @@
 import axios from 'axios';
-import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import { createAsyncThunk, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
-import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
-
+import { IQueryParams, createEntitySlice, EntityState, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import { ILabel, defaultValue } from 'app/shared/model/label.model';
 
-export const ACTION_TYPES = {
-  FETCH_LABEL_LIST: 'label/FETCH_LABEL_LIST',
-  FETCH_LABEL: 'label/FETCH_LABEL',
-  CREATE_LABEL: 'label/CREATE_LABEL',
-  UPDATE_LABEL: 'label/UPDATE_LABEL',
-  PARTIAL_UPDATE_LABEL: 'label/PARTIAL_UPDATE_LABEL',
-  DELETE_LABEL: 'label/DELETE_LABEL',
-  RESET: 'label/RESET',
-};
-
-const initialState = {
+const initialState: EntityState<ILabel> = {
   loading: false,
   errorMessage: null,
-  entities: [] as ReadonlyArray<ILabel>,
+  entities: [],
   entity: defaultValue,
   updating: false,
   updateSuccess: false,
-};
-
-export type LabelState = Readonly<typeof initialState>;
-
-// Reducer
-
-export default (state: LabelState = initialState, action): LabelState => {
-  switch (action.type) {
-    case REQUEST(ACTION_TYPES.FETCH_LABEL_LIST):
-    case REQUEST(ACTION_TYPES.FETCH_LABEL):
-      return {
-        ...state,
-        errorMessage: null,
-        updateSuccess: false,
-        loading: true,
-      };
-    case REQUEST(ACTION_TYPES.CREATE_LABEL):
-    case REQUEST(ACTION_TYPES.UPDATE_LABEL):
-    case REQUEST(ACTION_TYPES.DELETE_LABEL):
-    case REQUEST(ACTION_TYPES.PARTIAL_UPDATE_LABEL):
-      return {
-        ...state,
-        errorMessage: null,
-        updateSuccess: false,
-        updating: true,
-      };
-    case FAILURE(ACTION_TYPES.FETCH_LABEL_LIST):
-    case FAILURE(ACTION_TYPES.FETCH_LABEL):
-    case FAILURE(ACTION_TYPES.CREATE_LABEL):
-    case FAILURE(ACTION_TYPES.UPDATE_LABEL):
-    case FAILURE(ACTION_TYPES.PARTIAL_UPDATE_LABEL):
-    case FAILURE(ACTION_TYPES.DELETE_LABEL):
-      return {
-        ...state,
-        loading: false,
-        updating: false,
-        updateSuccess: false,
-        errorMessage: action.payload,
-      };
-    case SUCCESS(ACTION_TYPES.FETCH_LABEL_LIST):
-      return {
-        ...state,
-        loading: false,
-        entities: action.payload.data,
-      };
-    case SUCCESS(ACTION_TYPES.FETCH_LABEL):
-      return {
-        ...state,
-        loading: false,
-        entity: action.payload.data,
-      };
-    case SUCCESS(ACTION_TYPES.CREATE_LABEL):
-    case SUCCESS(ACTION_TYPES.UPDATE_LABEL):
-    case SUCCESS(ACTION_TYPES.PARTIAL_UPDATE_LABEL):
-      return {
-        ...state,
-        updating: false,
-        updateSuccess: true,
-        entity: action.payload.data,
-      };
-    case SUCCESS(ACTION_TYPES.DELETE_LABEL):
-      return {
-        ...state,
-        updating: false,
-        updateSuccess: true,
-        entity: {},
-      };
-    case ACTION_TYPES.RESET:
-      return {
-        ...initialState,
-      };
-    default:
-      return state;
-  }
 };
 
 const apiUrl = 'api/labels';
 
 // Actions
 
-export const getEntities: ICrudGetAllAction<ILabel> = (page, size, sort) => ({
-  type: ACTION_TYPES.FETCH_LABEL_LIST,
-  payload: axios.get<ILabel>(`${apiUrl}?cacheBuster=${new Date().getTime()}`),
+export const getEntities = createAsyncThunk('label/fetch_entity_list', async ({ page, size, sort }: IQueryParams) => {
+  const requestUrl = `${apiUrl}?cacheBuster=${new Date().getTime()}`;
+  return axios.get<ILabel[]>(requestUrl);
 });
 
-export const getEntity: ICrudGetAction<ILabel> = id => {
-  const requestUrl = `${apiUrl}/${id}`;
-  return {
-    type: ACTION_TYPES.FETCH_LABEL,
-    payload: axios.get<ILabel>(requestUrl),
-  };
-};
+export const getEntity = createAsyncThunk(
+  'label/fetch_entity',
+  async (id: string | number) => {
+    const requestUrl = `${apiUrl}/${id}`;
+    return axios.get<ILabel>(requestUrl);
+  },
+  { serializeError: serializeAxiosError }
+);
 
-export const createEntity: ICrudPutAction<ILabel> = entity => async dispatch => {
-  const result = await dispatch({
-    type: ACTION_TYPES.CREATE_LABEL,
-    payload: axios.post(apiUrl, cleanEntity(entity)),
-  });
-  dispatch(getEntities());
-  return result;
-};
+export const createEntity = createAsyncThunk(
+  'label/create_entity',
+  async (entity: ILabel, thunkAPI) => {
+    const result = await axios.post<ILabel>(apiUrl, cleanEntity(entity));
+    thunkAPI.dispatch(getEntities({}));
+    return result;
+  },
+  { serializeError: serializeAxiosError }
+);
 
-export const updateEntity: ICrudPutAction<ILabel> = entity => async dispatch => {
-  const result = await dispatch({
-    type: ACTION_TYPES.UPDATE_LABEL,
-    payload: axios.put(`${apiUrl}/${entity.id}`, cleanEntity(entity)),
-  });
-  return result;
-};
+export const updateEntity = createAsyncThunk(
+  'label/update_entity',
+  async (entity: ILabel, thunkAPI) => {
+    const result = await axios.put<ILabel>(`${apiUrl}/${entity.id}`, cleanEntity(entity));
+    thunkAPI.dispatch(getEntities({}));
+    return result;
+  },
+  { serializeError: serializeAxiosError }
+);
 
-export const partialUpdate: ICrudPutAction<ILabel> = entity => async dispatch => {
-  const result = await dispatch({
-    type: ACTION_TYPES.PARTIAL_UPDATE_LABEL,
-    payload: axios.patch(`${apiUrl}/${entity.id}`, cleanEntity(entity)),
-  });
-  return result;
-};
+export const partialUpdateEntity = createAsyncThunk(
+  'label/partial_update_entity',
+  async (entity: ILabel, thunkAPI) => {
+    const result = await axios.patch<ILabel>(`${apiUrl}/${entity.id}`, cleanEntity(entity));
+    thunkAPI.dispatch(getEntities({}));
+    return result;
+  },
+  { serializeError: serializeAxiosError }
+);
 
-export const deleteEntity: ICrudDeleteAction<ILabel> = id => async dispatch => {
-  const requestUrl = `${apiUrl}/${id}`;
-  const result = await dispatch({
-    type: ACTION_TYPES.DELETE_LABEL,
-    payload: axios.delete(requestUrl),
-  });
-  dispatch(getEntities());
-  return result;
-};
+export const deleteEntity = createAsyncThunk(
+  'label/delete_entity',
+  async (id: string | number, thunkAPI) => {
+    const requestUrl = `${apiUrl}/${id}`;
+    const result = await axios.delete<ILabel>(requestUrl);
+    thunkAPI.dispatch(getEntities({}));
+    return result;
+  },
+  { serializeError: serializeAxiosError }
+);
 
-export const reset = () => ({
-  type: ACTION_TYPES.RESET,
+// slice
+
+export const LabelSlice = createEntitySlice({
+  name: 'label',
+  initialState,
+  extraReducers(builder) {
+    builder
+      .addCase(getEntity.fulfilled, (state, action) => {
+        state.loading = false;
+        state.entity = action.payload.data;
+      })
+      .addCase(deleteEntity.fulfilled, state => {
+        state.updating = false;
+        state.updateSuccess = true;
+        state.entity = {};
+      })
+      .addMatcher(isFulfilled(getEntities), (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          entities: action.payload.data,
+        };
+      })
+      .addMatcher(isFulfilled(createEntity, updateEntity, partialUpdateEntity), (state, action) => {
+        state.updating = false;
+        state.loading = false;
+        state.updateSuccess = true;
+        state.entity = action.payload.data;
+      })
+      .addMatcher(isPending(getEntities, getEntity), state => {
+        state.errorMessage = null;
+        state.updateSuccess = false;
+        state.loading = true;
+      })
+      .addMatcher(isPending(createEntity, updateEntity, partialUpdateEntity, deleteEntity), state => {
+        state.errorMessage = null;
+        state.updateSuccess = false;
+        state.updating = true;
+      });
+  },
 });
+
+export const { reset } = LabelSlice.actions;
+
+// Reducer
+export default LabelSlice.reducer;

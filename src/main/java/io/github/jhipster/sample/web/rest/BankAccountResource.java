@@ -136,6 +136,7 @@ public class BankAccountResource {
             .map(
                 existingBankAccount -> {
                     bankAccountMapper.partialUpdate(existingBankAccount, bankAccountDTO);
+
                     return existingBankAccount;
                 }
             )

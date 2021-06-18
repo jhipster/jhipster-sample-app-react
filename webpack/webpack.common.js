@@ -11,12 +11,6 @@ const utils = require('./utils.js');
 const getTsLoaderRule = env => {
   const rules = [
     {
-      loader: 'cache-loader',
-      options: {
-        cacheDirectory: path.resolve('target/cache-loader'),
-      },
-    },
-    {
       loader: 'thread-loader',
       options: {
         // There should be 1 cpu for the fork-ts-checker-webpack-plugin.
@@ -43,9 +37,22 @@ const getTsLoaderRule = env => {
 
 module.exports = options =>
   merge(
-    // jhipster-needle-add-webpack-config - JHipster will add custom config
     {
-      cache: options.env !== 'production',
+      cache: {
+        // 1. Set cache type to filesystem
+        type: 'filesystem',
+        cacheDirectory: path.resolve(__dirname, '../target/webpack'),
+        buildDependencies: {
+          // 2. Add your config as buildDependency to get cache invalidation on config change
+          config: [
+            __filename,
+            path.resolve(__dirname, `webpack.${options.env == 'development' ? 'dev' : 'prod'}.js`),
+            path.resolve(__dirname, 'utils.js'),
+            path.resolve(__dirname, '../postcss.config.js'),
+            path.resolve(__dirname, '../tsconfig.json'),
+          ],
+        },
+      },
       resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
         modules: ['node_modules'],
@@ -144,4 +151,5 @@ module.exports = options =>
         }),
       ],
     }
+    // jhipster-needle-add-webpack-config - JHipster will add custom config
   );

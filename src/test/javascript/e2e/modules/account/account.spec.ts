@@ -73,7 +73,7 @@ describe('Account', () => {
     expect(await registerPage.getTitle()).to.eq(registerPageTitle);
 
     await registerPage.autoSignUpUsing('user_test', 'admin@localhost.jh', 'user_test');
-    const toast = getToastByInnerText('Registration saved! Please check your email for confirmation.');
+    const toast = getToastByInnerText('Registration saved!');
     await waitUntilDisplayed(toast);
 
     // Success toast should appear

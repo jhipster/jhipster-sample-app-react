@@ -1,35 +1,36 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IRootState } from 'app/shared/reducers';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntity, deleteEntity } from './label.reducer';
 
-export interface ILabelDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export const LabelDeleteDialog = (props: RouteComponentProps<{ id: string }>) => {
+  const dispatch = useAppDispatch();
 
-export const LabelDeleteDialog = (props: ILabelDeleteDialogProps) => {
   useEffect(() => {
-    props.getEntity(props.match.params.id);
+    dispatch(getEntity(props.match.params.id));
   }, []);
+
+  const labelEntity = useAppSelector(state => state.label.entity);
+  const updateSuccess = useAppSelector(state => state.label.updateSuccess);
 
   const handleClose = () => {
     props.history.push('/label');
   };
 
   useEffect(() => {
-    if (props.updateSuccess) {
+    if (updateSuccess) {
       handleClose();
     }
-  }, [props.updateSuccess]);
+  }, [updateSuccess]);
 
   const confirmDelete = () => {
-    props.deleteEntity(props.labelEntity.id);
+    dispatch(deleteEntity(labelEntity.id));
   };
 
-  const { labelEntity } = props;
   return (
     <Modal isOpen toggle={handleClose}>
       <ModalHeader toggle={handleClose} data-cy="labelDeleteDialogHeading">
@@ -56,14 +57,4 @@ export const LabelDeleteDialog = (props: ILabelDeleteDialogProps) => {
   );
 };
 
-const mapStateToProps = ({ label }: IRootState) => ({
-  labelEntity: label.entity,
-  updateSuccess: label.updateSuccess,
-});
-
-const mapDispatchToProps = { getEntity, deleteEntity };
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(LabelDeleteDialog);
+export default LabelDeleteDialog;

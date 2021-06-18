@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { Translate } from 'react-jhipster';
 
 import { getLoggers, changeLogLevel } from '../administration.reducer';
-import { IRootState } from 'app/shared/reducers';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export interface ILogsPageProps extends StateProps, DispatchProps {}
-
-export const LogsPage = (props: ILogsPageProps) => {
+export const LogsPage = () => {
   const [filter, setFilter] = useState('');
+  const logs = useAppSelector(state => state.administration.logs);
+  const isFetching = useAppSelector(state => state.administration.loading);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    props.getLoggers();
+    dispatch(getLoggers());
   }, []);
 
-  const changeLevel = (loggerName, level) => () => props.changeLogLevel(loggerName, level);
+  const changeLevel = (loggerName, level) => () => dispatch(changeLogLevel(loggerName, level));
 
   const changeFilter = evt => setFilter(evt.target.value);
 
@@ -22,7 +22,6 @@ export const LogsPage = (props: ILogsPageProps) => {
 
   const filterFn = l => l.name.toUpperCase().includes(filter.toUpperCase());
 
-  const { logs, isFetching } = props;
   const loggers = logs ? Object.entries(logs.loggers).map(e => ({ name: e[0], level: e[1].effectiveLevel })) : [];
 
   return (
@@ -114,14 +113,4 @@ export const LogsPage = (props: ILogsPageProps) => {
   );
 };
 
-const mapStateToProps = ({ administration }: IRootState) => ({
-  logs: administration.logs,
-  isFetching: administration.loading,
-});
-
-const mapDispatchToProps = { getLoggers, changeLogLevel };
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(LogsPage);
+export default LogsPage;

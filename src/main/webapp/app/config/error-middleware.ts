@@ -1,5 +1,3 @@
-import { isPromise } from 'react-jhipster';
-
 const getErrorMessage = errorData => {
   let message = errorData.message;
   if (errorData.fieldErrors) {
@@ -11,28 +9,21 @@ const getErrorMessage = errorData => {
 };
 
 export default () => next => action => {
-  // If not a promise, continue on
-  if (!isPromise(action.payload)) {
-    return next(action);
-  }
-
   /**
    *
-   * The error middleware serves to dispatch the initial pending promise to
-   * the promise middleware, but adds a `catch`.
+   * The error middleware serves to log error messages from dispatch
    * It need not run in production
    */
   if (process.env.NODE_ENV === 'development') {
-    // Dispatch initial pending promise, but catch any errors
-    return next(action).catch(error => {
+    const { error } = action;
+    if (error) {
       console.error(`${action.type} caught at middleware with reason: ${JSON.stringify(error.message)}.`);
       if (error && error.response && error.response.data) {
         const message = getErrorMessage(error.response.data);
         console.error(`Actual cause: ${message}`);
       }
-
-      return Promise.reject(error);
-    });
+    }
   }
+  // Dispatch initial action
   return next(action);
 };

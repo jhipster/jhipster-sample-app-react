@@ -62,13 +62,10 @@ export default class BankAccountUpdatePage {
   async enterData() {
     await waitUntilDisplayed(this.saveButton);
     await this.setNameInput('name');
-    expect(await this.getNameInput()).to.match(/name/);
     await waitUntilDisplayed(this.saveButton);
     await this.setBalanceInput('5');
-    expect(await this.getBalanceInput()).to.eq('5');
     await this.userSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
-    expect(await isVisible(this.saveButton)).to.be.false;
   }
 }

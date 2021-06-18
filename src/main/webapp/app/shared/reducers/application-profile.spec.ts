@@ -1,11 +1,9 @@
-import { REQUEST, SUCCESS } from 'app/shared/reducers/action-type.util';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
-import promiseMiddleware from 'redux-promise-middleware';
 
-import profile, { ACTION_TYPES, getProfile } from './application-profile';
+import profile, { getProfile } from './application-profile';
 
 describe('Profile reducer tests', () => {
   const initialState = {
@@ -15,7 +13,7 @@ describe('Profile reducer tests', () => {
   };
   describe('Common tests', () => {
     it('should return the initial state', () => {
-      const toTest = profile(undefined, {});
+      const toTest = profile(undefined, { type: '' });
       expect(toTest).toEqual(initialState);
     });
 
@@ -27,7 +25,7 @@ describe('Profile reducer tests', () => {
         },
       };
 
-      expect(profile(undefined, { type: SUCCESS(ACTION_TYPES.GET_PROFILE), payload })).toEqual({
+      expect(profile(undefined, { type: getProfile.fulfilled.type, payload })).toEqual({
         ribbonEnv: 'awesome ribbon stuff',
         inProduction: true,
         isOpenAPIEnabled: false,
@@ -42,7 +40,7 @@ describe('Profile reducer tests', () => {
         },
       };
 
-      expect(profile(undefined, { type: SUCCESS(ACTION_TYPES.GET_PROFILE), payload })).toEqual({
+      expect(profile(undefined, { type: getProfile.fulfilled.type, payload })).toEqual({
         ribbonEnv: 'awesome ribbon stuff',
         inProduction: false,
         isOpenAPIEnabled: true,
@@ -55,7 +53,7 @@ describe('Profile reducer tests', () => {
 
     const resolvedObject = { value: 'whatever' };
     beforeEach(() => {
-      const mockStore = configureStore([thunk, promiseMiddleware]);
+      const mockStore = configureStore([thunk]);
       store = mockStore({});
       axios.get = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
@@ -63,14 +61,16 @@ describe('Profile reducer tests', () => {
     it('dispatches GET_SESSION_PENDING and GET_SESSION_FULFILLED actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.GET_PROFILE),
+          type: getProfile.pending.type,
         },
         {
-          type: SUCCESS(ACTION_TYPES.GET_PROFILE),
+          type: getProfile.fulfilled.type,
           payload: resolvedObject,
         },
       ];
-      await store.dispatch(getProfile()).then(() => expect(store.getActions()).toEqual(expectedActions));
+      await store.dispatch(getProfile());
+      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
+      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
   });
 });

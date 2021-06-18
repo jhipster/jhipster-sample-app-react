@@ -88,17 +88,13 @@ export default class OperationUpdatePage {
   async enterData() {
     await waitUntilDisplayed(this.saveButton);
     await this.setDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
-    expect(await this.getDateInput()).to.contain('2001-01-01T02:30');
     await waitUntilDisplayed(this.saveButton);
     await this.setDescriptionInput('description');
-    expect(await this.getDescriptionInput()).to.match(/description/);
     await waitUntilDisplayed(this.saveButton);
     await this.setAmountInput('5');
-    expect(await this.getAmountInput()).to.eq('5');
     await this.bankAccountSelectLastOption();
     // this.labelSelectLastOption();
     await this.save();
     await waitUntilHidden(this.saveButton);
-    expect(await isVisible(this.saveButton)).to.be.false;
   }
 }

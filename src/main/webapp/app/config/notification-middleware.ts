@@ -1,110 +1,108 @@
-import { isPromise, translate } from 'react-jhipster';
+import { translate } from 'react-jhipster';
 import { toast } from 'react-toastify';
+import { isFulfilledAction, isRejectedAction } from 'app/shared/reducers/reducer.utils';
 
 const addErrorAlert = (message, key?, data?) => {
   key = key ? key : message;
   toast.error(translate(key, data));
 };
+
 export default () => next => action => {
-  // If not a promise, continue on
-  if (!isPromise(action.payload)) {
-    return next(action);
-  }
+  const { error, payload } = action;
 
   /**
    *
-   * The notification middleware serves to dispatch the initial pending promise to
-   * the promise middleware, but adds a `then` and `catch.
+   * The notification middleware serves to add success and error notifications
    */
-  return next(action)
-    .then(response => {
-      if (action.meta && action.meta.successMessage) {
-        toast.success(action.meta.successMessage);
-      } else if (response && response.action && response.action.payload && response.action.payload.headers) {
-        const headers = response.action.payload.headers;
-        let alert: string | null = null;
-        let alertParams: string | null = null;
-        Object.entries<string>(headers).forEach(([k, v]) => {
-          if (k.toLowerCase().endsWith('app-alert')) {
-            alert = v;
-          } else if (k.toLowerCase().endsWith('app-params')) {
-            alertParams = decodeURIComponent(v.replace(/\+/g, ' '));
-          }
-        });
-        if (alert) {
-          const alertParam = alertParams;
-          toast.success(translate(alert, { param: alertParam }));
+  if (isFulfilledAction(action) && payload && payload.headers) {
+    const headers = payload?.headers;
+    let alert: string | null = null;
+    let alertParams: string | null = null;
+    headers &&
+      Object.entries<string>(headers).forEach(([k, v]) => {
+        if (k.toLowerCase().endsWith('app-alert')) {
+          alert = v;
+        } else if (k.toLowerCase().endsWith('app-params')) {
+          alertParams = decodeURIComponent(v.replace(/\+/g, ' '));
         }
-      }
-      return Promise.resolve(response);
-    })
-    .catch(error => {
-      if (action.meta && action.meta.errorMessage) {
-        toast.error(action.meta.errorMessage);
-      } else if (error && error.response) {
-        const response = error.response;
-        const data = response.data;
-        if (!(response.status === 401 && (error.message === '' || (data && data.path && data.path.includes('/api/account'))))) {
-          let i;
-          switch (response.status) {
-            // connection refused, server not reachable
-            case 0:
-              addErrorAlert('Server not reachable', 'error.server.not.reachable');
-              break;
+      });
+    if (alert) {
+      const alertParam = alertParams;
+      toast.success(translate(alert, { param: alertParam }));
+    }
+  }
 
-            case 400: {
-              const headers = Object.entries<string>(response.headers);
-              let errorHeader: string | null = null;
-              let entityKey: string | null = null;
-              headers.forEach(([k, v]) => {
+  if (isRejectedAction(action) && error && error.isAxiosError) {
+    if (error.response) {
+      const response = error.response;
+      const data = response.data;
+      if (
+        !(
+          response.status === 401 &&
+          (error.message === '' || (data && data.path && (data.path.includes('/api/account') || data.path.includes('/api/authenticate'))))
+        )
+      ) {
+        let i;
+        switch (response.status) {
+          // connection refused, server not reachable
+          case 0:
+            addErrorAlert('Server not reachable', 'error.server.not.reachable');
+            break;
+
+          case 400: {
+            let errorHeader: string | null = null;
+            let entityKey: string | null = null;
+            response?.headers &&
+              Object.entries<string>(response.headers).forEach(([k, v]) => {
                 if (k.toLowerCase().endsWith('app-error')) {
                   errorHeader = v;
                 } else if (k.toLowerCase().endsWith('app-params')) {
                   entityKey = v;
                 }
               });
-              if (errorHeader) {
-                const entityName = translate('global.menu.entities.' + entityKey);
-                addErrorAlert(errorHeader, errorHeader, { entityName });
-              } else if (data !== '' && data.fieldErrors) {
-                const fieldErrors = data.fieldErrors;
-                for (i = 0; i < fieldErrors.length; i++) {
-                  const fieldError = fieldErrors[i];
-                  if (['Min', 'Max', 'DecimalMin', 'DecimalMax'].includes(fieldError.message)) {
-                    fieldError.message = 'Size';
-                  }
-                  // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
-                  const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
-                  const fieldName = translate(`jhipsterSampleApplicationReactApp.${fieldError.objectName}.${convertedField}`);
-                  addErrorAlert(`Error on field "${fieldName}"`, `error.${fieldError.message}`, { fieldName });
+            if (errorHeader) {
+              const entityName = translate('global.menu.entities.' + entityKey);
+              addErrorAlert(errorHeader, errorHeader, { entityName });
+            } else if (data?.fieldErrors) {
+              const fieldErrors = data.fieldErrors;
+              for (i = 0; i < fieldErrors.length; i++) {
+                const fieldError = fieldErrors[i];
+                if (['Min', 'Max', 'DecimalMin', 'DecimalMax'].includes(fieldError.message)) {
+                  fieldError.message = 'Size';
                 }
-              } else if (data !== '' && data.message) {
-                addErrorAlert(data.message, data.message, data.params);
-              } else {
-                addErrorAlert(data);
+                // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
+                const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
+                const fieldName = translate(`jhipsterSampleApplicationReactApp.${fieldError.objectName}.${convertedField}`);
+                addErrorAlert(`Error on field "${fieldName}"`, `error.${fieldError.message}`, { fieldName });
               }
-              break;
+            } else if (typeof data === 'string' && data !== '') {
+              addErrorAlert(data);
+            } else {
+              toast.error(data?.message || data?.error || data?.title || 'Unknown error!');
             }
-            case 404:
-              addErrorAlert('Not found', 'error.url.not.found');
-              break;
-
-            default:
-              if (data !== '' && data.message) {
-                addErrorAlert(data.message);
-              } else {
-                addErrorAlert(data);
-              }
+            break;
           }
+          case 404:
+            addErrorAlert('Not found', 'error.url.not.found');
+            break;
+
+          default:
+            if (typeof data === 'string' && data !== '') {
+              addErrorAlert(data);
+            } else {
+              toast.error(data?.message || data?.error || data?.title || 'Unknown error!');
+            }
         }
-      } else if (error && error.config && error.config.url === 'api/account' && error.config.method === 'get') {
-        /* eslint-disable no-console */
-        console.log('Authentication Error: Trying to access url api/account with GET.');
-      } else if (error && error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error('Unknown error!');
       }
-      return Promise.reject(error);
-    });
+    } else if (error.config && error.config.url === 'api/account' && error.config.method === 'get') {
+      /* eslint-disable no-console */
+      console.log('Authentication Error: Trying to access url api/account with GET.');
+    } else {
+      toast.error(error.message || 'Unknown error!');
+    }
+  } else if (error) {
+    toast.error(error.message || 'Unknown error!');
+  }
+
+  return next(action);
 };

@@ -36,9 +36,7 @@ export default class LabelUpdatePage {
   async enterData() {
     await waitUntilDisplayed(this.saveButton);
     await this.setLabelInput('label');
-    expect(await this.getLabelInput()).to.match(/label/);
     await this.save();
     await waitUntilHidden(this.saveButton);
-    expect(await isVisible(this.saveButton)).to.be.false;
   }
 }

@@ -1,24 +1,20 @@
 import configureStore from 'redux-mock-store';
-import promiseMiddleware from 'redux-promise-middleware';
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
 
-import { REQUEST, FAILURE, SUCCESS } from 'app/shared/reducers/action-type.util';
 import administration, {
-  ACTION_TYPES,
-  systemHealth,
-  systemMetrics,
-  systemThreadDump,
+  getSystemHealth,
+  getSystemMetrics,
+  getSystemThreadDump,
   getLoggers,
   changeLogLevel,
   getConfigurations,
   getEnv,
+  setLoggers,
 } from './administration.reducer';
 
 describe('Administration reducer tests', () => {
-  const username = process.env.E2E_USERNAME ?? 'admin';
-
   function isEmpty(element): boolean {
     if (element instanceof Array) {
       return element.length === 0;
@@ -37,15 +33,15 @@ describe('Administration reducer tests', () => {
     expect(isEmpty(state.threadDump));
   }
 
-  function testMultipleTypes(types, payload, testFunction) {
+  function testMultipleTypes(types, payload, testFunction, error?) {
     types.forEach(e => {
-      testFunction(administration(undefined, { type: e, payload }));
+      testFunction(administration(undefined, { type: e, payload, error }));
     });
   }
 
   describe('Common', () => {
     it('should return the initial state', () => {
-      testInitialState(administration(undefined, {}));
+      testInitialState(administration(undefined, { type: '' }));
     });
   });
 
@@ -53,12 +49,12 @@ describe('Administration reducer tests', () => {
     it('should set state to loading', () => {
       testMultipleTypes(
         [
-          REQUEST(ACTION_TYPES.FETCH_LOGS),
-          REQUEST(ACTION_TYPES.FETCH_HEALTH),
-          REQUEST(ACTION_TYPES.FETCH_METRICS),
-          REQUEST(ACTION_TYPES.FETCH_THREAD_DUMP),
-          REQUEST(ACTION_TYPES.FETCH_CONFIGURATIONS),
-          REQUEST(ACTION_TYPES.FETCH_ENV),
+          getLoggers.pending.type,
+          getSystemHealth.pending.type,
+          getSystemMetrics.pending.type,
+          getSystemThreadDump.pending.type,
+          getConfigurations.pending.type,
+          getEnv.pending.type,
         ],
         {},
         state => {
@@ -75,19 +71,22 @@ describe('Administration reducer tests', () => {
     it('should set state to failed and put an error message in errorMessage', () => {
       testMultipleTypes(
         [
-          FAILURE(ACTION_TYPES.FETCH_LOGS),
-          FAILURE(ACTION_TYPES.FETCH_HEALTH),
-          FAILURE(ACTION_TYPES.FETCH_METRICS),
-          FAILURE(ACTION_TYPES.FETCH_THREAD_DUMP),
-          FAILURE(ACTION_TYPES.FETCH_CONFIGURATIONS),
-          FAILURE(ACTION_TYPES.FETCH_ENV),
+          getLoggers.rejected.type,
+          getSystemHealth.rejected.type,
+          getSystemMetrics.rejected.type,
+          getSystemThreadDump.rejected.type,
+          getConfigurations.rejected.type,
+          getEnv.rejected.type,
         ],
         'something happened',
         state => {
           expect(state).toMatchObject({
             loading: false,
-            errorMessage: 'something happened',
+            errorMessage: 'error',
           });
+        },
+        {
+          message: 'error',
         }
       );
     });
@@ -104,7 +103,7 @@ describe('Administration reducer tests', () => {
           },
         },
       };
-      const toTest = administration(undefined, { type: SUCCESS(ACTION_TYPES.FETCH_LOGS), payload });
+      const toTest = administration(undefined, { type: getLoggers.fulfilled.type, payload });
 
       expect(toTest).toMatchObject({
         loading: false,
@@ -114,7 +113,7 @@ describe('Administration reducer tests', () => {
 
     it('should update state according to a successful fetch health request', () => {
       const payload = { data: { status: 'UP' } };
-      const toTest = administration(undefined, { type: SUCCESS(ACTION_TYPES.FETCH_HEALTH), payload });
+      const toTest = administration(undefined, { type: getSystemHealth.fulfilled.type, payload });
 
       expect(toTest).toMatchObject({
         loading: false,
@@ -124,7 +123,7 @@ describe('Administration reducer tests', () => {
 
     it('should update state according to a successful fetch metrics request', () => {
       const payload = { data: { version: '3.1.3', gauges: {} } };
-      const toTest = administration(undefined, { type: SUCCESS(ACTION_TYPES.FETCH_METRICS), payload });
+      const toTest = administration(undefined, { type: getSystemMetrics.fulfilled.type, payload });
 
       expect(toTest).toMatchObject({
         loading: false,
@@ -134,7 +133,7 @@ describe('Administration reducer tests', () => {
 
     it('should update state according to a successful fetch thread dump request', () => {
       const payload = { data: [{ threadName: 'hz.gateway.cached.thread-6', threadId: 9266 }] };
-      const toTest = administration(undefined, { type: SUCCESS(ACTION_TYPES.FETCH_THREAD_DUMP), payload });
+      const toTest = administration(undefined, { type: getSystemThreadDump.fulfilled.type, payload });
 
       expect(toTest).toMatchObject({
         loading: false,
@@ -144,7 +143,7 @@ describe('Administration reducer tests', () => {
 
     it('should update state according to a successful fetch configurations request', () => {
       const payload = { data: { contexts: { jhipster: { beans: {} } } } };
-      const toTest = administration(undefined, { type: SUCCESS(ACTION_TYPES.FETCH_CONFIGURATIONS), payload });
+      const toTest = administration(undefined, { type: getConfigurations.fulfilled.type, payload });
 
       expect(toTest).toMatchObject({
         loading: false,
@@ -157,7 +156,7 @@ describe('Administration reducer tests', () => {
 
     it('should update state according to a successful fetch env request', () => {
       const payload = { data: { activeProfiles: ['api-docs', 'dev'] } };
-      const toTest = administration(undefined, { type: SUCCESS(ACTION_TYPES.FETCH_ENV), payload });
+      const toTest = administration(undefined, { type: getEnv.fulfilled.type, payload });
 
       expect(toTest).toMatchObject({
         loading: false,
@@ -173,7 +172,7 @@ describe('Administration reducer tests', () => {
 
     const resolvedObject = { value: 'whatever' };
     beforeEach(() => {
-      const mockStore = configureStore([thunk, promiseMiddleware]);
+      const mockStore = configureStore([thunk]);
       store = mockStore({});
       axios.get = sinon.stub().returns(Promise.resolve(resolvedObject));
       axios.post = sinon.stub().returns(Promise.resolve(resolvedObject));
@@ -181,93 +180,104 @@ describe('Administration reducer tests', () => {
     it('dispatches FETCH_HEALTH_PENDING and FETCH_HEALTH_FULFILLED actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.FETCH_HEALTH),
+          type: getSystemHealth.pending.type,
         },
         {
-          type: SUCCESS(ACTION_TYPES.FETCH_HEALTH),
+          type: getSystemHealth.fulfilled.type,
           payload: resolvedObject,
         },
       ];
-      await store.dispatch(systemHealth()).then(() => expect(store.getActions()).toEqual(expectedActions));
+      await store.dispatch(getSystemHealth());
+      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
+      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
     it('dispatches FETCH_METRICS_PENDING and FETCH_METRICS_FULFILLED actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.FETCH_METRICS),
+          type: getSystemMetrics.pending.type,
         },
         {
-          type: SUCCESS(ACTION_TYPES.FETCH_METRICS),
+          type: getSystemMetrics.fulfilled.type,
           payload: resolvedObject,
         },
       ];
-      await store.dispatch(systemMetrics()).then(() => expect(store.getActions()).toEqual(expectedActions));
+      await store.dispatch(getSystemMetrics());
+      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
+      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
     it('dispatches FETCH_THREAD_DUMP_PENDING and FETCH_THREAD_DUMP_FULFILLED actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.FETCH_THREAD_DUMP),
+          type: getSystemThreadDump.pending.type,
         },
         {
-          type: SUCCESS(ACTION_TYPES.FETCH_THREAD_DUMP),
+          type: getSystemThreadDump.fulfilled.type,
           payload: resolvedObject,
         },
       ];
-      await store.dispatch(systemThreadDump()).then(() => expect(store.getActions()).toEqual(expectedActions));
+      await store.dispatch(getSystemThreadDump());
+      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
+      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
     it('dispatches FETCH_LOGS_PENDING and FETCH_LOGS_FULFILLED actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.FETCH_LOGS),
+          type: getLoggers.pending.type,
         },
         {
-          type: SUCCESS(ACTION_TYPES.FETCH_LOGS),
+          type: getLoggers.fulfilled.type,
           payload: resolvedObject,
         },
       ];
-      await store.dispatch(getLoggers()).then(() => expect(store.getActions()).toEqual(expectedActions));
+      await store.dispatch(getLoggers());
+      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
+      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
     it('dispatches FETCH_LOGS_CHANGE_LEVEL_PENDING and FETCH_LOGS_CHANGE_LEVEL_FULFILLED actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.FETCH_LOGS_CHANGE_LEVEL),
+          type: setLoggers.pending.type,
         },
         {
-          type: SUCCESS(ACTION_TYPES.FETCH_LOGS_CHANGE_LEVEL),
+          type: setLoggers.fulfilled.type,
           payload: resolvedObject,
         },
         {
-          type: REQUEST(ACTION_TYPES.FETCH_LOGS),
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.FETCH_LOGS),
-          payload: resolvedObject,
+          type: getLoggers.pending.type,
         },
       ];
-      await store.dispatch(changeLogLevel('ROOT', 'DEBUG')).then(() => expect(store.getActions()).toEqual(expectedActions));
+      await store.dispatch(changeLogLevel('ROOT', 'DEBUG'));
+      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
+      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      expect(store.getActions()[2]).toMatchObject(expectedActions[2]);
     });
     it('dispatches FETCH_CONFIGURATIONS_PENDING and FETCH_CONFIGURATIONS_FULFILLED actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.FETCH_CONFIGURATIONS),
+          type: getConfigurations.pending.type,
         },
         {
-          type: SUCCESS(ACTION_TYPES.FETCH_CONFIGURATIONS),
+          type: getConfigurations.fulfilled.type,
           payload: resolvedObject,
         },
       ];
-      await store.dispatch(getConfigurations()).then(() => expect(store.getActions()).toEqual(expectedActions));
+      await store.dispatch(getConfigurations());
+      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
+      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
     it('dispatches FETCH_ENV_PENDING and FETCH_ENV_FULFILLED actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.FETCH_ENV),
+          type: getEnv.pending.type,
         },
         {
-          type: SUCCESS(ACTION_TYPES.FETCH_ENV),
+          type: getEnv.fulfilled.type,
           payload: resolvedObject,
         },
       ];
-      await store.dispatch(getEnv()).then(() => expect(store.getActions()).toEqual(expectedActions));
+      await store.dispatch(getEnv());
+      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
+      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
     });
   });
 });

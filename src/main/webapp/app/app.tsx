@@ -3,13 +3,12 @@ import './app.scss';
 import 'app/config/dayjs.ts';
 
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
 import { Card } from 'reactstrap';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { hot } from 'react-hot-loader';
 
-import { IRootState } from 'app/shared/reducers';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getSession } from 'app/shared/reducers/authentication';
 import { getProfile } from 'app/shared/reducers/application-profile';
 import { setLocale } from 'app/shared/reducers/locale';
@@ -22,13 +21,20 @@ import AppRoutes from 'app/routes';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
-export interface IAppProps extends StateProps, DispatchProps {}
+export const App = () => {
+  const dispatch = useAppDispatch();
 
-export const App = (props: IAppProps) => {
   useEffect(() => {
-    props.getSession();
-    props.getProfile();
+    dispatch(getSession());
+    dispatch(getProfile());
   }, []);
+
+  const currentLocale = useAppSelector(state => state.locale.currentLocale);
+  const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
+  const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
+  const ribbonEnv = useAppSelector(state => state.applicationProfile.ribbonEnv);
+  const isInProduction = useAppSelector(state => state.applicationProfile.inProduction);
+  const isOpenAPIEnabled = useAppSelector(state => state.applicationProfile.isOpenAPIEnabled);
 
   const paddingTop = '60px';
   return (
@@ -37,13 +43,12 @@ export const App = (props: IAppProps) => {
         <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
         <ErrorBoundary>
           <Header
-            isAuthenticated={props.isAuthenticated}
-            isAdmin={props.isAdmin}
-            currentLocale={props.currentLocale}
-            onLocaleChange={props.setLocale}
-            ribbonEnv={props.ribbonEnv}
-            isInProduction={props.isInProduction}
-            isOpenAPIEnabled={props.isOpenAPIEnabled}
+            isAuthenticated={isAuthenticated}
+            isAdmin={isAdmin}
+            currentLocale={currentLocale}
+            ribbonEnv={ribbonEnv}
+            isInProduction={isInProduction}
+            isOpenAPIEnabled={isOpenAPIEnabled}
           />
         </ErrorBoundary>
         <div className="container-fluid view-container" id="app-view-container">
@@ -59,18 +64,4 @@ export const App = (props: IAppProps) => {
   );
 };
 
-const mapStateToProps = ({ authentication, applicationProfile, locale }: IRootState) => ({
-  currentLocale: locale.currentLocale,
-  isAuthenticated: authentication.isAuthenticated,
-  isAdmin: hasAnyAuthority(authentication.account.authorities, [AUTHORITIES.ADMIN]),
-  ribbonEnv: applicationProfile.ribbonEnv,
-  isInProduction: applicationProfile.inProduction,
-  isOpenAPIEnabled: applicationProfile.isOpenAPIEnabled,
-});
-
-const mapDispatchToProps = { setLocale, getSession, getProfile };
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(hot(module)(App));
+export default hot(module)(App);

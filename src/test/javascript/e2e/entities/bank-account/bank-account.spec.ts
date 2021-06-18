@@ -56,6 +56,7 @@ describe('BankAccount e2e test', () => {
       : await getRecordsCount(bankAccountComponentsPage.table);
     bankAccountUpdatePage = await bankAccountComponentsPage.goToCreateBankAccount();
     await bankAccountUpdatePage.enterData();
+    expect(await isVisible(bankAccountUpdatePage.saveButton)).to.be.false;
 
     expect(await bankAccountComponentsPage.createButton.isEnabled()).to.be.true;
     await waitUntilDisplayed(bankAccountComponentsPage.table);

@@ -11,6 +11,7 @@ export const EntitiesMenu = props => (
     data-cy="entity"
     style={{ maxHeight: '80vh', overflow: 'auto' }}
   >
+    <>{/* to avoid warnings when empty */}</>
     <MenuItem icon="asterisk" to="/bank-account">
       <Translate contentKey="global.menu.entities.bankAccount" />
     </MenuItem>

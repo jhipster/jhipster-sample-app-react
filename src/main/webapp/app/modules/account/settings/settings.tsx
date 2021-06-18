@@ -1,32 +1,38 @@
 import React, { useEffect } from 'react';
 import { Button, Col, Row } from 'reactstrap';
-import { connect } from 'react-redux';
-import { Translate, translate } from 'react-jhipster';
-import { AvForm, AvField } from 'availity-reactstrap-validation';
+import { Translate, translate, ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
+import { toast } from 'react-toastify';
 
 import { locales, languages } from 'app/config/translation';
-import { IRootState } from 'app/shared/reducers';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getSession } from 'app/shared/reducers/authentication';
 import { saveAccountSettings, reset } from './settings.reducer';
 
-export interface IUserSettingsProps extends StateProps, DispatchProps {}
+export const SettingsPage = () => {
+  const dispatch = useAppDispatch();
+  const account = useAppSelector(state => state.authentication.account);
+  const successMessage = useAppSelector(state => state.settings.successMessage);
 
-export const SettingsPage = (props: IUserSettingsProps) => {
   useEffect(() => {
-    props.getSession();
+    dispatch(getSession());
     return () => {
-      props.reset();
+      dispatch(reset());
     };
   }, []);
 
-  const handleValidSubmit = (event, values) => {
-    const account = {
-      ...props.account,
-      ...values,
-    };
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(translate(successMessage));
+    }
+  }, [successMessage]);
 
-    props.saveAccountSettings(account);
-    event.persist();
+  const handleValidSubmit = values => {
+    dispatch(
+      saveAccountSettings({
+        ...account,
+        ...values,
+      })
+    );
   };
 
   return (
@@ -34,89 +40,63 @@ export const SettingsPage = (props: IUserSettingsProps) => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="settings-title">
-            <Translate contentKey="settings.title" interpolate={{ username: props.account.login }}>
-              User settings for {props.account.login}
+            <Translate contentKey="settings.title" interpolate={{ username: account.login }}>
+              User settings for {account.login}
             </Translate>
           </h2>
-          <AvForm id="settings-form" onValidSubmit={handleValidSubmit}>
-            {/* First name */}
-            <AvField
-              className="form-control"
+          <ValidatedForm id="settings-form" onSubmit={handleValidSubmit} defaultValues={account}>
+            <ValidatedField
               name="firstName"
               label={translate('settings.form.firstname')}
               id="firstName"
               placeholder={translate('settings.form.firstname.placeholder')}
               validate={{
-                required: { value: true, errorMessage: translate('settings.messages.validate.firstname.required') },
-                minLength: { value: 1, errorMessage: translate('settings.messages.validate.firstname.minlength') },
-                maxLength: { value: 50, errorMessage: translate('settings.messages.validate.firstname.maxlength') },
+                required: { value: true, message: translate('settings.messages.validate.firstname.required') },
+                minLength: { value: 1, message: translate('settings.messages.validate.firstname.minlength') },
+                maxLength: { value: 50, message: translate('settings.messages.validate.firstname.maxlength') },
               }}
-              value={props.account.firstName}
               data-cy="firstname"
             />
-            {/* Last name */}
-            <AvField
-              className="form-control"
+            <ValidatedField
               name="lastName"
               label={translate('settings.form.lastname')}
               id="lastName"
               placeholder={translate('settings.form.lastname.placeholder')}
               validate={{
-                required: { value: true, errorMessage: translate('settings.messages.validate.lastname.required') },
-                minLength: { value: 1, errorMessage: translate('settings.messages.validate.lastname.minlength') },
-                maxLength: { value: 50, errorMessage: translate('settings.messages.validate.lastname.maxlength') },
+                required: { value: true, message: translate('settings.messages.validate.lastname.required') },
+                minLength: { value: 1, message: translate('settings.messages.validate.lastname.minlength') },
+                maxLength: { value: 50, message: translate('settings.messages.validate.lastname.maxlength') },
               }}
-              value={props.account.lastName}
               data-cy="lastname"
             />
-            {/* Email */}
-            <AvField
+            <ValidatedField
               name="email"
               label={translate('global.form.email.label')}
               placeholder={translate('global.form.email.placeholder')}
               type="email"
               validate={{
-                required: { value: true, errorMessage: translate('global.messages.validate.email.required') },
-                minLength: { value: 5, errorMessage: translate('global.messages.validate.email.minlength') },
-                maxLength: { value: 254, errorMessage: translate('global.messages.validate.email.maxlength') },
+                required: { value: true, message: translate('global.messages.validate.email.required') },
+                minLength: { value: 5, message: translate('global.messages.validate.email.minlength') },
+                maxLength: { value: 254, message: translate('global.messages.validate.email.maxlength') },
+                validate: v => isEmail(v) || translate('global.messages.validate.email.invalid'),
               }}
-              value={props.account.email}
               data-cy="email"
             />
-            {/* Language key */}
-            <AvField
-              type="select"
-              id="langKey"
-              name="langKey"
-              className="form-control"
-              label={translate('settings.form.language')}
-              value={props.account.langKey}
-              data-cy="langKey"
-            >
+            <ValidatedField type="select" id="langKey" name="langKey" label={translate('settings.form.language')} data-cy="langKey">
               {locales.map(locale => (
                 <option value={locale} key={locale}>
                   {languages[locale].name}
                 </option>
               ))}
-            </AvField>
+            </ValidatedField>
             <Button color="primary" type="submit" data-cy="submit">
               <Translate contentKey="settings.form.button">Save</Translate>
             </Button>
-          </AvForm>
+          </ValidatedForm>
         </Col>
       </Row>
     </div>
   );
 };
 
-const mapStateToProps = ({ authentication }: IRootState) => ({
-  account: authentication.account,
-  isAuthenticated: authentication.isAuthenticated,
-});
-
-const mapDispatchToProps = { getSession, saveAccountSettings, reset };
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
+export default SettingsPage;

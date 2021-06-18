@@ -1,37 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
-import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
-import { Translate, TextFormat, getSortState, IPaginationBaseState } from 'react-jhipster';
+import { Translate, TextFormat, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IRootState } from 'app/shared/reducers';
 import { getEntities, reset } from './operation.reducer';
 import { IOperation } from 'app/shared/model/operation.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
-import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
+import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export interface IOperationProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export const Operation = (props: RouteComponentProps<{ url: string }>) => {
+  const dispatch = useAppDispatch();
 
-export const Operation = (props: IOperationProps) => {
   const [paginationState, setPaginationState] = useState(
     overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE, 'id'), props.location.search)
   );
   const [sorting, setSorting] = useState(false);
 
+  const operationList = useAppSelector(state => state.operation.entities);
+  const loading = useAppSelector(state => state.operation.loading);
+  const totalItems = useAppSelector(state => state.operation.totalItems);
+  const links = useAppSelector(state => state.operation.links);
+  const entity = useAppSelector(state => state.operation.entity);
+  const updateSuccess = useAppSelector(state => state.operation.updateSuccess);
+
   const getAllEntities = () => {
-    props.getEntities(paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
+    dispatch(
+      getEntities({
+        page: paginationState.activePage - 1,
+        size: paginationState.itemsPerPage,
+        sort: `${paginationState.sort},${paginationState.order}`,
+      })
+    );
   };
 
   const resetAll = () => {
-    props.reset();
+    dispatch(reset());
     setPaginationState({
       ...paginationState,
       activePage: 1,
     });
-    props.getEntities();
+    dispatch(getEntities({}));
   };
 
   useEffect(() => {
@@ -39,10 +51,10 @@ export const Operation = (props: IOperationProps) => {
   }, []);
 
   useEffect(() => {
-    if (props.updateSuccess) {
+    if (updateSuccess) {
       resetAll();
     }
-  }, [props.updateSuccess]);
+  }, [updateSuccess]);
 
   useEffect(() => {
     getAllEntities();
@@ -65,11 +77,11 @@ export const Operation = (props: IOperationProps) => {
   }, [sorting]);
 
   const sort = p => () => {
-    props.reset();
+    dispatch(reset());
     setPaginationState({
       ...paginationState,
       activePage: 1,
-      order: paginationState.order === 'asc' ? 'desc' : 'asc',
+      order: paginationState.order === ASC ? DESC : ASC,
       sort: p,
     });
     setSorting(true);
@@ -79,7 +91,8 @@ export const Operation = (props: IOperationProps) => {
     resetAll();
   };
 
-  const { operationList, match, loading } = props;
+  const { match } = props;
+
   return (
     <div>
       <h2 id="operation-heading" data-cy="OperationHeading">
@@ -100,7 +113,7 @@ export const Operation = (props: IOperationProps) => {
         <InfiniteScroll
           pageStart={paginationState.activePage}
           loadMore={handleLoadMore}
-          hasMore={paginationState.activePage - 1 < props.links.next}
+          hasMore={paginationState.activePage - 1 < links.next}
           loader={<div className="loader">Loading ...</div>}
           threshold={0}
           initialLoad={false}
@@ -188,21 +201,4 @@ export const Operation = (props: IOperationProps) => {
   );
 };
 
-const mapStateToProps = ({ operation }: IRootState) => ({
-  operationList: operation.entities,
-  loading: operation.loading,
-  totalItems: operation.totalItems,
-  links: operation.links,
-  entity: operation.entity,
-  updateSuccess: operation.updateSuccess,
-});
-
-const mapDispatchToProps = {
-  getEntities,
-  reset,
-};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(Operation);
+export default Operation;

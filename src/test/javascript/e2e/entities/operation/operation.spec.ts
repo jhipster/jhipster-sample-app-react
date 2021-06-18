@@ -56,6 +56,7 @@ describe('Operation e2e test', () => {
       : await getRecordsCount(operationComponentsPage.table);
     operationUpdatePage = await operationComponentsPage.goToCreateOperation();
     await operationUpdatePage.enterData();
+    expect(await isVisible(operationUpdatePage.saveButton)).to.be.false;
 
     expect(await operationComponentsPage.createButton.isEnabled()).to.be.true;
     await waitUntilDisplayed(operationComponentsPage.table);

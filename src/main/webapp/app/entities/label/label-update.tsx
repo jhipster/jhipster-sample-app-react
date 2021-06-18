@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col, Label } from 'reactstrap';
-import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import { Translate, translate } from 'react-jhipster';
+import { Button, Row, Col, FormText } from 'reactstrap';
+import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IRootState } from 'app/shared/reducers';
 
 import { IOperation } from 'app/shared/model/operation.model';
 import { getEntities as getOperations } from 'app/entities/operation/operation.reducer';
@@ -13,13 +10,18 @@ import { getEntity, updateEntity, createEntity, reset } from './label.reducer';
 import { ILabel } from 'app/shared/model/label.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export interface ILabelUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export const LabelUpdate = (props: RouteComponentProps<{ id: string }>) => {
+  const dispatch = useAppDispatch();
 
-export const LabelUpdate = (props: ILabelUpdateProps) => {
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { labelEntity, operations, loading, updating } = props;
+  const operations = useAppSelector(state => state.operation.entities);
+  const labelEntity = useAppSelector(state => state.label.entity);
+  const loading = useAppSelector(state => state.label.loading);
+  const updating = useAppSelector(state => state.label.updating);
+  const updateSuccess = useAppSelector(state => state.label.updateSuccess);
 
   const handleClose = () => {
     props.history.push('/label');
@@ -27,34 +29,39 @@ export const LabelUpdate = (props: ILabelUpdateProps) => {
 
   useEffect(() => {
     if (isNew) {
-      props.reset();
+      dispatch(reset());
     } else {
-      props.getEntity(props.match.params.id);
+      dispatch(getEntity(props.match.params.id));
     }
 
-    props.getOperations();
+    dispatch(getOperations({}));
   }, []);
 
   useEffect(() => {
-    if (props.updateSuccess) {
+    if (updateSuccess) {
       handleClose();
     }
-  }, [props.updateSuccess]);
+  }, [updateSuccess]);
 
-  const saveEntity = (event, errors, values) => {
-    if (errors.length === 0) {
-      const entity = {
-        ...labelEntity,
-        ...values,
-      };
+  const saveEntity = values => {
+    const entity = {
+      ...labelEntity,
+      ...values,
+    };
 
-      if (isNew) {
-        props.createEntity(entity);
-      } else {
-        props.updateEntity(entity);
-      }
+    if (isNew) {
+      dispatch(createEntity(entity));
+    } else {
+      dispatch(updateEntity(entity));
     }
   };
+
+  const defaultValues = () =>
+    isNew
+      ? {}
+      : {
+          ...labelEntity,
+        };
 
   return (
     <div>
@@ -70,31 +77,29 @@ export const LabelUpdate = (props: ILabelUpdateProps) => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <AvForm model={isNew ? {} : labelEntity} onSubmit={saveEntity}>
+            <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
               {!isNew ? (
-                <AvGroup>
-                  <Label for="label-id">
-                    <Translate contentKey="global.field.id">ID</Translate>
-                  </Label>
-                  <AvInput id="label-id" type="text" className="form-control" name="id" required readOnly />
-                </AvGroup>
-              ) : null}
-              <AvGroup>
-                <Label id="labelLabel" for="label-label">
-                  <Translate contentKey="jhipsterSampleApplicationReactApp.label.label">Label</Translate>
-                </Label>
-                <AvField
-                  id="label-label"
-                  data-cy="label"
-                  type="text"
-                  name="label"
-                  validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') },
-                    minLength: { value: 3, errorMessage: translate('entity.validation.minlength', { min: 3 }) },
-                  }}
+                <ValidatedField
+                  name="id"
+                  required
+                  readOnly
+                  id="label-id"
+                  label={translate('global.field.id')}
+                  validate={{ required: true }}
                 />
-              </AvGroup>
-              <Button tag={Link} id="cancel-save" to="/label" replace color="info">
+              ) : null}
+              <ValidatedField
+                label={translate('jhipsterSampleApplicationReactApp.label.label')}
+                id="label-label"
+                name="label"
+                data-cy="label"
+                type="text"
+                validate={{
+                  required: { value: true, message: translate('entity.validation.required') },
+                  minLength: { value: 3, message: translate('entity.validation.minlength', { min: 3 }) },
+                }}
+              />
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/label" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
                 <span className="d-none d-md-inline">
@@ -107,7 +112,7 @@ export const LabelUpdate = (props: ILabelUpdateProps) => {
                 &nbsp;
                 <Translate contentKey="entity.action.save">Save</Translate>
               </Button>
-            </AvForm>
+            </ValidatedForm>
           )}
         </Col>
       </Row>
@@ -115,23 +120,4 @@ export const LabelUpdate = (props: ILabelUpdateProps) => {
   );
 };
 
-const mapStateToProps = (storeState: IRootState) => ({
-  operations: storeState.operation.entities,
-  labelEntity: storeState.label.entity,
-  loading: storeState.label.loading,
-  updating: storeState.label.updating,
-  updateSuccess: storeState.label.updateSuccess,
-});
-
-const mapDispatchToProps = {
-  getOperations,
-  getEntity,
-  updateEntity,
-  createEntity,
-  reset,
-};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(LabelUpdate);
+export default LabelUpdate;

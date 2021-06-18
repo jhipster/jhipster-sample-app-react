@@ -1,31 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { Translate, translate } from 'react-jhipster';
-import { connect } from 'react-redux';
-import { AvForm, AvField } from 'availity-reactstrap-validation';
+import { Translate, translate, ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
 import { Row, Col, Alert, Button } from 'reactstrap';
+import { toast } from 'react-toastify';
 
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
-import { IRootState } from 'app/shared/reducers';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { handleRegister, reset } from './register.reducer';
 
-export interface IRegisterProps extends StateProps, DispatchProps {}
-
-export const RegisterPage = (props: IRegisterProps) => {
+export const RegisterPage = () => {
   const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
 
   useEffect(
     () => () => {
-      props.reset();
+      dispatch(reset());
     },
     []
   );
 
-  const handleValidSubmit = (event, values) => {
-    props.handleRegister(values.username, values.email, values.firstPassword, props.currentLocale);
-    event.preventDefault();
+  const currentLocale = useAppSelector(state => state.locale.currentLocale);
+
+  const handleValidSubmit = ({ username, email, firstPassword }) => {
+    dispatch(handleRegister({ login: username, email, password: firstPassword, langKey: currentLocale }));
   };
 
   const updatePassword = event => setPassword(event.target.value);
+
+  const successMessage = useAppSelector(state => state.register.successMessage);
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(translate(successMessage));
+    }
+  }, [successMessage]);
 
   return (
     <div>
@@ -38,65 +45,66 @@ export const RegisterPage = (props: IRegisterProps) => {
       </Row>
       <Row className="justify-content-center">
         <Col md="8">
-          <AvForm id="register-form" onValidSubmit={handleValidSubmit}>
-            <AvField
+          <ValidatedForm id="register-form" onSubmit={handleValidSubmit}>
+            <ValidatedField
               name="username"
               label={translate('global.form.username.label')}
               placeholder={translate('global.form.username.placeholder')}
               validate={{
-                required: { value: true, errorMessage: translate('register.messages.validate.login.required') },
+                required: { value: true, message: translate('register.messages.validate.login.required') },
                 pattern: {
-                  value: '^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$',
-                  errorMessage: translate('register.messages.validate.login.pattern'),
+                  value: /^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$/,
+                  message: translate('register.messages.validate.login.pattern'),
                 },
-                minLength: { value: 1, errorMessage: translate('register.messages.validate.login.minlength') },
-                maxLength: { value: 50, errorMessage: translate('register.messages.validate.login.maxlength') },
+                minLength: { value: 1, message: translate('register.messages.validate.login.minlength') },
+                maxLength: { value: 50, message: translate('register.messages.validate.login.maxlength') },
               }}
               data-cy="username"
             />
-            <AvField
+            <ValidatedField
               name="email"
               label={translate('global.form.email.label')}
               placeholder={translate('global.form.email.placeholder')}
               type="email"
               validate={{
-                required: { value: true, errorMessage: translate('global.messages.validate.email.required') },
-                minLength: { value: 5, errorMessage: translate('global.messages.validate.email.minlength') },
-                maxLength: { value: 254, errorMessage: translate('global.messages.validate.email.maxlength') },
+                required: { value: true, message: translate('global.messages.validate.email.required') },
+                minLength: { value: 5, message: translate('global.messages.validate.email.minlength') },
+                maxLength: { value: 254, message: translate('global.messages.validate.email.maxlength') },
+                validate: v => isEmail(v) || translate('global.messages.validate.email.invalid'),
               }}
               data-cy="email"
             />
-            <AvField
+            <ValidatedField
               name="firstPassword"
               label={translate('global.form.newpassword.label')}
               placeholder={translate('global.form.newpassword.placeholder')}
               type="password"
               onChange={updatePassword}
               validate={{
-                required: { value: true, errorMessage: translate('global.messages.validate.newpassword.required') },
-                minLength: { value: 4, errorMessage: translate('global.messages.validate.newpassword.minlength') },
-                maxLength: { value: 50, errorMessage: translate('global.messages.validate.newpassword.maxlength') },
+                required: { value: true, message: translate('global.messages.validate.newpassword.required') },
+                minLength: { value: 4, message: translate('global.messages.validate.newpassword.minlength') },
+                maxLength: { value: 50, message: translate('global.messages.validate.newpassword.maxlength') },
               }}
               data-cy="firstPassword"
             />
             <PasswordStrengthBar password={password} />
-            <AvField
+            <ValidatedField
               name="secondPassword"
               label={translate('global.form.confirmpassword.label')}
               placeholder={translate('global.form.confirmpassword.placeholder')}
               type="password"
               validate={{
-                required: { value: true, errorMessage: translate('global.messages.validate.confirmpassword.required') },
-                minLength: { value: 4, errorMessage: translate('global.messages.validate.confirmpassword.minlength') },
-                maxLength: { value: 50, errorMessage: translate('global.messages.validate.confirmpassword.maxlength') },
-                match: { value: 'firstPassword', errorMessage: translate('global.messages.error.dontmatch') },
+                required: { value: true, message: translate('global.messages.validate.confirmpassword.required') },
+                minLength: { value: 4, message: translate('global.messages.validate.confirmpassword.minlength') },
+                maxLength: { value: 50, message: translate('global.messages.validate.confirmpassword.maxlength') },
+                validate: v => v === password || translate('global.messages.error.dontmatch'),
               }}
               data-cy="secondPassword"
             />
             <Button id="register-submit" color="primary" type="submit" data-cy="submit">
               <Translate contentKey="register.form.button">Register</Translate>
             </Button>
-          </AvForm>
+          </ValidatedForm>
           <p>&nbsp;</p>
           <Alert color="warning">
             <span>
@@ -119,12 +127,4 @@ export const RegisterPage = (props: IRegisterProps) => {
   );
 };
 
-const mapStateToProps = ({ locale }: IRootState) => ({
-  currentLocale: locale.currentLocale,
-});
-
-const mapDispatchToProps = { handleRegister, reset };
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);
+export default RegisterPage;

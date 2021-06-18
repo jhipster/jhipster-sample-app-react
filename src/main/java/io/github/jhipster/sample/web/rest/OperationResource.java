@@ -142,6 +142,7 @@ public class OperationResource {
             .map(
                 existingOperation -> {
                     operationMapper.partialUpdate(existingOperation, operationDTO);
+
                     return existingOperation;
                 }
             )

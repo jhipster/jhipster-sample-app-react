@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import axios from 'axios';
 import sinon from 'sinon';
 

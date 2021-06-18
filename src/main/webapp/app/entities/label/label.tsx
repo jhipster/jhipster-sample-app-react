@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IRootState } from 'app/shared/reducers';
 import { getEntities } from './label.reducer';
 import { ILabel } from 'app/shared/model/label.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export interface ILabelProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export const Label = (props: RouteComponentProps<{ url: string }>) => {
+  const dispatch = useAppDispatch();
 
-export const Label = (props: ILabelProps) => {
+  const labelList = useAppSelector(state => state.label.entities);
+  const loading = useAppSelector(state => state.label.loading);
+
   useEffect(() => {
-    props.getEntities();
+    dispatch(getEntities({}));
   }, []);
 
   const handleSyncList = () => {
-    props.getEntities();
+    dispatch(getEntities({}));
   };
 
-  const { labelList, match, loading } = props;
+  const { match } = props;
+
   return (
     <div>
       <h2 id="label-heading" data-cy="LabelHeading">
@@ -99,16 +102,4 @@ export const Label = (props: ILabelProps) => {
   );
 };
 
-const mapStateToProps = ({ label }: IRootState) => ({
-  labelList: label.entities,
-  loading: label.loading,
-});
-
-const mapDispatchToProps = {
-  getEntities,
-};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(Label);
+export default Label;

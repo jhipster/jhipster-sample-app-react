@@ -136,6 +136,7 @@ public class LabelResource {
             .map(
                 existingLabel -> {
                     labelMapper.partialUpdate(existingLabel, labelDTO);
+
                     return existingLabel;
                 }
             )

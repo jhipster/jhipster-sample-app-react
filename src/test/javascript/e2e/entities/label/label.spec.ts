@@ -54,6 +54,7 @@ describe('Label e2e test', () => {
     const beforeRecordsCount = (await isVisible(labelComponentsPage.noRecords)) ? 0 : await getRecordsCount(labelComponentsPage.table);
     labelUpdatePage = await labelComponentsPage.goToCreateLabel();
     await labelUpdatePage.enterData();
+    expect(await isVisible(labelUpdatePage.saveButton)).to.be.false;
 
     expect(await labelComponentsPage.createButton.isEnabled()).to.be.true;
     await waitUntilDisplayed(labelComponentsPage.table);

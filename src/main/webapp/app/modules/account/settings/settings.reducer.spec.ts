@@ -1,14 +1,14 @@
-import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
+/**
+ * @jest-environment jsdom
+ */
 import configureStore from 'redux-mock-store';
-import promiseMiddleware from 'redux-promise-middleware';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 import sinon from 'sinon';
 import { TranslatorContext } from 'react-jhipster';
 
-import account, { ACTION_TYPES, saveAccountSettings, reset } from './settings.reducer';
-import { ACTION_TYPES as authActionTypes } from 'app/shared/reducers/authentication';
-import { ACTION_TYPES as localeActionTypes } from 'app/shared/reducers/locale';
+import account, { updateAccount, saveAccountSettings, reset } from './settings.reducer';
+import { getAccount } from 'app/shared/reducers/authentication';
 
 describe('Settings reducer tests', () => {
   beforeAll(() => {
@@ -17,7 +17,7 @@ describe('Settings reducer tests', () => {
 
   describe('Common tests', () => {
     it('should return the initial state', () => {
-      const toTest = account(undefined, {});
+      const toTest = account(undefined, { type: '' });
       expect(toTest).toMatchObject({
         loading: false,
         errorMessage: null,
@@ -29,7 +29,7 @@ describe('Settings reducer tests', () => {
 
   describe('Settings update', () => {
     it('should detect a request', () => {
-      const toTest = account(undefined, { type: REQUEST(ACTION_TYPES.UPDATE_ACCOUNT) });
+      const toTest = account(undefined, { type: updateAccount.pending.type });
       expect(toTest).toMatchObject({
         updateSuccess: false,
         updateFailure: false,
@@ -37,7 +37,7 @@ describe('Settings reducer tests', () => {
       });
     });
     it('should detect a success', () => {
-      const toTest = account(undefined, { type: SUCCESS(ACTION_TYPES.UPDATE_ACCOUNT) });
+      const toTest = account(undefined, { type: updateAccount.fulfilled.type });
       expect(toTest).toMatchObject({
         updateSuccess: true,
         updateFailure: false,
@@ -45,7 +45,7 @@ describe('Settings reducer tests', () => {
       });
     });
     it('should detect a failure', () => {
-      const toTest = account(undefined, { type: FAILURE(ACTION_TYPES.UPDATE_ACCOUNT) });
+      const toTest = account(undefined, { type: updateAccount.rejected.type });
       expect(toTest).toMatchObject({
         updateSuccess: false,
         updateFailure: true,
@@ -57,17 +57,11 @@ describe('Settings reducer tests', () => {
       const initialState = {
         loading: false,
         errorMessage: null,
+        successMessage: null,
         updateSuccess: false,
         updateFailure: false,
       };
-      expect(
-        account(
-          { ...initialState, loading: true },
-          {
-            type: ACTION_TYPES.RESET,
-          }
-        )
-      ).toEqual({
+      expect(account({ ...initialState, loading: true }, reset())).toEqual({
         ...initialState,
       });
     });
@@ -78,49 +72,33 @@ describe('Settings reducer tests', () => {
 
     const resolvedObject = { value: 'whatever' };
     beforeEach(() => {
-      const mockStore = configureStore([thunk, promiseMiddleware]);
+      const mockStore = configureStore([thunk]);
       store = mockStore({ authentication: { account: { langKey: 'en' } } });
       axios.get = sinon.stub().returns(Promise.resolve(resolvedObject));
       axios.post = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
 
     it('dispatches UPDATE_ACCOUNT_PENDING and UPDATE_ACCOUNT_FULFILLED actions', async () => {
-      const meta = {
-        successMessage: 'translation-not-found[settings.messages.success]',
-      };
-
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.UPDATE_ACCOUNT),
-          meta,
+          type: updateAccount.pending.type,
         },
         {
-          type: SUCCESS(ACTION_TYPES.UPDATE_ACCOUNT),
-          payload: resolvedObject,
-          meta,
-        },
-        {
-          type: REQUEST(authActionTypes.GET_SESSION),
-        },
-        {
-          type: SUCCESS(authActionTypes.GET_SESSION),
+          type: updateAccount.fulfilled.type,
           payload: resolvedObject,
         },
         {
-          type: localeActionTypes.SET_LOCALE,
-          locale: 'en',
+          type: getAccount.pending.type,
         },
       ];
-      await store.dispatch(saveAccountSettings({})).then(() => expect(store.getActions()).toEqual(expectedActions));
+      await store.dispatch(saveAccountSettings({}));
+      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
+      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      expect(store.getActions()[2]).toMatchObject(expectedActions[2]);
     });
-    it('dispatches ACTION_TYPES.RESET actions', async () => {
-      const expectedActions = [
-        {
-          type: ACTION_TYPES.RESET,
-        },
-      ];
+    it('dispatches RESET actions', async () => {
       await store.dispatch(reset());
-      expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getActions()[0]).toMatchObject(reset());
     });
   });
 });
