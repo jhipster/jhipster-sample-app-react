@@ -14,11 +14,11 @@ export default () => next => action => {
    * The error middleware serves to log error messages from dispatch
    * It need not run in production
    */
-  if (process.env.NODE_ENV === 'development') {
+  if (DEVELOPMENT) {
     const { error } = action;
     if (error) {
       console.error(`${action.type} caught at middleware with reason: ${JSON.stringify(error.message)}.`);
-      if (error && error.response && error.response.data) {
+      if (error.response && error.response.data) {
         const message = getErrorMessage(error.response.data);
         console.error(`Actual cause: ${message}`);
       }

@@ -11,8 +11,8 @@ const commonConfig = require('./webpack.common.js');
 
 const ENV = 'development';
 
-module.exports = options =>
-  webpackMerge(commonConfig({ env: ENV }), {
+module.exports = async options =>
+  webpackMerge(await commonConfig({ env: ENV }), {
     devtool: 'cheap-module-source-map', // https://reactjs.org/docs/cross-origin-errors.html
     mode: ENV,
     entry: ['./src/main/webapp/app/index'],
@@ -41,9 +41,10 @@ module.exports = options =>
       ],
     },
     devServer: {
-      stats: options.stats,
       hot: true,
-      contentBase: './target/classes/static/',
+      static: {
+        directory: './target/classes/static/',
+      },
       port: 9060,
       proxy: [
         {
@@ -53,9 +54,6 @@ module.exports = options =>
           changeOrigin: options.tls,
         },
       ],
-      watchOptions: {
-        ignore: [/node_modules/, utils.root('src/test')],
-      },
       https: options.tls,
       historyApiFallback: true,
     },

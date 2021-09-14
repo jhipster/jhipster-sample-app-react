@@ -18,9 +18,7 @@ const store = configureStore({
     }).concat(errorMiddleware, notificationMiddleware, loadingBarMiddleware(), loggerMiddleware),
 });
 
-const getStore = () => {
-  return store;
-};
+const getStore = () => store;
 
 export type IRootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

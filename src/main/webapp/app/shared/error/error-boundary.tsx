@@ -22,14 +22,13 @@ class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryS
   render() {
     const { error, errorInfo } = this.state;
     if (errorInfo) {
-      const errorDetails =
-        process.env.NODE_ENV === 'development' ? (
-          <details className="preserve-space">
-            {error && error.toString()}
-            <br />
-            {errorInfo.componentStack}
-          </details>
-        ) : undefined;
+      const errorDetails = DEVELOPMENT ? (
+        <details className="preserve-space">
+          {error && error.toString()}
+          <br />
+          {errorInfo.componentStack}
+        </details>
+      ) : undefined;
       return (
         <div>
           <h2 className="error">An unexpected error has occurred.</h2>

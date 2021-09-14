@@ -120,7 +120,7 @@ public class OperationResource {
      * or with status {@code 500 (Internal Server Error)} if the operationDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/operations/{id}", consumes = "application/merge-patch+json")
+    @PatchMapping(value = "/operations/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<OperationDTO> partialUpdateOperation(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody OperationDTO operationDTO
@@ -139,13 +139,11 @@ public class OperationResource {
 
         Optional<OperationDTO> result = operationRepository
             .findById(operationDTO.getId())
-            .map(
-                existingOperation -> {
-                    operationMapper.partialUpdate(existingOperation, operationDTO);
+            .map(existingOperation -> {
+                operationMapper.partialUpdate(existingOperation, operationDTO);
 
-                    return existingOperation;
-                }
-            )
+                return existingOperation;
+            })
             .map(operationRepository::save)
             .map(operationMapper::toDto);
 

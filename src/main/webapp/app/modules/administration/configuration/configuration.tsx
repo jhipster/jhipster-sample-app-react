@@ -33,9 +33,9 @@ export const ConfigurationPage = () => {
       .map((v: any) => v.beans)
       .reduce((acc, e) => ({ ...acc, ...e }));
 
-  const configProps = configuration && configuration.configProps ? configuration.configProps : {};
+  const configProps = configuration?.configProps ?? {};
 
-  const env = configuration && configuration.env ? configuration.env : {};
+  const env = configuration?.env ?? {};
 
   return (
     <div>

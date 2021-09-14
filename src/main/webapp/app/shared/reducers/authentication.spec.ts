@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import thunk from 'redux-thunk';
 import axios from 'axios';
 import sinon from 'sinon';

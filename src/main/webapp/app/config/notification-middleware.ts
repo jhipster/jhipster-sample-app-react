@@ -42,7 +42,6 @@ export default () => next => action => {
           (error.message === '' || (data && data.path && (data.path.includes('/api/account') || data.path.includes('/api/authenticate'))))
         )
       ) {
-        let i;
         switch (response.status) {
           // connection refused, server not reachable
           case 0:
@@ -65,8 +64,7 @@ export default () => next => action => {
               addErrorAlert(errorHeader, errorHeader, { entityName });
             } else if (data?.fieldErrors) {
               const fieldErrors = data.fieldErrors;
-              for (i = 0; i < fieldErrors.length; i++) {
-                const fieldError = fieldErrors[i];
+              for (const fieldError of fieldErrors) {
                 if (['Min', 'Max', 'DecimalMin', 'DecimalMax'].includes(fieldError.message)) {
                   fieldError.message = 'Size';
                 }

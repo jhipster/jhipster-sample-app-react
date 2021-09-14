@@ -47,7 +47,7 @@ export const SettingsSlice = createSlice({
         state.errorMessage = null;
         state.updateSuccess = false;
       })
-      .addCase(updateAccount.rejected, (state, action) => {
+      .addCase(updateAccount.rejected, state => {
         state.loading = false;
         state.updateSuccess = false;
         state.updateFailure = true;

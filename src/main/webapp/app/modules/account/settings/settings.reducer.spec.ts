@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';

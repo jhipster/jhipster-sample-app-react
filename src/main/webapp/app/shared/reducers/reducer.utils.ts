@@ -3,7 +3,6 @@ import {
   AsyncThunk,
   ActionReducerMapBuilder,
   createSlice,
-  PayloadAction,
   SerializedError,
   SliceCaseReducers,
   ValidateSliceCaseReducers,
