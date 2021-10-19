@@ -25,7 +25,6 @@ export const OperationUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const loading = useAppSelector(state => state.operation.loading);
   const updating = useAppSelector(state => state.operation.updating);
   const updateSuccess = useAppSelector(state => state.operation.updateSuccess);
-
   const handleClose = () => {
     props.history.push('/operation');
   };
@@ -52,7 +51,7 @@ export const OperationUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ...operationEntity,
       ...values,
       labels: mapIdList(values.labels),
-      bankAccount: bankAccounts.find(it => it.id.toString() === values.bankAccountId.toString()),
+      bankAccount: bankAccounts.find(it => it.id.toString() === values.bankAccount.toString()),
     };
 
     if (isNew) {
@@ -70,7 +69,7 @@ export const OperationUpdate = (props: RouteComponentProps<{ id: string }>) => {
       : {
           ...operationEntity,
           date: convertDateTimeFromServer(operationEntity.date),
-          bankAccountId: operationEntity?.bankAccount?.id,
+          bankAccount: operationEntity?.bankAccount?.id,
           labels: operationEntity?.labels?.map(e => e.id.toString()),
         };
 
@@ -132,7 +131,7 @@ export const OperationUpdate = (props: RouteComponentProps<{ id: string }>) => {
               />
               <ValidatedField
                 id="operation-bankAccount"
-                name="bankAccountId"
+                name="bankAccount"
                 data-cy="bankAccount"
                 label={translate('jhipsterSampleApplicationReactApp.operation.bankAccount')}
                 type="select"

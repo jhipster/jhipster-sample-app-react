@@ -22,7 +22,6 @@ export const BankAccountUpdate = (props: RouteComponentProps<{ id: string }>) =>
   const loading = useAppSelector(state => state.bankAccount.loading);
   const updating = useAppSelector(state => state.bankAccount.updating);
   const updateSuccess = useAppSelector(state => state.bankAccount.updateSuccess);
-
   const handleClose = () => {
     props.history.push('/bank-account');
   };
@@ -47,7 +46,7 @@ export const BankAccountUpdate = (props: RouteComponentProps<{ id: string }>) =>
     const entity = {
       ...bankAccountEntity,
       ...values,
-      user: users.find(it => it.id.toString() === values.userId.toString()),
+      user: users.find(it => it.id.toString() === values.user.toString()),
     };
 
     if (isNew) {
@@ -62,7 +61,7 @@ export const BankAccountUpdate = (props: RouteComponentProps<{ id: string }>) =>
       ? {}
       : {
           ...bankAccountEntity,
-          userId: bankAccountEntity?.user?.id,
+          user: bankAccountEntity?.user?.id,
         };
 
   return (
@@ -115,7 +114,7 @@ export const BankAccountUpdate = (props: RouteComponentProps<{ id: string }>) =>
               />
               <ValidatedField
                 id="bank-account-user"
-                name="userId"
+                name="user"
                 data-cy="user"
                 label={translate('jhipsterSampleApplicationReactApp.bankAccount.user')}
                 type="select"

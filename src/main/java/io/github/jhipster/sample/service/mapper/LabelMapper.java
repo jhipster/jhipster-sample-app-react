@@ -1,6 +1,6 @@
 package io.github.jhipster.sample.service.mapper;
 
-import io.github.jhipster.sample.domain.*;
+import io.github.jhipster.sample.domain.Label;
 import io.github.jhipster.sample.service.dto.LabelDTO;
 import java.util.Set;
 import org.mapstruct.*;

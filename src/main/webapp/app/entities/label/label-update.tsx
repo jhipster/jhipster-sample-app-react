@@ -22,7 +22,6 @@ export const LabelUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const loading = useAppSelector(state => state.label.loading);
   const updating = useAppSelector(state => state.label.updating);
   const updateSuccess = useAppSelector(state => state.label.updateSuccess);
-
   const handleClose = () => {
     props.history.push('/label');
   };

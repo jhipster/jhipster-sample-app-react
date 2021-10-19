@@ -1,6 +1,6 @@
 package io.github.jhipster.sample.service.mapper;
 
-import io.github.jhipster.sample.domain.*;
+import io.github.jhipster.sample.domain.Operation;
 import io.github.jhipster.sample.service.dto.OperationDTO;
 import java.util.Set;
 import org.mapstruct.*;

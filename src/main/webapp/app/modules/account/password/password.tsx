@@ -34,7 +34,7 @@ export const PasswordPage = () => {
     if (successMessage) {
       toast.success(translate(successMessage));
     } else if (errorMessage) {
-      toast.success(translate(errorMessage));
+      toast.error(translate(errorMessage));
     }
   }, [successMessage, errorMessage]);
 
