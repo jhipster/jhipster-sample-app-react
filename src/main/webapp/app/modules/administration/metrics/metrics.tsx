@@ -55,12 +55,10 @@ export const MetricsPage = () => {
         <Col sm="12">
           <h3>JVM Metrics</h3>
           <Row>
-            <Col md="4">
-              {metrics && metrics.jvm ? <JvmMemory jvmMetrics={metrics.jvm} wholeNumberFormat={APP_WHOLE_NUMBER_FORMAT} /> : ''}
-            </Col>
+            <Col md="4">{metrics?.jvm ? <JvmMemory jvmMetrics={metrics.jvm} wholeNumberFormat={APP_WHOLE_NUMBER_FORMAT} /> : ''}</Col>
             <Col md="4">{threadDump ? <JvmThreads jvmThreads={threadDump} wholeNumberFormat={APP_WHOLE_NUMBER_FORMAT} /> : ''}</Col>
             <Col md="4">
-              {metrics && metrics.processMetrics ? (
+              {metrics?.processMetrics ? (
                 <SystemMetrics
                   systemMetrics={metrics.processMetrics}
                   wholeNumberFormat={APP_WHOLE_NUMBER_FORMAT}
@@ -74,7 +72,7 @@ export const MetricsPage = () => {
         </Col>
       </Row>
 
-      {metrics && metrics.garbageCollector ? (
+      {metrics?.garbageCollector ? (
         <GarbageCollectorMetrics garbageCollectorMetrics={metrics.garbageCollector} wholeNumberFormat={APP_WHOLE_NUMBER_FORMAT} />
       ) : (
         ''
@@ -88,13 +86,13 @@ export const MetricsPage = () => {
       ) : (
         ''
       )}
-      {metrics && metrics.services ? (
+      {metrics?.services ? (
         <EndpointsRequestsMetrics endpointsRequestsMetrics={metrics.services} wholeNumberFormat={APP_WHOLE_NUMBER_FORMAT} />
       ) : (
         ''
       )}
 
-      {metrics.cache ? (
+      {metrics?.cache ? (
         <Row>
           <Col sm="12">
             <CacheMetrics cacheMetrics={metrics.cache} twoDigitAfterPointFormat={APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT} />
@@ -104,7 +102,7 @@ export const MetricsPage = () => {
         ''
       )}
 
-      {metrics.databases && JSON.stringify(metrics.databases) !== '{}' ? (
+      {metrics?.databases && JSON.stringify(metrics.databases) !== '{}' ? (
         <Row>
           <Col sm="12">
             <DatasourceMetrics datasourceMetrics={metrics.databases} twoDigitAfterPointFormat={APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT} />

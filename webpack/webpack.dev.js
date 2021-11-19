@@ -31,7 +31,9 @@ module.exports = async options =>
           use: [
             'style-loader',
             'css-loader',
-            'postcss-loader',
+            {
+              loader: 'postcss-loader',
+            },
             {
               loader: 'sass-loader',
               options: { implementation: sass },

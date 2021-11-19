@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
+import { Button, Table } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -30,7 +30,7 @@ export const BankAccount = (props: RouteComponentProps<{ url: string }>) => {
       <h2 id="bank-account-heading" data-cy="BankAccountHeading">
         <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.title">Bank Accounts</Translate>
         <div className="d-flex justify-content-end">
-          <Button className="mr-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.refreshListLabel">Refresh List</Translate>
           </Button>
@@ -72,7 +72,7 @@ export const BankAccount = (props: RouteComponentProps<{ url: string }>) => {
                   <td>{bankAccount.name}</td>
                   <td>{bankAccount.balance}</td>
                   <td>{bankAccount.user ? bankAccount.user.login : ''}</td>
-                  <td className="text-right">
+                  <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${bankAccount.id}`} color="info" size="sm" data-cy="entityDetailsButton">
                         <FontAwesomeIcon icon="eye" />{' '}

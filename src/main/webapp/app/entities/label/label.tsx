@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
+import { Button, Table } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -30,7 +30,7 @@ export const Label = (props: RouteComponentProps<{ url: string }>) => {
       <h2 id="label-heading" data-cy="LabelHeading">
         <Translate contentKey="jhipsterSampleApplicationReactApp.label.home.title">Labels</Translate>
         <div className="d-flex justify-content-end">
-          <Button className="mr-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="jhipsterSampleApplicationReactApp.label.home.refreshListLabel">Refresh List</Translate>
           </Button>
@@ -64,7 +64,7 @@ export const Label = (props: RouteComponentProps<{ url: string }>) => {
                     </Button>
                   </td>
                   <td>{label.label}</td>
-                  <td className="text-right">
+                  <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${label.id}`} color="info" size="sm" data-cy="entityDetailsButton">
                         <FontAwesomeIcon icon="eye" />{' '}

@@ -51,7 +51,7 @@ const Header = (props: IHeaderProps) => {
         <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
         <Brand />
         <Collapse isOpen={menuOpen} navbar>
-          <Nav id="header-tabs" className="ml-auto" navbar>
+          <Nav id="header-tabs" className="ms-auto" navbar>
             <Home />
             {props.isAuthenticated && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && (

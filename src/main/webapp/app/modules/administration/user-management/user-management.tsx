@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Table, Row, Badge } from 'reactstrap';
+import { Button, Table, Badge } from 'reactstrap';
 import { Translate, TextFormat, JhiPagination, JhiItemCount, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -86,7 +86,7 @@ export const UserManagement = (props: RouteComponentProps<any>) => {
       <h2 id="user-management-page-heading" data-cy="userManagementPageHeading">
         <Translate contentKey="userManagement.home.title">Users</Translate>
         <div className="d-flex justify-content-end">
-          <Button className="mr-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="userManagement.home.refreshListLabel">Refresh List</Translate>
           </Button>
@@ -173,7 +173,7 @@ export const UserManagement = (props: RouteComponentProps<any>) => {
                   <TextFormat value={user.lastModifiedDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
                 ) : null}
               </td>
-              <td className="text-right">
+              <td className="text-end">
                 <div className="btn-group flex-btn-group-container">
                   <Button tag={Link} to={`${match.url}/${user.login}`} color="info" size="sm">
                     <FontAwesomeIcon icon="eye" />{' '}
@@ -206,11 +206,11 @@ export const UserManagement = (props: RouteComponentProps<any>) => {
         </tbody>
       </Table>
       {totalItems ? (
-        <div className={users && users.length > 0 ? '' : 'd-none'}>
-          <Row className="justify-content-center">
+        <div className={users?.length > 0 ? '' : 'd-none'}>
+          <div className="justify-content-center d-flex">
             <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} i18nEnabled />
-          </Row>
-          <Row className="justify-content-center">
+          </div>
+          <div className="justify-content-center d-flex">
             <JhiPagination
               activePage={pagination.activePage}
               onSelect={handlePagination}
@@ -218,7 +218,7 @@ export const UserManagement = (props: RouteComponentProps<any>) => {
               itemsPerPage={pagination.itemsPerPage}
               totalItems={totalItems}
             />
-          </Row>
+          </div>
         </div>
       ) : (
         ''
