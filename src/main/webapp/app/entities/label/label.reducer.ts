@@ -90,10 +90,12 @@ export const LabelSlice = createEntitySlice({
         state.entity = {};
       })
       .addMatcher(isFulfilled(getEntities), (state, action) => {
+        const { data } = action.payload;
+
         return {
           ...state,
           loading: false,
-          entities: action.payload.data,
+          entities: data,
         };
       })
       .addMatcher(isFulfilled(createEntity, updateEntity, partialUpdateEntity), (state, action) => {
