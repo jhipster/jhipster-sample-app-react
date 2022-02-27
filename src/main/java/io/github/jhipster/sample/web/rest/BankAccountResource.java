@@ -150,12 +150,13 @@ public class BankAccountResource {
     /**
      * {@code GET  /bank-accounts} : get all the bankAccounts.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bankAccounts in body.
      */
     @GetMapping("/bank-accounts")
-    public List<BankAccountDTO> getAllBankAccounts() {
+    public List<BankAccountDTO> getAllBankAccounts(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all BankAccounts");
-        List<BankAccount> bankAccounts = bankAccountRepository.findAll();
+        List<BankAccount> bankAccounts = bankAccountRepository.findAllWithEagerRelationships();
         return bankAccountMapper.toDto(bankAccounts);
     }
 
@@ -168,7 +169,7 @@ public class BankAccountResource {
     @GetMapping("/bank-accounts/{id}")
     public ResponseEntity<BankAccountDTO> getBankAccount(@PathVariable Long id) {
         log.debug("REST request to get BankAccount : {}", id);
-        Optional<BankAccountDTO> bankAccountDTO = bankAccountRepository.findById(id).map(bankAccountMapper::toDto);
+        Optional<BankAccountDTO> bankAccountDTO = bankAccountRepository.findOneWithEagerRelationships(id).map(bankAccountMapper::toDto);
         return ResponseUtil.wrapOrNotFound(bankAccountDTO);
     }
 

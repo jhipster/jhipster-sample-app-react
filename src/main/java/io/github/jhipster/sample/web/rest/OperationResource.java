@@ -163,7 +163,7 @@ public class OperationResource {
     @GetMapping("/operations")
     public ResponseEntity<List<OperationDTO>> getAllOperations(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
-        @RequestParam(required = false, defaultValue = "false") boolean eagerload
+        @RequestParam(required = false, defaultValue = "true") boolean eagerload
     ) {
         log.debug("REST request to get a page of Operations");
         Page<OperationDTO> page;
