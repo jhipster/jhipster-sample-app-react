@@ -4,13 +4,14 @@ import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IOperation } from 'app/shared/model/operation.model';
-import { getEntities as getOperations } from 'app/entities/operation/operation.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './label.reducer';
-import { ILabel } from 'app/shared/model/label.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+
+import { IOperation } from 'app/shared/model/operation.model';
+import { getEntities as getOperations } from 'app/entities/operation/operation.reducer';
+import { ILabel } from 'app/shared/model/label.model';
+import { getEntity, updateEntity, createEntity, reset } from './label.reducer';
 
 export const LabelUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const dispatch = useAppDispatch();

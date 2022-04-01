@@ -1,7 +1,7 @@
 import React from 'react';
-import MenuItem from 'app/shared/layout/menus/menu-item';
-import { Translate, translate } from 'react-jhipster';
+import { translate } from 'react-jhipster';
 import { NavDropdown } from './menu-components';
+import EntitiesMenuItems from 'app/entities/menu';
 
 export const EntitiesMenu = props => (
   <NavDropdown
@@ -11,16 +11,6 @@ export const EntitiesMenu = props => (
     data-cy="entity"
     style={{ maxHeight: '80vh', overflow: 'auto' }}
   >
-    <>{/* to avoid warnings when empty */}</>
-    <MenuItem icon="asterisk" to="/bank-account">
-      <Translate contentKey="global.menu.entities.bankAccount" />
-    </MenuItem>
-    <MenuItem icon="asterisk" to="/label">
-      <Translate contentKey="global.menu.entities.label" />
-    </MenuItem>
-    <MenuItem icon="asterisk" to="/operation">
-      <Translate contentKey="global.menu.entities.operation" />
-    </MenuItem>
-    {/* jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here */}
+    <EntitiesMenuItems />
   </NavDropdown>
 );

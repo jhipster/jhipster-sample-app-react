@@ -1,3 +1,4 @@
+import { ReducersMapObject, combineReducers } from '@reduxjs/toolkit';
 import { loadingBarReducer as loadingBar } from 'react-redux-loading-bar';
 
 import locale from './locale';
@@ -11,15 +12,10 @@ import activate from 'app/modules/account/activate/activate.reducer';
 import password from 'app/modules/account/password/password.reducer';
 import settings from 'app/modules/account/settings/settings.reducer';
 import passwordReset from 'app/modules/account/password-reset/password-reset.reducer';
-// prettier-ignore
-import bankAccount from 'app/entities/bank-account/bank-account.reducer';
-// prettier-ignore
-import label from 'app/entities/label/label.reducer';
-// prettier-ignore
-import operation from 'app/entities/operation/operation.reducer';
+import entitiesReducers from 'app/entities/reducers';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
-const rootReducer = {
+const rootReducer: ReducersMapObject = {
   authentication,
   locale,
   applicationProfile,
@@ -30,11 +26,9 @@ const rootReducer = {
   passwordReset,
   password,
   settings,
-  bankAccount,
-  label,
-  operation,
-  /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
+  /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
+  ...entitiesReducers,
 };
 
 export default rootReducer;

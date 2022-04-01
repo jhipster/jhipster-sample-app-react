@@ -3,6 +3,7 @@ version: '3.8'
 services:
   jhipstersampleapplicationreact-mysql:
     image: mysql:8.0.28
+    platform: linux/x86_64
     # volumes:
     #   - ~/volumes/jhipster/jhipsterSampleApplicationReact/mysql/:/var/lib/mysql/
     environment:

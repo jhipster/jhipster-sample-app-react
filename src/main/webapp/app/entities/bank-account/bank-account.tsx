@@ -4,10 +4,11 @@ import { Button, Table } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntities } from './bank-account.reducer';
-import { IBankAccount } from 'app/shared/model/bank-account.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+
+import { IBankAccount } from 'app/shared/model/bank-account.model';
+import { getEntities } from './bank-account.reducer';
 
 export const BankAccount = (props: RouteComponentProps<{ url: string }>) => {
   const dispatch = useAppDispatch();
@@ -34,7 +35,7 @@ export const BankAccount = (props: RouteComponentProps<{ url: string }>) => {
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to={`${match.url}/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <Link to="/bank-account/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
             <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.createLabel">Create new Bank Account</Translate>
@@ -65,7 +66,7 @@ export const BankAccount = (props: RouteComponentProps<{ url: string }>) => {
               {bankAccountList.map((bankAccount, i) => (
                 <tr key={`entity-${i}`} data-cy="entityTable">
                   <td>
-                    <Button tag={Link} to={`${match.url}/${bankAccount.id}`} color="link" size="sm">
+                    <Button tag={Link} to={`/bank-account/${bankAccount.id}`} color="link" size="sm">
                       {bankAccount.id}
                     </Button>
                   </td>
@@ -74,19 +75,25 @@ export const BankAccount = (props: RouteComponentProps<{ url: string }>) => {
                   <td>{bankAccount.user ? bankAccount.user.login : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`${match.url}/${bankAccount.id}`} color="info" size="sm" data-cy="entityDetailsButton">
+                      <Button tag={Link} to={`/bank-account/${bankAccount.id}`} color="info" size="sm" data-cy="entityDetailsButton">
                         <FontAwesomeIcon icon="eye" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.view">View</Translate>
                         </span>
                       </Button>
-                      <Button tag={Link} to={`${match.url}/${bankAccount.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
+                      <Button tag={Link} to={`/bank-account/${bankAccount.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
                         <FontAwesomeIcon icon="pencil-alt" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.edit">Edit</Translate>
                         </span>
                       </Button>
-                      <Button tag={Link} to={`${match.url}/${bankAccount.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
+                      <Button
+                        tag={Link}
+                        to={`/bank-account/${bankAccount.id}/delete`}
+                        color="danger"
+                        size="sm"
+                        data-cy="entityDeleteButton"
+                      >
                         <FontAwesomeIcon icon="trash" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.delete">Delete</Translate>

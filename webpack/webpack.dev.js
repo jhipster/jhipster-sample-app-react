@@ -18,8 +18,8 @@ module.exports = async options =>
     entry: ['./src/main/webapp/app/index'],
     output: {
       path: utils.root('target/classes/static/'),
-      filename: 'app/[name].bundle.js',
-      chunkFilename: 'app/[id].chunk.js',
+      filename: '[name].[contenthash:8].js',
+      chunkFilename: '[name].[chunkhash:8].chunk.js',
     },
     optimization: {
       moduleIds: 'named',
@@ -72,7 +72,7 @@ module.exports = async options =>
           host: 'localhost',
           port: 9000,
           proxy: {
-            target: `http${options.tls ? 's' : ''}://localhost:9060`,
+            target: `http${options.tls ? 's' : ''}://localhost:${options.watch ? '8080' : '9060'}`,
             ws: true,
             proxyOptions: {
               changeOrigin: false, //pass the Host header to the backend unchanged  https://github.com/Browsersync/browser-sync/issues/430
@@ -95,7 +95,6 @@ module.exports = async options =>
           reload: false,
         }
       ),
-      new webpack.HotModuleReplacementPlugin(),
       new WebpackNotifierPlugin({
         title: 'Jhipster Sample Application React',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),

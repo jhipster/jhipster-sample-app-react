@@ -3,6 +3,7 @@ package io.github.jhipster.sample.web.rest;
 import static io.github.jhipster.sample.web.rest.TestUtil.sameNumber;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -12,14 +13,20 @@ import io.github.jhipster.sample.repository.BankAccountRepository;
 import io.github.jhipster.sample.service.dto.BankAccountDTO;
 import io.github.jhipster.sample.service.mapper.BankAccountMapper;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link BankAccountResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class BankAccountResourceIT {
@@ -47,6 +55,9 @@ class BankAccountResourceIT {
 
     @Autowired
     private BankAccountRepository bankAccountRepository;
+
+    @Mock
+    private BankAccountRepository bankAccountRepositoryMock;
 
     @Autowired
     private BankAccountMapper bankAccountMapper;
@@ -181,6 +192,24 @@ class BankAccountResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(bankAccount.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].balance").value(hasItem(sameNumber(DEFAULT_BALANCE))));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllBankAccountsWithEagerRelationshipsIsEnabled() throws Exception {
+        when(bankAccountRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restBankAccountMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(bankAccountRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllBankAccountsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(bankAccountRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restBankAccountMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(bankAccountRepositoryMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test

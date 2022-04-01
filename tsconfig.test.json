@@ -1,7 +1,10 @@
 {
   "extends": "./tsconfig",
+  "include": ["src/main/webapp/app", "src/main/webapp/microfrontend"],
   "compilerOptions": {
-    "module": "commonjs",
+    "paths": {
+      "app/*": ["src/main/webapp/app/*"]
+    },
     "types": ["jest", "webpack-env"]
   }
 }
