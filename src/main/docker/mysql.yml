@@ -2,9 +2,9 @@
 version: '3.8'
 services:
   jhipstersampleapplicationreact-mysql:
-    image: mysql:8.0.28
-    platform: linux/x86_64
-    # volumes:
+    image: mysql:8.0.29
+    volumes:
+      - ./config/mysql:/etc/mysql/conf.d
     #   - ~/volumes/jhipster/jhipsterSampleApplicationReact/mysql/:/var/lib/mysql/
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes

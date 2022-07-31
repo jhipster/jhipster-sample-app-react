@@ -1,23 +1,23 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
+import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import Label from './label';
 import LabelDetail from './label-detail';
 import LabelUpdate from './label-update';
 import LabelDeleteDialog from './label-delete-dialog';
 
-const Routes = ({ match }) => (
-  <>
-    <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/new`} component={LabelUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={LabelUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={LabelDetail} />
-      <ErrorBoundaryRoute path={match.url} component={Label} />
-    </Switch>
-    <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={LabelDeleteDialog} />
-  </>
+const LabelRoutes = () => (
+  <ErrorBoundaryRoutes>
+    <Route index element={<Label />} />
+    <Route path="new" element={<LabelUpdate />} />
+    <Route path=":id">
+      <Route index element={<LabelDetail />} />
+      <Route path="edit" element={<LabelUpdate />} />
+      <Route path="delete" element={<LabelDeleteDialog />} />
+    </Route>
+  </ErrorBoundaryRoutes>
 );
 
-export default Routes;
+export default LabelRoutes;

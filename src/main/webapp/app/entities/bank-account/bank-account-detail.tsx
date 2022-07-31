@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,11 +9,13 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './bank-account.reducer';
 
-export const BankAccountDetail = (props: RouteComponentProps<{ id: string }>) => {
+export const BankAccountDetail = () => {
   const dispatch = useAppDispatch();
 
+  const { id } = useParams<'id'>();
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
   }, []);
 
   const bankAccountEntity = useAppSelector(state => state.bankAccount.entity);

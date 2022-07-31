@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,10 +15,13 @@ import { getEntities as getLabels } from 'app/entities/label/label.reducer';
 import { IOperation } from 'app/shared/model/operation.model';
 import { getEntity, updateEntity, createEntity, reset } from './operation.reducer';
 
-export const OperationUpdate = (props: RouteComponentProps<{ id: string }>) => {
+export const OperationUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const bankAccounts = useAppSelector(state => state.bankAccount.entities);
   const labels = useAppSelector(state => state.label.entities);
@@ -26,13 +29,14 @@ export const OperationUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const loading = useAppSelector(state => state.operation.loading);
   const updating = useAppSelector(state => state.operation.updating);
   const updateSuccess = useAppSelector(state => state.operation.updateSuccess);
+
   const handleClose = () => {
-    props.history.push('/operation');
+    navigate('/operation');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getBankAccounts({}));

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,25 +13,29 @@ import { getEntities as getOperations } from 'app/entities/operation/operation.r
 import { ILabel } from 'app/shared/model/label.model';
 import { getEntity, updateEntity, createEntity, reset } from './label.reducer';
 
-export const LabelUpdate = (props: RouteComponentProps<{ id: string }>) => {
+export const LabelUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const operations = useAppSelector(state => state.operation.entities);
   const labelEntity = useAppSelector(state => state.label.entity);
   const loading = useAppSelector(state => state.label.loading);
   const updating = useAppSelector(state => state.label.updating);
   const updateSuccess = useAppSelector(state => state.label.updateSuccess);
+
   const handleClose = () => {
-    props.history.push('/label');
+    navigate('/label');
   };
 
   useEffect(() => {
     if (isNew) {
       dispatch(reset());
     } else {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getOperations({}));

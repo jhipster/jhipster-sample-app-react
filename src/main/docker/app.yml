@@ -15,9 +15,11 @@ services:
     ports:
       - 127.0.0.1:8080:8080
   jhipstersampleapplicationreact-mysql:
-    image: mysql:8.0.28
+    image: mysql:8.0.29
     # volumes:
     #   - ~/volumes/jhipster/jhipsterSampleApplicationReact/mysql/:/var/lib/mysql/
+    volumes:
+      - ./config/mysql:/etc/mysql/conf.d
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=jhipstersampleapplicationreact

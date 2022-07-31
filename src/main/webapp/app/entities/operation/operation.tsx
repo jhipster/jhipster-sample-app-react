@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
 import { Translate, TextFormat, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,11 +13,14 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { IOperation } from 'app/shared/model/operation.model';
 import { getEntities, reset } from './operation.reducer';
 
-export const Operation = (props: RouteComponentProps<{ url: string }>) => {
+export const Operation = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [paginationState, setPaginationState] = useState(
-    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE, 'id'), props.location.search)
+    overridePaginationStateWithQueryParams(getSortState(location, ITEMS_PER_PAGE, 'id'), location.search)
   );
   const [sorting, setSorting] = useState(false);
 
@@ -91,8 +94,6 @@ export const Operation = (props: RouteComponentProps<{ url: string }>) => {
   const handleSyncList = () => {
     resetAll();
   };
-
-  const { match } = props;
 
   return (
     <div>

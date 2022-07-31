@@ -77,7 +77,7 @@ module.exports = async options => {
           /*
        ,
        Disabled due to https://github.com/jhipster/generator-jhipster/issues/16116
-       Can be enabled with @reduxjs/toolkit@>1.6.1 
+       Can be enabled with @reduxjs/toolkit@>1.6.1
       {
         enforce: 'pre',
         test: /\.jsx?$/,
@@ -101,7 +101,11 @@ module.exports = async options => {
           SERVER_API_URL: JSON.stringify(environment.SERVER_API_URL),
         }),
         new ESLintPlugin({
-          extensions: ['js', 'ts', 'jsx', 'tsx'],
+          baseConfig: {
+            parserOptions: {
+              project: ['../tsconfig.json'],
+            },
+          },
         }),
         new ForkTsCheckerWebpackPlugin(),
         new CopyWebpackPlugin({
