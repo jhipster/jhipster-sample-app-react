@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -20,17 +20,18 @@ setupAxiosInterceptors(() => actions.clearAuthentication('login.error.unauthoriz
 loadIcons();
 
 const rootEl = document.getElementById('root');
-const root = createRoot(rootEl);
 
 const render = Component =>
-  root.render(
+  // eslint-disable-next-line react/no-render-return-value
+  ReactDOM.render(
     <ErrorBoundary>
       <Provider store={store}>
         <div>
           <Component />
         </div>
       </Provider>
-    </ErrorBoundary>
+    </ErrorBoundary>,
+    rootEl
   );
 
 render(AppComponent);
