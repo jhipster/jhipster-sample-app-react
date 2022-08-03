@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,11 +9,13 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './operation.reducer';
 
-export const OperationDetail = (props: RouteComponentProps<{ id: string }>) => {
+export const OperationDetail = () => {
   const dispatch = useAppDispatch();
 
+  const { id } = useParams<'id'>();
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
   }, []);
 
   const operationEntity = useAppSelector(state => state.operation.entity);

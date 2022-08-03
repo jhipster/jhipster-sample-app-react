@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,8 +10,11 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { IBankAccount } from 'app/shared/model/bank-account.model';
 import { getEntities } from './bank-account.reducer';
 
-export const BankAccount = (props: RouteComponentProps<{ url: string }>) => {
+export const BankAccount = () => {
   const dispatch = useAppDispatch();
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const bankAccountList = useAppSelector(state => state.bankAccount.entities);
   const loading = useAppSelector(state => state.bankAccount.loading);
@@ -23,8 +26,6 @@ export const BankAccount = (props: RouteComponentProps<{ url: string }>) => {
   const handleSyncList = () => {
     dispatch(getEntities({}));
   };
-
-  const { match } = props;
 
   return (
     <div>

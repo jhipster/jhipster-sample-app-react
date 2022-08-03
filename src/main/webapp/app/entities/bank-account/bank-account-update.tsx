@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,25 +13,29 @@ import { getUsers } from 'app/modules/administration/user-management/user-manage
 import { IBankAccount } from 'app/shared/model/bank-account.model';
 import { getEntity, updateEntity, createEntity, reset } from './bank-account.reducer';
 
-export const BankAccountUpdate = (props: RouteComponentProps<{ id: string }>) => {
+export const BankAccountUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const users = useAppSelector(state => state.userManagement.users);
   const bankAccountEntity = useAppSelector(state => state.bankAccount.entity);
   const loading = useAppSelector(state => state.bankAccount.loading);
   const updating = useAppSelector(state => state.bankAccount.updating);
   const updateSuccess = useAppSelector(state => state.bankAccount.updateSuccess);
+
   const handleClose = () => {
-    props.history.push('/bank-account');
+    navigate('/bank-account');
   };
 
   useEffect(() => {
     if (isNew) {
       dispatch(reset());
     } else {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getUsers({}));

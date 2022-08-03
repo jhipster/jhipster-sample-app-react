@@ -156,7 +156,7 @@ public class BankAccountResource {
     @GetMapping("/bank-accounts")
     public List<BankAccountDTO> getAllBankAccounts(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all BankAccounts");
-        List<BankAccount> bankAccounts = bankAccountRepository.findAllWithEagerRelationships();
+        List<BankAccount> bankAccounts = bankAccountRepository.findAll();
         return bankAccountMapper.toDto(bankAccounts);
     }
 

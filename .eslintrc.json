@@ -16,7 +16,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "project": "./tsconfig.e2e.json"
+    "project": ["./tsconfig.json", "./src/test/javascript/cypress/tsconfig.json", "./tsconfig.test.json"]
   },
   "settings": {
     "react": {

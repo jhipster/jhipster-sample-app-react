@@ -21,4 +21,4 @@ const EntitiesMenu = () => {
   );
 };
 
-export default EntitiesMenu as React.ComponentType<any>;
+export default EntitiesMenu;
