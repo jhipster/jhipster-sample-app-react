@@ -174,7 +174,7 @@ class LabelResourceIT {
 
     @Test
     @Transactional
-    void putNewLabel() throws Exception {
+    void putExistingLabel() throws Exception {
         // Initialize the database
         labelRepository.saveAndFlush(label);
 

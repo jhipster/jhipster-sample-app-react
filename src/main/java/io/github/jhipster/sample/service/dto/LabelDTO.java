@@ -7,6 +7,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO for the {@link io.github.jhipster.sample.domain.Label} entity.
  */
+@SuppressWarnings("common-java:DuplicatedBlocks")
 public class LabelDTO implements Serializable {
 
     private Long id;

@@ -26,7 +26,7 @@ public class MysqlTestContainer implements SqlTestContainer {
     public void afterPropertiesSet() {
         if (null == mysqlContainer) {
             mysqlContainer =
-                new MySQLContainer<>("mysql:8.0.29-debian")
+                new MySQLContainer<>("mysql:8.0.30-debian")
                     .withDatabaseName("jhipsterSampleApplicationReact")
                     .withTmpFs(Collections.singletonMap("/testtmpfs", "rw"))
                     .withLogConsumer(new Slf4jLogConsumer(log))

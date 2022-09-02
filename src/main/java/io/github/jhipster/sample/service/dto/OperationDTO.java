@@ -11,6 +11,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO for the {@link io.github.jhipster.sample.domain.Operation} entity.
  */
+@SuppressWarnings("common-java:DuplicatedBlocks")
 public class OperationDTO implements Serializable {
 
     private Long id;
