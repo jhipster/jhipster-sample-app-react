@@ -1,30 +1,29 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
-version: '3.8'
+name: jhipstersampleapplicationreact
 services:
-  jhipstersampleapplicationreact-app:
+  app:
     image: jhipstersampleapplicationreact
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,api-docs
-      - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
-      - SPRING_DATASOURCE_URL=jdbc:mysql://jhipstersampleapplicationreact-mysql:3306/jhipstersampleapplicationreact?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
-      - SPRING_LIQUIBASE_URL=jdbc:mysql://jhipstersampleapplicationreact-mysql:3306/jhipstersampleapplicationreact?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
-      - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
-    # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
+      - MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/jhipstersampleapplicationreact?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+      - SPRING_LIQUIBASE_URL=jdbc:mysql://mysql:3306/jhipstersampleapplicationreact?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     ports:
       - 127.0.0.1:8080:8080
-  jhipstersampleapplicationreact-mysql:
-    image: mysql:8.0.30
-    # volumes:
-    #   - ~/volumes/jhipster/jhipsterSampleApplicationReact/mysql/:/var/lib/mysql/
-    volumes:
-      - ./config/mysql:/etc/mysql/conf.d
-    environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      - MYSQL_DATABASE=jhipstersampleapplicationreact
-    # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
-    ports:
-      - 127.0.0.1:3306:3306
-    command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -f
+        - http://localhost:8080/management/health
+      interval: 5s
+      timeout: 5s
+      retries: 40
+    depends_on:
+      mysql:
+        condition: service_healthy
+  mysql:
+    extends:
+      file: ./mysql.yml
+      service: mysql

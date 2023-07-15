@@ -30,7 +30,10 @@ module.exports = async options =>
           test: /\.(sa|sc|c)ss$/,
           use: [
             'style-loader',
-            'css-loader',
+            {
+              loader: 'css-loader',
+              options: { url: false },
+            },
             {
               loader: 'postcss-loader',
             },

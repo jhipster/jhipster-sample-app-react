@@ -10,10 +10,10 @@ import io.github.jhipster.sample.domain.Label;
 import io.github.jhipster.sample.repository.LabelRepository;
 import io.github.jhipster.sample.service.dto.LabelDTO;
 import io.github.jhipster.sample.service.mapper.LabelMapper;
+import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -279,6 +279,8 @@ class LabelResourceIT {
         Label partialUpdatedLabel = new Label();
         partialUpdatedLabel.setId(label.getId());
 
+        partialUpdatedLabel.label(UPDATED_LABEL);
+
         restLabelMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedLabel.getId())
@@ -291,7 +293,7 @@ class LabelResourceIT {
         List<Label> labelList = labelRepository.findAll();
         assertThat(labelList).hasSize(databaseSizeBeforeUpdate);
         Label testLabel = labelList.get(labelList.size() - 1);
-        assertThat(testLabel.getLabel()).isEqualTo(DEFAULT_LABEL);
+        assertThat(testLabel.getLabel()).isEqualTo(UPDATED_LABEL);
     }
 
     @Test

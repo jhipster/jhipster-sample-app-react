@@ -34,7 +34,10 @@ module.exports = async () =>
                 publicPath: '../',
               },
             },
-            'css-loader',
+            {
+              loader: 'css-loader',
+              options: { url: false },
+            },
             {
               loader: 'postcss-loader',
             },

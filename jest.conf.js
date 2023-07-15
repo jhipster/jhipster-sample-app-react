@@ -3,7 +3,14 @@ const tsconfig = require('./tsconfig.test.json');
 module.exports = {
   testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: './tsconfig.test.json',
+        compiler: 'typescript',
+        diagnostics: false,
+      },
+    ],
   },
   testEnvironmentOptions: {
     url: 'http://localhost/',
@@ -25,11 +32,6 @@ module.exports = {
   setupFiles: ['<rootDir>/src/main/webapp/app/setup-tests.ts'],
   globals: {
     I18N_HASH: 'generated_hash',
-    'ts-jest': {
-      tsconfig: './tsconfig.test.json',
-      compiler: 'typescript',
-      diagnostics: false,
-    },
     ...require('./webpack/environment'),
     DEVELOPMENT: false,
   },

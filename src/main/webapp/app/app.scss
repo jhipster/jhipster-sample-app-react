@@ -1,6 +1,7 @@
-// Override Boostrap variables
+// Override Bootstrap variables
+@import 'bootstrap-variables';
 // Import Bootstrap source files from node_modules
-@import '~bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/bootstrap';
 body {
   background: #fafafa;
   margin: 0;

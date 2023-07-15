@@ -20,6 +20,7 @@
     "enableGradleEnterprise": false,
     "enableHibernateCache": true,
     "enableSocialSignIn": false,
+    "enableSwaggerCodegen": false,
     "enableTranslation": true,
     "entities": ["BankAccount", "Label", "Operation"],
     "entitySuffix": "",
