@@ -212,7 +212,7 @@ export const UserManagement = () => {
       {totalItems ? (
         <div className={users?.length > 0 ? '' : 'd-none'}>
           <div className="justify-content-center d-flex">
-            <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} />
+            <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} i18nEnabled />
           </div>
           <div className="justify-content-center d-flex">
             <JhiPagination

@@ -159,8 +159,8 @@ describe('Label e2e test', () => {
     });
 
     it('should create an instance of Label', () => {
-      cy.get(`[data-cy="label"]`).type('Mobility');
-      cy.get(`[data-cy="label"]`).should('have.value', 'Mobility');
+      cy.get(`[data-cy="label"]`).type('Legacy');
+      cy.get(`[data-cy="label"]`).should('have.value', 'Legacy');
 
       cy.get(entityCreateSaveButtonSelector).click();
 
