@@ -2,29 +2,33 @@ import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { Translate, TextFormat, getPaginationState } from 'react-jhipster';
+import { Translate, TextFormat, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
+
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
+import { IOperation } from 'app/shared/model/operation.model';
 import { getEntities, reset } from './operation.reducer';
 
 export const Operation = () => {
   const dispatch = useAppDispatch();
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [paginationState, setPaginationState] = useState(
-    overridePaginationStateWithQueryParams(getPaginationState(location, ITEMS_PER_PAGE, 'id'), location.search)
+    overridePaginationStateWithQueryParams(getSortState(location, ITEMS_PER_PAGE, 'id'), location.search)
   );
   const [sorting, setSorting] = useState(false);
 
   const operationList = useAppSelector(state => state.operation.entities);
   const loading = useAppSelector(state => state.operation.loading);
+  const totalItems = useAppSelector(state => state.operation.totalItems);
   const links = useAppSelector(state => state.operation.links);
+  const entity = useAppSelector(state => state.operation.entity);
   const updateSuccess = useAppSelector(state => state.operation.updateSuccess);
 
   const getAllEntities = () => {
@@ -91,16 +95,6 @@ export const Operation = () => {
     resetAll();
   };
 
-  const getSortIconByFieldName = (fieldName: string) => {
-    const sortFieldName = paginationState.sort;
-    const order = paginationState.order;
-    if (sortFieldName !== fieldName) {
-      return faSort;
-    } else {
-      return order === ASC ? faSortUp : faSortDown;
-    }
-  };
-
   return (
     <div>
       <h2 id="operation-heading" data-cy="OperationHeading">
@@ -129,20 +123,19 @@ export const Operation = () => {
               <thead>
                 <tr>
                   <th className="hand" onClick={sort('id')}>
-                    <Translate contentKey="jhipsterSampleApplicationReactApp.operation.id">ID</Translate>{' '}
-                    <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                    <Translate contentKey="jhipsterSampleApplicationReactApp.operation.id">ID</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('date')}>
                     <Translate contentKey="jhipsterSampleApplicationReactApp.operation.date">Date</Translate>{' '}
-                    <FontAwesomeIcon icon={getSortIconByFieldName('date')} />
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('description')}>
                     <Translate contentKey="jhipsterSampleApplicationReactApp.operation.description">Description</Translate>{' '}
-                    <FontAwesomeIcon icon={getSortIconByFieldName('description')} />
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('amount')}>
                     <Translate contentKey="jhipsterSampleApplicationReactApp.operation.amount">Amount</Translate>{' '}
-                    <FontAwesomeIcon icon={getSortIconByFieldName('amount')} />
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
                     <Translate contentKey="jhipsterSampleApplicationReactApp.operation.bankAccount">Bank Account</Translate>{' '}

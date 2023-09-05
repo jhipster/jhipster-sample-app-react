@@ -1,11 +1,11 @@
 import React from 'react';
-import { useLocation, Navigate, PathRouteProps } from 'react-router-dom';
+import { RouteProps, useLocation, Navigate } from 'react-router-dom';
 import { Translate } from 'react-jhipster';
 
 import { useAppSelector } from 'app/config/store';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 
-interface IOwnProps extends PathRouteProps {
+interface IOwnProps extends RouteProps {
   hasAnyAuthorities?: string[];
   children: React.ReactNode;
 }

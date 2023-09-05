@@ -22,11 +22,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Integration tests for the {@link AuthenticateController} REST controller.
+ * Integration tests for the {@link UserJWTController} REST controller.
  */
 @AutoConfigureMockMvc
 @IntegrationTest
-class AuthenticateControllerIT {
+class UserJWTControllerIT {
 
     @Autowired
     private UserRepository userRepository;

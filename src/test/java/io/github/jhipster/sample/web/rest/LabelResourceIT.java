@@ -10,10 +10,10 @@ import io.github.jhipster.sample.domain.Label;
 import io.github.jhipster.sample.repository.LabelRepository;
 import io.github.jhipster.sample.service.dto.LabelDTO;
 import io.github.jhipster.sample.service.mapper.LabelMapper;
-import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -181,7 +181,7 @@ class LabelResourceIT {
         int databaseSizeBeforeUpdate = labelRepository.findAll().size();
 
         // Update the label
-        Label updatedLabel = labelRepository.findById(label.getId()).orElseThrow();
+        Label updatedLabel = labelRepository.findById(label.getId()).get();
         // Disconnect from session so that the updates on updatedLabel are not directly saved in db
         em.detach(updatedLabel);
         updatedLabel.label(UPDATED_LABEL);

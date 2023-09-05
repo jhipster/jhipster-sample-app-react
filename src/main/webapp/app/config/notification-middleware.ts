@@ -1,7 +1,6 @@
 import { translate } from 'react-jhipster';
 import { toast } from 'react-toastify';
 import { isFulfilledAction, isRejectedAction } from 'app/shared/reducers/reducer.utils';
-import { AxiosError, AxiosHeaderValue } from 'axios';
 
 const addErrorAlert = (message, key?, data?) => {
   key = key ? key : message;
@@ -34,14 +33,13 @@ export default () => next => action => {
   }
 
   if (isRejectedAction(action) && error && error.isAxiosError) {
-    const axiosError = error as AxiosError;
-    if (axiosError.response) {
-      const response = axiosError.response;
-      const data = response.data as any;
+    if (error.response) {
+      const response = error.response;
+      const data = response.data;
       if (
         !(
           response.status === 401 &&
-          (axiosError.message === '' || response.config.url === 'api/account' || response.config.url === 'api/authenticate')
+          (error.message === '' || (data && data.path && (data.path.includes('/api/account') || data.path.includes('/api/authenticate'))))
         )
       ) {
         switch (response.status) {
@@ -54,11 +52,11 @@ export default () => next => action => {
             let errorHeader: string | null = null;
             let entityKey: string | null = null;
             response?.headers &&
-              Object.entries<AxiosHeaderValue>(response.headers).forEach(([k, v]) => {
+              Object.entries<string>(response.headers).forEach(([k, v]) => {
                 if (k.toLowerCase().endsWith('app-error')) {
-                  errorHeader = v as string;
+                  errorHeader = v;
                 } else if (k.toLowerCase().endsWith('app-params')) {
-                  entityKey = v as string;
+                  entityKey = v;
                 }
               });
             if (errorHeader) {
@@ -94,7 +92,7 @@ export default () => next => action => {
             }
         }
       }
-    } else if (axiosError.config && axiosError.config.url === 'api/account' && axiosError.config.method === 'get') {
+    } else if (error.config && error.config.url === 'api/account' && error.config.method === 'get') {
       /* eslint-disable no-console */
       console.log('Authentication Error: Trying to access url api/account with GET.');
     } else {

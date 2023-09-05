@@ -12,12 +12,12 @@ import io.github.jhipster.sample.domain.BankAccount;
 import io.github.jhipster.sample.repository.BankAccountRepository;
 import io.github.jhipster.sample.service.dto.BankAccountDTO;
 import io.github.jhipster.sample.service.mapper.BankAccountMapper;
-import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -244,7 +244,7 @@ class BankAccountResourceIT {
         int databaseSizeBeforeUpdate = bankAccountRepository.findAll().size();
 
         // Update the bankAccount
-        BankAccount updatedBankAccount = bankAccountRepository.findById(bankAccount.getId()).orElseThrow();
+        BankAccount updatedBankAccount = bankAccountRepository.findById(bankAccount.getId()).get();
         // Disconnect from session so that the updates on updatedBankAccount are not directly saved in db
         em.detach(updatedBankAccount);
         updatedBankAccount.name(UPDATED_NAME).balance(UPDATED_BALANCE);

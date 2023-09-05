@@ -97,9 +97,11 @@ describe('Notification Middleware', () => {
     error: {
       isAxiosError: true,
       response: {
-        data: '',
-        config: {
-          url: 'api/authenticate',
+        data: {
+          title: 'Unauthorized',
+          status: 401,
+          path: '/api/authenticate',
+          message: 'error.http.401',
         },
         status: 401,
       },

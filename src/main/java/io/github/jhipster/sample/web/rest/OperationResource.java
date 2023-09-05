@@ -5,13 +5,13 @@ import io.github.jhipster.sample.repository.OperationRepository;
 import io.github.jhipster.sample.service.dto.OperationDTO;
 import io.github.jhipster.sample.service.mapper.OperationMapper;
 import io.github.jhipster.sample.web.rest.errors.BadRequestAlertException;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -162,7 +162,7 @@ public class OperationResource {
      */
     @GetMapping("/operations")
     public ResponseEntity<List<OperationDTO>> getAllOperations(
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "false") boolean eagerload
     ) {
         log.debug("REST request to get a page of Operations");
