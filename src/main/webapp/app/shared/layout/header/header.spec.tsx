@@ -40,7 +40,7 @@ describe('Header', () => {
           <MemoryRouter>
             <Header {...props} />
           </MemoryRouter>
-        </Provider>
+        </Provider>,
       );
       mountedWrapper = container.innerHTML;
     }

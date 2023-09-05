@@ -20,7 +20,7 @@ export const PasswordResetFinishPage = () => {
     () => () => {
       dispatch(reset());
     },
-    []
+    [],
   );
 
   const handleValidSubmit = ({ newPassword }) => dispatch(handlePasswordResetFinish({ key, newPassword }));

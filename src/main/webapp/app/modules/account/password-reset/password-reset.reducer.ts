@@ -19,13 +19,13 @@ export const handlePasswordResetInit = createAsyncThunk(
   'passwordReset/reset_password_init',
   // If the content-type isn't set that way, axios will try to encode the body and thus modify the data sent to the server.
   async (mail: string) => axios.post(`${apiUrl}/init`, mail, { headers: { ['Content-Type']: 'text/plain' } }),
-  { serializeError: serializeAxiosError }
+  { serializeError: serializeAxiosError },
 );
 
 export const handlePasswordResetFinish = createAsyncThunk(
   'passwordReset/reset_password_finish',
   async (data: { key: string; newPassword: string }) => axios.post(`${apiUrl}/finish`, data),
-  { serializeError: serializeAxiosError }
+  { serializeError: serializeAxiosError },
 );
 
 export const PasswordResetSlice = createSlice({

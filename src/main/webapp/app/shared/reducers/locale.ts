@@ -31,7 +31,7 @@ export const setLocale = createAsyncThunk('locale/setLocale', async (locale: str
           if (loadedKeys.includes(key)) return undefined;
           await loadLocaleAndRegisterLocaleFile(locale, sourcePrefix);
           return key;
-        })
+        }),
       )
     ).filter(Boolean);
     thunkAPI.dispatch(loaded({ keys, locale }));
@@ -52,7 +52,7 @@ export const addTranslationSourcePrefix = createAsyncThunk(
       }
     }
     return key;
-  }
+  },
 );
 
 export const LocaleSlice = createSlice({

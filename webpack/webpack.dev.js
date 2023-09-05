@@ -30,7 +30,10 @@ module.exports = async options =>
           test: /\.(sa|sc|c)ss$/,
           use: [
             'style-loader',
-            'css-loader',
+            {
+              loader: 'css-loader',
+              options: { url: false },
+            },
             {
               loader: 'postcss-loader',
             },
@@ -93,7 +96,7 @@ module.exports = async options =>
         },
         {
           reload: false,
-        }
+        },
       ),
       new WebpackNotifierPlugin({
         title: 'Jhipster Sample Application React',

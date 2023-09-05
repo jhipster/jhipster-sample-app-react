@@ -30,7 +30,7 @@ const render = Component =>
           <Component />
         </div>
       </Provider>
-    </ErrorBoundary>
+    </ErrorBoundary>,
   );
 
 render(AppComponent);

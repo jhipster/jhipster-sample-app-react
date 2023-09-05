@@ -13,7 +13,7 @@ export const PasswordResetInit = () => {
     () => () => {
       dispatch(reset());
     },
-    []
+    [],
   );
 
   const handleValidSubmit = ({ email }) => {

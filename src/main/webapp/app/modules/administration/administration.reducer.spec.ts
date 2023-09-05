@@ -61,7 +61,7 @@ describe('Administration reducer tests', () => {
             errorMessage: null,
             loading: true,
           });
-        }
+        },
       );
     });
   });
@@ -86,7 +86,7 @@ describe('Administration reducer tests', () => {
         },
         {
           message: 'error',
-        }
+        },
       );
     });
   });

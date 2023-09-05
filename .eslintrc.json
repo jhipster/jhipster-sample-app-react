@@ -30,7 +30,6 @@
         "default": ["static-field", "instance-field", "constructor", "static-method", "instance-method"]
       }
     ],
-    "@typescript-eslint/no-parameter-properties": ["warn", { "allows": ["public", "private", "protected"] }],
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/explicit-function-return-type": "off",

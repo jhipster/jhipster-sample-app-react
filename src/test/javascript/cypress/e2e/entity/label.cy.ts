@@ -15,7 +15,7 @@ describe('Label e2e test', () => {
   const labelPageUrlPattern = new RegExp('/label(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const labelSample = { label: 'input bypass' };
+  const labelSample = { label: 'result opposite' };
 
   let label;
 
@@ -92,7 +92,7 @@ describe('Label e2e test', () => {
             {
               statusCode: 200,
               body: [label],
-            }
+            },
           ).as('entitiesRequestInternal');
         });
 
@@ -159,7 +159,8 @@ describe('Label e2e test', () => {
     });
 
     it('should create an instance of Label', () => {
-      cy.get(`[data-cy="label"]`).type('Synergized').should('have.value', 'Synergized');
+      cy.get(`[data-cy="label"]`).type('spirited');
+      cy.get(`[data-cy="label"]`).should('have.value', 'spirited');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

@@ -12,7 +12,7 @@ describe('AccountMenu', () => {
       const { container } = render(
         <MemoryRouter>
           <AccountMenu isAuthenticated />
-        </MemoryRouter>
+        </MemoryRouter>,
       );
       mountedWrapper = container.innerHTML;
     }
@@ -23,7 +23,7 @@ describe('AccountMenu', () => {
       const { container } = (mountedWrapper = render(
         <MemoryRouter>
           <AccountMenu />
-        </MemoryRouter>
+        </MemoryRouter>,
       ));
       mountedWrapper = container.innerHTML;
     }

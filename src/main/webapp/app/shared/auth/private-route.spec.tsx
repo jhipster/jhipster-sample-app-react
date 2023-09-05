@@ -24,7 +24,7 @@ describe('private-route component', () => {
     return render(
       <Provider store={store}>
         <MemoryRouter>{Elem}</MemoryRouter>
-      </Provider>
+      </Provider>,
     );
   };
 
@@ -39,7 +39,7 @@ describe('private-route component', () => {
         account: {
           authorities: [],
         },
-      })
+      }),
     ).toThrow(Error);
     console.error = originalError;
   });
@@ -55,7 +55,7 @@ describe('private-route component', () => {
         account: {
           authorities: [],
         },
-      }
+      },
     );
     expect(container.innerHTML).toMatch(/<div class="insufficient-authority"><div class="alert alert-danger">.*<\/div><\/div>/);
   });
@@ -71,7 +71,7 @@ describe('private-route component', () => {
         account: {
           authorities: ['ADMIN'],
         },
-      }
+      },
     );
     expect(container.innerHTML).toEqual('<div>Test</div>');
   });
@@ -95,7 +95,7 @@ describe('private-route component', () => {
         account: {
           authorities: ['ADMIN'],
         },
-      }
+      },
     );
     expect(container.innerHTML).not.toEqual('<div>Test</div>');
     expect(container.innerHTML).toEqual('<div>Login</div>');

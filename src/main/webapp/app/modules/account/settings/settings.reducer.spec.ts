@@ -4,8 +4,8 @@ import axios from 'axios';
 import sinon from 'sinon';
 import { TranslatorContext } from 'react-jhipster';
 
-import account, { updateAccount, saveAccountSettings, reset } from './settings.reducer';
 import { getAccount } from 'app/shared/reducers/authentication';
+import account, { updateAccount, saveAccountSettings, reset } from './settings.reducer';
 
 describe('Settings reducer tests', () => {
   beforeAll(() => {

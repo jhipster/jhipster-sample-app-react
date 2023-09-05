@@ -25,7 +25,7 @@ interface IPassword {
 export const savePassword = createAsyncThunk(
   'password/update_password',
   async (password: IPassword) => axios.post(`${apiUrl}/change-password`, password),
-  { serializeError: serializeAxiosError }
+  { serializeError: serializeAxiosError },
 );
 
 export const PasswordSlice = createSlice({

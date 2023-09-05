@@ -1,9 +1,9 @@
 package io.github.jhipster.sample.service.dto;
 
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
-import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link io.github.jhipster.sample.domain.BankAccount} entity.

@@ -40,7 +40,7 @@ export const getUser = createAsyncThunk(
     const requestUrl = `${adminUrl}/${id}`;
     return axios.get<IUser>(requestUrl);
   },
-  { serializeError: serializeAxiosError }
+  { serializeError: serializeAxiosError },
 );
 
 export const createUser = createAsyncThunk(
@@ -50,7 +50,7 @@ export const createUser = createAsyncThunk(
     thunkAPI.dispatch(getUsersAsAdmin({}));
     return result;
   },
-  { serializeError: serializeAxiosError }
+  { serializeError: serializeAxiosError },
 );
 
 export const updateUser = createAsyncThunk(
@@ -60,7 +60,7 @@ export const updateUser = createAsyncThunk(
     thunkAPI.dispatch(getUsersAsAdmin({}));
     return result;
   },
-  { serializeError: serializeAxiosError }
+  { serializeError: serializeAxiosError },
 );
 
 export const deleteUser = createAsyncThunk(
@@ -71,7 +71,7 @@ export const deleteUser = createAsyncThunk(
     thunkAPI.dispatch(getUsersAsAdmin({}));
     return result;
   },
-  { serializeError: serializeAxiosError }
+  { serializeError: serializeAxiosError },
 );
 
 export type UserManagementState = Readonly<typeof initialState>;

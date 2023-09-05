@@ -1,10 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
 import { Storage } from 'react-jhipster';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { serializeAxiosError } from './reducer.utils';
 
 import { AppThunk } from 'app/config/store';
 import { setLocale } from 'app/shared/reducers/locale';
+import { serializeAxiosError } from './reducer.utils';
 
 const AUTH_TOKEN_KEY = 'jhi-authenticationToken';
 
@@ -50,7 +50,7 @@ export const authenticate = createAsyncThunk(
   async (auth: IAuthParams) => axios.post<any>('api/authenticate', auth),
   {
     serializeError: serializeAxiosError,
-  }
+  },
 );
 
 export const login: (username: string, password: string, rememberMe?: boolean) => AppThunk =

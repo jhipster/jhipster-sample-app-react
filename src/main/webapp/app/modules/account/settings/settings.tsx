@@ -31,7 +31,7 @@ export const SettingsPage = () => {
       saveAccountSettings({
         ...account,
         ...values,
-      })
+      }),
     );
   };
 

@@ -34,7 +34,7 @@ describe('Locale reducer tests', () => {
         lastChange: new Date().getTime(),
         loadedKeys: [],
       },
-      updateLocale('es')
+      updateLocale('es'),
     );
     expect(localeState).toMatchObject({
       currentLocale: 'es',

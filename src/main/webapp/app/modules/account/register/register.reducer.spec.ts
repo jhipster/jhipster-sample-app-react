@@ -34,7 +34,7 @@ describe('Creating account tests', () => {
 
   it('should handle RESET', () => {
     expect(
-      register({ loading: true, registrationSuccess: true, registrationFailure: true, errorMessage: '', successMessage: '' }, reset())
+      register({ loading: true, registrationSuccess: true, registrationFailure: true, errorMessage: '', successMessage: '' }, reset()),
     ).toEqual({
       ...initialState,
     });
@@ -45,7 +45,7 @@ describe('Creating account tests', () => {
       register(undefined, {
         type: handleRegister.fulfilled.type,
         payload: 'fake payload',
-      })
+      }),
     ).toEqual({
       ...initialState,
       registrationSuccess: true,
@@ -59,7 +59,7 @@ describe('Creating account tests', () => {
       register(undefined, {
         type: handleRegister.rejected.type,
         error,
-      })
+      }),
     ).toEqual({
       ...initialState,
       registrationFailure: true,
