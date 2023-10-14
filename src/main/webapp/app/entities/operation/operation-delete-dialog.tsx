@@ -10,7 +10,7 @@ import { getEntity, deleteEntity } from './operation.reducer';
 export const OperationDeleteDialog = () => {
   const dispatch = useAppDispatch();
 
-  const location = useLocation();
+  const pageLocation = useLocation();
   const navigate = useNavigate();
   const { id } = useParams<'id'>();
 

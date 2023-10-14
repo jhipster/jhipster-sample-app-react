@@ -15,7 +15,7 @@ export const PrivateRoute = ({ children, hasAnyAuthorities = [], ...rest }: IOwn
   const sessionHasBeenFetched = useAppSelector(state => state.authentication.sessionHasBeenFetched);
   const account = useAppSelector(state => state.authentication.account);
   const isAuthorized = hasAnyAuthority(account.authorities, hasAnyAuthorities);
-  const location = useLocation();
+  const pageLocation = useLocation();
 
   if (!children) {
     throw new Error(`A component needs to be specified for private route for path ${(rest as any).path}`);
@@ -43,10 +43,10 @@ export const PrivateRoute = ({ children, hasAnyAuthorities = [], ...rest }: IOwn
     <Navigate
       to={{
         pathname: '/login',
-        search: location.search,
+        search: pageLocation.search,
       }}
       replace
-      state={{ from: location }}
+      state={{ from: pageLocation }}
     />
   );
 };

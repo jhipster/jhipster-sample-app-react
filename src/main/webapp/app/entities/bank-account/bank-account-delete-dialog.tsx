@@ -10,7 +10,7 @@ import { getEntity, deleteEntity } from './bank-account.reducer';
 export const BankAccountDeleteDialog = () => {
   const dispatch = useAppDispatch();
 
-  const location = useLocation();
+  const pageLocation = useLocation();
   const navigate = useNavigate();
   const { id } = useParams<'id'>();
 

@@ -87,14 +87,6 @@ Note: There are still a few other things remaining to do for Leaflet that we won
 
 For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
 
-### JHipster Control Center
-
-JHipster Control Center can help you manage and control your application(s). You can start a local control center server (accessible on http://localhost:7419) with:
-
-```
-docker compose -f src/main/docker/jhipster-control-center.yml up
-```
-
 ## Building for production
 
 ### Packaging as jar
@@ -124,7 +116,17 @@ To package your application as a war in order to deploy it to an application ser
 ./mvnw -Pprod,war clean verify
 ```
 
+### JHipster Control Center
+
+JHipster Control Center can help you manage and control your application(s). You can start a local control center server (accessible on http://localhost:7419) with:
+
+```
+docker compose -f src/main/docker/jhipster-control-center.yml up
+```
+
 ## Testing
+
+### Spring Boot tests
 
 To launch your application's tests, run:
 
@@ -149,7 +151,7 @@ You can execute automated [lighthouse audits][https://developers.google.com/web/
 You should only run the audits when your application is packaged with the production profile.
 The lighthouse report is created in `target/cypress/lhreport.html`
 
-### Other tests
+### Gatling
 
 Performance tests are run by [Gatling][] and written in Scala. They're located in [src/test/java/gatling/simulations](src/test/java/gatling/simulations).
 
@@ -159,9 +161,9 @@ You can execute all Gatling tests with
 ./mvnw gatling:test
 ```
 
-For more information, refer to the [Running tests page][].
+## Others
 
-### Code quality
+### Code quality using Sonar
 
 Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
 
@@ -194,7 +196,7 @@ sonar.password=admin
 
 For more information, refer to the [Code quality page][].
 
-## Using Docker to simplify development (optional)
+### Using Docker to simplify development (optional)
 
 You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
 

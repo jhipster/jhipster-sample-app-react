@@ -13,10 +13,10 @@ import { getEntities } from './bank-account.reducer';
 export const BankAccount = () => {
   const dispatch = useAppDispatch();
 
-  const location = useLocation();
+  const pageLocation = useLocation();
   const navigate = useNavigate();
 
-  const [sortState, setSortState] = useState(overrideSortStateWithQueryParams(getSortState(location, 'id'), location.search));
+  const [sortState, setSortState] = useState(overrideSortStateWithQueryParams(getSortState(pageLocation, 'id'), pageLocation.search));
 
   const bankAccountList = useAppSelector(state => state.bankAccount.entities);
   const loading = useAppSelector(state => state.bankAccount.loading);
@@ -32,8 +32,8 @@ export const BankAccount = () => {
   const sortEntities = () => {
     getAllEntities();
     const endURL = `?sort=${sortState.sort},${sortState.order}`;
-    if (location.search !== endURL) {
-      navigate(`${location.pathname}${endURL}`);
+    if (pageLocation.search !== endURL) {
+      navigate(`${pageLocation.pathname}${endURL}`);
     }
   };
 
