@@ -30,7 +30,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link io.github.jhipster.sample.domain.Operation}.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/operations")
 @Transactional
 public class OperationResource {
 
@@ -57,7 +57,7 @@ public class OperationResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new operationDTO, or with status {@code 400 (Bad Request)} if the operation has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/operations")
+    @PostMapping("")
     public ResponseEntity<OperationDTO> createOperation(@Valid @RequestBody OperationDTO operationDTO) throws URISyntaxException {
         log.debug("REST request to save Operation : {}", operationDTO);
         if (operationDTO.getId() != null) {
@@ -82,7 +82,7 @@ public class OperationResource {
      * or with status {@code 500 (Internal Server Error)} if the operationDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/operations/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<OperationDTO> updateOperation(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody OperationDTO operationDTO
@@ -119,7 +119,7 @@ public class OperationResource {
      * or with status {@code 500 (Internal Server Error)} if the operationDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/operations/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<OperationDTO> partialUpdateOperation(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody OperationDTO operationDTO
@@ -159,10 +159,10 @@ public class OperationResource {
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of operations in body.
      */
-    @GetMapping("/operations")
+    @GetMapping("")
     public ResponseEntity<List<OperationDTO>> getAllOperations(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        @RequestParam(required = false, defaultValue = "false") boolean eagerload
+        @RequestParam(required = false, defaultValue = "true") boolean eagerload
     ) {
         log.debug("REST request to get a page of Operations");
         Page<OperationDTO> page;
@@ -181,7 +181,7 @@ public class OperationResource {
      * @param id the id of the operationDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the operationDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/operations/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<OperationDTO> getOperation(@PathVariable Long id) {
         log.debug("REST request to get Operation : {}", id);
         Optional<OperationDTO> operationDTO = operationRepository.findOneWithEagerRelationships(id).map(operationMapper::toDto);
@@ -194,7 +194,7 @@ public class OperationResource {
      * @param id the id of the operationDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/operations/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOperation(@PathVariable Long id) {
         log.debug("REST request to delete Operation : {}", id);
         operationRepository.deleteById(id);

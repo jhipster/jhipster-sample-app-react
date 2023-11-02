@@ -183,7 +183,12 @@ export const Operation = () => {
                             <Translate contentKey="entity.action.edit">Edit</Translate>
                           </span>
                         </Button>
-                        <Button tag={Link} to={`/operation/${operation.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
+                        <Button
+                          onClick={() => (location.href = `/operation/${operation.id}/delete`)}
+                          color="danger"
+                          size="sm"
+                          data-cy="entityDeleteButton"
+                        >
                           <FontAwesomeIcon icon="trash" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.delete">Delete</Translate>

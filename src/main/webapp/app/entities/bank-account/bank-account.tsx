@@ -129,8 +129,7 @@ export const BankAccount = () => {
                         </span>
                       </Button>
                       <Button
-                        tag={Link}
-                        to={`/bank-account/${bankAccount.id}/delete`}
+                        onClick={() => (location.href = `/bank-account/${bankAccount.id}/delete`)}
                         color="danger"
                         size="sm"
                         data-cy="entityDeleteButton"

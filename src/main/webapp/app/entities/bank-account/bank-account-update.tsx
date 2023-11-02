@@ -47,7 +47,15 @@ export const BankAccountUpdate = () => {
     }
   }, [updateSuccess]);
 
+  // eslint-disable-next-line complexity
   const saveEntity = values => {
+    if (values.id !== undefined && typeof values.id !== 'number') {
+      values.id = Number(values.id);
+    }
+    if (values.balance !== undefined && typeof values.balance !== 'number') {
+      values.balance = Number(values.balance);
+    }
+
     const entity = {
       ...bankAccountEntity,
       ...values,

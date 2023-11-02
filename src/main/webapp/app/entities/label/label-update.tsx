@@ -47,7 +47,12 @@ export const LabelUpdate = () => {
     }
   }, [updateSuccess]);
 
+  // eslint-disable-next-line complexity
   const saveEntity = values => {
+    if (values.id !== undefined && typeof values.id !== 'number') {
+      values.id = Number(values.id);
+    }
+
     const entity = {
       ...labelEntity,
       ...values,

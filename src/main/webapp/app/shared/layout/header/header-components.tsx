@@ -17,7 +17,7 @@ export const Brand = () => (
     <span className="brand-title">
       <Translate contentKey="global.title">JhipsterSampleApplicationReact</Translate>
     </span>
-    <span className="navbar-version">{VERSION}</span>
+    <span className="navbar-version">{VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`}</span>
   </NavbarBrand>
 );
 

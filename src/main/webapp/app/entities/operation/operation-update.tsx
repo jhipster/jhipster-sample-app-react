@@ -49,8 +49,15 @@ export const OperationUpdate = () => {
     }
   }, [updateSuccess]);
 
+  // eslint-disable-next-line complexity
   const saveEntity = values => {
+    if (values.id !== undefined && typeof values.id !== 'number') {
+      values.id = Number(values.id);
+    }
     values.date = convertDateTimeToServer(values.date);
+    if (values.amount !== undefined && typeof values.amount !== 'number') {
+      values.amount = Number(values.amount);
+    }
 
     const entity = {
       ...operationEntity,

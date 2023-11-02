@@ -2,7 +2,7 @@
 name: jhipstersampleapplicationreact
 services:
   mysql:
-    image: mysql:8.1.0
+    image: mysql:8.2.0
     volumes:
       - ./config/mysql:/etc/mysql/conf.d
     #   - ~/volumes/jhipster/jhipsterSampleApplicationReact/mysql/:/var/lib/mysql/

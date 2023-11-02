@@ -26,7 +26,6 @@ const Admin = Loadable({
   loader: () => import(/* webpackChunkName: "administration" */ 'app/modules/administration'),
   loading: () => loading,
 });
-
 const AppRoutes = () => {
   return (
     <div className="view-routes">

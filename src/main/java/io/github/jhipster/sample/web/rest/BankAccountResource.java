@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link io.github.jhipster.sample.domain.BankAccount}.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/bank-accounts")
 @Transactional
 public class BankAccountResource {
 
@@ -52,7 +52,7 @@ public class BankAccountResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new bankAccountDTO, or with status {@code 400 (Bad Request)} if the bankAccount has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/bank-accounts")
+    @PostMapping("")
     public ResponseEntity<BankAccountDTO> createBankAccount(@Valid @RequestBody BankAccountDTO bankAccountDTO) throws URISyntaxException {
         log.debug("REST request to save BankAccount : {}", bankAccountDTO);
         if (bankAccountDTO.getId() != null) {
@@ -77,7 +77,7 @@ public class BankAccountResource {
      * or with status {@code 500 (Internal Server Error)} if the bankAccountDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/bank-accounts/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<BankAccountDTO> updateBankAccount(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody BankAccountDTO bankAccountDTO
@@ -114,7 +114,7 @@ public class BankAccountResource {
      * or with status {@code 500 (Internal Server Error)} if the bankAccountDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/bank-accounts/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<BankAccountDTO> partialUpdateBankAccount(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody BankAccountDTO bankAccountDTO
@@ -153,8 +153,8 @@ public class BankAccountResource {
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bankAccounts in body.
      */
-    @GetMapping("/bank-accounts")
-    public List<BankAccountDTO> getAllBankAccounts(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    @GetMapping("")
+    public List<BankAccountDTO> getAllBankAccounts(@RequestParam(required = false, defaultValue = "true") boolean eagerload) {
         log.debug("REST request to get all BankAccounts");
         List<BankAccount> bankAccounts = bankAccountRepository.findAll();
         return bankAccountMapper.toDto(bankAccounts);
@@ -166,7 +166,7 @@ public class BankAccountResource {
      * @param id the id of the bankAccountDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bankAccountDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/bank-accounts/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<BankAccountDTO> getBankAccount(@PathVariable Long id) {
         log.debug("REST request to get BankAccount : {}", id);
         Optional<BankAccountDTO> bankAccountDTO = bankAccountRepository.findOneWithEagerRelationships(id).map(bankAccountMapper::toDto);
@@ -179,7 +179,7 @@ public class BankAccountResource {
      * @param id the id of the bankAccountDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/bank-accounts/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBankAccount(@PathVariable Long id) {
         log.debug("REST request to delete BankAccount : {}", id);
         bankAccountRepository.deleteById(id);

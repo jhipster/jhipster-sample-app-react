@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link io.github.jhipster.sample.domain.Label}.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/labels")
 @Transactional
 public class LabelResource {
 
@@ -52,7 +52,7 @@ public class LabelResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new labelDTO, or with status {@code 400 (Bad Request)} if the label has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/labels")
+    @PostMapping("")
     public ResponseEntity<LabelDTO> createLabel(@Valid @RequestBody LabelDTO labelDTO) throws URISyntaxException {
         log.debug("REST request to save Label : {}", labelDTO);
         if (labelDTO.getId() != null) {
@@ -77,7 +77,7 @@ public class LabelResource {
      * or with status {@code 500 (Internal Server Error)} if the labelDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/labels/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<LabelDTO> updateLabel(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody LabelDTO labelDTO
@@ -114,7 +114,7 @@ public class LabelResource {
      * or with status {@code 500 (Internal Server Error)} if the labelDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/labels/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<LabelDTO> partialUpdateLabel(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody LabelDTO labelDTO
@@ -152,7 +152,7 @@ public class LabelResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of labels in body.
      */
-    @GetMapping("/labels")
+    @GetMapping("")
     public List<LabelDTO> getAllLabels() {
         log.debug("REST request to get all Labels");
         List<Label> labels = labelRepository.findAll();
@@ -165,7 +165,7 @@ public class LabelResource {
      * @param id the id of the labelDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the labelDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/labels/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<LabelDTO> getLabel(@PathVariable Long id) {
         log.debug("REST request to get Label : {}", id);
         Optional<LabelDTO> labelDTO = labelRepository.findById(id).map(labelMapper::toDto);
@@ -178,7 +178,7 @@ public class LabelResource {
      * @param id the id of the labelDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/labels/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLabel(@PathVariable Long id) {
         log.debug("REST request to delete Label : {}", id);
         labelRepository.deleteById(id);
