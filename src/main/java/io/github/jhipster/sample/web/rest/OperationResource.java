@@ -162,7 +162,7 @@ public class OperationResource {
     @GetMapping("")
     public ResponseEntity<List<OperationDTO>> getAllOperations(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        @RequestParam(required = false, defaultValue = "true") boolean eagerload
+        @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
     ) {
         log.debug("REST request to get a page of Operations");
         Page<OperationDTO> page;
@@ -182,7 +182,7 @@ public class OperationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the operationDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<OperationDTO> getOperation(@PathVariable Long id) {
+    public ResponseEntity<OperationDTO> getOperation(@PathVariable("id") Long id) {
         log.debug("REST request to get Operation : {}", id);
         Optional<OperationDTO> operationDTO = operationRepository.findOneWithEagerRelationships(id).map(operationMapper::toDto);
         return ResponseUtil.wrapOrNotFound(operationDTO);
@@ -195,7 +195,7 @@ public class OperationResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOperation(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteOperation(@PathVariable("id") Long id) {
         log.debug("REST request to delete Operation : {}", id);
         operationRepository.deleteById(id);
         return ResponseEntity

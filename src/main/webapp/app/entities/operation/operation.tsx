@@ -184,7 +184,7 @@ export const Operation = () => {
                           </span>
                         </Button>
                         <Button
-                          onClick={() => (location.href = `/operation/${operation.id}/delete`)}
+                          onClick={() => (window.location.href = `/operation/${operation.id}/delete`)}
                           color="danger"
                           size="sm"
                           data-cy="entityDeleteButton"

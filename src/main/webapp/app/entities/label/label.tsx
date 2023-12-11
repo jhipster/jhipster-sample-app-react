@@ -119,7 +119,7 @@ export const Label = () => {
                         </span>
                       </Button>
                       <Button
-                        onClick={() => (location.href = `/label/${label.id}/delete`)}
+                        onClick={() => (window.location.href = `/label/${label.id}/delete`)}
                         color="danger"
                         size="sm"
                         data-cy="entityDeleteButton"

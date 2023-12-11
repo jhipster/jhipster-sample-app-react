@@ -154,7 +154,9 @@ public class BankAccountResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bankAccounts in body.
      */
     @GetMapping("")
-    public List<BankAccountDTO> getAllBankAccounts(@RequestParam(required = false, defaultValue = "true") boolean eagerload) {
+    public List<BankAccountDTO> getAllBankAccounts(
+        @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
+    ) {
         log.debug("REST request to get all BankAccounts");
         List<BankAccount> bankAccounts = bankAccountRepository.findAll();
         return bankAccountMapper.toDto(bankAccounts);
@@ -167,7 +169,7 @@ public class BankAccountResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bankAccountDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<BankAccountDTO> getBankAccount(@PathVariable Long id) {
+    public ResponseEntity<BankAccountDTO> getBankAccount(@PathVariable("id") Long id) {
         log.debug("REST request to get BankAccount : {}", id);
         Optional<BankAccountDTO> bankAccountDTO = bankAccountRepository.findOneWithEagerRelationships(id).map(bankAccountMapper::toDto);
         return ResponseUtil.wrapOrNotFound(bankAccountDTO);
@@ -180,7 +182,7 @@ public class BankAccountResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBankAccount(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBankAccount(@PathVariable("id") Long id) {
         log.debug("REST request to delete BankAccount : {}", id);
         bankAccountRepository.deleteById(id);
         return ResponseEntity
