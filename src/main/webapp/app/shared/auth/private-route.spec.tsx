@@ -3,7 +3,6 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import { TranslatorContext } from 'react-jhipster';
 import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 
 import { AUTHORITIES } from 'app/config/constants';
@@ -18,7 +17,7 @@ describe('private-route component', () => {
     });
   });
 
-  const mockStore = configureStore([thunk]);
+  const mockStore = configureStore();
   const wrapper = (Elem: JSX.Element, authentication) => {
     const store = mockStore({ authentication });
     return render(

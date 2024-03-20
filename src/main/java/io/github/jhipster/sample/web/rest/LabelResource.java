@@ -60,11 +60,10 @@ public class LabelResource {
         }
         Label label = labelMapper.toEntity(labelDTO);
         label = labelRepository.save(label);
-        LabelDTO result = labelMapper.toDto(label);
-        return ResponseEntity
-            .created(new URI("/api/labels/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        labelDTO = labelMapper.toDto(label);
+        return ResponseEntity.created(new URI("/api/labels/" + labelDTO.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, labelDTO.getId().toString()))
+            .body(labelDTO);
     }
 
     /**
@@ -96,11 +95,10 @@ public class LabelResource {
 
         Label label = labelMapper.toEntity(labelDTO);
         label = labelRepository.save(label);
-        LabelDTO result = labelMapper.toDto(label);
-        return ResponseEntity
-            .ok()
+        labelDTO = labelMapper.toDto(label);
+        return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, labelDTO.getId().toString()))
-            .body(result);
+            .body(labelDTO);
     }
 
     /**
@@ -182,8 +180,7 @@ public class LabelResource {
     public ResponseEntity<Void> deleteLabel(@PathVariable("id") Long id) {
         log.debug("REST request to delete Label : {}", id);
         labelRepository.deleteById(id);
-        return ResponseEntity
-            .noContent()
+        return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }

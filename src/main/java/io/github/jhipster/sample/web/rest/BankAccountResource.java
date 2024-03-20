@@ -60,11 +60,10 @@ public class BankAccountResource {
         }
         BankAccount bankAccount = bankAccountMapper.toEntity(bankAccountDTO);
         bankAccount = bankAccountRepository.save(bankAccount);
-        BankAccountDTO result = bankAccountMapper.toDto(bankAccount);
-        return ResponseEntity
-            .created(new URI("/api/bank-accounts/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        bankAccountDTO = bankAccountMapper.toDto(bankAccount);
+        return ResponseEntity.created(new URI("/api/bank-accounts/" + bankAccountDTO.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, bankAccountDTO.getId().toString()))
+            .body(bankAccountDTO);
     }
 
     /**
@@ -96,11 +95,10 @@ public class BankAccountResource {
 
         BankAccount bankAccount = bankAccountMapper.toEntity(bankAccountDTO);
         bankAccount = bankAccountRepository.save(bankAccount);
-        BankAccountDTO result = bankAccountMapper.toDto(bankAccount);
-        return ResponseEntity
-            .ok()
+        bankAccountDTO = bankAccountMapper.toDto(bankAccount);
+        return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, bankAccountDTO.getId().toString()))
-            .body(result);
+            .body(bankAccountDTO);
     }
 
     /**
@@ -185,8 +183,7 @@ public class BankAccountResource {
     public ResponseEntity<Void> deleteBankAccount(@PathVariable("id") Long id) {
         log.debug("REST request to delete BankAccount : {}", id);
         bankAccountRepository.deleteById(id);
-        return ResponseEntity
-            .noContent()
+        return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }

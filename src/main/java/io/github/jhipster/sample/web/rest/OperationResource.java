@@ -65,11 +65,10 @@ public class OperationResource {
         }
         Operation operation = operationMapper.toEntity(operationDTO);
         operation = operationRepository.save(operation);
-        OperationDTO result = operationMapper.toDto(operation);
-        return ResponseEntity
-            .created(new URI("/api/operations/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        operationDTO = operationMapper.toDto(operation);
+        return ResponseEntity.created(new URI("/api/operations/" + operationDTO.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, operationDTO.getId().toString()))
+            .body(operationDTO);
     }
 
     /**
@@ -101,11 +100,10 @@ public class OperationResource {
 
         Operation operation = operationMapper.toEntity(operationDTO);
         operation = operationRepository.save(operation);
-        OperationDTO result = operationMapper.toDto(operation);
-        return ResponseEntity
-            .ok()
+        operationDTO = operationMapper.toDto(operation);
+        return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, operationDTO.getId().toString()))
-            .body(result);
+            .body(operationDTO);
     }
 
     /**
@@ -198,8 +196,7 @@ public class OperationResource {
     public ResponseEntity<Void> deleteOperation(@PathVariable("id") Long id) {
         log.debug("REST request to delete Operation : {}", id);
         operationRepository.deleteById(id);
-        return ResponseEntity
-            .noContent()
+        return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }

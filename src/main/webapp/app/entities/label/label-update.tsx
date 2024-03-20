@@ -56,6 +56,7 @@ export const LabelUpdate = () => {
     const entity = {
       ...labelEntity,
       ...values,
+      operations: mapIdList(values.operations),
     };
 
     if (isNew) {
@@ -70,6 +71,7 @@ export const LabelUpdate = () => {
       ? {}
       : {
           ...labelEntity,
+          operations: labelEntity?.operations?.map(e => e.id.toString()),
         };
 
   return (
@@ -108,6 +110,23 @@ export const LabelUpdate = () => {
                   minLength: { value: 3, message: translate('entity.validation.minlength', { min: 3 }) },
                 }}
               />
+              <ValidatedField
+                label={translate('jhipsterSampleApplicationReactApp.label.operation')}
+                id="label-operation"
+                data-cy="operation"
+                type="select"
+                multiple
+                name="operations"
+              >
+                <option value="" key="0" />
+                {operations
+                  ? operations.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/label" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

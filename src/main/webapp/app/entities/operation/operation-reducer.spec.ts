@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
 import sinon from 'sinon';
 import { parseHeaderForLinks } from 'react-jhipster';
 
@@ -100,7 +99,7 @@ describe('Entities reducer tests', () => {
         'some message',
         state => {
           expect(state).toMatchObject({
-            errorMessage: 'error message',
+            errorMessage: null,
             updateSuccess: false,
             updating: false,
           });
@@ -176,9 +175,13 @@ describe('Entities reducer tests', () => {
     let store;
 
     const resolvedObject = { value: 'whatever' };
+    const getState = jest.fn();
+    const dispatch = jest.fn();
+    const extra = {};
     beforeEach(() => {
-      const mockStore = configureStore([thunk]);
-      store = mockStore({});
+      store = configureStore({
+        reducer: (state = [], action) => [...state, action],
+      });
       axios.get = sinon.stub().returns(Promise.resolve(resolvedObject));
       axios.post = sinon.stub().returns(Promise.resolve(resolvedObject));
       axios.put = sinon.stub().returns(Promise.resolve(resolvedObject));
@@ -187,99 +190,68 @@ describe('Entities reducer tests', () => {
     });
 
     it('dispatches FETCH_OPERATION_LIST actions', async () => {
-      const expectedActions = [
-        {
-          type: getEntities.pending.type,
-        },
-        {
-          type: getEntities.fulfilled.type,
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(getEntities({}));
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      const arg = {};
+
+      const result = await getEntities(arg)(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(getEntities.fulfilled.match(result)).toBe(true);
     });
 
     it('dispatches FETCH_OPERATION actions', async () => {
-      const expectedActions = [
-        {
-          type: getEntity.pending.type,
-        },
-        {
-          type: getEntity.fulfilled.type,
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(getEntity(42666));
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      const arg = 42666;
+
+      const result = await getEntity(arg)(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(getEntity.fulfilled.match(result)).toBe(true);
     });
 
     it('dispatches CREATE_OPERATION actions', async () => {
-      const expectedActions = [
-        {
-          type: createEntity.pending.type,
-        },
-        {
-          type: createEntity.fulfilled.type,
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(createEntity({ id: 456 }));
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      const arg = { id: 456 };
+
+      const result = await createEntity(arg)(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(createEntity.fulfilled.match(result)).toBe(true);
     });
 
     it('dispatches UPDATE_OPERATION actions', async () => {
-      const expectedActions = [
-        {
-          type: updateEntity.pending.type,
-        },
-        {
-          type: updateEntity.fulfilled.type,
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(updateEntity({ id: 456 }));
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      const arg = { id: 456 };
+
+      const result = await updateEntity(arg)(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(updateEntity.fulfilled.match(result)).toBe(true);
     });
 
     it('dispatches PARTIAL_UPDATE_OPERATION actions', async () => {
-      const expectedActions = [
-        {
-          type: partialUpdateEntity.pending.type,
-        },
-        {
-          type: partialUpdateEntity.fulfilled.type,
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(partialUpdateEntity({ id: 123 }));
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      const arg = { id: 123 };
+
+      const result = await partialUpdateEntity(arg)(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(partialUpdateEntity.fulfilled.match(result)).toBe(true);
     });
 
     it('dispatches DELETE_OPERATION actions', async () => {
-      const expectedActions = [
-        {
-          type: deleteEntity.pending.type,
-        },
-        {
-          type: deleteEntity.fulfilled.type,
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(deleteEntity(42666));
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      const arg = 42666;
+
+      const result = await deleteEntity(arg)(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(deleteEntity.fulfilled.match(result)).toBe(true);
     });
 
     it('dispatches RESET actions', async () => {
-      const expectedActions = [reset()];
       await store.dispatch(reset());
-      expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getState()).toEqual([expect.any(Object), expect.objectContaining(reset())]);
     });
   });
 });

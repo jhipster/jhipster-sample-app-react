@@ -37,6 +37,19 @@ export const LabelDetail = () => {
             </span>
           </dt>
           <dd>{labelEntity.label}</dd>
+          <dt>
+            <Translate contentKey="jhipsterSampleApplicationReactApp.label.operation">Operation</Translate>
+          </dt>
+          <dd>
+            {labelEntity.operations
+              ? labelEntity.operations.map((val, i) => (
+                  <span key={val.id}>
+                    <a>{val.id}</a>
+                    {labelEntity.operations && i === labelEntity.operations.length - 1 ? '' : ', '}
+                  </span>
+                ))
+              : null}
+          </dd>
         </dl>
         <Button tag={Link} to="/label" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

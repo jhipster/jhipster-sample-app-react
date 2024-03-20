@@ -2,7 +2,9 @@ package io.github.jhipster.sample.service.dto;
 
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link io.github.jhipster.sample.domain.Label} entity.
@@ -15,6 +17,8 @@ public class LabelDTO implements Serializable {
     @NotNull
     @Size(min = 3)
     private String label;
+
+    private Set<OperationDTO> operations = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -30,6 +34,14 @@ public class LabelDTO implements Serializable {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public Set<OperationDTO> getOperations() {
+        return operations;
+    }
+
+    public void setOperations(Set<OperationDTO> operations) {
+        this.operations = operations;
     }
 
     @Override
@@ -59,6 +71,7 @@ public class LabelDTO implements Serializable {
         return "LabelDTO{" +
             "id=" + getId() +
             ", label='" + getLabel() + "'" +
+            ", operations=" + getOperations() +
             "}";
     }
 }

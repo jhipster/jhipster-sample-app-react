@@ -53,13 +53,12 @@ module.exports = async options =>
       port: 9060,
       proxy: [
         {
-          context: ['/api', '/services', '/management', '/v3/api-docs', '/h2-console', '/auth'],
+          context: ['/api', '/services', '/management', '/v3/api-docs', '/h2-console'],
           target: `http${options.tls ? 's' : ''}://localhost:8080`,
           secure: false,
           changeOrigin: options.tls,
         },
       ],
-      https: options.tls,
       historyApiFallback: true,
     },
     stats: process.env.JHI_DISABLE_WEBPACK_LOGS ? 'none' : options.stats,

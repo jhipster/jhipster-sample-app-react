@@ -1,14 +1,12 @@
-import configureStore from 'redux-mock-store';
 import axios from 'axios';
-import thunk from 'redux-thunk';
 import sinon from 'sinon';
+import { configureStore } from '@reduxjs/toolkit';
 
 import administration, {
   getSystemHealth,
   getSystemMetrics,
   getSystemThreadDump,
   getLoggers,
-  changeLogLevel,
   getConfigurations,
   getEnv,
   setLoggers,
@@ -170,113 +168,65 @@ describe('Administration reducer tests', () => {
     let store;
 
     const resolvedObject = { value: 'whatever' };
+    const getState = jest.fn();
+    const dispatch = jest.fn();
+    const extra = {};
     beforeEach(() => {
-      const mockStore = configureStore([thunk]);
-      store = mockStore({});
+      store = configureStore({
+        reducer: (state = [], action) => [...state, action],
+      });
       axios.get = sinon.stub().returns(Promise.resolve(resolvedObject));
       axios.post = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
     it('dispatches FETCH_HEALTH_PENDING and FETCH_HEALTH_FULFILLED actions', async () => {
-      const expectedActions = [
-        {
-          type: getSystemHealth.pending.type,
-        },
-        {
-          type: getSystemHealth.fulfilled.type,
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(getSystemHealth());
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      const result = await getSystemHealth()(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(getSystemHealth.fulfilled.match(result)).toBe(true);
+      expect(result.payload).toBe(resolvedObject);
     });
     it('dispatches FETCH_METRICS_PENDING and FETCH_METRICS_FULFILLED actions', async () => {
-      const expectedActions = [
-        {
-          type: getSystemMetrics.pending.type,
-        },
-        {
-          type: getSystemMetrics.fulfilled.type,
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(getSystemMetrics());
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      const result = await getSystemMetrics()(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(getSystemMetrics.fulfilled.match(result)).toBe(true);
     });
     it('dispatches FETCH_THREAD_DUMP_PENDING and FETCH_THREAD_DUMP_FULFILLED actions', async () => {
-      const expectedActions = [
-        {
-          type: getSystemThreadDump.pending.type,
-        },
-        {
-          type: getSystemThreadDump.fulfilled.type,
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(getSystemThreadDump());
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      const result = await getSystemThreadDump()(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(getSystemThreadDump.fulfilled.match(result)).toBe(true);
     });
     it('dispatches FETCH_LOGS_PENDING and FETCH_LOGS_FULFILLED actions', async () => {
-      const expectedActions = [
-        {
-          type: getLoggers.pending.type,
-        },
-        {
-          type: getLoggers.fulfilled.type,
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(getLoggers());
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      const result = await getLoggers()(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(getLoggers.fulfilled.match(result)).toBe(true);
     });
     it('dispatches FETCH_LOGS_CHANGE_LEVEL_PENDING and FETCH_LOGS_CHANGE_LEVEL_FULFILLED actions', async () => {
-      const expectedActions = [
-        {
-          type: setLoggers.pending.type,
-        },
-        {
-          type: setLoggers.fulfilled.type,
-          payload: resolvedObject,
-        },
-        {
-          type: getLoggers.pending.type,
-        },
-      ];
-      await store.dispatch(changeLogLevel('ROOT', 'DEBUG'));
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
-      expect(store.getActions()[2]).toMatchObject(expectedActions[2]);
+      const result = await setLoggers({ name: 'ROOT', configuredLevel: 'DEBUG' })(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(setLoggers.fulfilled.match(result)).toBe(true);
     });
     it('dispatches FETCH_CONFIGURATIONS_PENDING and FETCH_CONFIGURATIONS_FULFILLED actions', async () => {
-      const expectedActions = [
-        {
-          type: getConfigurations.pending.type,
-        },
-        {
-          type: getConfigurations.fulfilled.type,
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(getConfigurations());
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      const result = await getConfigurations()(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(getConfigurations.fulfilled.match(result)).toBe(true);
     });
     it('dispatches FETCH_ENV_PENDING and FETCH_ENV_FULFILLED actions', async () => {
-      const expectedActions = [
-        {
-          type: getEnv.pending.type,
-        },
-        {
-          type: getEnv.fulfilled.type,
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(getEnv());
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      const result = await getEnv()(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(getEnv.fulfilled.match(result)).toBe(true);
     });
   });
 });

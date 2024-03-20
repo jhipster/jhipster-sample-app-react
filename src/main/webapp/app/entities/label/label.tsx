@@ -92,6 +92,10 @@ export const Label = () => {
                   <Translate contentKey="jhipsterSampleApplicationReactApp.label.label">Label</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('label')} />
                 </th>
+                <th>
+                  <Translate contentKey="jhipsterSampleApplicationReactApp.label.operation">Operation</Translate>{' '}
+                  <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -104,6 +108,16 @@ export const Label = () => {
                     </Button>
                   </td>
                   <td>{label.label}</td>
+                  <td>
+                    {label.operations
+                      ? label.operations.map((val, j) => (
+                          <span key={j}>
+                            <Link to={`/operation/${val.id}`}>{val.id}</Link>
+                            {j === label.operations.length - 1 ? '' : ', '}
+                          </span>
+                        ))
+                      : null}
+                  </td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/label/${label.id}`} color="info" size="sm" data-cy="entityDetailsButton">

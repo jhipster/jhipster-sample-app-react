@@ -1,7 +1,6 @@
-import thunk from 'redux-thunk';
 import axios from 'axios';
 import sinon from 'sinon';
-import configureStore from 'redux-mock-store';
+import { configureStore } from '@reduxjs/toolkit';
 import { TranslatorContext } from 'react-jhipster';
 
 import password, { savePassword, reset } from './password.reducer';
@@ -67,29 +66,28 @@ describe('Password reducer tests', () => {
     let store;
 
     const resolvedObject = { value: 'whatever' };
+    const getState = jest.fn();
+    const dispatch = jest.fn();
+    const extra = {};
     beforeEach(() => {
-      const mockStore = configureStore([thunk]);
-      store = mockStore({});
+      store = configureStore({
+        reducer: (state = [], action) => [...state, action],
+      });
       axios.post = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
 
     it('dispatches UPDATE_PASSWORD_PENDING and UPDATE_PASSWORD_FULFILLED actions', async () => {
-      const expectedActions = [
-        {
-          type: savePassword.pending.type,
-        },
-        {
-          type: savePassword.fulfilled.type,
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(savePassword({ currentPassword: '', newPassword: '' }));
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+      const arg = { currentPassword: '', newPassword: '' };
+
+      const result = await savePassword(arg)(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(savePassword.fulfilled.match(result)).toBe(true);
     });
     it('dispatches RESET actions', async () => {
       await store.dispatch(reset());
-      expect(store.getActions()[0]).toMatchObject(reset());
+      expect(store.getState()).toEqual([expect.any(Object), expect.objectContaining(reset())]);
     });
   });
 });

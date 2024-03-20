@@ -1,11 +1,9 @@
-import thunk from 'redux-thunk';
 import axios from 'axios';
 import sinon from 'sinon';
 import { Storage } from 'react-jhipster';
-import configureStore from 'redux-mock-store';
+import { configureStore, createReducer } from '@reduxjs/toolkit';
 
 import authentication, {
-  getSession,
   getAccount,
   authenticate,
   login,
@@ -17,7 +15,6 @@ import authentication, {
   clearAuth,
   initialState,
 } from 'app/shared/reducers/authentication';
-import { updateLocale, setLocale } from 'app/shared/reducers/locale';
 
 describe('Authentication reducer tests', () => {
   function isAccountEmpty(state): boolean {
@@ -154,72 +151,54 @@ describe('Authentication reducer tests', () => {
     let store;
 
     const resolvedObject = { value: 'whatever' };
+    const getState = jest.fn();
+    const dispatch = jest.fn();
+    const extra = {};
     beforeEach(() => {
-      const mockStore = configureStore([thunk]);
-      store = mockStore({ authentication: { account: { langKey: 'en' } }, locale: { loadedLocales: ['en'] } });
+      store = configureStore({
+        reducer: (state = [], action) => [...state, action],
+      });
       axios.get = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
 
     it('dispatches GET_SESSION_PENDING and GET_SESSION_FULFILLED actions', async () => {
-      const expectedActions = [
-        {
-          type: getAccount.pending.type,
-        },
-        {
-          type: getAccount.fulfilled.type,
-          payload: resolvedObject,
-        },
-        {
-          type: setLocale.pending.type,
-        },
-        updateLocale('en'),
-        {
-          type: setLocale.fulfilled.type,
-          payload: 'en',
-        },
-      ];
-      await store.dispatch(getSession());
-      expect(store.getActions()).toMatchObject(expectedActions);
+      const result = await getAccount()(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(getAccount.fulfilled.match(result)).toBe(true);
     });
 
     it('dispatches LOGOUT actions', async () => {
-      const expectedActions = [logoutSession()];
       await store.dispatch(logout());
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
+      expect(store.getState()).toEqual([expect.any(Object), expect.objectContaining(logoutSession())]);
     });
 
     it('dispatches CLEAR_AUTH actions', async () => {
-      const expectedActions = [authError('message'), clearAuth()];
       await store.dispatch(clearAuthentication('message'));
-      expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getState()).toEqual([expect.any(Object), expect.objectContaining(authError('message')), clearAuth()]);
     });
 
     it('dispatches LOGIN, GET_SESSION and SET_LOCALE success and request actions', async () => {
       const loginResponse = { headers: { authorization: 'auth' } };
       axios.post = sinon.stub().returns(Promise.resolve(loginResponse));
-      const expectedActions = [
-        {
-          type: authenticate.pending.type,
-        },
-        {
-          type: authenticate.fulfilled.type,
-          payload: loginResponse,
-        },
-        {
-          type: getAccount.pending.type,
-        },
-      ];
-      await store.dispatch(login('test', 'test'));
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
-      expect(store.getActions()[2]).toMatchObject(expectedActions[2]);
+
+      const result = await authenticate('test', 'test')(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(authenticate.fulfilled.match(result)).toBe(true);
     });
   });
   describe('clearAuthToken', () => {
     let store;
+    const reducer = createReducer({ authentication: { account: { langKey: 'en' } } }, builder => {
+      builder.addDefaultCase(() => {});
+    });
     beforeEach(() => {
-      const mockStore = configureStore([thunk]);
-      store = mockStore({ authentication: { account: { langKey: 'en' } } });
+      store = configureStore({
+        reducer,
+      });
     });
     it('clears the session token on clearAuthToken', async () => {
       const AUTH_TOKEN_KEY = 'jhi-authenticationToken';

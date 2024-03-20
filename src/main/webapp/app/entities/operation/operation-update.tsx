@@ -62,8 +62,8 @@ export const OperationUpdate = () => {
     const entity = {
       ...operationEntity,
       ...values,
+      bankAccount: bankAccounts.find(it => it.id.toString() === values.bankAccount?.toString()),
       labels: mapIdList(values.labels),
-      bankAccount: bankAccounts.find(it => it.id.toString() === values.bankAccount.toString()),
     };
 
     if (isNew) {

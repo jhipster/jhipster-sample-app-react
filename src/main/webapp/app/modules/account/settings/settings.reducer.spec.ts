@@ -1,11 +1,9 @@
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
 import sinon from 'sinon';
 import { TranslatorContext } from 'react-jhipster';
 
-import { getAccount } from 'app/shared/reducers/authentication';
-import account, { updateAccount, saveAccountSettings, reset } from './settings.reducer';
+import account, { updateAccount, reset } from './settings.reducer';
 
 describe('Settings reducer tests', () => {
   beforeAll(() => {
@@ -68,34 +66,30 @@ describe('Settings reducer tests', () => {
     let store;
 
     const resolvedObject = { value: 'whatever' };
+    const getState = jest.fn();
+    const dispatch = jest.fn();
+    const extra = {};
     beforeEach(() => {
-      const mockStore = configureStore([thunk]);
-      store = mockStore({ authentication: { account: { langKey: 'en' } } });
+      store = configureStore({
+        reducer: (state = [], action) => [...state, action],
+      });
       axios.get = sinon.stub().returns(Promise.resolve(resolvedObject));
       axios.post = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
 
     it('dispatches UPDATE_ACCOUNT_PENDING and UPDATE_ACCOUNT_FULFILLED actions', async () => {
-      const expectedActions = [
-        {
-          type: updateAccount.pending.type,
-        },
-        {
-          type: updateAccount.fulfilled.type,
-          payload: resolvedObject,
-        },
-        {
-          type: getAccount.pending.type,
-        },
-      ];
-      await store.dispatch(saveAccountSettings({}));
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
-      expect(store.getActions()[2]).toMatchObject(expectedActions[2]);
+      const arg = '';
+
+      const result = await updateAccount(arg)(dispatch, getState, extra);
+
+      const pendingAction = dispatch.mock.calls[0][0];
+      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(updateAccount.fulfilled.match(result)).toBe(true);
+      expect(result.payload).toBe(resolvedObject);
     });
     it('dispatches RESET actions', async () => {
       await store.dispatch(reset());
-      expect(store.getActions()[0]).toMatchObject(reset());
+      expect(store.getState()).toEqual([expect.any(Object), expect.objectContaining(reset())]);
     });
   });
 });

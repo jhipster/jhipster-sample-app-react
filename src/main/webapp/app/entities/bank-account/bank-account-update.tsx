@@ -59,7 +59,7 @@ export const BankAccountUpdate = () => {
     const entity = {
       ...bankAccountEntity,
       ...values,
-      user: users.find(it => it.id.toString() === values.user.toString()),
+      user: users.find(it => it.id.toString() === values.user?.toString()),
     };
 
     if (isNew) {
