@@ -7,7 +7,7 @@ import {
   SliceCaseReducers,
   ValidateSliceCaseReducers,
 } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
+import { AxiosError, isAxiosError } from 'axios';
 
 /**
  * Model for redux actions with pagination
@@ -51,7 +51,7 @@ const commonErrorProperties: Array<keyof SerializedError> = ['name', 'message', 
  */
 export const serializeAxiosError = (value: any): AxiosError | SerializedError => {
   if (typeof value === 'object' && value !== null) {
-    if (value.isAxiosError) {
+    if (isAxiosError(value)) {
       return value;
     } else {
       const simpleError: SerializedError = {};

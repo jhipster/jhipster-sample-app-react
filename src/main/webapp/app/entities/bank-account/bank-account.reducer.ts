@@ -18,10 +18,14 @@ const apiUrl = 'api/bank-accounts';
 
 // Actions
 
-export const getEntities = createAsyncThunk('bankAccount/fetch_entity_list', async ({ sort }: IQueryParams) => {
-  const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-  return axios.get<IBankAccount[]>(requestUrl);
-});
+export const getEntities = createAsyncThunk(
+  'bankAccount/fetch_entity_list',
+  async ({ sort }: IQueryParams) => {
+    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+    return axios.get<IBankAccount[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError },
+);
 
 export const getEntity = createAsyncThunk(
   'bankAccount/fetch_entity',

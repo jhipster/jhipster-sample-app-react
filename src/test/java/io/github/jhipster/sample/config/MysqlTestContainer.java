@@ -23,7 +23,7 @@ public class MysqlTestContainer implements SqlTestContainer {
     @Override
     public void afterPropertiesSet() {
         if (null == mysqlContainer) {
-            mysqlContainer = new MySQLContainer<>("mysql:8.3.0")
+            mysqlContainer = new MySQLContainer<>("mysql:8.4.0")
                 .withDatabaseName("jhipsterSampleApplicationReact")
                 .withTmpFs(Collections.singletonMap("/testtmpfs", "rw"))
                 .withLogConsumer(new Slf4jLogConsumer(log))

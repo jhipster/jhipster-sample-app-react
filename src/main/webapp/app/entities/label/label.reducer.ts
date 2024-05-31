@@ -18,10 +18,14 @@ const apiUrl = 'api/labels';
 
 // Actions
 
-export const getEntities = createAsyncThunk('label/fetch_entity_list', async ({ sort }: IQueryParams) => {
-  const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-  return axios.get<ILabel[]>(requestUrl);
-});
+export const getEntities = createAsyncThunk(
+  'label/fetch_entity_list',
+  async ({ sort }: IQueryParams) => {
+    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+    return axios.get<ILabel[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError },
+);
 
 export const getEntity = createAsyncThunk(
   'label/fetch_entity',

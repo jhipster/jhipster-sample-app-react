@@ -41,7 +41,7 @@ describe('login modal', () => {
     cy.get(usernameLoginSelector).type(username);
     cy.get(passwordLoginSelector).type('bad-password');
     cy.get(submitLoginSelector).click();
-    cy.wait('@authenticate').then(({ response }) => expect(response.statusCode).to.equal(401));
+    cy.wait('@authenticate').then(({ response }) => expect(response?.statusCode).to.equal(401));
     cy.get(errorLoginSelector).should('be.visible');
   });
 
@@ -49,7 +49,7 @@ describe('login modal', () => {
     cy.get(usernameLoginSelector).type(username);
     cy.get(passwordLoginSelector).type(password);
     cy.get(submitLoginSelector).click();
-    cy.wait('@authenticate').then(({ response }) => expect(response.statusCode).to.equal(200));
+    cy.wait('@authenticate').then(({ response }) => expect(response?.statusCode).to.equal(200));
     cy.hash().should('eq', '');
   });
 });

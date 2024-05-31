@@ -15,7 +15,7 @@ describe('Operation e2e test', () => {
   const operationPageUrlPattern = new RegExp('/operation(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const operationSample = { date: '2015-08-05T05:40:37.405Z', amount: 29395.14 };
+  const operationSample = { date: '2015-08-05T05:55:06.001Z', amount: 26695.27 };
 
   let operation;
 
@@ -44,7 +44,7 @@ describe('Operation e2e test', () => {
     cy.visit('/');
     cy.clickOnEntityMenuItem('operation');
     cy.wait('@entitiesRequest').then(({ response }) => {
-      if (response.body.length === 0) {
+      if (response?.body.length === 0) {
         cy.get(entityTableSelector).should('not.exist');
       } else {
         cy.get(entityTableSelector).should('exist');
@@ -68,7 +68,7 @@ describe('Operation e2e test', () => {
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
+          expect(response?.statusCode).to.equal(200);
         });
         cy.url().should('match', operationPageUrlPattern);
       });
@@ -109,7 +109,7 @@ describe('Operation e2e test', () => {
         cy.getEntityDetailsHeading('operation');
         cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
+          expect(response?.statusCode).to.equal(200);
         });
         cy.url().should('match', operationPageUrlPattern);
       });
@@ -120,7 +120,7 @@ describe('Operation e2e test', () => {
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
+          expect(response?.statusCode).to.equal(200);
         });
         cy.url().should('match', operationPageUrlPattern);
       });
@@ -130,7 +130,7 @@ describe('Operation e2e test', () => {
         cy.getEntityCreateUpdateHeading('Operation');
         cy.get(entityCreateSaveButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
+          expect(response?.statusCode).to.equal(200);
         });
         cy.url().should('match', operationPageUrlPattern);
       });
@@ -142,10 +142,10 @@ describe('Operation e2e test', () => {
         cy.getEntityDeleteDialogHeading('operation').should('exist');
         cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(204);
+          expect(response?.statusCode).to.equal(204);
         });
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
+          expect(response?.statusCode).to.equal(200);
         });
         cy.url().should('match', operationPageUrlPattern);
 
@@ -162,24 +162,24 @@ describe('Operation e2e test', () => {
     });
 
     it('should create an instance of Operation', () => {
-      cy.get(`[data-cy="date"]`).type('2015-08-04T20:48');
+      cy.get(`[data-cy="date"]`).type('2015-08-05T10:16');
       cy.get(`[data-cy="date"]`).blur();
-      cy.get(`[data-cy="date"]`).should('have.value', '2015-08-04T20:48');
+      cy.get(`[data-cy="date"]`).should('have.value', '2015-08-05T10:16');
 
-      cy.get(`[data-cy="description"]`).type('expostulate');
-      cy.get(`[data-cy="description"]`).should('have.value', 'expostulate');
+      cy.get(`[data-cy="description"]`).type('however finally');
+      cy.get(`[data-cy="description"]`).should('have.value', 'however finally');
 
-      cy.get(`[data-cy="amount"]`).type('5569.8');
-      cy.get(`[data-cy="amount"]`).should('have.value', '5569.8');
+      cy.get(`[data-cy="amount"]`).type('30465.75');
+      cy.get(`[data-cy="amount"]`).should('have.value', '30465.75');
 
       cy.get(entityCreateSaveButtonSelector).click();
 
       cy.wait('@postEntityRequest').then(({ response }) => {
-        expect(response.statusCode).to.equal(201);
+        expect(response?.statusCode).to.equal(201);
         operation = response.body;
       });
       cy.wait('@entitiesRequest').then(({ response }) => {
-        expect(response.statusCode).to.equal(200);
+        expect(response?.statusCode).to.equal(200);
       });
       cy.url().should('match', operationPageUrlPattern);
     });

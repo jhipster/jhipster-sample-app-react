@@ -20,10 +20,14 @@ const apiUrl = 'api/operations';
 
 // Actions
 
-export const getEntities = createAsyncThunk('operation/fetch_entity_list', async ({ page, size, sort }: IQueryParams) => {
-  const requestUrl = `${apiUrl}?${sort ? `page=${page}&size=${size}&sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-  return axios.get<IOperation[]>(requestUrl);
-});
+export const getEntities = createAsyncThunk(
+  'operation/fetch_entity_list',
+  async ({ page, size, sort }: IQueryParams) => {
+    const requestUrl = `${apiUrl}?${sort ? `page=${page}&size=${size}&sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+    return axios.get<IOperation[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError },
+);
 
 export const getEntity = createAsyncThunk(
   'operation/fetch_entity',

@@ -16,6 +16,7 @@ import io.github.jhipster.sample.service.mapper.LabelMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,8 @@ class LabelResourceIT {
 
     private Label label;
 
+    private Label insertedLabel;
+
     /**
      * Create an entity for this test.
      *
@@ -86,6 +89,14 @@ class LabelResourceIT {
         label = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedLabel != null) {
+            labelRepository.delete(insertedLabel);
+            insertedLabel = null;
+        }
+    }
+
     @Test
     @Transactional
     void createLabel() throws Exception {
@@ -106,6 +117,8 @@ class LabelResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedLabel = labelMapper.toEntity(returnedLabelDTO);
         assertLabelUpdatableFieldsEquals(returnedLabel, getPersistedLabel(returnedLabel));
+
+        insertedLabel = returnedLabel;
     }
 
     @Test
@@ -147,7 +160,7 @@ class LabelResourceIT {
     @Transactional
     void getAllLabels() throws Exception {
         // Initialize the database
-        labelRepository.saveAndFlush(label);
+        insertedLabel = labelRepository.saveAndFlush(label);
 
         // Get all the labelList
         restLabelMockMvc
@@ -162,7 +175,7 @@ class LabelResourceIT {
     @Transactional
     void getLabel() throws Exception {
         // Initialize the database
-        labelRepository.saveAndFlush(label);
+        insertedLabel = labelRepository.saveAndFlush(label);
 
         // Get the label
         restLabelMockMvc
@@ -184,7 +197,7 @@ class LabelResourceIT {
     @Transactional
     void putExistingLabel() throws Exception {
         // Initialize the database
-        labelRepository.saveAndFlush(label);
+        insertedLabel = labelRepository.saveAndFlush(label);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -270,7 +283,7 @@ class LabelResourceIT {
     @Transactional
     void partialUpdateLabelWithPatch() throws Exception {
         // Initialize the database
-        labelRepository.saveAndFlush(label);
+        insertedLabel = labelRepository.saveAndFlush(label);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -296,7 +309,7 @@ class LabelResourceIT {
     @Transactional
     void fullUpdateLabelWithPatch() throws Exception {
         // Initialize the database
-        labelRepository.saveAndFlush(label);
+        insertedLabel = labelRepository.saveAndFlush(label);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -386,7 +399,7 @@ class LabelResourceIT {
     @Transactional
     void deleteLabel() throws Exception {
         // Initialize the database
-        labelRepository.saveAndFlush(label);
+        insertedLabel = labelRepository.saveAndFlush(label);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

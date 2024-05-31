@@ -21,7 +21,7 @@ describe('Axios Interceptor', () => {
       const rejectError = {
         response: {
           statusText: 'NotFound',
-          status: 403,
+          status: 401,
           data: { message: 'Page not found' },
         },
       };
