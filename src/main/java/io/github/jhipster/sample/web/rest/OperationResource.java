@@ -34,7 +34,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class OperationResource {
 
-    private final Logger log = LoggerFactory.getLogger(OperationResource.class);
+    private static final Logger log = LoggerFactory.getLogger(OperationResource.class);
 
     private static final String ENTITY_NAME = "operation";
 
