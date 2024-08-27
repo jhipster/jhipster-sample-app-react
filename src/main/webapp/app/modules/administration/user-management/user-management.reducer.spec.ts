@@ -5,14 +5,14 @@ import sinon from 'sinon';
 import { defaultValue } from 'app/shared/model/user.model';
 import { AUTHORITIES } from 'app/config/constants';
 import userManagement, {
-  getUsers,
-  getUsersAsAdmin,
+  createUser,
+  deleteUser,
   getRoles,
   getUser,
-  createUser,
-  updateUser,
-  deleteUser,
+  getUsers,
+  getUsersAsAdmin,
   reset,
+  updateUser,
 } from './user-management.reducer';
 
 describe('User management reducer tests', () => {
@@ -21,9 +21,8 @@ describe('User management reducer tests', () => {
   function isEmpty(element): boolean {
     if (element instanceof Array) {
       return element.length === 0;
-    } else {
-      return Object.keys(element).length === 0;
     }
+    return Object.keys(element).length === 0;
   }
 
   function testInitialState(state) {
@@ -105,7 +104,7 @@ describe('User management reducer tests', () => {
 
   describe('Success', () => {
     it('should update state according to a successful fetch users request', () => {
-      const headers = { ['x-total-count']: 42 };
+      const headers = { 'x-total-count': 42 };
       const payload = { data: 'some handsome users', headers };
       const toTest = userManagement(undefined, { type: getUsers.fulfilled.type, payload });
 

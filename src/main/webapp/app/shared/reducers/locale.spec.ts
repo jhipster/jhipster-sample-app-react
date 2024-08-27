@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { configureStore, createReducer } from '@reduxjs/toolkit';
 import { TranslatorContext } from 'react-jhipster';
 
-import locale, { setLocale, updateLocale, loaded, addTranslationSourcePrefix } from 'app/shared/reducers/locale';
+import locale, { addTranslationSourcePrefix, loaded, setLocale, updateLocale } from 'app/shared/reducers/locale';
 
 const defaultLocale = 'en';
 const dispatch = jest.fn();

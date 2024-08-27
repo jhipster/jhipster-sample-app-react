@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Col, Row, Button } from 'reactstrap';
-import { Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Row } from 'reactstrap';
+import { Translate, ValidatedField, ValidatedForm, translate } from 'react-jhipster';
 import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { handlePasswordResetFinish, reset } from '../password-reset.reducer';
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { handlePasswordResetFinish, reset } from '../password-reset.reducer';
 
 export const PasswordResetFinishPage = () => {
   const dispatch = useAppDispatch();

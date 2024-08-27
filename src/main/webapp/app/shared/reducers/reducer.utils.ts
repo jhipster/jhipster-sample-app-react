@@ -1,11 +1,11 @@
 import {
-  UnknownAction,
-  AsyncThunk,
   ActionReducerMapBuilder,
-  createSlice,
+  AsyncThunk,
   SerializedError,
   SliceCaseReducers,
+  UnknownAction,
   ValidateSliceCaseReducers,
+  createSlice,
 } from '@reduxjs/toolkit';
 import { AxiosError, isAxiosError } from 'axios';
 
@@ -53,16 +53,15 @@ export const serializeAxiosError = (value: any): AxiosError | SerializedError =>
   if (typeof value === 'object' && value !== null) {
     if (isAxiosError(value)) {
       return value;
-    } else {
-      const simpleError: SerializedError = {};
-      for (const property of commonErrorProperties) {
-        if (typeof value[property] === 'string') {
-          simpleError[property] = value[property];
-        }
-      }
-
-      return simpleError;
     }
+    const simpleError: SerializedError = {};
+    for (const property of commonErrorProperties) {
+      if (typeof value[property] === 'string') {
+        simpleError[property] = value[property];
+      }
+    }
+
+    return simpleError;
   }
   return { message: String(value) };
 };

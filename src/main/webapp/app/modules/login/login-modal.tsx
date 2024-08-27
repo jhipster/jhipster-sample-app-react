@@ -1,6 +1,6 @@
 import React from 'react';
-import { Translate, translate, ValidatedField } from 'react-jhipster';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert, Row, Col, Form } from 'reactstrap';
+import { Translate, ValidatedField, translate } from 'react-jhipster';
+import { Alert, Button, Col, Form, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { type FieldError, useForm } from 'react-hook-form';
 

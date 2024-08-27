@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Table } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 
 const formatDiskSpaceOutput = rawValue => {
@@ -7,9 +7,9 @@ const formatDiskSpaceOutput = rawValue => {
   const val = rawValue / 1073741824;
   if (val > 1) {
     // Value
-    return val.toFixed(2) + ' GB';
+    return `${val.toFixed(2)} GB`;
   }
-  return (rawValue / 1048576).toFixed(2) + ' MB';
+  return `${(rawValue / 1048576).toFixed(2)} MB`;
 };
 
 const HealthModal = ({ handleClose, healthObject, showModal }) => {

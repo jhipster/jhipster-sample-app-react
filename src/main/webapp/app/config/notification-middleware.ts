@@ -12,7 +12,7 @@ type TostMessage = {
 };
 
 const addErrorAlert = (message: TostMessage) => {
-  toast.error(message.key ? translate(message.key, message.data) ?? message.message : message.message);
+  toast.error(message.key ? (translate(message.key, message.data) ?? message.message) : message.message);
 };
 
 const getFieldErrorsTosts = (fieldErrors: FieldErrorVM[]): TostMessage[] =>
@@ -26,6 +26,7 @@ const getFieldErrorsTosts = (fieldErrors: FieldErrorVM[]): TostMessage[] =>
     return { message: `Error on field "${fieldName}"`, key: `error.${fieldError.message}`, data: { fieldName } };
   });
 
+// eslint-disable-next-line complexity
 export default () => next => action => {
   const { error, payload } = action;
 
@@ -42,7 +43,7 @@ export default () => next => action => {
 
   if (isRejectedAction(action) && isAxiosError(error)) {
     if (error.response) {
-      const response = error.response;
+      const { response } = error;
       if (response.status === 401) {
         // Ignore, page will be redirected to login.
       } else if (error.config?.url?.endsWith('api/account') || error.config?.url?.endsWith('api/authenticate')) {
@@ -59,14 +60,14 @@ export default () => next => action => {
           key: 'error.url.not.found',
         });
       } else {
-        const data = response.data;
+        const { data } = response;
         const problem = isProblemWithMessage(data) ? data : null;
         if (problem?.fieldErrors) {
           getFieldErrorsTosts(problem.fieldErrors).forEach(message => addErrorAlert(message));
         } else {
           const { error: toastError, param } = getMessageFromHeaders((response.headers as any) ?? {});
           if (toastError) {
-            const entityName = translate('global.menu.entities.' + param);
+            const entityName = translate(`global.menu.entities.${param}`);
             addErrorAlert({ key: toastError, data: { entityName } });
           } else if (problem?.message) {
             addErrorAlert({ message: problem.detail, key: problem.message });

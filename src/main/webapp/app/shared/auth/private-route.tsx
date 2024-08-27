@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, Navigate, PathRouteProps } from 'react-router-dom';
+import { Navigate, PathRouteProps, useLocation } from 'react-router-dom';
 import { Translate } from 'react-jhipster';
 
 import { useAppSelector } from 'app/config/store';

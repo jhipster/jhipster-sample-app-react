@@ -34,7 +34,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class OperationResource {
 
-    private static final Logger log = LoggerFactory.getLogger(OperationResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OperationResource.class);
 
     private static final String ENTITY_NAME = "operation";
 
@@ -59,7 +59,7 @@ public class OperationResource {
      */
     @PostMapping("")
     public ResponseEntity<OperationDTO> createOperation(@Valid @RequestBody OperationDTO operationDTO) throws URISyntaxException {
-        log.debug("REST request to save Operation : {}", operationDTO);
+        LOG.debug("REST request to save Operation : {}", operationDTO);
         if (operationDTO.getId() != null) {
             throw new BadRequestAlertException("A new operation cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -86,7 +86,7 @@ public class OperationResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody OperationDTO operationDTO
     ) throws URISyntaxException {
-        log.debug("REST request to update Operation : {}, {}", id, operationDTO);
+        LOG.debug("REST request to update Operation : {}, {}", id, operationDTO);
         if (operationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -122,7 +122,7 @@ public class OperationResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody OperationDTO operationDTO
     ) throws URISyntaxException {
-        log.debug("REST request to partial update Operation partially : {}, {}", id, operationDTO);
+        LOG.debug("REST request to partial update Operation partially : {}, {}", id, operationDTO);
         if (operationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -162,7 +162,7 @@ public class OperationResource {
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
     ) {
-        log.debug("REST request to get a page of Operations");
+        LOG.debug("REST request to get a page of Operations");
         Page<OperationDTO> page;
         if (eagerload) {
             page = operationRepository.findAllWithEagerRelationships(pageable).map(operationMapper::toDto);
@@ -181,7 +181,7 @@ public class OperationResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<OperationDTO> getOperation(@PathVariable("id") Long id) {
-        log.debug("REST request to get Operation : {}", id);
+        LOG.debug("REST request to get Operation : {}", id);
         Optional<OperationDTO> operationDTO = operationRepository.findOneWithEagerRelationships(id).map(operationMapper::toDto);
         return ResponseUtil.wrapOrNotFound(operationDTO);
     }
@@ -194,7 +194,7 @@ public class OperationResource {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOperation(@PathVariable("id") Long id) {
-        log.debug("REST request to delete Operation : {}", id);
+        LOG.debug("REST request to delete Operation : {}", id);
         operationRepository.deleteById(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

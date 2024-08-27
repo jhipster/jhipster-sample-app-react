@@ -10,7 +10,7 @@ const MergeJsonWebpackPlugin = require('merge-jsons-webpack-plugin');
 const utils = require('./utils.js');
 const environment = require('./environment');
 
-const getTsLoaderRule = env => {
+const getTsLoaderRule = () => {
   const rules = [
     {
       loader: 'thread-loader',
@@ -101,11 +101,8 @@ module.exports = async options => {
           SERVER_API_URL: JSON.stringify(environment.SERVER_API_URL),
         }),
         new ESLintPlugin({
-          baseConfig: {
-            parserOptions: {
-              project: ['../tsconfig.json'],
-            },
-          },
+          configType: 'flat',
+          extensions: ['ts', 'tsx'],
         }),
         new ForkTsCheckerWebpackPlugin(),
         new CopyWebpackPlugin({

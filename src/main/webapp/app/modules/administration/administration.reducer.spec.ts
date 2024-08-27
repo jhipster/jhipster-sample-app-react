@@ -3,12 +3,12 @@ import sinon from 'sinon';
 import { configureStore } from '@reduxjs/toolkit';
 
 import administration, {
+  getConfigurations,
+  getEnv,
+  getLoggers,
   getSystemHealth,
   getSystemMetrics,
   getSystemThreadDump,
-  getLoggers,
-  getConfigurations,
-  getEnv,
   setLoggers,
 } from './administration.reducer';
 

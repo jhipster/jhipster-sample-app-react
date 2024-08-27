@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { configureStore } from '@reduxjs/toolkit';
 import { TranslatorContext } from 'react-jhipster';
 
-import password, { savePassword, reset } from './password.reducer';
+import password, { reset, savePassword } from './password.reducer';
 
 describe('Password reducer tests', () => {
   beforeAll(() => {

@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, Row, Col, FormText } from 'reactstrap';
-import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
+import { Button, Col, Row } from 'reactstrap';
+import { Translate, ValidatedField, ValidatedForm, isNumber, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { IBankAccount } from 'app/shared/model/bank-account.model';
 import { getEntities as getBankAccounts } from 'app/entities/bank-account/bank-account.reducer';
-import { ILabel } from 'app/shared/model/label.model';
 import { getEntities as getLabels } from 'app/entities/label/label.reducer';
-import { IOperation } from 'app/shared/model/operation.model';
-import { getEntity, updateEntity, createEntity, reset } from './operation.reducer';
+import { createEntity, getEntity, updateEntity } from './operation.reducer';
 
 export const OperationUpdate = () => {
   const dispatch = useAppDispatch();
@@ -49,7 +46,6 @@ export const OperationUpdate = () => {
     }
   }, [updateSuccess]);
 
-  // eslint-disable-next-line complexity
   const saveEntity = values => {
     if (values.id !== undefined && typeof values.id !== 'number') {
       values.id = Number(values.id);

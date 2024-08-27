@@ -29,7 +29,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class LabelResource {
 
-    private static final Logger log = LoggerFactory.getLogger(LabelResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LabelResource.class);
 
     private static final String ENTITY_NAME = "label";
 
@@ -54,7 +54,7 @@ public class LabelResource {
      */
     @PostMapping("")
     public ResponseEntity<LabelDTO> createLabel(@Valid @RequestBody LabelDTO labelDTO) throws URISyntaxException {
-        log.debug("REST request to save Label : {}", labelDTO);
+        LOG.debug("REST request to save Label : {}", labelDTO);
         if (labelDTO.getId() != null) {
             throw new BadRequestAlertException("A new label cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -81,7 +81,7 @@ public class LabelResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody LabelDTO labelDTO
     ) throws URISyntaxException {
-        log.debug("REST request to update Label : {}, {}", id, labelDTO);
+        LOG.debug("REST request to update Label : {}, {}", id, labelDTO);
         if (labelDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -117,7 +117,7 @@ public class LabelResource {
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody LabelDTO labelDTO
     ) throws URISyntaxException {
-        log.debug("REST request to partial update Label partially : {}, {}", id, labelDTO);
+        LOG.debug("REST request to partial update Label partially : {}, {}", id, labelDTO);
         if (labelDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -152,7 +152,7 @@ public class LabelResource {
      */
     @GetMapping("")
     public List<LabelDTO> getAllLabels() {
-        log.debug("REST request to get all Labels");
+        LOG.debug("REST request to get all Labels");
         List<Label> labels = labelRepository.findAll();
         return labelMapper.toDto(labels);
     }
@@ -165,7 +165,7 @@ public class LabelResource {
      */
     @GetMapping("/{id}")
     public ResponseEntity<LabelDTO> getLabel(@PathVariable("id") Long id) {
-        log.debug("REST request to get Label : {}", id);
+        LOG.debug("REST request to get Label : {}", id);
         Optional<LabelDTO> labelDTO = labelRepository.findById(id).map(labelMapper::toDto);
         return ResponseUtil.wrapOrNotFound(labelDTO);
     }
@@ -178,7 +178,7 @@ public class LabelResource {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLabel(@PathVariable("id") Long id) {
-        log.debug("REST request to delete Label : {}", id);
+        LOG.debug("REST request to delete Label : {}", id);
         labelRepository.deleteById(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
