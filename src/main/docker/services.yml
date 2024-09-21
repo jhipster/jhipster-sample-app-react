@@ -5,3 +5,6 @@ services:
     extends:
       file: ./mysql.yml
       service: mysql
+    profiles:
+      - ''
+      - prod
