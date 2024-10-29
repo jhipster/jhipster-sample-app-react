@@ -2,7 +2,7 @@
 name: jhipstersampleapplicationreact
 services:
   mysql:
-    image: mysql:9.0.1
+    image: mysql:9.1.0
     volumes:
       - ./config/mysql:/etc/mysql/conf.d
     environment:
