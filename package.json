@@ -108,12 +108,12 @@
     "reactstrap": "9.2.3",
     "redux": "5.0.1",
     "tslib": "2.8.0",
-    "uuid": "11.0.1"
+    "uuid": "11.0.2"
   },
   "devDependencies": {
     "@testing-library/react": "16.0.1",
     "@types/jest": "29.5.14",
-    "@types/lodash": "4.17.12",
+    "@types/lodash": "4.17.13",
     "@types/node": "20.11.25",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
@@ -139,7 +139,7 @@
     "eslint-webpack-plugin": "4.2.0",
     "folder-hash": "4.0.4",
     "fork-ts-checker-webpack-plugin": "9.0.2",
-    "generator-jhipster": "8.7.2",
+    "generator-jhipster": "8.7.3",
     "html-webpack-plugin": "5.6.3",
     "husky": "9.1.6",
     "identity-obj-proxy": "3.0.0",
@@ -172,17 +172,17 @@
     "ts-jest": "29.2.5",
     "ts-loader": "9.5.1",
     "typescript": "5.6.3",
-    "typescript-eslint": "8.11.0",
+    "typescript-eslint": "8.12.2",
     "wait-on": "8.0.1",
     "webpack": "5.95.0",
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "5.1.0",
     "webpack-merge": "6.0.1",
     "webpack-notifier": "1.15.0",
-    "workbox-webpack-plugin": "7.1.0"
+    "workbox-webpack-plugin": "7.3.0"
   },
   "engines": {
-    "node": ">=20.18.0"
+    "node": ">=22.11.0"
   },
   "cacheDirectories": [
     "node_modules"
