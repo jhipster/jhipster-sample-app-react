@@ -201,7 +201,7 @@ describe('Entities reducer tests', () => {
     });
 
     it('dispatches CREATE_LABEL actions', async () => {
-      const arg = { id: 456 };
+      const arg = { id: 7351 };
 
       const result = await createEntity(arg)(dispatch, getState, extra);
 
@@ -211,7 +211,7 @@ describe('Entities reducer tests', () => {
     });
 
     it('dispatches UPDATE_LABEL actions', async () => {
-      const arg = { id: 456 };
+      const arg = { id: 7351 };
 
       const result = await updateEntity(arg)(dispatch, getState, extra);
 

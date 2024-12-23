@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
+
 import Loadable from 'react-loadable';
 
 import Login from 'app/modules/login/login';

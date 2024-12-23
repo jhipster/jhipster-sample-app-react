@@ -65,6 +65,7 @@ export default tseslint.config(
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/unbound-method': 'off',
       '@typescript-eslint/array-type': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
       '@typescript-eslint/no-shadow': 'error',
       'spaced-comment': ['warn', 'always'],
       'guard-for-in': 'error',

@@ -209,7 +209,7 @@ describe('Entities reducer tests', () => {
     });
 
     it('dispatches CREATE_OPERATION actions', async () => {
-      const arg = { id: 456 };
+      const arg = { id: 5986 };
 
       const result = await createEntity(arg)(dispatch, getState, extra);
 
@@ -219,7 +219,7 @@ describe('Entities reducer tests', () => {
     });
 
     it('dispatches UPDATE_OPERATION actions', async () => {
-      const arg = { id: 456 };
+      const arg = { id: 5986 };
 
       const result = await updateEntity(arg)(dispatch, getState, extra);
 

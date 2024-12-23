@@ -5,17 +5,17 @@ import { isAxiosError } from 'axios';
 import { FieldErrorVM, isProblemWithMessage } from 'app/shared/jhipster/problem-details';
 import { getMessageFromHeaders } from 'app/shared/jhipster/headers';
 
-type TostMessage = {
+type ToastMessage = {
   message?: string;
   key?: string;
   data?: any;
 };
 
-const addErrorAlert = (message: TostMessage) => {
+const addErrorAlert = (message: ToastMessage) => {
   toast.error(message.key ? (translate(message.key, message.data) ?? message.message) : message.message);
 };
 
-const getFieldErrorsTosts = (fieldErrors: FieldErrorVM[]): TostMessage[] =>
+const getFieldErrorsToasts = (fieldErrors: FieldErrorVM[]): ToastMessage[] =>
   fieldErrors.map(fieldError => {
     if (['Min', 'Max', 'DecimalMin', 'DecimalMax'].includes(fieldError.message)) {
       fieldError.message = 'Size';
@@ -63,7 +63,7 @@ export default () => next => action => {
         const { data } = response;
         const problem = isProblemWithMessage(data) ? data : null;
         if (problem?.fieldErrors) {
-          getFieldErrorsTosts(problem.fieldErrors).forEach(message => addErrorAlert(message));
+          getFieldErrorsToasts(problem.fieldErrors).forEach(message => addErrorAlert(message));
         } else {
           const { error: toastError, param } = getMessageFromHeaders((response.headers as any) ?? {});
           if (toastError) {

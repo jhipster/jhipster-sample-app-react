@@ -209,7 +209,7 @@ describe('Entities reducer tests', () => {
     });
 
     it('dispatches CREATE_BANKACCOUNT actions', async () => {
-      const arg = { id: 456 };
+      const arg = { id: 22583 };
 
       const result = await createEntity(arg)(dispatch, getState, extra);
 
@@ -219,7 +219,7 @@ describe('Entities reducer tests', () => {
     });
 
     it('dispatches UPDATE_BANKACCOUNT actions', async () => {
-      const arg = { id: 456 };
+      const arg = { id: 22583 };
 
       const result = await updateEntity(arg)(dispatch, getState, extra);
 
