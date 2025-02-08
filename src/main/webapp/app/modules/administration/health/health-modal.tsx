@@ -3,7 +3,7 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Table } from 'react
 import { Translate } from 'react-jhipster';
 
 const formatDiskSpaceOutput = rawValue => {
-  // Should display storage space in an human readable unit
+  // Should display storage space in a human readable unit
   const val = rawValue / 1073741824;
   if (val > 1) {
     // Value

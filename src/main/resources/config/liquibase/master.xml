@@ -7,6 +7,7 @@
     <property name="floatType" value="float4" dbms="h2"/>
     <property name="uuidType" value="varchar(36)" dbms="h2"/>
     <property name="datetimeType" value="datetime(6)" dbms="h2"/>
+    <property name="timeType" value="time(6)" dbms="h2"/>
     <property name="clobType" value="clob" dbms="h2"/>
     <property name="blobType" value="blob" dbms="h2"/>
     <property name="now" value="now()" dbms="mysql"/>
@@ -15,6 +16,7 @@
     <property name="blobType" value="longblob" dbms="mysql"/>
     <property name="uuidType" value="varchar(36)" dbms="mysql"/>
     <property name="datetimeType" value="datetime(6)" dbms="mysql"/>
+    <property name="timeType" value="time(6)" dbms="mysql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20150805124838_added_entity_BankAccount.xml" relativeToChangelogFile="false"/>

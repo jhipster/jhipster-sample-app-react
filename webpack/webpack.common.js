@@ -11,7 +11,7 @@ const utils = require('./utils.js');
 const environment = require('./environment');
 
 const getTsLoaderRule = () => {
-  const rules = [
+  return [
     {
       loader: 'thread-loader',
       options: {
@@ -29,7 +29,6 @@ const getTsLoaderRule = () => {
       },
     },
   ];
-  return rules;
 };
 
 module.exports = async options => {
