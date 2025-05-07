@@ -7,6 +7,7 @@ import java.util.*;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -51,12 +52,39 @@ public class DomainUserDetailsService implements UserDetailsService {
         if (!user.isActivated()) {
             throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
         }
-        List<SimpleGrantedAuthority> grantedAuthorities = user
-            .getAuthorities()
-            .stream()
-            .map(Authority::getName)
-            .map(SimpleGrantedAuthority::new)
-            .toList();
-        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), grantedAuthorities);
+        return UserWithId.fromUser(user);
+    }
+
+    public static class UserWithId extends org.springframework.security.core.userdetails.User {
+
+        private final Long id;
+
+        public UserWithId(String login, String password, Collection<? extends GrantedAuthority> authorities, Long id) {
+            super(login, password, authorities);
+            this.id = id;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return super.equals(obj);
+        }
+
+        @Override
+        public int hashCode() {
+            return super.hashCode();
+        }
+
+        public static UserWithId fromUser(User user) {
+            return new UserWithId(
+                user.getLogin(),
+                user.getPassword(),
+                user.getAuthorities().stream().map(Authority::getName).map(SimpleGrantedAuthority::new).toList(),
+                user.getId()
+            );
+        }
     }
 }

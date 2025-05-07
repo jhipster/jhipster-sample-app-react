@@ -40,7 +40,7 @@ export const getEntity = createAsyncThunk(
 
 export const createEntity = createAsyncThunk(
   'operation/create_entity',
-  async (entity: IOperation, thunkAPI) => {
+  async (entity: IOperation) => {
     return axios.post<IOperation>(apiUrl, cleanEntity(entity));
   },
   { serializeError: serializeAxiosError },
@@ -48,7 +48,7 @@ export const createEntity = createAsyncThunk(
 
 export const updateEntity = createAsyncThunk(
   'operation/update_entity',
-  async (entity: IOperation, thunkAPI) => {
+  async (entity: IOperation) => {
     return axios.put<IOperation>(`${apiUrl}/${entity.id}`, cleanEntity(entity));
   },
   { serializeError: serializeAxiosError },
@@ -56,7 +56,7 @@ export const updateEntity = createAsyncThunk(
 
 export const partialUpdateEntity = createAsyncThunk(
   'operation/partial_update_entity',
-  async (entity: IOperation, thunkAPI) => {
+  async (entity: IOperation) => {
     return axios.patch<IOperation>(`${apiUrl}/${entity.id}`, cleanEntity(entity));
   },
   { serializeError: serializeAxiosError },
@@ -64,7 +64,7 @@ export const partialUpdateEntity = createAsyncThunk(
 
 export const deleteEntity = createAsyncThunk(
   'operation/delete_entity',
-  async (id: string | number, thunkAPI) => {
+  async (id: string | number) => {
     const requestUrl = `${apiUrl}/${id}`;
     return await axios.delete<IOperation>(requestUrl);
   },
