@@ -1,14 +1,13 @@
-// @ts-check
-
-import globals from 'globals';
-import prettier from 'eslint-plugin-prettier/recommended';
-import tseslint from 'typescript-eslint';
 import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
+import cypress from 'eslint-plugin-cypress';
+import prettier from 'eslint-plugin-prettier/recommended';
 import react from 'eslint-plugin-react/configs/recommended.js';
-import cypress from 'eslint-plugin-cypress/flat';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 // jhipster-needle-eslint-add-import - JHipster will add additional import here
 
-export default tseslint.config(
+export default defineConfig(
   {
     languageOptions: {
       globals: {

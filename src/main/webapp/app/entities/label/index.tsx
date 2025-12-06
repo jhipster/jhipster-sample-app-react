@@ -1,12 +1,13 @@
 import React from 'react';
+
 import { Route } from 'react-router';
 
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import Label from './label';
+import LabelDeleteDialog from './label-delete-dialog';
 import LabelDetail from './label-detail';
 import LabelUpdate from './label-update';
-import LabelDeleteDialog from './label-delete-dialog';
 
 const LabelRoutes = () => (
   <ErrorBoundaryRoutes>

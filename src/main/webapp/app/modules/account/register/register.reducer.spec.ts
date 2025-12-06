@@ -1,7 +1,8 @@
+import { TranslatorContext } from 'react-jhipster';
+
+import { configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
 import sinon from 'sinon';
-import { configureStore } from '@reduxjs/toolkit';
-import { TranslatorContext } from 'react-jhipster';
 
 import register, { handleRegister, reset } from './register.reducer';
 
@@ -85,8 +86,12 @@ describe('Creating account tests', () => {
 
       const result = await handleRegister(arg)(dispatch, getState, extra);
 
-      const pendingAction = dispatch.mock.calls[0][0];
-      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: handleRegister.pending.type,
+          meta: expect.objectContaining({ requestStatus: 'pending' }),
+        }),
+      );
       expect(handleRegister.fulfilled.match(result)).toBe(true);
       expect(result.payload).toBe(resolvedObject);
     });

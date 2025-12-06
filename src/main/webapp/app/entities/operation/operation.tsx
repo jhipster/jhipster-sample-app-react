@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { TextFormat, Translate, getPaginationState } from 'react-jhipster';
 import { Link, useLocation } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { TextFormat, Translate, getPaginationState } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 import { APP_DATE_FORMAT } from 'app/config/constants';
-import { ASC, DESC, ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
-import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { ASC, DESC, ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 
 import { getEntities, reset } from './operation.reducer';
 
@@ -123,7 +125,7 @@ export const Operation = () => {
           hasMore={paginationState.activePage - 1 < links.next}
           loader={<div className="loader">Loading ...</div>}
         >
-          {operationList && operationList.length > 0 ? (
+          {operationList?.length > 0 ? (
             <Table responsive>
               <thead>
                 <tr>
@@ -151,8 +153,8 @@ export const Operation = () => {
                 </tr>
               </thead>
               <tbody>
-                {operationList.map((operation, i) => (
-                  <tr key={`entity-${i}`} data-cy="entityTable">
+                {operationList.map(operation => (
+                  <tr key={`entity-${operation.id}`} data-cy="entityTable">
                     <td>
                       <Button tag={Link} to={`/operation/${operation.id}`} color="link" size="sm">
                         {operation.id}

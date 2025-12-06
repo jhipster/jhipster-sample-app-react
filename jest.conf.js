@@ -1,6 +1,7 @@
-const tsconfig = require('./tsconfig.test.json');
+import tsconfig from './tsconfig.test.json' with { type: 'json' };
+import environment from './webpack/environment.js';
 
-module.exports = {
+export default {
   testEnvironment: 'jest-fixed-jsdom',
   transform: {
     '^.+\\.tsx?$': [
@@ -22,7 +23,7 @@ module.exports = {
   coveragePathIgnorePatterns: ['<rootDir>/src/test/javascript/'],
   moduleNameMapper: mapTypescriptAliasToJestAlias({
     '\\.(css|scss)$': 'identity-obj-proxy',
-    sinon: require.resolve('sinon/pkg/sinon.js'),
+    sinon: import.meta.resolve('sinon/pkg/sinon.js'),
   }),
   reporters: [
     'default',
@@ -33,7 +34,7 @@ module.exports = {
   setupFiles: ['<rootDir>/src/main/webapp/app/setup-tests.ts'],
   globals: {
     I18N_HASH: 'generated_hash',
-    ...require('./webpack/environment'),
+    ...environment,
     DEVELOPMENT: false,
   },
 };

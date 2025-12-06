@@ -38,7 +38,7 @@ public class OperationResource {
 
     private static final String ENTITY_NAME = "operation";
 
-    @Value("${jhipster.clientApp.name}")
+    @Value("${jhipster.clientApp.name:jhipsterSampleApplicationReact}")
     private String applicationName;
 
     private final OperationRepository operationRepository;

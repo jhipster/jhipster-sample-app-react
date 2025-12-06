@@ -1,7 +1,8 @@
 import React from 'react';
 import { Translate, ValidatedField, translate } from 'react-jhipster';
-import { Alert, Button, Col, Form, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { Alert, Button, Col, Form, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
+
 import { type FieldError, useForm } from 'react-hook-form';
 
 export interface ILoginModalProps {
@@ -37,13 +38,13 @@ const LoginModal = (props: ILoginModalProps) => {
         <ModalBody>
           <Row>
             <Col md="12">
-              {loginError ? (
+              {loginError && (
                 <Alert color="danger" data-cy="loginError">
                   <Translate contentKey="login.messages.error.authentication">
                     <strong>Failed to sign in!</strong> Please check your credentials and try again.
                   </Translate>
                 </Alert>
-              ) : null}
+              )}
             </Col>
             <Col md="12">
               <ValidatedField

@@ -1,9 +1,10 @@
-import axios from 'axios';
 import { createAsyncThunk, isFulfilled, isPending } from '@reduxjs/toolkit';
-import { ASC } from 'app/shared/util/pagination.constants';
-import { cleanEntity } from 'app/shared/util/entity-utils';
-import { EntityState, IQueryParams, createEntitySlice, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+import axios from 'axios';
+
 import { ILabel, defaultValue } from 'app/shared/model/label.model';
+import { EntityState, IQueryParams, createEntitySlice, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+import { cleanEntity } from 'app/shared/util/entity-utils';
+import { ASC } from 'app/shared/util/pagination.constants';
 
 const initialState: EntityState<ILabel> = {
   loading: false,

@@ -1,20 +1,20 @@
 import React from 'react';
-import { Route } from 'react-router';
 
 import Loadable from 'react-loadable';
+import { Route } from 'react-router';
 
-import Login from 'app/modules/login/login';
-import Register from 'app/modules/account/register/register';
-import Activate from 'app/modules/account/activate/activate';
-import PasswordResetInit from 'app/modules/account/password-reset/init/password-reset-init';
-import PasswordResetFinish from 'app/modules/account/password-reset/finish/password-reset-finish';
-import Logout from 'app/modules/login/logout';
-import Home from 'app/modules/home/home';
+import { AUTHORITIES } from 'app/config/constants';
 import EntitiesRoutes from 'app/entities/routes';
+import Activate from 'app/modules/account/activate/activate';
+import PasswordResetFinish from 'app/modules/account/password-reset/finish/password-reset-finish';
+import PasswordResetInit from 'app/modules/account/password-reset/init/password-reset-init';
+import Register from 'app/modules/account/register/register';
+import Home from 'app/modules/home/home';
+import Login from 'app/modules/login/login';
+import Logout from 'app/modules/login/logout';
 import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
-import { AUTHORITIES } from 'app/config/constants';
 
 const loading = <div>loading ...</div>;
 

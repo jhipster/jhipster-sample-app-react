@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Route } from 'react-router';
 
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
@@ -13,9 +14,9 @@ export default () => {
     <div>
       <ErrorBoundaryRoutes>
         {/* prettier-ignore */}
-        <Route path="bank-account/*" element={<BankAccount />} />
-        <Route path="label/*" element={<Label />} />
-        <Route path="operation/*" element={<Operation />} />
+        <Route path="/bank-account/*" element={<BankAccount />} />
+        <Route path="/label/*" element={<Label />} />
+        <Route path="/operation/*" element={<Operation />} />
         {/* jhipster-needle-add-route-path - JHipster will add routes here */}
       </ErrorBoundaryRoutes>
     </div>

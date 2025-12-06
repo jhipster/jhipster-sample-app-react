@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Col, Input, Row, Table } from 'reactstrap';
 import { Translate } from 'react-jhipster';
+import { Badge, Col, Input, Row, Table } from 'reactstrap';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getConfigurations, getEnv } from '../administration.reducer';
@@ -59,56 +59,54 @@ export const ConfigurationPage = () => {
           </tr>
         </thead>
         <tbody>
-          {configProps.contexts
-            ? Object.values(getContextList(configProps.contexts))
-                .filter(propsFilterFn)
-                .map((property: any, propIndex) => (
-                  <tr key={propIndex}>
-                    <td>{property.prefix}</td>
-                    <td>
-                      {Object.keys(property.properties).map((propKey, index) => (
-                        <Row key={index}>
-                          <Col md="4">{propKey}</Col>
-                          <Col md="8">
-                            <Badge className="float-end bg-secondary break">{JSON.stringify(property.properties[propKey])}</Badge>
-                          </Col>
-                        </Row>
-                      ))}
-                    </td>
-                  </tr>
-                ))
-            : null}
+          {configProps.contexts &&
+            Object.values(getContextList(configProps.contexts))
+              .filter(propsFilterFn)
+              .map((property: any, propIndex) => (
+                <tr key={propIndex}>
+                  <td>{property.prefix}</td>
+                  <td>
+                    {Object.keys(property.properties).map((propKey, index) => (
+                      <Row key={index}>
+                        <Col md="4">{propKey}</Col>
+                        <Col md="8">
+                          <Badge className="float-end bg-secondary break">{JSON.stringify(property.properties[propKey])}</Badge>
+                        </Col>
+                      </Row>
+                    ))}
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </Table>
-      {env.propertySources
-        ? env.propertySources.map((envKey, envIndex) => (
-            <div key={envIndex}>
-              <h4>
-                <span>{envKey.name}</span>
-              </h4>
-              <Table className="table table-sm table-striped table-bordered table-responsive d-table">
-                <thead>
-                  <tr key={envIndex}>
-                    <th className="w-40">Property</th>
-                    <th className="w-60">Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Object.keys(envKey.properties)
-                    .filter(envFilterFn)
-                    .map((propKey, propIndex) => (
-                      <tr key={propIndex}>
-                        <td className="break">{propKey}</td>
-                        <td className="break">
-                          <span className="float-end badge bg-secondary break">{envKey.properties[propKey].value}</span>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
-            </div>
-          ))
-        : null}
+      {env.propertySources &&
+        env.propertySources.map((envKey, envIndex) => (
+          <div key={envIndex}>
+            <h4>
+              <span>{envKey.name}</span>
+            </h4>
+            <Table className="table table-sm table-striped table-bordered table-responsive d-table">
+              <thead>
+                <tr key={envIndex}>
+                  <th className="w-40">Property</th>
+                  <th className="w-60">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.keys(envKey.properties)
+                  .filter(envFilterFn)
+                  .map((propKey, propIndex) => (
+                    <tr key={propIndex}>
+                      <td className="break">{propKey}</td>
+                      <td className="break">
+                        <span className="float-end badge bg-secondary break">{envKey.properties[propKey].value}</span>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          </div>
+        ))}
     </div>
   );
 };

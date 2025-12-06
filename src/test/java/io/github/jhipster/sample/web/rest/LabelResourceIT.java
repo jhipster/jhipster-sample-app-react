@@ -41,7 +41,7 @@ class LabelResourceIT {
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     private static Random random = new Random();
-    private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2L * Integer.MAX_VALUE));
 
     @Autowired
     private ObjectMapper om;
@@ -288,6 +288,8 @@ class LabelResourceIT {
         // Update the label using partial update
         Label partialUpdatedLabel = new Label();
         partialUpdatedLabel.setId(label.getId());
+
+        partialUpdatedLabel.label(UPDATED_LABEL);
 
         restLabelMockMvc
             .perform(

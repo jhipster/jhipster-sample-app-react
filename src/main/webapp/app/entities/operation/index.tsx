@@ -1,12 +1,13 @@
 import React from 'react';
+
 import { Route } from 'react-router';
 
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import Operation from './operation';
+import OperationDeleteDialog from './operation-delete-dialog';
 import OperationDetail from './operation-detail';
 import OperationUpdate from './operation-update';
-import OperationDeleteDialog from './operation-delete-dialog';
 
 const OperationRoutes = () => (
   <ErrorBoundaryRoutes>

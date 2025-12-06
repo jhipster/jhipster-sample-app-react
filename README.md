@@ -1,6 +1,6 @@
 # jhipsterSampleApplicationReact
 
-This application was generated using JHipster 8.11.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v8.11.0](https://www.jhipster.tech/documentation-archive/v8.11.0).
+This application was generated using JHipster 9.0.0-beta.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v9.0.0-beta.0](https://www.jhipster.tech/documentation-archive/v9.0.0-beta.0).
 
 ## Project Structure
 
@@ -37,7 +37,7 @@ Run the following commands in two separate terminals to create a blissful develo
 auto-refreshes when files change on your hard drive.
 
 ```
-./mvnw
+./npmw backend:start
 ./npmw start
 ```
 
@@ -63,17 +63,17 @@ The service worker initialization code is commented out by default. To enable it
 </script>
 ```
 
-Note: [Workbox](https://developers.google.com/web/tools/workbox/) powers JHipster's service worker. It dynamically generates the `service-worker.js` file.
+Note: [Workbox](https://developer.chrome.com/docs/workbox) powers JHipster's service worker. It dynamically generates the `service-worker.js` file.
 
 ### Managing dependencies
 
-For example, to add [Leaflet][] library as a runtime dependency of your application, you would run following command:
+For example, to add [Leaflet][] library as a runtime dependency of your application, you would run the following command:
 
 ```
 ./npmw install --save --save-exact leaflet
 ```
 
-To benefit from TypeScript type definitions from [DefinitelyTyped][] repository in development, you would run following command:
+To benefit from TypeScript type definitions from [DefinitelyTyped][] repository in development, you would run the following command:
 
 ```
 ./npmw install --save-dev --save-exact @types/leaflet
@@ -149,14 +149,25 @@ Unit tests are run by [Jest][]. They're located near components and can be run w
 ./npmw test
 ```
 
-UI end-to-end tests are powered by [Cypress][]. They're located in [src/test/javascript/cypress](src/test/javascript/cypress)
-and can be run by starting Spring Boot in one terminal (`./mvnw spring-boot:run`) and running the tests (`./npmw run e2e`) in a second one.
+#### E2E tests
+
+UI end-to-end tests are powered by [Cypress][]. They're located in [src/test/javascript/cypress/](src/test/javascript/cypress/)
+and can be run by starting Spring Boot in one terminal (`./npmw run app:start`) and running the tests (`./npmw run e2e`) in a second one.
+
+Before running Cypress tests, it's possible to specify user credentials by overriding the `CYPRESS_E2E_USERNAME` and `CYPRESS_E2E_PASSWORD` environment variables.
+
+```
+export CYPRESS_E2E_USERNAME="<your-username>"
+export CYPRESS_E2E_PASSWORD="<your-password>"
+```
+
+See Cypress documentation for setting OS [environment variables](https://docs.cypress.io/app/references/environment-variables#Setting) to learn more.
 
 #### Lighthouse audits
 
-You can execute automated [Lighthouse audits](https://developers.google.com/web/tools/lighthouse/) with [cypress-audit](https://github.com/mfrachet/cypress-audit) by running `./npmw run e2e:cypress:audits`.
+You can execute automated [Lighthouse audits](https://developer.chrome.com/docs/lighthouse/overview) with [cypress-audit](https://github.com/mfrachet/cypress-audit) by running `./npmw run e2e:cypress:audits`.
 You should only run the audits when your application is packaged with the production profile.
-The lighthouse report is created in `target/cypress/lhreport.html`
+The lighthouse report is created in `target/cypress/lhreport.html`.
 
 ## Others
 
@@ -226,7 +237,7 @@ To achieve this, first build a Docker image of your app by running:
 npm run java:docker
 ```
 
-Or build a arm64 Docker image when using an arm64 processor os like MacOS with M1 processor family running:
+Or build an arm64 Docker image when using an arm64 processor os like MacOS with M1 processor family running:
 
 ```sh
 npm run java:docker:arm64
@@ -244,20 +255,20 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
-[JHipster Homepage and latest documentation]: https://www.jhipster.tech
-[JHipster 8.11.0 archive]: https://www.jhipster.tech/documentation-archive/v8.11.0
-[Using JHipster in development]: https://www.jhipster.tech/documentation-archive/v8.11.0/development/
-[Using Docker and Docker-Compose]: https://www.jhipster.tech/documentation-archive/v8.11.0/docker-compose
-[Using JHipster in production]: https://www.jhipster.tech/documentation-archive/v8.11.0/production/
-[Running tests page]: https://www.jhipster.tech/documentation-archive/v8.11.0/running-tests/
-[Code quality page]: https://www.jhipster.tech/documentation-archive/v8.11.0/code-quality/
-[Setting up Continuous Integration]: https://www.jhipster.tech/documentation-archive/v8.11.0/setting-up-ci/
+[JHipster Homepage and latest documentation]: https://www.jhipster.tech/
+[JHipster 9.0.0-beta.0 archive]: https://www.jhipster.tech/documentation-archive/v9.0.0-beta.0
+[Using JHipster in development]: https://www.jhipster.tech/documentation-archive/v9.0.0-beta.0/development/
+[Using Docker and Docker-Compose]: https://www.jhipster.tech/documentation-archive/v9.0.0-beta.0/docker-compose
+[Using JHipster in production]: https://www.jhipster.tech/documentation-archive/v9.0.0-beta.0/production/
+[Running tests page]: https://www.jhipster.tech/documentation-archive/v9.0.0-beta.0/running-tests/
+[Code quality page]: https://www.jhipster.tech/documentation-archive/v9.0.0-beta.0/code-quality/
+[Setting up Continuous Integration]: https://www.jhipster.tech/documentation-archive/v9.0.0-beta.0/setting-up-ci/
 [Node.js]: https://nodejs.org/
 [NPM]: https://www.npmjs.com/
 [Gatling]: https://gatling.io/
-[Webpack]: https://webpack.github.io/
+[Webpack]: https://webpack.js.org/
 [BrowserSync]: https://www.browsersync.io/
 [Jest]: https://jestjs.io
-[Cypress]: https://www.cypress.io/
 [Leaflet]: https://leafletjs.com/
 [DefinitelyTyped]: https://definitelytyped.org/
+[Cypress]: https://www.cypress.io/

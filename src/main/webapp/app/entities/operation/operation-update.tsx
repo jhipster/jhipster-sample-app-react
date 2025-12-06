@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
+import { Translate, ValidatedField, ValidatedForm, isNumber, translate } from 'react-jhipster';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Col, Row } from 'reactstrap';
-import { Translate, ValidatedField, ValidatedForm, isNumber, translate } from 'react-jhipster';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-
 import { getEntities as getBankAccounts } from 'app/entities/bank-account/bank-account.reducer';
 import { getEntities as getLabels } from 'app/entities/label/label.reducer';
+import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
+import { mapIdList } from 'app/shared/util/entity-utils';
+
 import { createEntity, getEntity, updateEntity } from './operation.reducer';
 
 export const OperationUpdate = () => {
@@ -98,7 +99,7 @@ export const OperationUpdate = () => {
             <p>Loading...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? (
+              {!isNew && (
                 <ValidatedField
                   name="id"
                   required
@@ -107,7 +108,7 @@ export const OperationUpdate = () => {
                   label={translate('global.field.id')}
                   validate={{ required: true }}
                 />
-              ) : null}
+              )}
               <ValidatedField
                 label={translate('jhipsterSampleApplicationReactApp.operation.date')}
                 id="operation-date"

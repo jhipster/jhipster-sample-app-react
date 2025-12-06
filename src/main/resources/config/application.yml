@@ -11,7 +11,7 @@
 # ===================================================================
 # Standard Spring Boot properties.
 # Full reference is available at:
-# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# https://docs.spring.io/spring-boot/appendix/application-properties/index.html
 # ===================================================================
 
 ---
@@ -54,7 +54,7 @@ management:
         readiness:
           include: readinessState,db
     jhimetrics:
-      enabled: true
+      access: read-only
   info:
     git:
       mode: full
@@ -214,6 +214,7 @@ jhipster:
     license-url:
   security:
     content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:"
+
 
 # jhipster-needle-add-application-yaml-document
 ---

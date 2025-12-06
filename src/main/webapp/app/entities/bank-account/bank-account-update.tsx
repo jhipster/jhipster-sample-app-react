@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
+import { Translate, ValidatedField, ValidatedForm, isNumber, translate } from 'react-jhipster';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Col, Row } from 'reactstrap';
-import { Translate, ValidatedField, ValidatedForm, isNumber, translate } from 'react-jhipster';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-
 import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
+
 import { createEntity, getEntity, reset, updateEntity } from './bank-account.reducer';
 
 export const BankAccountUpdate = () => {
@@ -89,7 +90,7 @@ export const BankAccountUpdate = () => {
             <p>Loading...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? (
+              {!isNew && (
                 <ValidatedField
                   name="id"
                   required
@@ -98,7 +99,7 @@ export const BankAccountUpdate = () => {
                   label={translate('global.field.id')}
                   validate={{ required: true }}
                 />
-              ) : null}
+              )}
               <ValidatedField
                 label={translate('jhipsterSampleApplicationReactApp.bankAccount.name')}
                 id="bank-account-name"

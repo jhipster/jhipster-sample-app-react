@@ -1,12 +1,13 @@
 import React from 'react';
+
 import { Route } from 'react-router';
 
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import BankAccount from './bank-account';
+import BankAccountDeleteDialog from './bank-account-delete-dialog';
 import BankAccountDetail from './bank-account-detail';
 import BankAccountUpdate from './bank-account-update';
-import BankAccountDeleteDialog from './bank-account-delete-dialog';
 
 const BankAccountRoutes = () => (
   <ErrorBoundaryRoutes>

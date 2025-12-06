@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
+import { Translate } from 'react-jhipster';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { Translate } from 'react-jhipster';
+
+import { faBan, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+
 import { deleteUser, getUser } from './user-management.reducer';
 
 export const UserManagementDeleteDialog = () => {
@@ -41,12 +44,12 @@ export const UserManagementDeleteDialog = () => {
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
-          <FontAwesomeIcon icon="ban" />
+          <FontAwesomeIcon icon={faBan} />
           &nbsp;
           <Translate contentKey="entity.action.cancel">Cancel</Translate>
         </Button>
         <Button color="danger" onClick={confirmDelete}>
-          <FontAwesomeIcon icon="trash" />
+          <FontAwesomeIcon icon={faTrash} />
           &nbsp;
           <Translate contentKey="entity.action.delete">Delete</Translate>
         </Button>

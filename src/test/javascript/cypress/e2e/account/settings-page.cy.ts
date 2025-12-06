@@ -1,5 +1,5 @@
-import { emailSettingsSelector, firstNameSettingsSelector, lastNameSettingsSelector, submitSettingsSelector } from '../../support/commands';
 import type { Account } from '../../support/account';
+import { emailSettingsSelector, firstNameSettingsSelector, lastNameSettingsSelector, submitSettingsSelector } from '../../support/commands';
 
 describe('/account/settings', () => {
   const adminUsername = Cypress.env('E2E_USERNAME') ?? 'admin';

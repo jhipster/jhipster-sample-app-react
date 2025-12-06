@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { Translate, getSortState } from 'react-jhipster';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { Translate, getSortState } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
-import { ASC, DESC } from 'app/shared/util/pagination.constants';
-import { overrideSortStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { overrideSortStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { ASC, DESC } from 'app/shared/util/pagination.constants';
 
 import { getEntities } from './label.reducer';
 
@@ -79,7 +81,7 @@ export const Label = () => {
         </div>
       </h2>
       <div className="table-responsive">
-        {labelList && labelList.length > 0 ? (
+        {labelList?.length > 0 ? (
           <Table responsive>
             <thead>
               <tr>
@@ -99,8 +101,8 @@ export const Label = () => {
               </tr>
             </thead>
             <tbody>
-              {labelList.map((label, i) => (
-                <tr key={`entity-${i}`} data-cy="entityTable">
+              {labelList.map(label => (
+                <tr key={`entity-${label.id}`} data-cy="entityTable">
                   <td>
                     <Button tag={Link} to={`/label/${label.id}`} color="link" size="sm">
                       {label.id}

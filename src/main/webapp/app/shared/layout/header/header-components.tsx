@@ -1,8 +1,9 @@
 import React from 'react';
 import { Translate } from 'react-jhipster';
-
-import { NavItem, NavLink, NavbarBrand } from 'reactstrap';
 import { NavLink as Link } from 'react-router-dom';
+import { NavItem, NavLink, NavbarBrand } from 'reactstrap';
+
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const BrandIcon = props => (
@@ -24,7 +25,7 @@ export const Brand = () => (
 export const Home = () => (
   <NavItem>
     <NavLink tag={Link} to="/" className="d-flex align-items-center">
-      <FontAwesomeIcon icon="home" />
+      <FontAwesomeIcon icon={faHome} />
       <span>
         <Translate contentKey="global.menu.home">Home</Translate>
       </span>

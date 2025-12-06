@@ -1,11 +1,12 @@
-import axios from 'axios';
-
-import { configureStore } from '@reduxjs/toolkit';
-import sinon from 'sinon';
 import { parseHeaderForLinks } from 'react-jhipster';
 
-import { EntityState } from 'app/shared/reducers/reducer.utils';
+import { configureStore } from '@reduxjs/toolkit';
+import axios from 'axios';
+import sinon from 'sinon';
+
 import { IOperation, defaultValue } from 'app/shared/model/operation.model';
+import { EntityState } from 'app/shared/reducers/reducer.utils';
+
 import reducer, { createEntity, deleteEntity, getEntities, getEntity, partialUpdateEntity, reset, updateEntity } from './operation.reducer';
 
 describe('Entities reducer tests', () => {
@@ -193,8 +194,12 @@ describe('Entities reducer tests', () => {
 
       const result = await getEntities(arg)(dispatch, getState, extra);
 
-      const pendingAction = dispatch.mock.calls[0][0];
-      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: getEntities.pending.type,
+          meta: expect.objectContaining({ requestStatus: 'pending' }),
+        }),
+      );
       expect(getEntities.fulfilled.match(result)).toBe(true);
     });
 
@@ -203,8 +208,12 @@ describe('Entities reducer tests', () => {
 
       const result = await getEntity(arg)(dispatch, getState, extra);
 
-      const pendingAction = dispatch.mock.calls[0][0];
-      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: getEntity.pending.type,
+          meta: expect.objectContaining({ requestStatus: 'pending' }),
+        }),
+      );
       expect(getEntity.fulfilled.match(result)).toBe(true);
     });
 
@@ -213,8 +222,12 @@ describe('Entities reducer tests', () => {
 
       const result = await createEntity(arg)(dispatch, getState, extra);
 
-      const pendingAction = dispatch.mock.calls[0][0];
-      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: createEntity.pending.type,
+          meta: expect.objectContaining({ requestStatus: 'pending' }),
+        }),
+      );
       expect(createEntity.fulfilled.match(result)).toBe(true);
     });
 
@@ -223,8 +236,12 @@ describe('Entities reducer tests', () => {
 
       const result = await updateEntity(arg)(dispatch, getState, extra);
 
-      const pendingAction = dispatch.mock.calls[0][0];
-      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: updateEntity.pending.type,
+          meta: expect.objectContaining({ requestStatus: 'pending' }),
+        }),
+      );
       expect(updateEntity.fulfilled.match(result)).toBe(true);
     });
 
@@ -233,8 +250,12 @@ describe('Entities reducer tests', () => {
 
       const result = await partialUpdateEntity(arg)(dispatch, getState, extra);
 
-      const pendingAction = dispatch.mock.calls[0][0];
-      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: partialUpdateEntity.pending.type,
+          meta: expect.objectContaining({ requestStatus: 'pending' }),
+        }),
+      );
       expect(partialUpdateEntity.fulfilled.match(result)).toBe(true);
     });
 
@@ -243,8 +264,12 @@ describe('Entities reducer tests', () => {
 
       const result = await deleteEntity(arg)(dispatch, getState, extra);
 
-      const pendingAction = dispatch.mock.calls[0][0];
-      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: deleteEntity.pending.type,
+          meta: expect.objectContaining({ requestStatus: 'pending' }),
+        }),
+      );
       expect(deleteEntity.fulfilled.match(result)).toBe(true);
     });
 

@@ -1,8 +1,8 @@
 import './home.scss';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Translate } from 'react-jhipster';
+import { Link } from 'react-router-dom';
 import { Alert, Col, Row } from 'reactstrap';
 
 import { useAppSelector } from 'app/config/store';
@@ -54,7 +54,7 @@ export const Home = () => {
           </div>
         )}
         <p>
-          <Translate contentKey="home.question">If you have any question on JHipster:</Translate>
+          <Translate contentKey="home.question">If you have any questions on JHipster:</Translate>
         </p>
 
         <ul>

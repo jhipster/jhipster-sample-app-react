@@ -1,6 +1,7 @@
 package io.github.jhipster.sample.service.dto;
 
 import io.github.jhipster.sample.domain.User;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,6 +10,7 @@ import java.util.Objects;
  */
 public class UserDTO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private Long id;

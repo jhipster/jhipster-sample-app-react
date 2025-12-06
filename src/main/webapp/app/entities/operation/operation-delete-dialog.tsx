@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { Translate } from 'react-jhipster';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { Translate } from 'react-jhipster';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+
 import { deleteEntity, getEntity } from './operation.reducer';
 
 export const OperationDeleteDialog = () => {

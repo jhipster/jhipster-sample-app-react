@@ -1,6 +1,7 @@
+import { TranslatorContext } from 'react-jhipster';
+
 import axios from 'axios';
 import sinon from 'sinon';
-import { TranslatorContext } from 'react-jhipster';
 
 import locale, { addTranslationSourcePrefix, loaded, setLocale, updateLocale } from 'app/shared/reducers/locale';
 
@@ -56,8 +57,12 @@ describe('Locale reducer tests', () => {
 
         const result = await setLocale(defaultLocale)(dispatch, getState, extra);
 
-        const pendingAction = dispatch.mock.calls[0][0];
-        expect(pendingAction.meta.requestStatus).toBe('pending');
+        expect(dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: setLocale.pending.type,
+            meta: expect.objectContaining({ requestStatus: 'pending' }),
+          }),
+        );
         expect(setLocale.fulfilled.match(result)).toBe(true);
       });
     });
@@ -75,8 +80,12 @@ describe('Locale reducer tests', () => {
 
         const result = await setLocale(defaultLocale)(dispatch, getState, extra);
 
-        const pendingAction = dispatch.mock.calls[0][0];
-        expect(pendingAction.meta.requestStatus).toBe('pending');
+        expect(dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: setLocale.pending.type,
+            meta: expect.objectContaining({ requestStatus: 'pending' }),
+          }),
+        );
         expect(setLocale.fulfilled.match(result)).toBe(true);
       });
     });
@@ -97,8 +106,12 @@ describe('Locale reducer tests', () => {
 
         const result = await addTranslationSourcePrefix(sourcePrefix)(dispatch, getState, extra);
 
-        const pendingAction = dispatch.mock.calls[0][0];
-        expect(pendingAction.meta.requestStatus).toBe('pending');
+        expect(dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: addTranslationSourcePrefix.pending.type,
+            meta: expect.objectContaining({ requestStatus: 'pending' }),
+          }),
+        );
         expect(addTranslationSourcePrefix.fulfilled.match(result)).toBe(true);
       });
     });
@@ -108,15 +121,19 @@ describe('Locale reducer tests', () => {
         axios.get = sinon.stub().returns(Promise.resolve({ key: 'value' }));
       });
 
-      it("doesn't dispatches loaded action", async () => {
+      it("doesn't dispatch loaded action", async () => {
         const getState = jest.fn(() => ({
           locale: { currentLocale: defaultLocale, sourcePrefixes: [sourcePrefix], loadedLocales: [], loadedKeys: [] },
         }));
 
         const result = await addTranslationSourcePrefix(sourcePrefix)(dispatch, getState, extra);
 
-        const pendingAction = dispatch.mock.calls[0][0];
-        expect(pendingAction.meta.requestStatus).toBe('pending');
+        expect(dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: addTranslationSourcePrefix.pending.type,
+            meta: expect.objectContaining({ requestStatus: 'pending' }),
+          }),
+        );
         expect(addTranslationSourcePrefix.fulfilled.match(result)).toBe(true);
       });
     });
@@ -126,15 +143,19 @@ describe('Locale reducer tests', () => {
         axios.get = sinon.stub().returns(Promise.resolve({ key: 'value' }));
       });
 
-      it("doesn't dispatches loaded action", async () => {
+      it("doesn't dispatch loaded action", async () => {
         const getState = jest.fn(() => ({
           locale: { currentLocale: defaultLocale, sourcePrefixes: [], loadedLocales: [], loadedKeys: [`${sourcePrefix}${defaultLocale}`] },
         }));
 
         const result = await addTranslationSourcePrefix(sourcePrefix)(dispatch, getState, extra);
 
-        const pendingAction = dispatch.mock.calls[0][0];
-        expect(pendingAction.meta.requestStatus).toBe('pending');
+        expect(dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: addTranslationSourcePrefix.pending.type,
+            meta: expect.objectContaining({ requestStatus: 'pending' }),
+          }),
+        );
         expect(addTranslationSourcePrefix.fulfilled.match(result)).toBe(true);
       });
     });

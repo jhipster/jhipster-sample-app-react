@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
+import { Translate } from 'react-jhipster';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Alert, Col, Row } from 'reactstrap';
-import { Translate } from 'react-jhipster';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+
 import { activateAction, reset } from './activate.reducer';
 
 const successAlert = (

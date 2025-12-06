@@ -1,7 +1,8 @@
+import { TranslatorContext } from 'react-jhipster';
+
+import { configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
 import sinon from 'sinon';
-import { configureStore } from '@reduxjs/toolkit';
-import { TranslatorContext } from 'react-jhipster';
 
 import password, { reset, savePassword } from './password.reducer';
 
@@ -81,8 +82,12 @@ describe('Password reducer tests', () => {
 
       const result = await savePassword(arg)(dispatch, getState, extra);
 
-      const pendingAction = dispatch.mock.calls[0][0];
-      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: savePassword.pending.type,
+          meta: expect.objectContaining({ requestStatus: 'pending' }),
+        }),
+      );
       expect(savePassword.fulfilled.match(result)).toBe(true);
     });
     it('dispatches RESET actions', async () => {

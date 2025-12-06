@@ -1,6 +1,6 @@
+import { configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
 import sinon from 'sinon';
-import { configureStore } from '@reduxjs/toolkit';
 
 import activate, { activateAction, reset } from './activate.reducer';
 
@@ -69,8 +69,12 @@ describe('Activate reducer tests', () => {
 
       const result = await activateAction(arg)(dispatch, getState, extra);
 
-      const pendingAction = dispatch.mock.calls[0][0];
-      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: activateAction.pending.type,
+          meta: expect.objectContaining({ requestStatus: 'pending' }),
+        }),
+      );
       expect(activateAction.fulfilled.match(result)).toBe(true);
       expect(result.payload).toBe(resolvedObject);
     });

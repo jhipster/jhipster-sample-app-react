@@ -33,7 +33,7 @@ public class LabelResource {
 
     private static final String ENTITY_NAME = "label";
 
-    @Value("${jhipster.clientApp.name}")
+    @Value("${jhipster.clientApp.name:jhipsterSampleApplicationReact}")
     private String applicationName;
 
     private final LabelRepository labelRepository;

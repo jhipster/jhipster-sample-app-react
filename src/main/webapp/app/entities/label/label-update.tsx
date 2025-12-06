@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
+import { Translate, ValidatedField, ValidatedForm, translate } from 'react-jhipster';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Col, Row } from 'reactstrap';
-import { Translate, ValidatedField, ValidatedForm, translate } from 'react-jhipster';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-
 import { getEntities as getOperations } from 'app/entities/operation/operation.reducer';
+import { mapIdList } from 'app/shared/util/entity-utils';
+
 import { createEntity, getEntity, reset, updateEntity } from './label.reducer';
 
 export const LabelUpdate = () => {
@@ -85,7 +86,7 @@ export const LabelUpdate = () => {
             <p>Loading...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? (
+              {!isNew && (
                 <ValidatedField
                   name="id"
                   required
@@ -94,7 +95,7 @@ export const LabelUpdate = () => {
                   label={translate('global.field.id')}
                   validate={{ required: true }}
                 />
-              ) : null}
+              )}
               <ValidatedField
                 label={translate('jhipsterSampleApplicationReactApp.label.label')}
                 id="label-label"

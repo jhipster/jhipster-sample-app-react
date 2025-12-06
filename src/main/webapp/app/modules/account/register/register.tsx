@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Translate, ValidatedField, ValidatedForm, isEmail, translate } from 'react-jhipster';
-import { Alert, Button, Col, Row } from 'reactstrap';
-import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { Alert, Button, Col, Row } from 'reactstrap';
 
-import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
+import { toast } from 'react-toastify';
+
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
+
 import { handleRegister, reset } from './register.reducer';
 
 export const RegisterPage = () => {

@@ -13,7 +13,7 @@ describe('forgot your password', () => {
   beforeEach(() => {
     cy.visit('');
     cy.clickOnLoginItem();
-    cy.get(usernameLoginSelector).type(username);
+    cy.get(usernameLoginSelector).should('be.visible').type(username);
     cy.get(forgetYourPasswordSelector).click();
   });
 

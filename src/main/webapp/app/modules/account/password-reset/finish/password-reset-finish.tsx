@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Row } from 'reactstrap';
 import { Translate, ValidatedField, ValidatedForm, translate } from 'react-jhipster';
 import { useSearchParams } from 'react-router-dom';
+import { Button, Col, Row } from 'reactstrap';
+
 import { toast } from 'react-toastify';
 
-import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import { handlePasswordResetFinish, reset } from '../password-reset.reducer';
 
 export const PasswordResetFinishPage = () => {
@@ -79,7 +80,7 @@ export const PasswordResetFinishPage = () => {
           <h1>
             <Translate contentKey="reset.finish.title">Reset password</Translate>
           </h1>
-          <div>{key ? getResetForm() : null}</div>
+          <div>{key && getResetForm()}</div>
         </Col>
       </Row>
     </div>

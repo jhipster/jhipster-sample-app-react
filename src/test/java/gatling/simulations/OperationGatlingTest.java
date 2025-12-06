@@ -20,7 +20,7 @@ import java.util.Optional;
 /**
  * Performance test for the Operation entity.
  *
- * @see <a href="https://github.com/jhipster/generator-jhipster/tree/v8.11.0/generators/gatling#logging-tips">Logging tips</a>
+ * @see <a href="https://github.com/jhipster/generator-jhipster/tree/v9.0.0-beta.0/generators/gatling#logging-tips">Logging tips</a>
  */
 public class OperationGatlingTest extends Simulation {
 
@@ -68,10 +68,10 @@ public class OperationGatlingTest extends Simulation {
                         .body(
                             StringBody(
                                 "{" +
-                                "\"date\": \"2020-01-01T00:00:00.000Z\"" +
-                                ", \"description\": \"SAMPLE_TEXT\"" +
-                                ", \"amount\": 0" +
-                                "}"
+                                    "\"date\": \"2020-01-01T00:00:00.000Z\"" +
+                                    ", \"description\": \"SAMPLE_TEXT\"" +
+                                    ", \"amount\": 0" +
+                                    "}"
                             )
                         )
                         .asJson()

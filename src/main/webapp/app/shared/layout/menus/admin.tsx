@@ -1,8 +1,12 @@
 import React from 'react';
-import MenuItem from 'app/shared/layout/menus/menu-item';
-import { DropdownItem } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Translate, translate } from 'react-jhipster';
+import { DropdownItem } from 'reactstrap';
+
+import { faDatabase } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import MenuItem from 'app/shared/layout/menus/menu-item';
+
 import { NavDropdown } from './menu-components';
 
 const adminMenuItems = () => (
@@ -34,7 +38,7 @@ const openAPIItem = () => (
 
 const databaseItem = () => (
   <DropdownItem tag="a" href="./h2-console/" target="_tab">
-    <FontAwesomeIcon icon="database" fixedWidth /> <Translate contentKey="global.menu.admin.database">Database</Translate>
+    <FontAwesomeIcon icon={faDatabase} /> <Translate contentKey="global.menu.admin.database">Database</Translate>
   </DropdownItem>
 );
 

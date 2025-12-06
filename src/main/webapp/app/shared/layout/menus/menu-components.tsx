@@ -1,6 +1,6 @@
 import React from 'react';
-
 import { DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const NavDropdown = props => (

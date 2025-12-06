@@ -1,7 +1,8 @@
+import { TranslatorContext } from 'react-jhipster';
+
 import { configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
 import sinon from 'sinon';
-import { TranslatorContext } from 'react-jhipster';
 
 import account, { reset, updateAccount } from './settings.reducer';
 
@@ -82,8 +83,12 @@ describe('Settings reducer tests', () => {
 
       const result = await updateAccount(arg)(dispatch, getState, extra);
 
-      const pendingAction = dispatch.mock.calls[0][0];
-      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: updateAccount.pending.type,
+          meta: expect.objectContaining({ requestStatus: 'pending' }),
+        }),
+      );
       expect(updateAccount.fulfilled.match(result)).toBe(true);
       expect(result.payload).toBe(resolvedObject);
     });

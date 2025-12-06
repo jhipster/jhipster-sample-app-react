@@ -1,9 +1,11 @@
 import { translate } from 'react-jhipster';
-import { toast } from 'react-toastify';
-import { isFulfilledAction, isRejectedAction } from 'app/shared/reducers/reducer.utils';
+
 import { isAxiosError } from 'axios';
-import { FieldErrorVM, isProblemWithMessage } from 'app/shared/jhipster/problem-details';
+import { toast } from 'react-toastify';
+
 import { getMessageFromHeaders } from 'app/shared/jhipster/headers';
+import { FieldErrorVM, isProblemWithMessage } from 'app/shared/jhipster/problem-details';
+import { isFulfilledAction, isRejectedAction } from 'app/shared/reducers/reducer.utils';
 
 type ToastMessage = {
   message?: string;
@@ -65,7 +67,7 @@ export default () => next => action => {
         if (problem?.fieldErrors) {
           getFieldErrorsToasts(problem.fieldErrors).forEach(message => addErrorAlert(message));
         } else {
-          const { error: toastError, param } = getMessageFromHeaders((response.headers as any) ?? {});
+          const { error: toastError, param } = getMessageFromHeaders(response.headers ?? {});
           if (toastError) {
             const entityName = translate(`global.menu.entities.${param}`);
             addErrorAlert({ key: toastError, data: { entityName } });
@@ -78,7 +80,7 @@ export default () => next => action => {
           }
         }
       }
-    } else if (error.config?.url?.endsWith('api/account') && error.config?.method === 'get') {
+    } else if (error.config?.url?.endsWith('api/account') && error.config.method === 'get') {
       /* eslint-disable no-console */
       console.log('Authentication Error: Trying to access url api/account with GET.');
     } else {

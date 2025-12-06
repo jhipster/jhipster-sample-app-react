@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Translate, ValidatedField, ValidatedForm, translate } from 'react-jhipster';
 import { Button, Col, Row } from 'reactstrap';
+
 import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getSession } from 'app/shared/reducers/authentication';
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
+import { getSession } from 'app/shared/reducers/authentication';
+
 import { reset, savePassword } from './password.reducer';
 
 export const PasswordPage = () => {

@@ -15,7 +15,7 @@ describe('Operation e2e test', () => {
   const operationPageUrlPattern = new RegExp('/operation(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const operationSample = { date: '2015-08-05T10:54:51.610Z', amount: 24425.89 };
+  const operationSample = { date: '2015-08-05T01:18:12.661Z', amount: 11128.01 };
 
   let operation;
 
@@ -156,21 +156,21 @@ describe('Operation e2e test', () => {
 
   describe('new Operation page', () => {
     beforeEach(() => {
-      cy.visit(`${operationPageUrl}`);
+      cy.visit(operationPageUrl);
       cy.get(entityCreateButtonSelector).click();
       cy.getEntityCreateUpdateHeading('Operation');
     });
 
     it('should create an instance of Operation', () => {
-      cy.get(`[data-cy="date"]`).type('2015-08-05T12:07');
+      cy.get(`[data-cy="date"]`).type('2015-08-05T09:57');
       cy.get(`[data-cy="date"]`).blur();
-      cy.get(`[data-cy="date"]`).should('have.value', '2015-08-05T12:07');
+      cy.get(`[data-cy="date"]`).should('have.value', '2015-08-05T09:57');
 
-      cy.get(`[data-cy="description"]`).type('yum');
-      cy.get(`[data-cy="description"]`).should('have.value', 'yum');
+      cy.get(`[data-cy="description"]`).type('now boohoo');
+      cy.get(`[data-cy="description"]`).should('have.value', 'now boohoo');
 
-      cy.get(`[data-cy="amount"]`).type('9186.24');
-      cy.get(`[data-cy="amount"]`).should('have.value', '9186.24');
+      cy.get(`[data-cy="amount"]`).type('11311.42');
+      cy.get(`[data-cy="amount"]`).should('have.value', '11311.42');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

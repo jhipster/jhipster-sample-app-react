@@ -1,9 +1,11 @@
-import axios from 'axios';
-import { createAsyncThunk, isFulfilled, isPending } from '@reduxjs/toolkit';
 import { loadMoreDataWhenScrolled, parseHeaderForLinks } from 'react-jhipster';
-import { cleanEntity } from 'app/shared/util/entity-utils';
-import { EntityState, IQueryParams, createEntitySlice, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+
+import { createAsyncThunk, isFulfilled, isPending } from '@reduxjs/toolkit';
+import axios from 'axios';
+
 import { IOperation, defaultValue } from 'app/shared/model/operation.model';
+import { EntityState, IQueryParams, createEntitySlice, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+import { cleanEntity } from 'app/shared/util/entity-utils';
 
 const initialState: EntityState<IOperation> = {
   loading: false,

@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
+import { Translate, ValidatedField, ValidatedForm, isEmail, translate } from 'react-jhipster';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Col, FormText, Row } from 'reactstrap';
-import { Translate, ValidatedField, ValidatedForm, isEmail, translate } from 'react-jhipster';
+
+import { faArrowLeft, faSave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { languages, locales } from 'app/config/translation';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { languages, locales } from 'app/config/translation';
+
 import { createUser, getRoles, getUser, reset, updateUser } from './user-management.reducer';
 
 export const UserManagementUpdate = () => {
@@ -41,7 +44,6 @@ export const UserManagementUpdate = () => {
     handleClose();
   };
 
-  const isInvalid = false;
   const user = useAppSelector(state => state.userManagement.user);
   const loading = useAppSelector(state => state.userManagement.loading);
   const updating = useAppSelector(state => state.userManagement.updating);
@@ -62,7 +64,7 @@ export const UserManagementUpdate = () => {
             <p>Loading...</p>
           ) : (
             <ValidatedForm onSubmit={saveUser} defaultValues={user}>
-              {user.id ? (
+              {user.id && (
                 <ValidatedField
                   type="text"
                   name="id"
@@ -71,7 +73,7 @@ export const UserManagementUpdate = () => {
                   label={translate('global.field.id')}
                   validate={{ required: true }}
                 />
-              ) : null}
+              )}
               <ValidatedField
                 type="text"
                 name="login"
@@ -162,15 +164,15 @@ export const UserManagementUpdate = () => {
                 ))}
               </ValidatedField>
               <Button tag={Link} to="/admin/user-management" replace color="info">
-                <FontAwesomeIcon icon="arrow-left" />
+                <FontAwesomeIcon icon={faArrowLeft} />
                 &nbsp;
                 <span className="d-none d-md-inline">
                   <Translate contentKey="entity.action.back">Back</Translate>
                 </span>
               </Button>
               &nbsp;
-              <Button color="primary" type="submit" disabled={isInvalid || updating}>
-                <FontAwesomeIcon icon="save" />
+              <Button color="primary" type="submit" disabled={updating}>
+                <FontAwesomeIcon icon={faSave} />
                 &nbsp;
                 <Translate contentKey="entity.action.save">Save</Translate>
               </Button>

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Translate } from 'react-jhipster';
 import { Badge, Button, Col, Row, Table } from 'reactstrap';
+
+import { faEye, faSync } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getSystemHealth } from '../administration.reducer';
+
 import HealthModal from './health-modal';
 
 export const HealthPage = () => {
@@ -44,8 +47,8 @@ export const HealthPage = () => {
         <Translate contentKey="health.title">Health Checks</Translate>
       </h2>
       <p>
-        <Button onClick={fetchSystemHealth} color={isFetching ? 'btn btn-danger' : 'btn btn-primary'} disabled={isFetching}>
-          <FontAwesomeIcon icon="sync" />
+        <Button onClick={fetchSystemHealth} color={`btn ${isFetching ? 'btn-danger' : 'btn-primary'}`} disabled={isFetching}>
+          <FontAwesomeIcon icon={faSync} />
           &nbsp;
           <Translate component="span" contentKey="health.refresh.button">
             Refresh
@@ -69,22 +72,23 @@ export const HealthPage = () => {
               </tr>
             </thead>
             <tbody>
-              {Object.keys(data).map((configPropKey, configPropIndex) =>
-                configPropKey !== 'status' ? (
-                  <tr key={configPropIndex}>
-                    <td>{configPropKey}</td>
-                    <td>
-                      <Badge color={getBadgeType(data[configPropKey].status)}>{data[configPropKey].status}</Badge>
-                    </td>
-                    <td>
-                      {data[configPropKey].details ? (
-                        <a onClick={getSystemHealthInfo(configPropKey, data[configPropKey])}>
-                          <FontAwesomeIcon icon="eye" />
-                        </a>
-                      ) : null}
-                    </td>
-                  </tr>
-                ) : null,
+              {Object.keys(data).map(
+                (configPropKey, configPropIndex) =>
+                  configPropKey !== 'status' && (
+                    <tr key={configPropIndex}>
+                      <td>{configPropKey}</td>
+                      <td>
+                        <Badge color={getBadgeType(data[configPropKey].status)}>{data[configPropKey].status}</Badge>
+                      </td>
+                      <td>
+                        {data[configPropKey].details && (
+                          <a onClick={getSystemHealthInfo(configPropKey, data[configPropKey])}>
+                            <FontAwesomeIcon icon={faEye} />
+                          </a>
+                        )}
+                      </td>
+                    </tr>
+                  ),
               )}
             </tbody>
           </Table>

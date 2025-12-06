@@ -1,14 +1,16 @@
 const path = require('path');
-const webpack = require('webpack');
-const { merge } = require('webpack-merge');
+
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const { hashElement } = require('folder-hash');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MergeJsonWebpackPlugin = require('merge-jsons-webpack-plugin');
-const utils = require('./utils.js');
+const webpack = require('webpack');
+const { merge } = require('webpack-merge');
+
 const environment = require('./environment');
+const utils = require('./utils.js');
 
 const getTsLoaderRule = () => {
   return [
@@ -73,16 +75,11 @@ module.exports = async options => {
             include: [utils.root('./src/main/webapp/app')],
             exclude: [utils.root('node_modules')],
           },
-          /*
-       ,
-       Disabled due to https://github.com/jhipster/generator-jhipster/issues/16116
-       Can be enabled with @reduxjs/toolkit@>1.6.1
-      {
-        enforce: 'pre',
-        test: /\.jsx?$/,
-        loader: 'source-map-loader'
-      }
-      */
+          {
+            enforce: 'pre',
+            test: /\.jsx?$/,
+            loader: 'source-map-loader',
+          },
         ],
       },
       stats: {

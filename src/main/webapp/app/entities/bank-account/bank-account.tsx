@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { Translate, getSortState } from 'react-jhipster';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { Translate, getSortState } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
-import { ASC, DESC } from 'app/shared/util/pagination.constants';
-import { overrideSortStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { overrideSortStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { ASC, DESC } from 'app/shared/util/pagination.constants';
 
 import { getEntities } from './bank-account.reducer';
 
@@ -79,7 +81,7 @@ export const BankAccount = () => {
         </div>
       </h2>
       <div className="table-responsive">
-        {bankAccountList && bankAccountList.length > 0 ? (
+        {bankAccountList?.length > 0 ? (
           <Table responsive>
             <thead>
               <tr>
@@ -103,8 +105,8 @@ export const BankAccount = () => {
               </tr>
             </thead>
             <tbody>
-              {bankAccountList.map((bankAccount, i) => (
-                <tr key={`entity-${i}`} data-cy="entityTable">
+              {bankAccountList.map(bankAccount => (
+                <tr key={`entity-${bankAccount.id}`} data-cy="entityTable">
                   <td>
                     <Button tag={Link} to={`/bank-account/${bankAccount.id}`} color="link" size="sm">
                       {bankAccount.id}

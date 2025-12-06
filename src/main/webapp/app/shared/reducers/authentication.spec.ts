@@ -1,7 +1,8 @@
+import { Storage } from 'react-jhipster';
+
+import { configureStore, createReducer } from '@reduxjs/toolkit';
 import axios from 'axios';
 import sinon from 'sinon';
-import { Storage } from 'react-jhipster';
-import { configureStore, createReducer } from '@reduxjs/toolkit';
 
 import authentication, {
   authError,
@@ -164,8 +165,12 @@ describe('Authentication reducer tests', () => {
     it('dispatches GET_SESSION_PENDING and GET_SESSION_FULFILLED actions', async () => {
       const result = await getAccount()(dispatch, getState, extra);
 
-      const pendingAction = dispatch.mock.calls[0][0];
-      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: getAccount.pending.type,
+          meta: expect.objectContaining({ requestStatus: 'pending' }),
+        }),
+      );
       expect(getAccount.fulfilled.match(result)).toBe(true);
     });
 
@@ -185,8 +190,12 @@ describe('Authentication reducer tests', () => {
 
       const result = await authenticate('test', 'test')(dispatch, getState, extra);
 
-      const pendingAction = dispatch.mock.calls[0][0];
-      expect(pendingAction.meta.requestStatus).toBe('pending');
+      expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: authenticate.pending.type,
+          meta: expect.objectContaining({ requestStatus: 'pending' }),
+        }),
+      );
       expect(authenticate.fulfilled.match(result)).toBe(true);
     });
   });
