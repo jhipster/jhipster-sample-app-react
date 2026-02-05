@@ -2,9 +2,9 @@
 name: jhipstersampleapplicationreact
 services:
   mysql:
-    image: mysql:9.5.0
+    image: mysql:9.6.0
     volumes:
-      - ./config/mysql:/etc/mysql/conf.d
+      - ./config/mysql:/etc/mysql/conf.d:ro
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=jhipstersampleapplicationreact

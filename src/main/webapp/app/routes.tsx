@@ -3,7 +3,6 @@ import React from 'react';
 import Loadable from 'react-loadable';
 import { Route } from 'react-router';
 
-import { AUTHORITIES } from 'app/config/constants';
 import EntitiesRoutes from 'app/entities/routes';
 import Activate from 'app/modules/account/activate/activate';
 import PasswordResetFinish from 'app/modules/account/password-reset/finish/password-reset-finish';
@@ -15,6 +14,7 @@ import Logout from 'app/modules/login/logout';
 import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
+import { Authority } from 'app/shared/jhipster/constants';
 
 const loading = <div>loading ...</div>;
 
@@ -38,7 +38,7 @@ const AppRoutes = () => {
           <Route
             path="*"
             element={
-              <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}>
+              <PrivateRoute hasAnyAuthorities={[Authority.ADMIN, Authority.USER]}>
                 <Account />
               </PrivateRoute>
             }
@@ -53,7 +53,7 @@ const AppRoutes = () => {
         <Route
           path="admin/*"
           element={
-            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN]}>
+            <PrivateRoute hasAnyAuthorities={[Authority.ADMIN]}>
               <Admin />
             </PrivateRoute>
           }
@@ -61,7 +61,7 @@ const AppRoutes = () => {
         <Route
           path="*"
           element={
-            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.USER]}>
+            <PrivateRoute hasAnyAuthorities={[Authority.USER]}>
               <EntitiesRoutes />
             </PrivateRoute>
           }

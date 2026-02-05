@@ -105,7 +105,6 @@ spring:
     active: '@spring.profiles.active@'
     group:
       dev:
-        - dev
         - api-docs
         # Uncomment to activate TLS for the dev profile
         #- tls
@@ -136,7 +135,7 @@ spring:
       ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
-        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        implicit-strategy: org.springframework.boot.hibernate.SpringImplicitNamingStrategy
   messages:
     basename: i18n/messages
   main:

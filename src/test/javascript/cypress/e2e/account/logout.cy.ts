@@ -4,7 +4,7 @@ describe('logout', () => {
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
 
-  it.skip('go to home page when successfully logs out', () => {
+  it('go to home page when successfully logs out', () => {
     cy.login(username, password);
     cy.visit('');
 

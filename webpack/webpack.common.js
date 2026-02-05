@@ -54,7 +54,7 @@ module.exports = async options => {
             path.resolve(__dirname, `webpack.${development ? 'dev' : 'prod'}.js`),
             path.resolve(__dirname, 'environment.js'),
             path.resolve(__dirname, 'utils.js'),
-            path.resolve(__dirname, '../postcss.config.js'),
+            path.resolve(__dirname, '../postcss.config.ts'),
             path.resolve(__dirname, '../tsconfig.json'),
           ],
         },

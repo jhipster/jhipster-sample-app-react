@@ -104,7 +104,7 @@ export const UserManagement = () => {
             <FontAwesomeIcon icon={faSync} spin={loading} />{' '}
             <Translate contentKey="userManagement.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to="new" className="btn btn-primary jh-create-entity">
+          <Link to="new" className="btn btn-primary jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon={faPlus} /> <Translate contentKey="userManagement.home.createLabel">Create a new user</Translate>
           </Link>
         </div>
@@ -181,19 +181,26 @@ export const UserManagement = () => {
               </td>
               <td className="text-end">
                 <div className="btn-group flex-btn-group-container">
-                  <Button tag={Link} to={user.login} color="info" size="sm">
+                  <Button tag={Link} to={user.login} color="info" size="sm" data-cy="entityDetailsButton">
                     <FontAwesomeIcon icon={faEye} />{' '}
                     <span className="d-none d-md-inline">
                       <Translate contentKey="entity.action.view">View</Translate>
                     </span>
                   </Button>
-                  <Button tag={Link} to={`${user.login}/edit`} color="primary" size="sm">
+                  <Button tag={Link} to={`${user.login}/edit`} color="primary" size="sm" data-cy="entityEditButton">
                     <FontAwesomeIcon icon={faPencilAlt} />{' '}
                     <span className="d-none d-md-inline">
                       <Translate contentKey="entity.action.edit">Edit</Translate>
                     </span>
                   </Button>
-                  <Button tag={Link} to={`${user.login}/delete`} color="danger" size="sm" disabled={account.login === user.login}>
+                  <Button
+                    tag={Link}
+                    to={`${user.login}/delete`}
+                    color="danger"
+                    size="sm"
+                    disabled={account.login === user.login}
+                    data-cy="entityDeleteButton"
+                  >
                     <FontAwesomeIcon icon={faTrash} />{' '}
                     <span className="d-none d-md-inline">
                       <Translate contentKey="entity.action.delete">Delete</Translate>

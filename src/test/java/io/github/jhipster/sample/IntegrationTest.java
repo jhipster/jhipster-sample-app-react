@@ -14,6 +14,13 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@SpringBootTest(classes = { JhipsterSampleApplicationReactApp.class, JacksonConfiguration.class, AsyncSyncConfiguration.class })
+@SpringBootTest(
+    classes = {
+        JhipsterSampleApplicationReactApp.class,
+        JacksonConfiguration.class,
+        AsyncSyncConfiguration.class,
+        io.github.jhipster.sample.config.JacksonHibernateConfiguration.class,
+    }
+)
 @EmbeddedSQL
 public @interface IntegrationTest {}

@@ -20,16 +20,10 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 public class JwtAuthenticationTestUtils {
 
     public static final String BEARER = "Bearer ";
-
-    @Bean
-    private HandlerMappingIntrospector mvcHandlerMappingIntrospector() {
-        return new HandlerMappingIntrospector();
-    }
 
     @Bean
     private MeterRegistry meterRegistry() {

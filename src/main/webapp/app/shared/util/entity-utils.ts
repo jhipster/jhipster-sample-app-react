@@ -2,6 +2,8 @@ import { IPaginationBaseState, ISortBaseState } from 'react-jhipster';
 
 import pick from 'lodash/pick';
 
+import { SORT } from 'app/shared/util/pagination.constants';
+
 /**
  * Removes fields with an 'id' field that equals ''.
  * This function was created to prevent entities to be sent to
@@ -25,7 +27,7 @@ export const mapIdList = (idList: ReadonlyArray<any>) => idList?.filter(id => id
 
 export const overrideSortStateWithQueryParams = (paginationBaseState: ISortBaseState, locationSearch: string) => {
   const params = new URLSearchParams(locationSearch);
-  const sort = params.get('sort');
+  const sort = params.get(SORT);
   if (sort) {
     const sortSplit = sort.split(',');
     paginationBaseState.sort = sortSplit[0];

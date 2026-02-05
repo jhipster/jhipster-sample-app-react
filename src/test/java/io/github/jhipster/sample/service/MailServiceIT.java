@@ -23,8 +23,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -34,6 +36,7 @@ import tech.jhipster.config.JHipsterProperties;
 /**
  * Integration tests for {@link MailService}.
  */
+@ExtendWith(MockitoExtension.class)
 @IntegrationTest
 class MailServiceIT {
 

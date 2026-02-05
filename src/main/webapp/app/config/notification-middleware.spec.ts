@@ -4,6 +4,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import * as toastify from 'react-toastify'; // synthetic default import doesn't work here due to mocking.
 import sinon from 'sinon';
 
+import {
+  INVALID_PASSWORD_TYPE,
+  MESSAGE_ALERT_HEADER_NAME,
+  MESSAGE_ERROR_HEADER_NAME,
+  MESSAGE_PARAM_HEADER_NAME,
+} from 'app/shared/jhipster/constants';
+import { ProblemWithMessageType } from 'app/shared/jhipster/problem-details';
+
 import notificationMiddleware from './notification-middleware';
 
 describe('Notification Middleware', () => {
@@ -22,7 +30,7 @@ describe('Notification Middleware', () => {
     payload: {
       status: 201,
       statusText: 'Created',
-      headers: { 'app-alert': 'foo.created', 'app-params': 'foo' },
+      headers: { [MESSAGE_ALERT_HEADER_NAME]: 'foo.created', [MESSAGE_PARAM_HEADER_NAME]: 'foo' },
     },
   };
 
@@ -36,7 +44,7 @@ describe('Notification Middleware', () => {
       isAxiosError: true,
       response: {
         data: {
-          type: 'https://www.jhipster.tech/problem/problem-with-message',
+          type: ProblemWithMessageType,
           title: 'Method argument not valid',
           status: 400,
           path: '/api/foos',
@@ -56,7 +64,7 @@ describe('Notification Middleware', () => {
       response: {
         status: 400,
         statusText: 'Bad Request',
-        headers: { 'app-error': 'foo.creation', 'app-params': 'foo' },
+        headers: { [MESSAGE_ERROR_HEADER_NAME]: 'foo.creation', [MESSAGE_PARAM_HEADER_NAME]: 'foo' },
       },
     },
   };
@@ -115,7 +123,7 @@ describe('Notification Middleware', () => {
         data: {
           title: 'Incorrect password',
           status: 400,
-          type: 'https://www.jhipster.tech/problem/invalid-password',
+          type: INVALID_PASSWORD_TYPE,
         },
         status: 400,
       },

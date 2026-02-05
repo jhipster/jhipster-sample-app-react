@@ -37,9 +37,11 @@ export default () => next => action => {
    * The notification middleware serves to add success and error notifications
    */
   if (isFulfilledAction(action) && payload?.headers) {
-    const { alert, param } = getMessageFromHeaders(payload.headers);
-    if (alert) {
-      toast.success(translate(alert, { param }));
+    const { alertMessage, alertKey, param } = getMessageFromHeaders(payload.headers);
+    if (alertKey) {
+      toast.success(translate(alertKey, { param }));
+    } else if (alertMessage) {
+      toast.success(alertMessage);
     }
   }
 
@@ -67,10 +69,12 @@ export default () => next => action => {
         if (problem?.fieldErrors) {
           getFieldErrorsToasts(problem.fieldErrors).forEach(message => addErrorAlert(message));
         } else {
-          const { error: toastError, param } = getMessageFromHeaders(response.headers ?? {});
-          if (toastError) {
+          const { errorMessage, errorKey, param } = getMessageFromHeaders(response.headers ?? {});
+          if (errorKey) {
             const entityName = translate(`global.menu.entities.${param}`);
-            addErrorAlert({ key: toastError, data: { entityName } });
+            addErrorAlert({ key: errorKey, data: { entityName } });
+          } else if (errorMessage) {
+            addErrorAlert({ message: errorMessage });
           } else if (problem?.message) {
             addErrorAlert({ message: problem.detail, key: problem.message });
           } else if (typeof data === 'string' && data !== '') {

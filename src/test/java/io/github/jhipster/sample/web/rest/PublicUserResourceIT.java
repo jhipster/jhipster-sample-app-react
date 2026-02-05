@@ -15,7 +15,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
@@ -80,8 +80,8 @@ class PublicUserResourceIT {
             .perform(get("/api/users?sort=id,desc").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[?(@.id == %d)].login", user.getId()).value(user.getLogin()))
-            .andExpect(jsonPath("$.[?(@.id == %d)].keys()", user.getId()).value(Set.of("id", "login")))
+            .andExpect(jsonPath(String.format("$.[?(@.id == %d)].login", user.getId())).value(user.getLogin()))
+            .andExpect(jsonPath(String.format("$.[?(@.id == %d)].keys()", user.getId())).value(Set.of("id", "login")))
             .andExpect(jsonPath("$.[*].email").doesNotHaveJsonPath())
             .andExpect(jsonPath("$.[*].imageUrl").doesNotHaveJsonPath())
             .andExpect(jsonPath("$.[*].langKey").doesNotHaveJsonPath());

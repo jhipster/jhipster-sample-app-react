@@ -25,7 +25,7 @@ export const UserManagementDetail = () => {
 
   return (
     <div>
-      <h2>
+      <h2 data-cy="userManagementDetailsHeading">
         <Translate contentKey="userManagement.detail.title">User</Translate> [<strong>{user.login}</strong>]
       </h2>
       <Row size="md">
@@ -94,7 +94,7 @@ export const UserManagementDetail = () => {
           </dd>
         </dl>
       </Row>
-      <Button tag={Link} to="/admin/user-management" replace color="info">
+      <Button tag={Link} to="/admin/user-management" replace color="info" data-cy="entityDetailsBackButton">
         <FontAwesomeIcon icon={faArrowLeft} />{' '}
         <span className="d-none d-md-inline">
           <Translate contentKey="entity.action.back">Back</Translate>

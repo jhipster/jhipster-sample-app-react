@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
 import sinon from 'sinon';
 
-import { AUTHORITIES } from 'app/config/constants';
+import { Authority } from 'app/shared/jhipster/constants';
 import { defaultValue } from 'app/shared/model/user.model';
 
 import userManagement, {
@@ -127,7 +127,7 @@ describe('User management reducer tests', () => {
     });
 
     it('should update state according to a successful fetch role request', () => {
-      const payload = { data: [AUTHORITIES.ADMIN] };
+      const payload = { data: [Authority.ADMIN] };
       const toTest = userManagement(undefined, { type: getRoles.fulfilled.type, payload });
 
       expect(toTest).toMatchObject({
