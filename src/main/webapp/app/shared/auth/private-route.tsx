@@ -1,6 +1,6 @@
 import React from 'react';
 import { Translate } from 'react-jhipster';
-import { Navigate, PathRouteProps, useLocation } from 'react-router-dom';
+import { Navigate, PathRouteProps, useLocation } from 'react-router';
 
 import { useAppSelector } from 'app/config/store';
 import ErrorBoundary from 'app/shared/error/error-boundary';
@@ -10,7 +10,7 @@ interface IOwnProps extends PathRouteProps {
   children: React.ReactNode;
 }
 
-export const PrivateRoute = ({ children, hasAnyAuthorities = [], ...rest }: IOwnProps) => {
+const PrivateRoute = ({ children, hasAnyAuthorities = [], ...rest }: IOwnProps) => {
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
   const sessionHasBeenFetched = useAppSelector(state => state.authentication.sessionHasBeenFetched);
   const account = useAppSelector(state => state.authentication.account);

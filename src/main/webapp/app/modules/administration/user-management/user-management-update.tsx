@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
+import { Button, Col, FormText, Row } from 'react-bootstrap';
 import { Translate, ValidatedField, ValidatedForm, isEmail, translate } from 'react-jhipster';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, Col, FormText, Row } from 'reactstrap';
+import { Link, useNavigate, useParams } from 'react-router';
 
 import { faArrowLeft, faSave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -53,7 +53,7 @@ export const UserManagementUpdate = () => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h1 data-cy="userManagementCreateUpdateHeading">
+          <h1 data-cy="UserManagementCreateUpdateHeading">
             <Translate contentKey="userManagement.home.createOrEditLabel">Create or edit a User</Translate>
           </h1>
         </Col>
@@ -68,6 +68,7 @@ export const UserManagementUpdate = () => {
                 <ValidatedField
                   type="text"
                   name="id"
+                  data-cy="id"
                   required
                   readOnly
                   label={translate('global.field.id')}
@@ -77,6 +78,7 @@ export const UserManagementUpdate = () => {
               <ValidatedField
                 type="text"
                 name="login"
+                data-cy="login"
                 label={translate('userManagement.login')}
                 validate={{
                   required: {
@@ -100,6 +102,7 @@ export const UserManagementUpdate = () => {
               <ValidatedField
                 type="text"
                 name="firstName"
+                data-cy="firstName"
                 label={translate('userManagement.firstName')}
                 validate={{
                   maxLength: {
@@ -111,6 +114,7 @@ export const UserManagementUpdate = () => {
               <ValidatedField
                 type="text"
                 name="lastName"
+                data-cy="lastName"
                 label={translate('userManagement.lastName')}
                 validate={{
                   maxLength: {
@@ -122,6 +126,7 @@ export const UserManagementUpdate = () => {
               <FormText>This field cannot be longer than 50 characters.</FormText>
               <ValidatedField
                 name="email"
+                data-cy="email"
                 label={translate('global.form.email.label')}
                 placeholder={translate('global.form.email.placeholder')}
                 type="email"
@@ -144,26 +149,27 @@ export const UserManagementUpdate = () => {
               <ValidatedField
                 type="checkbox"
                 name="activated"
+                data-cy="activated"
                 check
                 value={true}
                 disabled={!user.id}
                 label={translate('userManagement.activated')}
               />
-              <ValidatedField type="select" name="langKey" label={translate('userManagement.langKey')}>
+              <ValidatedField type="select" name="langKey" data-cy="langKey" label={translate('userManagement.langKey')}>
                 {locales.map(locale => (
                   <option value={locale} key={locale}>
                     {languages[locale].name}
                   </option>
                 ))}
               </ValidatedField>
-              <ValidatedField type="select" name="authorities" multiple label={translate('userManagement.profiles')}>
+              <ValidatedField type="select" name="authorities" data-cy="profiles" multiple label={translate('userManagement.profiles')}>
                 {authorities.map(role => (
                   <option value={role} key={role}>
                     {role}
                   </option>
                 ))}
               </ValidatedField>
-              <Button tag={Link} to="/admin/user-management" replace color="info" data-cy="entityCreateCancelButton">
+              <Button as={Link as any} to="/admin/user-management" replace variant="info" data-cy="entityCreateCancelButton">
                 <FontAwesomeIcon icon={faArrowLeft} />
                 &nbsp;
                 <span className="d-none d-md-inline">
@@ -171,7 +177,7 @@ export const UserManagementUpdate = () => {
                 </span>
               </Button>
               &nbsp;
-              <Button color="primary" type="submit" disabled={updating} data-cy="entityCreateSaveButton">
+              <Button variant="primary" type="submit" disabled={updating} data-cy="entityCreateSaveButton">
                 <FontAwesomeIcon icon={faSave} />
                 &nbsp;
                 <Translate contentKey="entity.action.save">Save</Translate>

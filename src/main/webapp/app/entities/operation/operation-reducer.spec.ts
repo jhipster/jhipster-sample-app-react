@@ -1,9 +1,8 @@
-import { parseHeaderForLinks } from 'react-jhipster';
-
 import { configureStore } from '@reduxjs/toolkit';
 import axios from 'axios';
 import sinon from 'sinon';
 
+import { getPageNumberFromLinkHeader } from 'app/shared/jhipster/link-header';
 import { IOperation, defaultValue } from 'app/shared/model/operation.model';
 import { EntityState } from 'app/shared/reducers/reducer.utils';
 
@@ -11,7 +10,7 @@ import reducer, { createEntity, deleteEntity, getEntities, getEntity, partialUpd
 
 describe('Entities reducer tests', () => {
   function isEmpty(element): boolean {
-    if (element instanceof Array) {
+    if (Array.isArray(element)) {
       return element.length === 0;
     }
     return Object.keys(element).length === 0;
@@ -114,7 +113,7 @@ describe('Entities reducer tests', () => {
   describe('Successes', () => {
     it('should fetch all entities', () => {
       const payload = { data: [{ 1: 'fake1' }, { 2: 'fake2' }], headers: { 'x-total-count': 123, link: ';' } };
-      const links = parseHeaderForLinks(payload.headers.link);
+      const links = getPageNumberFromLinkHeader(payload.headers.link);
       expect(
         reducer(undefined, {
           type: getEntities.fulfilled.type,

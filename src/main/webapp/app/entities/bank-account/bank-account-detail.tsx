@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
+import { Button, Col, Row } from 'react-bootstrap';
 import { Translate } from 'react-jhipster';
-import { Link, useParams } from 'react-router-dom';
-import { Button, Col, Row } from 'reactstrap';
+import { Link, useParams } from 'react-router';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -49,14 +49,14 @@ export const BankAccountDetail = () => {
           </dt>
           <dd>{bankAccountEntity.user ? bankAccountEntity.user.login : ''}</dd>
         </dl>
-        <Button tag={Link} to="/bank-account" replace color="info" data-cy="entityDetailsBackButton">
+        <Button as={Link as any} to="/bank-account" replace variant="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}
           <span className="d-none d-md-inline">
             <Translate contentKey="entity.action.back">Back</Translate>
           </span>
         </Button>
         &nbsp;
-        <Button tag={Link} to={`/bank-account/${bankAccountEntity.id}/edit`} replace color="primary">
+        <Button as={Link as any} to={`/bank-account/${bankAccountEntity.id}/edit`} replace variant="primary">
           <FontAwesomeIcon icon="pencil-alt" />{' '}
           <span className="d-none d-md-inline">
             <Translate contentKey="entity.action.edit">Edit</Translate>

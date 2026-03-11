@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Button, Col, Row } from 'react-bootstrap';
 import {
   CacheMetrics,
   DatasourceMetrics,
@@ -10,7 +11,6 @@ import {
   SystemMetrics,
   Translate,
 } from 'react-jhipster';
-import { Button, Col, Row } from 'reactstrap';
 
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

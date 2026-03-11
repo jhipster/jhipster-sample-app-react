@@ -36,5 +36,3 @@ export const AccountMenu = ({ isAuthenticated = false }) => (
     {!isAuthenticated && accountMenuItems()}
   </NavDropdown>
 );
-
-export default AccountMenu;

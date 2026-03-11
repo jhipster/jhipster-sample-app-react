@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Button, Table } from 'react-bootstrap';
 import { Translate, getSortState } from 'react-jhipster';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Table } from 'reactstrap';
+import { Link, useLocation, useNavigate } from 'react-router';
 
 import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -69,7 +69,7 @@ export const BankAccount = () => {
       <h2 id="bank-account-heading" data-cy="BankAccountHeading">
         <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.title">Bank Accounts</Translate>
         <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <Button className="me-2" variant="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="jhipsterSampleApplicationReactApp.bankAccount.home.refreshListLabel">Refresh List</Translate>
           </Button>
@@ -108,7 +108,7 @@ export const BankAccount = () => {
               {bankAccountList.map(bankAccount => (
                 <tr key={`entity-${bankAccount.id}`} data-cy="entityTable">
                   <td>
-                    <Button tag={Link} to={`/bank-account/${bankAccount.id}`} color="link" size="sm">
+                    <Button as={Link as any} to={`/bank-account/${bankAccount.id}`} variant="link" size="sm">
                       {bankAccount.id}
                     </Button>
                   </td>
@@ -117,13 +117,25 @@ export const BankAccount = () => {
                   <td>{bankAccount.user ? bankAccount.user.login : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`/bank-account/${bankAccount.id}`} color="info" size="sm" data-cy="entityDetailsButton">
+                      <Button
+                        as={Link as any}
+                        to={`/bank-account/${bankAccount.id}`}
+                        variant="info"
+                        size="sm"
+                        data-cy="entityDetailsButton"
+                      >
                         <FontAwesomeIcon icon="eye" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.view">View</Translate>
                         </span>
                       </Button>
-                      <Button tag={Link} to={`/bank-account/${bankAccount.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
+                      <Button
+                        as={Link as any}
+                        to={`/bank-account/${bankAccount.id}/edit`}
+                        variant="primary"
+                        size="sm"
+                        data-cy="entityEditButton"
+                      >
                         <FontAwesomeIcon icon="pencil-alt" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.edit">Edit</Translate>
@@ -131,7 +143,7 @@ export const BankAccount = () => {
                       </Button>
                       <Button
                         onClick={() => (window.location.href = `/bank-account/${bankAccount.id}/delete`)}
-                        color="danger"
+                        variant="danger"
                         size="sm"
                         data-cy="entityDeleteButton"
                       >

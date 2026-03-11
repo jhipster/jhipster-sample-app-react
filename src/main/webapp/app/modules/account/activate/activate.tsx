@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
+import { Alert, Col, Row } from 'react-bootstrap';
 import { Translate } from 'react-jhipster';
-import { Link, useSearchParams } from 'react-router-dom';
-import { Alert, Col, Row } from 'reactstrap';
+import { Link, useSearchParams } from 'react-router';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { activateAction, reset } from './activate.reducer';
 
 const successAlert = (
-  <Alert color="success">
+  <Alert variant="success">
     <Translate contentKey="activate.messages.success">
       <strong>Your user account has been activated.</strong> Please
     </Translate>
@@ -20,7 +20,7 @@ const successAlert = (
 );
 
 const failureAlert = (
-  <Alert color="danger">
+  <Alert variant="danger">
     <Translate contentKey="activate.messages.error">
       <strong>Your user could not be activated.</strong> Please use the registration form to sign up.
     </Translate>

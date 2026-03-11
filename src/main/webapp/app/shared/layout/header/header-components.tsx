@@ -1,7 +1,7 @@
 import React from 'react';
+import { NavItem, NavLink, NavbarBrand } from 'react-bootstrap';
 import { Translate } from 'react-jhipster';
-import { NavLink as Link } from 'react-router-dom';
-import { NavItem, NavLink, NavbarBrand } from 'reactstrap';
+import { NavLink as Link } from 'react-router';
 
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +13,7 @@ export const BrandIcon = props => (
 );
 
 export const Brand = () => (
-  <NavbarBrand tag={Link} to="/" className="brand-logo">
+  <NavbarBrand as={Link as any} to="/" className="brand-logo">
     <BrandIcon />
     <span className="brand-title">
       <Translate contentKey="global.title">JhipsterSampleApplicationReact</Translate>
@@ -24,7 +24,7 @@ export const Brand = () => (
 
 export const Home = () => (
   <NavItem>
-    <NavLink tag={Link} to="/" className="d-flex align-items-center">
+    <NavLink as={Link as any} to="/" className="d-flex align-items-center">
       <FontAwesomeIcon icon={faHome} />
       <span>
         <Translate contentKey="global.menu.home">Home</Translate>

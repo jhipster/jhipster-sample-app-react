@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
+import { Button, Col, Row } from 'react-bootstrap';
 import { Translate, ValidatedField, ValidatedForm, isEmail, translate } from 'react-jhipster';
-import { Button, Col, Row } from 'reactstrap';
 
 import { toast } from 'react-toastify';
 
@@ -91,7 +91,7 @@ export const SettingsPage = () => {
                 </option>
               ))}
             </ValidatedField>
-            <Button color="primary" type="submit" data-cy="submit">
+            <Button variant="primary" type="submit" data-cy="submit">
               <Translate contentKey="settings.form.button">Save</Translate>
             </Button>
           </ValidatedForm>

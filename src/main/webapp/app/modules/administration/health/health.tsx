@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Badge, Button, Col, Row, Table } from 'react-bootstrap';
 import { Translate } from 'react-jhipster';
-import { Badge, Button, Col, Row, Table } from 'reactstrap';
 
 import { faEye, faSync } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,13 +33,13 @@ export const HealthPage = () => {
     setHealthObject({ ...healthObj, name });
   };
 
-  const getBadgeType = (status: string) => (status !== 'UP' ? 'danger' : 'success');
+  const getBadgeType = (status: string) => (status === 'UP' ? 'success' : 'danger');
 
   const handleClose = () => setShowModal(false);
 
   const renderModal = () => <HealthModal healthObject={healthObject} handleClose={handleClose} showModal={showModal} />;
 
-  const data = (health || {}).components || {};
+  const data = health?.components || {};
 
   return (
     <div>
@@ -78,7 +78,7 @@ export const HealthPage = () => {
                     <tr key={configPropIndex}>
                       <td>{configPropKey}</td>
                       <td>
-                        <Badge color={getBadgeType(data[configPropKey].status)}>{data[configPropKey].status}</Badge>
+                        <Badge bg={getBadgeType(data[configPropKey].status)}>{data[configPropKey].status}</Badge>
                       </td>
                       <td>
                         {data[configPropKey].details && (

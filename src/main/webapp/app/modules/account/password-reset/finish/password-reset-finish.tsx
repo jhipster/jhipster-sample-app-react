@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Button, Col, Row } from 'react-bootstrap';
 import { Translate, ValidatedField, ValidatedForm, translate } from 'react-jhipster';
-import { useSearchParams } from 'react-router-dom';
-import { Button, Col, Row } from 'reactstrap';
+import { useSearchParams } from 'react-router';
 
 import { toast } from 'react-toastify';
 
@@ -58,7 +58,7 @@ export const PasswordResetFinishPage = () => {
           }}
           data-cy="confirmResetPassword"
         />
-        <Button color="success" type="submit" data-cy="submit">
+        <Button variant="success" type="submit" data-cy="submit">
           <Translate contentKey="reset.finish.form.button">Validate new password</Translate>
         </Button>
       </ValidatedForm>

@@ -13,9 +13,9 @@ export const Logout = () => {
 
   useLayoutEffect(() => {
     if (authentication.logoutUrl) {
-      window.location.href = authentication.logoutUrl;
+      globalThis.location.href = authentication.logoutUrl;
     } else if (!authentication.isAuthenticated) {
-      window.location.href = '/';
+      globalThis.location.href = '/';
     }
   }, [authentication]);
 

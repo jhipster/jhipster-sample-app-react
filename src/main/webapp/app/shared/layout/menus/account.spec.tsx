@@ -1,7 +1,7 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router';
 
 import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
 
 import { AccountMenu } from './account';
 

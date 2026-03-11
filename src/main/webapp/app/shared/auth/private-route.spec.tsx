@@ -1,10 +1,10 @@
 import React from 'react';
 import { TranslatorContext } from 'react-jhipster';
+import { MemoryRouter, Route, Routes } from 'react-router';
 
+import { configureStore } from '@reduxjs/toolkit';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { MemoryRouter, Route, Routes } from 'react-router';
-import configureStore from 'redux-mock-store';
 
 import { Authority } from 'app/shared/jhipster/constants';
 
@@ -19,9 +19,12 @@ describe('private-route component', () => {
     });
   });
 
-  const mockStore = configureStore();
-  const wrapper = (Elem: JSX.Element, authentication) => {
-    const store = mockStore({ authentication });
+  const wrapper = (Elem: React.JSX.Element, authentication) => {
+    const store = configureStore({
+      reducer: {
+        authentication: () => authentication,
+      },
+    });
     return render(
       <Provider store={store}>
         <MemoryRouter>{Elem}</MemoryRouter>

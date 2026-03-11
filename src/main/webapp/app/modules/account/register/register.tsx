@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Alert, Button, Col, Row } from 'react-bootstrap';
 import { Translate, ValidatedField, ValidatedForm, isEmail, translate } from 'react-jhipster';
-import { Link } from 'react-router-dom';
-import { Alert, Button, Col, Row } from 'reactstrap';
+import { Link } from 'react-router';
 
 import { toast } from 'react-toastify';
 
@@ -109,7 +109,7 @@ export const RegisterPage = () => {
             </Button>
           </ValidatedForm>
           <p>&nbsp;</p>
-          <Alert color="warning">
+          <Alert variant="warning">
             <span>
               <Translate contentKey="global.messages.info.authenticated.prefix">If you want to</Translate>{' '}
             </span>

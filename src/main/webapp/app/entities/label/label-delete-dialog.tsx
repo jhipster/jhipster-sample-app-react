@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'react-bootstrap';
 import { Translate } from 'react-jhipster';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { useNavigate, useParams } from 'react-router';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -40,8 +40,8 @@ export const LabelDeleteDialog = () => {
   };
 
   return (
-    <Modal isOpen toggle={handleClose}>
-      <ModalHeader toggle={handleClose} data-cy="labelDeleteDialogHeading">
+    <Modal show onHide={handleClose}>
+      <ModalHeader data-cy="labelDeleteDialogHeading" closeButton>
         <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
       </ModalHeader>
       <ModalBody id="jhipsterSampleApplicationReactApp.label.delete.question">
@@ -50,12 +50,12 @@ export const LabelDeleteDialog = () => {
         </Translate>
       </ModalBody>
       <ModalFooter>
-        <Button color="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
           &nbsp;
           <Translate contentKey="entity.action.cancel">Cancel</Translate>
         </Button>
-        <Button id="jhi-confirm-delete-label" data-cy="entityConfirmDeleteButton" color="danger" onClick={confirmDelete}>
+        <Button id="jhi-confirm-delete-label" data-cy="entityConfirmDeleteButton" variant="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />
           &nbsp;
           <Translate contentKey="entity.action.delete">Delete</Translate>

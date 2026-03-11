@@ -1,7 +1,5 @@
 import { IPaginationBaseState, ISortBaseState } from 'react-jhipster';
 
-import pick from 'lodash/pick';
-
 import { SORT } from 'app/shared/util/pagination.constants';
 
 /**
@@ -14,7 +12,7 @@ import { SORT } from 'app/shared/util/pagination.constants';
 export const cleanEntity = entity => {
   const keysToKeep = Object.keys(entity).filter(k => !(entity[k] instanceof Object) || (entity[k].id !== '' && entity[k].id !== -1));
 
-  return pick(entity, keysToKeep);
+  return Object.fromEntries(keysToKeep.map(key => [key, entity[key]]));
 };
 
 /**
@@ -23,7 +21,7 @@ export const cleanEntity = entity => {
  * @param idList Elements to map.
  * @returns The list of objects with mapped ids.
  */
-export const mapIdList = (idList: ReadonlyArray<any>) => idList?.filter(id => id !== '').map(id => ({ id }));
+export const mapIdList = (idList: readonly any[]) => idList?.filter(id => id !== '').map(id => ({ id }));
 
 export const overrideSortStateWithQueryParams = (paginationBaseState: ISortBaseState, locationSearch: string) => {
   const params = new URLSearchParams(locationSearch);

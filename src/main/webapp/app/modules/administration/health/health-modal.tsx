@@ -1,6 +1,6 @@
 import React from 'react';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Table } from 'react-bootstrap';
 import { Translate } from 'react-jhipster';
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Table } from 'reactstrap';
 
 const formatDiskSpaceOutput = rawValue => {
   // Should display storage space in a human readable unit
@@ -15,8 +15,8 @@ const formatDiskSpaceOutput = rawValue => {
 const HealthModal = ({ handleClose, healthObject, showModal }) => {
   const data = healthObject.details || {};
   return (
-    <Modal isOpen={showModal} modalTransition={{ timeout: 20 }} backdropTransition={{ timeout: 10 }} toggle={handleClose}>
-      <ModalHeader toggle={handleClose}>{healthObject.name}</ModalHeader>
+    <Modal show={showModal} onHide={handleClose}>
+      <ModalHeader closeButton>{healthObject.name}</ModalHeader>
       <ModalBody>
         <Table bordered>
           <thead>
@@ -40,7 +40,7 @@ const HealthModal = ({ handleClose, healthObject, showModal }) => {
         </Table>
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={handleClose}>
+        <Button variant="primary" onClick={handleClose}>
           Close
         </Button>
       </ModalFooter>

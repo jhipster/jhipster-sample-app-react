@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
+import { Badge, Button, Row } from 'react-bootstrap';
 import { TextFormat, Translate } from 'react-jhipster';
-import { Link, useParams } from 'react-router-dom';
-import { Badge, Button, Row } from 'reactstrap';
+import { Link, useParams } from 'react-router';
 
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,11 +36,11 @@ export const UserManagementDetail = () => {
           <dd>
             <span>{user.login}</span>&nbsp;
             {user.activated ? (
-              <Badge color="success">
+              <Badge bg="success">
                 <Translate contentKey="userManagement.activated">Activated</Translate>
               </Badge>
             ) : (
-              <Badge color="danger">
+              <Badge bg="danger">
                 <Translate contentKey="userManagement.deactivated">Deactivated</Translate>
               </Badge>
             )}
@@ -84,17 +84,16 @@ export const UserManagementDetail = () => {
           </dt>
           <dd>
             <ul className="list-unstyled">
-              {user.authorities &&
-                user.authorities.map((authority, i) => (
-                  <li key={`user-auth-${i}`}>
-                    <Badge color="info">{authority}</Badge>
-                  </li>
-                ))}
+              {user.authorities?.map((authority, i) => (
+                <li key={`user-auth-${i}`}>
+                  <Badge bg="info">{authority}</Badge>
+                </li>
+              ))}
             </ul>
           </dd>
         </dl>
       </Row>
-      <Button tag={Link} to="/admin/user-management" replace color="info" data-cy="entityDetailsBackButton">
+      <Button as={Link as any} to="/admin/user-management" replace variant="info" data-cy="entityDetailsBackButton">
         <FontAwesomeIcon icon={faArrowLeft} />{' '}
         <span className="d-none d-md-inline">
           <Translate contentKey="entity.action.back">Back</Translate>

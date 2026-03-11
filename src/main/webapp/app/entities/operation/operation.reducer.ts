@@ -1,8 +1,9 @@
-import { loadMoreDataWhenScrolled, parseHeaderForLinks } from 'react-jhipster';
+import { loadMoreDataWhenScrolled } from 'react-jhipster';
 
 import { createAsyncThunk, isFulfilled, isPending } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { getPageNumberFromLinkHeader } from 'app/shared/jhipster/link-header';
 import { IOperation, defaultValue } from 'app/shared/model/operation.model';
 import { EntityState, IQueryParams, createEntitySlice, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import { cleanEntity } from 'app/shared/util/entity-utils';
@@ -25,7 +26,7 @@ const apiUrl = 'api/operations';
 export const getEntities = createAsyncThunk(
   'operation/fetch_entity_list',
   async ({ page, size, sort }: IQueryParams) => {
-    const requestUrl = `${apiUrl}?${sort ? `page=${page}&size=${size}&sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+    const requestUrl = `${apiUrl}?${sort ? `page=${page}&size=${size}&sort=${sort}&` : ''}cacheBuster=${Date.now()}`;
     return axios.get<IOperation[]>(requestUrl);
   },
   { serializeError: serializeAxiosError },
@@ -91,7 +92,7 @@ export const OperationSlice = createEntitySlice({
       })
       .addMatcher(isFulfilled(getEntities), (state, action) => {
         const { data, headers } = action.payload;
-        const links = parseHeaderForLinks(headers.link);
+        const links = getPageNumberFromLinkHeader(headers.link);
 
         return {
           ...state,

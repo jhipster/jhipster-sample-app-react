@@ -1,23 +1,23 @@
 import React from 'react';
+import { MemoryRouter, Route } from 'react-router';
 
 import { render } from '@testing-library/react';
-import { MemoryRouter, Route } from 'react-router';
 
 import ErrorBoundaryRoutes from './error-boundary-routes';
 
-const ErrorComp = (): JSX.Element => {
+const ErrorComp = (): React.JSX.Element => {
   throw new Error('test');
 };
 
-const NoErrorComp = (): JSX.Element => {
+const NoErrorComp = (): React.JSX.Element => {
   return <div>No error</div>;
 };
 
 describe('error-boundary-routes component', () => {
   beforeEach(() => {
     // ignore console and jsdom errors
-    jest.spyOn((window as any)._virtualConsole, 'emit').mockImplementation(() => false);
-    jest.spyOn((window as any).console, 'error').mockImplementation(() => false);
+    jest.spyOn((globalThis as any)._virtualConsole, 'emit').mockImplementation(() => false);
+    jest.spyOn((globalThis as any).console, 'error').mockImplementation(() => false);
   });
 
   it('Should render fallback component when an uncaught error is thrown in route', () => {

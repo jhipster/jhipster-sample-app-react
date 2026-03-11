@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Badge, Col, FormControl, Row, Table } from 'react-bootstrap';
 import { Translate } from 'react-jhipster';
-import { Badge, Col, Input, Row, Table } from 'reactstrap';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getConfigurations, getEnv } from '../administration.reducer';
@@ -45,7 +45,7 @@ export const ConfigurationPage = () => {
       <span>
         <Translate contentKey="configuration.filter">Filter</Translate>
       </span>{' '}
-      <Input type="search" value={filter} onChange={changeFilter} name="search" id="search" />
+      <FormControl type="search" value={filter} onChange={changeFilter} name="search" id="search" />
       <label>Spring configuration</label>
       <Table className="table table-striped table-bordered table-responsive d-table">
         <thead>

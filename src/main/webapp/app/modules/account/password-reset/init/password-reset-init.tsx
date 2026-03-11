@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
+import { Alert, Button, Col, Row } from 'react-bootstrap';
 import { Translate, ValidatedField, ValidatedForm, isEmail, translate } from 'react-jhipster';
-import { Alert, Button, Col, Row } from 'reactstrap';
 
 import { toast } from 'react-toastify';
 
@@ -36,7 +36,7 @@ export const PasswordResetInit = () => {
           <h1>
             <Translate contentKey="reset.request.title">Reset your password</Translate>
           </h1>
-          <Alert color="warning">
+          <Alert variant="warning">
             <p>
               <Translate contentKey="reset.request.messages.info">Enter the email address you used to register</Translate>
             </p>
@@ -55,7 +55,7 @@ export const PasswordResetInit = () => {
               }}
               data-cy="emailResetPassword"
             />
-            <Button color="primary" type="submit" data-cy="submit">
+            <Button variant="primary" type="submit" data-cy="submit">
               <Translate contentKey="reset.request.form.button">Reset password</Translate>
             </Button>
           </ValidatedForm>

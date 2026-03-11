@@ -1,8 +1,8 @@
 import './header.scss';
 
-import React, { useState } from 'react';
+import React from 'react';
+import { Nav, Navbar } from 'react-bootstrap';
 import { Storage, Translate } from 'react-jhipster';
-import { Collapse, Nav, Navbar, NavbarToggler } from 'reactstrap';
 
 import LoadingBar from 'react-redux-loading-bar';
 
@@ -22,12 +22,9 @@ export interface IHeaderProps {
 }
 
 const Header = (props: IHeaderProps) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   const dispatch = useAppDispatch();
 
-  const handleLocaleChange = event => {
-    const langKey = event.target.value;
+  const handleLocaleChange = langKey => {
     Storage.session.set('locale', langKey);
     dispatch(setLocale(langKey));
   };
@@ -41,19 +38,17 @@ const Header = (props: IHeaderProps) => {
       </div>
     );
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
-
   /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
 
   return (
     <div id="app-header">
       {renderDevRibbon()}
       <LoadingBar className="loading-bar" />
-      <Navbar data-cy="navbar" dark expand="md" fixed="top" className="jh-navbar">
-        <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
+      <Navbar data-cy="navbar" data-bs-theme="dark" expand="md" fixed="top" className="jh-navbar" collapseOnSelect>
+        <Navbar.Toggle aria-controls="header-tabs" aria-label="Menu" />
         <Brand />
-        <Collapse isOpen={menuOpen} navbar>
-          <Nav id="header-tabs" className="ms-auto" navbar>
+        <Navbar.Collapse id="header-tabs">
+          <Nav className="ms-auto">
             <Home />
             {props.isAuthenticated && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && (
@@ -62,7 +57,7 @@ const Header = (props: IHeaderProps) => {
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
             <AccountMenu isAuthenticated={props.isAuthenticated} />
           </Nav>
-        </Collapse>
+        </Navbar.Collapse>
       </Navbar>
     </div>
   );

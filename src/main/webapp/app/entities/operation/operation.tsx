@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Button, Table } from 'react-bootstrap';
 import { TextFormat, Translate, getPaginationState } from 'react-jhipster';
-import { Link, useLocation } from 'react-router-dom';
-import { Button, Table } from 'reactstrap';
+import { Link, useLocation } from 'react-router';
 
 import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -63,7 +63,7 @@ export const Operation = () => {
   }, [paginationState.activePage]);
 
   const handleLoadMore = () => {
-    if ((window as any).pageYOffset > 0) {
+    if ((globalThis as any).pageYOffset > 0) {
       setPaginationState({
         ...paginationState,
         activePage: paginationState.activePage + 1,
@@ -107,7 +107,7 @@ export const Operation = () => {
       <h2 id="operation-heading" data-cy="OperationHeading">
         <Translate contentKey="jhipsterSampleApplicationReactApp.operation.home.title">Operations</Translate>
         <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <Button className="me-2" variant="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="jhipsterSampleApplicationReactApp.operation.home.refreshListLabel">Refresh List</Translate>
           </Button>
@@ -156,7 +156,7 @@ export const Operation = () => {
                 {operationList.map(operation => (
                   <tr key={`entity-${operation.id}`} data-cy="entityTable">
                     <td>
-                      <Button tag={Link} to={`/operation/${operation.id}`} color="link" size="sm">
+                      <Button as={Link as any} to={`/operation/${operation.id}`} variant="link" size="sm">
                         {operation.id}
                       </Button>
                     </td>
@@ -172,13 +172,19 @@ export const Operation = () => {
                     </td>
                     <td className="text-end">
                       <div className="btn-group flex-btn-group-container">
-                        <Button tag={Link} to={`/operation/${operation.id}`} color="info" size="sm" data-cy="entityDetailsButton">
+                        <Button as={Link as any} to={`/operation/${operation.id}`} variant="info" size="sm" data-cy="entityDetailsButton">
                           <FontAwesomeIcon icon="eye" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.view">View</Translate>
                           </span>
                         </Button>
-                        <Button tag={Link} to={`/operation/${operation.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
+                        <Button
+                          as={Link as any}
+                          to={`/operation/${operation.id}/edit`}
+                          variant="primary"
+                          size="sm"
+                          data-cy="entityEditButton"
+                        >
                           <FontAwesomeIcon icon="pencil-alt" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.edit">Edit</Translate>
@@ -186,7 +192,7 @@ export const Operation = () => {
                         </Button>
                         <Button
                           onClick={() => (window.location.href = `/operation/${operation.id}/delete`)}
-                          color="danger"
+                          variant="danger"
                           size="sm"
                           data-cy="entityDeleteButton"
                         >

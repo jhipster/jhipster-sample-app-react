@@ -9,7 +9,7 @@ import reducer, { createEntity, deleteEntity, getEntities, getEntity, partialUpd
 
 describe('Entities reducer tests', () => {
   function isEmpty(element): boolean {
-    if (element instanceof Array) {
+    if (Array.isArray(element)) {
       return element.length === 0;
     }
     return Object.keys(element).length === 0;

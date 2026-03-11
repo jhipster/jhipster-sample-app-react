@@ -1,11 +1,11 @@
 import React from 'react';
+import { Alert } from 'react-bootstrap';
 import { Translate } from 'react-jhipster';
-import { Alert } from 'reactstrap';
 
 const PageNotFound = () => {
   return (
     <div>
-      <Alert color="danger">
+      <Alert variant="danger">
         <Translate contentKey="error.http.404">The page does not exist.</Translate>
       </Alert>
     </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Button, Col, Row } from 'react-bootstrap';
 import { Translate, ValidatedField, ValidatedForm, translate } from 'react-jhipster';
-import { Button, Col, Row } from 'reactstrap';
 
 import { toast } from 'react-toastify';
 
@@ -88,7 +88,7 @@ export const PasswordPage = () => {
               }}
               data-cy="confirmPassword"
             />
-            <Button color="success" type="submit" data-cy="submit">
+            <Button variant="success" type="submit" data-cy="submit">
               <Translate contentKey="password.form.button">Save</Translate>
             </Button>
           </ValidatedForm>

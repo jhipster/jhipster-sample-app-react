@@ -7,7 +7,7 @@ import { IQueryParams, serializeAxiosError } from 'app/shared/reducers/reducer.u
 const initialState = {
   loading: false,
   errorMessage: null,
-  users: [] as ReadonlyArray<IUser>,
+  users: [] as readonly IUser[],
   authorities: [] as any[],
   user: defaultValue,
   updating: false,
@@ -103,7 +103,7 @@ export const UserManagementSlice = createSlice({
       .addMatcher(isFulfilled(getUsers, getUsersAsAdmin), (state, action) => {
         state.loading = false;
         state.users = action.payload.data;
-        state.totalItems = parseInt(action.payload.headers['x-total-count'], 10);
+        state.totalItems = Number.parseInt(action.payload.headers['x-total-count'], 10);
       })
       .addMatcher(isFulfilled(createUser, updateUser), (state, action) => {
         state.updating = false;

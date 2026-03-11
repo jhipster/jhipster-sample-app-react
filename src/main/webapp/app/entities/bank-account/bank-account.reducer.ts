@@ -22,7 +22,7 @@ const apiUrl = 'api/bank-accounts';
 export const getEntities = createAsyncThunk(
   'bankAccount/fetch_entity_list',
   async ({ sort }: IQueryParams) => {
-    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${Date.now()}`;
     return axios.get<IBankAccount[]>(requestUrl);
   },
   { serializeError: serializeAxiosError },

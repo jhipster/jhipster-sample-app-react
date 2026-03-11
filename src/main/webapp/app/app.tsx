@@ -3,8 +3,8 @@ import './app.scss';
 import 'app/config/dayjs';
 
 import React, { useEffect } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { Card } from 'reactstrap';
+import { Card } from 'react-bootstrap';
+import { BrowserRouter } from 'react-router';
 
 import { ToastContainer } from 'react-toastify';
 
